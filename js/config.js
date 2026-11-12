@@ -1,9 +1,10 @@
+
 /* =================================
    MADAR - FRONTEND CONFIGURATION
 ================================= */
 
-/* آدرس بک‌اند. روی سرور واقعی به آدرس دامنه‌ی خودت عوض کن، مثل https://api.example.com/api */
-const API_BASE_URL = "http://localhost:5000/api";
+/* آدرس بک‌اند روی سرور Render */
+const API_BASE_URL = "https://madar-jmy5.onrender.com/api";
 
 const API = Object.freeze({
   // Authentication
@@ -18,7 +19,7 @@ const API = Object.freeze({
   // User
   profile: `${API_BASE_URL}/users/me`,
 
-  // مراحل نوار پیشرفت بعد از تأیید کد (فعلاً نمایشی؛ حساب در مرحله‌ی verify ساخته می‌شود)
+  // مراحل نوار پیشرفت بعد از تأیید کد
   createAccount: "",
   runTasks: "",
   saveProfile: "",
