@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ورود | مدار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<style>
+/* رنگ‌ها: پالت سرمه‌ای + طلایی مدار */
+:root,:root[data-theme=light]{--bg:#e4e5ee;--bg2:#ebecf3;--panel:rgba(255,255,255,.62);--field:#e1e2ed;--line:rgba(20,40,89,.1);--text:#101d47;--muted:#4f5774;--primary:#142859;--gold:#cc9a2e;--blue:#142859;--on:#fff;--bad:#c2494c;--ok:#1f8f5f;--sh:rgba(30,40,90,.1);--grid:rgba(20,40,89,.06);--seg:#fff;--card:rgba(255,255,255,.8)}
+:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--panel:rgba(255,255,255,.07);--field:rgba(255,255,255,.09);--line:rgba(255,255,255,.1);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--gold:#e0ae45;--blue:#e0ae45;--on:#fff;--bad:#e5787a;--ok:#5fcf9d;--sh:rgba(0,0,0,.3);--grid:rgba(255,255,255,.05);--seg:rgba(255,255,255,.14);--card:rgba(21,30,69,.78)}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font:12px/1.7 'Vazirmatn',Tahoma,sans-serif;color:var(--text);display:grid;grid-template-rows:1fr;transition:background .4s,color .4s;
+  background:radial-gradient(900px 600px at 12% 40%,color-mix(in srgb,var(--primary) 9%,transparent),transparent),linear-gradient(135deg,var(--bg),var(--bg2) 55%,var(--bg))}
+button,input{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+svg.i{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.only-light{display:block}.only-dark{display:none}
+:root[data-theme=dark] .only-light{display:none}
+:root[data-theme=dark] .only-dark{display:block}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+/* پس‌زمینه: شبکه‌ی کاغذ شطرنجی + درخشش + مدارهای چرخان */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(520px 420px at 16% 28%,color-mix(in srgb,var(--primary) 16%,transparent),transparent),
+    radial-gradient(480px 380px at 86% 82%,color-mix(in srgb,var(--gold) 18%,transparent),transparent),
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/46px 46px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse at center,transparent 14%,#000 72%);mask-image:radial-gradient(ellipse at center,transparent 14%,#000 72%)}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,color-mix(in srgb,var(--bg) 85%,transparent) 100%)}
+.bg i{position:absolute;top:50%;left:50%;translate:-50% -50%;border-radius:50%;border:1px solid color-mix(in srgb,var(--text) 13%,transparent);animation:orbit 80s linear infinite}
+.bg i::after{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px color-mix(in srgb,var(--gold) 22%,transparent)}
+.a1{width:640px;height:640px}
+.a2{width:940px;height:940px;border-style:dashed!important;animation-duration:130s!important;animation-direction:reverse!important}
+.a2::after{background:var(--primary)!important;box-shadow:0 0 0 5px color-mix(in srgb,var(--primary) 20%,transparent)!important}
+.a3{width:1260px;height:1260px;animation-duration:190s!important}
+@keyframes orbit{to{rotate:360deg}}
+
+/* دکمه‌ی برگشت */
+.corner{position:fixed;top:16px;left:16px;z-index:5}
+.btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 2px 8px var(--sh);cursor:pointer;color:var(--text);transition:transform .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+
+/* چیدمان: کارت وسط صفحه */
+main{position:relative;z-index:1;display:grid;grid-template-columns:1fr;min-height:0;height:100%}
+.side{position:relative;z-index:2;display:grid;place-items:center;padding:20px 16px;min-height:0}
+
+/* کارت */
+.card{position:relative;width:min(400px,100%);max-height:100%;overflow:auto;scrollbar-width:none;background:var(--card);-webkit-backdrop-filter:blur(22px) saturate(1.2);backdrop-filter:blur(22px) saturate(1.2);border:1px solid var(--line);border-radius:16px;padding:30px 30px 24px;box-shadow:0 10px 34px var(--sh);transition:width .5s cubic-bezier(.65,0,.25,1);animation:in .8s cubic-bezier(.2,.8,.2,1) both}
+.card::-webkit-scrollbar{display:none}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold),var(--primary))}
+.card::after{content:"";position:absolute;top:-90px;left:-90px;width:190px;height:190px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);box-shadow:0 0 0 22px color-mix(in srgb,var(--gold) 6%,transparent),0 0 0 44px color-mix(in srgb,var(--gold) 4%,transparent);pointer-events:none;z-index:-1}
+.card[data-m=signup]{width:min(560px,100%)}
+@keyframes in{from{opacity:0;transform:translateY(18px) scale(.97)}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.brand img{height:38px;width:auto}
+.brand span{text-align:start}
+.brand strong{display:block;font-size:20px;font-weight:800;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:10.5px}
+
+.tabs{position:relative;display:grid;grid-template-columns:1fr 1fr;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.tabs::before{content:"";position:absolute;bottom:-1px;right:0;width:50%;height:2px;border-radius:2px 2px 0 0;background:var(--text);transition:transform .45s cubic-bezier(.65,0,.25,1)}
+.card[data-m=signup] .tabs::before{transform:translateX(-100%)}
+.tabs button{position:relative;height:38px;border:0;background:none;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;transition:color .3s}
+.tabs button.on{color:var(--text);font-weight:700}
+
+.form{display:none}
+.card[data-m=login] #loginForm,.card[data-m=signup] #signupForm{display:block;animation:fade .45s both}
+.form.shake{animation:shake .45s}
+.sub{color:var(--muted);margin-bottom:16px;font-size:12px;text-align:start}
+.grid{display:grid;gap:10px}
+.grid.two{grid-template-columns:1fr 1fr;gap:10px 12px}
+
+.f{display:block;min-width:0}
+.f>span{display:block;margin-bottom:4px;font-size:11.5px;font-weight:500;color:var(--muted);transition:color .2s}
+.f:focus-within>span{color:var(--blue)}
+.in{display:flex;align-items:center;gap:9px;height:40px;padding:0 12px;background:var(--field);border:1px solid var(--line);border-radius:10px;color:var(--muted);transition:border-color .25s,box-shadow .25s,background .25s}
+.in:focus-within{border-color:var(--gold);background:var(--card);color:var(--text);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+.in input{flex:1;min-width:0;width:100%;background:none;border:0;outline:0;color:var(--text);font-size:12.5px}
+.in input::placeholder{color:var(--muted);opacity:.6;font-size:12px}
+.ltr{direction:ltr;text-align:right}
+.eye{background:none;border:0;color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.eye:hover{color:var(--text)}
+.err{display:none;font-size:11px;color:var(--bad);line-height:1.5;margin-top:2px}
+.f.bad .err{display:block}
+.f.bad .in{border-color:var(--bad)}
+.caps-w{display:none;font-size:11px;color:var(--blue)}.caps-w.on{display:block}
+.meter{display:flex;gap:4px;margin-top:5px}
+.meter i{flex:1;height:3px;border-radius:3px;background:var(--field);transition:background .3s}
+.meter[data-s="1"] i:nth-child(-n+1){background:var(--bad)}
+.meter[data-s="2"] i:nth-child(-n+2){background:#e0b25a}
+.meter[data-s="3"] i:nth-child(-n+3){background:var(--blue)}
+.meter[data-s="4"] i{background:var(--ok)}
+
+.seg{display:flex;gap:2px;padding:3px;margin-bottom:12px;border-radius:10px;background:var(--field);border:1px solid var(--line)}
+.seg button{flex:1;height:28px;border:0;border-radius:7px;background:none;color:var(--muted);font-size:11.5px;cursor:pointer;transition:.25s}
+.seg button.on{background:var(--seg);color:var(--blue);font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;margin:12px 0 0;font-size:12px;color:var(--muted)}
+.row label{display:flex;gap:7px;align-items:center;cursor:pointer}
+.row input{accent-color:var(--primary)}
+.row a{color:var(--blue)}
+
+.submit{position:relative;width:100%;height:42px;margin-top:14px;border:0;border-radius:10px;cursor:pointer;background:var(--primary);color:var(--on);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px color-mix(in srgb,var(--primary) 26%,transparent);transition:transform .2s,filter .2s}
+.submit:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.submit:disabled{opacity:.7;cursor:wait}
+.submit .sp{display:none;width:16px;height:16px;border:2.5px solid color-mix(in srgb,var(--on) 30%,transparent);border-top-color:var(--on);border-radius:50%;animation:spin .7s linear infinite}
+.submit.load .sp{display:block}
+.submit.ghost{background:var(--field);border:1px solid var(--line);color:var(--text);font-weight:500;font-size:12px;box-shadow:none}
+.msg{min-height:20px;margin-top:6px;text-align:center;font-size:12px;color:var(--blue)}
+.legal{text-align:center;font-size:11px;color:var(--muted);margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
+.sw{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+.sw button{background:none;border:0;color:var(--blue);font-weight:700;cursor:pointer;padding:0 2px}
+.sw button:hover{text-decoration:underline}
+
+.bar{display:flex;gap:6px;margin-bottom:16px}
+.bar i{flex:1;height:3px;border-radius:3px;background:var(--field);position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;inset:0;background:var(--primary);transform:scaleX(0);transform-origin:right;transition:transform .6s}
+#signupForm[data-step="1"] .bar i:nth-child(-n+1)::after,
+#signupForm[data-step="2"] .bar i:nth-child(-n+2)::after,
+#signupForm[data-step="3"] .bar i::after{transform:none}
+.pane{display:none}
+#signupForm[data-step="1"] .p1,#signupForm[data-step="2"] .p2,#signupForm[data-step="3"] .p3{display:block;animation:fade .45s both}
+
+.otp{--ob:48px;display:flex;gap:8px;justify-content:center;direction:ltr;margin:14px 0 6px}
+.otp input{width:var(--ob);height:var(--ob);text-align:center;border-radius:10px;border:1.5px solid var(--line);background:var(--field);font-size:20px;font-weight:800;outline:0;caret-color:var(--gold);transition:.2s}
+.otp input:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent);transform:translateY(-3px)}
+.otp.bad input{border-color:var(--bad);animation:shake .45s}
+.otp.good input{border-color:var(--ok)}
+.sent{text-align:center;font-size:12px;color:var(--muted)}
+.sent b{color:var(--text);direction:ltr;unicode-bidi:embed}
+.twin{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.resend{margin-top:8px;text-align:center;font-size:12px;color:var(--muted)}
+.resend button{background:none;border:0;font-weight:700;color:var(--blue);cursor:pointer}
+
+.prog{list-style:none;display:grid;gap:8px;margin:4px 0}
+.prog li{display:flex;align-items:center;gap:12px;height:40px;padding:0 14px;border-radius:10px;background:var(--field);border:1px solid var(--line);color:var(--muted);opacity:.4;transform:translateX(8px);transition:opacity .45s,color .45s,transform .45s}
+.prog li i{position:relative;width:22px;height:22px;flex:none;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;transition:background .35s,border-color .35s}
+.prog li.run,.prog li.ok{opacity:1;color:var(--text);transform:none}
+.prog li.run i{border-color:color-mix(in srgb,var(--gold) 28%,transparent);border-top-color:var(--gold);animation:spin .7s linear infinite}
+.prog li.ok i{background:var(--ok);border-color:var(--ok)}
+.prog li.ok i::after{content:"";width:5px;height:10px;margin-top:-2px;border:solid #06210f;border-width:0 2px 2px 0;transform:rotate(45deg);animation:pop .35s both}
+.prog li.fail{opacity:1;color:var(--bad);transform:none}
+.prog li.fail i{border-color:var(--bad)}
+@keyframes pop{from{transform:rotate(45deg) scale(0)}}
+
+.toast{position:fixed;top:16px;left:50%;z-index:100;transform:translate(-50%,-140px);padding:10px 18px;border-radius:10px;max-width:92vw;background:var(--bg2);border:1px solid var(--line);box-shadow:0 16px 40px var(--sh);font-size:12px;line-height:1.9;text-align:center;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.toast.on{transform:translate(-50%,0)}
+.toast b{color:var(--blue);letter-spacing:3px;font-size:16px;direction:ltr;unicode-bidi:embed}
+.toast small{display:block;color:var(--muted);font-size:11px}
+
+@media(max-width:560px){
+.corner{top:10px;left:10px}
+.card{padding:24px 18px 20px;border-radius:14px}
+.grid.two{gap:8px}
+.in{padding:0 10px;gap:6px}
+.in svg.i{display:none}
+.otp{gap:6px;--ob:42px}.otp input{font-size:18px}
+}
+@media(max-width:380px){.grid.two{grid-template-columns:1fr}.otp{gap:5px;--ob:38px}}
+@media(max-height:760px){#signupForm .sub{display:none}}
+@media(max-height:640px){.brand,.sub,.legal{display:none}.tabs{margin-bottom:12px}.card{padding:16px 20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="u" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="m" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+<symbol id="p" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+<symbol id="s" viewBox="0 0 24 24"><path d="M21 3L3 11l6 2 2 6 3-4 5 3z"/></symbol>
+<symbol id="k" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></symbol>
+<symbol id="e" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="c" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="bk" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</defs></svg>
+
+<canvas id="fx"></canvas>
+<div class="toast" id="toast" role="status"></div>
+<div class="bg" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+
+<div class="corner">
+  <a href="../صفحه اصلی/اصلی.html" class="btn" aria-label="برگشت"><svg class="i" viewBox="0 0 24 24"><use href="#bk"/></svg></a>
+</div>
+
+<main>
+<div class="side">
+<div class="card" id="box" data-m="login">
+
+  <a href="../صفحه اصلی/اصلی.html" class="brand" aria-label="مدار">
+    <img class="only-light" src="../عکس ها/logo-light.png" alt="" onerror="this.remove()">
+    <img class="only-dark" src="../عکس ها/logo-dark.png" alt="" onerror="this.remove()">
+    <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
+  </a>
+
+  <div class="tabs" role="tablist">
+    <button type="button" class="on" data-go="login" role="tab" aria-selected="true">ورود</button>
+    <button type="button" data-go="signup" role="tab" aria-selected="false">ثبت‌نام</button>
+  </div>
+
+  <!-- ورود -->
+  <form class="form" id="loginForm" novalidate>
+    <p class="sub">به حساب مدار خودت وارد شو.</p>
+
+    <div class="seg" id="seg" data-m="id">
+      <button type="button" class="on" data-m="id">ایمیل / نام کاربری</button>
+      <button type="button" data-m="phone">موبایل</button>
+    </div>
+
+    <div class="grid">
+      <label class="f">
+        <span id="ul">ایمیل یا نام کاربری</span>
+        <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#u"/></svg>
+          <input name="user" autocomplete="username" required class="ltr"></div>
+        <div class="err" id="ue">این فیلد رو پر کن.</div>
+      </label>
+      <label class="f">
+        <span>رمز عبور</span>
+        <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#k"/></svg>
+          <input name="pass" type="password" autocomplete="current-password" required class="ltr">
+          <button type="button" class="eye" aria-label="نمایش رمز"><svg class="i" viewBox="0 0 24 24"><use href="#e"/></svg></button></div>
+        <div class="caps-w" id="caps">کلید Caps Lock روشن است.</div>
+        <div class="err">رمز عبور رو وارد کن.</div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label><input type="checkbox" name="remember"> مرا به خاطر بسپار</label>
+      <a href="#" onclick="event.preventDefault()">رمزم رو فراموش کردم</a>
+    </div>
+
+    <button class="submit" type="submit"><span class="sp"></span><span>ورود به حساب</span></button>
+    <div class="msg" role="status"></div>
+    <p class="legal">با ورود، قوانین و حریم خصوصی مدار را می‌پذیری.</p>
+    <p class="sw">حساب نداری؟ <button type="button" data-go="signup">ثبت‌نام کن</button></p>
+  </form>
+
+  <!-- ثبت‌نام -->
+  <form class="form" id="signupForm" data-step="1" novalidate>
+    <div class="bar"><i></i><i></i><i></i></div>
+
+    <div class="pane p1">
+      <p class="sub">اطلاعاتت رو وارد کن تا حسابت رو بسازیم.</p>
+      <div class="grid two">
+        <label class="f"><span>نام و نام خانوادگی</span>
+          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#u"/></svg><input name="name" autocomplete="name" required></div>
+          <div class="err">اسمت رو بنویس.</div></label>
+        <label class="f"><span>ایمیل</span>
+          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#m"/></svg><input name="email" type="email" autocomplete="email" required class="ltr"></div>
+          <div class="err">یه ایمیل معتبر وارد کن.</div></label>
+        <label class="f"><span>شماره‌ی موبایل</span>
+          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#p"/></svg><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required class="ltr"></div>
+          <div class="err">شماره‌ی موبایل معتبر وارد کن.</div></label>
+        <label class="f"><span>آیدی چت (دریافت کد)</span>
+          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#s"/></svg><input name="chat" placeholder="@madar_user" required class="ltr" autocomplete="off"></div>
+          <div class="err">آیدی (مثل @username) یا شناسه‌ی عددی رو درست وارد کن.</div></label>
+        <label class="f"><span>رمز عبور</span>
+          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#k"/></svg><input name="pass" type="password" autocomplete="new-password" required minlength="6" class="ltr">
+            <button type="button" class="eye" aria-label="نمایش رمز"><svg class="i" viewBox="0 0 24 24"><use href="#e"/></svg></button></div>
+          <div class="meter" id="meter" data-s="0"><i></i><i></i><i></i><i></i></div>
+          <div class="err">رمز باید حداقل ۶ کاراکتر باشه.</div></label>
+        <label class="f"><span>تکرار رمز عبور</span>
+          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#c"/></svg><input name="pass2" type="password" autocomplete="new-password" required class="ltr"></div>
+          <div class="err">دو رمز یکسان نیستن.</div></label>
+      </div>
+      <button class="submit" type="submit"><span class="sp"></span><span>ادامه و دریافت کد</span></button>
+      <div class="msg" role="status"></div>
+      <p class="sw">قبلاً ثبت‌نام کردی؟ <button type="button" data-go="login">وارد شو</button></p>
+    </div>
+
+    <div class="pane p2">
+      <p class="sub">کد شش‌رقمی ارسال‌شده رو وارد کن.</p>
+      <div class="otp" id="otp">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۱" autocomplete="one-time-code">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۲">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۳">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۴">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۵">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۶">
+      </div>
+      <div class="sent">کد به چت <b id="chatShow">—</b> ارسال شد.</div>
+      <div class="msg" id="otpMsg" role="status"></div>
+      <div class="twin">
+        <button type="button" class="submit ghost" id="editBtn">ویرایش</button>
+        <button class="submit" type="submit" id="verBtn"><span class="sp"></span><span>تأیید و ساخت حساب</span></button>
+      </div>
+      <p class="resend">
+        <span id="rtxt">ارسال دوباره تا <b id="rsec">۶۰</b> ثانیه‌ی دیگر</span>
+        <button type="button" id="rbtn" hidden>ارسال دوباره‌ی کد</button>
+      </p>
+    </div>
+
+    <div class="pane p3">
+      <p class="sub">چند لحظه صبر کن، حسابت داره آماده می‌شه.</p>
+      <ul class="prog" id="prog" aria-live="polite"></ul>
+      <div class="msg" id="progMsg" role="status"></div>
+      <button type="button" class="submit ghost" id="retry" hidden>تلاش دوباره</button>
+    </div>
+  </form>
+
+</div>
+</div>
+</main>
+
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+
+<script>
+/* آدرس‌های بک‌اند از js/config.js می‌آیند. هر آدرس خالی باشد، همان بخش نمایشی اجرا می‌شود. */
+const STEPS=[
+  {t:'در حال ساخت حساب شما',            url:()=>API.createAccount},
+  {t:'در حال انجام عملیات‌های مورد نیاز', url:()=>API.runTasks},
+  {t:'در حال ثبت اطلاعات',               url:()=>API.saveProfile},
+  {t:'در حال آماده‌سازی صفحه‌ی کاربری',   url:()=>API.prepare}
+];
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const fa=s=>String(s).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const en=s=>String(s).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const root=document.documentElement,box=$('#box'),su=$('#signupForm'),lf=$('#loginForm'),seg=$('#seg');
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const PHONE=/^(\+98|0098|98|0)?9\d{9}$/;
+const norm=v=>en(v).replace(/[\s-]/g,'');
+
+/* تم: طبق انتخاب ذخیره‌شده؛ پیش‌فرض روشن */
+const applyTheme=()=>{let t=null;try{t=localStorage.getItem('theme')}catch(e){}root.dataset.theme=t==='dark'?'dark':'light'};
+applyTheme();
+addEventListener('storage',e=>{if(e.key==='theme')applyTheme()});
+addEventListener('pageshow',e=>{if(e.persisted)applyTheme()});
+
+/* ورود / ثبت‌نام */
+function mode(m){
+  box.dataset.m=m;
+  $$('.tabs button').forEach(b=>{const on=b.dataset.go===m;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  document.title=(m==='signup'?'ثبت‌نام':'ورود')+' | مدار';
+  history.replaceState(null,'','#'+m);
+}
+$$('[data-go]').forEach(b=>b.onclick=()=>mode(b.dataset.go));
+const fromHash=()=>mode(location.hash==='#signup'?'signup':'login');
+fromHash();addEventListener('hashchange',fromHash);
+
+/* نمایش رمز */
+$$('.eye').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector('input');i.type=i.type==='password'?'text':'password'});
+
+/* قدرت رمز */
+su.pass.addEventListener('input',()=>{
+  const v=su.pass.value;let s=0;
+  if(v.length>=6)s++;if(v.length>=10)s++;
+  if(/[A-Za-z]/.test(v)&&/\d/.test(v))s++;
+  if(/[^A-Za-z0-9]/.test(v))s++;
+  $('#meter').dataset.s=v?s:0;
+});
+
+/* اعتبارسنجی */
+function check(form){
+  let ok=true;
+  form.querySelectorAll('.f').forEach(f=>{
+    const i=f.querySelector('input');if(!i)return;
+    const v=i.value.trim();let bad=!v;
+    if(!bad&&i.type==='email')bad=!/^\S+@\S+\.\S+$/.test(v);
+    if(!bad&&i.minLength>0)bad=i.value.length<i.minLength;
+    if(!bad&&i.name==='pass2')bad=i.value!==form.pass.value;
+    if(!bad&&(i.name==='phone'||i.dataset.kind==='phone'))bad=!PHONE.test(norm(v));
+    if(!bad&&i.name==='chat')bad=!/^(@[A-Za-z][A-Za-z0-9_]{3,31}|\d{5,14})$/.test(en(v));
+    f.classList.toggle('bad',bad);if(bad)ok=false;
+  });
+  return ok;
+}
+$$('form').forEach(f=>f.addEventListener('input',e=>e.target.closest('.f')?.classList.remove('bad')));
+
+const shake=el=>{el.classList.remove('shake');el.offsetWidth;el.classList.add('shake')};
+const busy=(b,on)=>{b.classList.toggle('load',on);b.disabled=on};
+const toast=(h,ms=9000)=>{const x=$('#toast');x.innerHTML=h;x.classList.add('on');clearTimeout(x._t);x._t=setTimeout(()=>x.classList.remove('on'),ms)};
+
+/* روش ورود */
+const UI={
+  id:{l:'ایمیل یا نام کاربری',p:'',e:'این فیلد رو پر کن.',ic:'#u'},
+  phone:{l:'شماره‌ی موبایل',p:'۰۹۱۲۳۴۵۶۷۸۹',e:'شماره‌ی موبایل معتبر وارد کن (مثل ۰۹۱۲…).',ic:'#p'}
+};
+seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  const m=b.dataset.m,u=UI[m],i=lf.elements.user;
+  seg.dataset.m=m;
+  seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  $('#ul').textContent=u.l;$('#ue').textContent=u.e;
+  i.closest('.in').querySelector('use').setAttribute('href',u.ic);
+  i.value='';i.placeholder=u.p;
+  i.dataset.kind=m==='phone'?'phone':'';
+  i.inputMode=m==='phone'?'tel':'text';
+  i.closest('.f').classList.remove('bad');i.focus();
+});
+
+/* Caps Lock */
+lf.elements.pass.addEventListener('keyup',e=>$('#caps').classList.toggle('on',!!(e.getModifierState&&e.getModifierState('CapsLock'))));
+lf.elements.pass.addEventListener('blur',()=>$('#caps').classList.remove('on'));
+
+/* ارسال JSON به بک‌اند؛ پیام خطای فارسی سرور در e.msg می‌ماند */
+async function apiPost(url,body,headers){
+  const r=await fetch(url,{method:'POST',headers:Object.assign({'Content-Type':'application/json'},headers||{}),body:JSON.stringify(body)});
+  let d={};try{d=await r.json()}catch{}
+  if(!r.ok){const e=new Error('http '+r.status);e.status=r.status;e.msg=d.message||'';throw e}
+  return d;
+}
+const why=(e,fb)=>e&&e.msg?e.msg:(e&&e.status?fb:'ارتباط با سرور برقرار نشد. دوباره تلاش کن.');
+
+/* رفتن به صفحه‌ی کاربری */
+const go=()=>{if(API.dashboard)location.href=API.dashboard};
+
+/* ارسال فرم ورود */
+lf.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const msg=lf.querySelector('.msg'),b=lf.querySelector('.submit');
+  if(!check(lf)){msg.textContent='';return shake(lf)}
+  busy(b,true);msg.style.color='';
+  try{
+    if(API.login){
+      const rem=lf.elements.remember.checked;
+      const d=await apiPost(API.login,{type:seg.dataset.m,
+        user:seg.dataset.m==='phone'?norm(lf.elements.user.value):lf.elements.user.value.trim(),
+        pass:lf.elements.pass.value,remember:rem});
+      Auth.save(d.token,rem);
+    }else await wait(1000);
+    msg.textContent='وارد شدی! در حال انتقال…';
+    confetti(40);await wait(900);go();
+  }catch(e){
+    msg.style.color='var(--bad)';msg.textContent=why(e,'نام کاربری یا رمز اشتباه است.');shake(lf);
+  }
+  busy(b,false);
+});
+
+/* مراحل ثبت‌نام */
+let demoCode='',cd,token='',from=0,resendSec=60;
+const otp=$$('#otp input');
+function step(n){su.dataset.step=n;if(n===2)setTimeout(()=>otp[0].focus(),200)}
+
+async function sendCode(){
+  const chat=en(su.chat.value.trim()),phone=norm(su.elements.phone.value);
+  if(API.sendCode){
+    const d=await apiPost(API.sendCode,{chat,phone,email:su.elements.email.value.trim()});
+    if(d.resendAfter)resendSec=d.resendAfter;
+  }else{
+    demoCode=String(Math.floor(100000+Math.random()*900000));
+    await wait(900);
+    toast(`<small>پیام نمایشی در چت ${chat}</small>کد تأیید مدار: <b>${fa(demoCode)}</b><small>(حالت آزمایشی)</small>`);
+  }
+  $('#chatShow').textContent=chat;
+  countdown();
+}
+function countdown(){
+  let s=resendSec;
+  $('#rbtn').hidden=true;$('#rtxt').hidden=false;$('#rsec').textContent=fa(s);
+  clearInterval(cd);
+  cd=setInterval(()=>{
+    s--;$('#rsec').textContent=fa(s);
+    if(s<=0){clearInterval(cd);$('#rtxt').hidden=true;$('#rbtn').hidden=false}
+  },1000);
+}
+$('#rbtn').onclick=async()=>{
+  const m=$('#otpMsg');
+  try{await sendCode();m.style.color='';m.textContent='کد جدید ارسال شد.'}
+  catch(e){m.style.color='var(--bad)';m.textContent=why(e,'ارسال نشد، دوباره تلاش کن.')}
+};
+$('#editBtn').onclick=()=>{clearInterval(cd);step(1)};
+
+/* ورودی‌های OTP */
+const submitOtp=()=>{const v=$('#verBtn');if(!v.disabled)v.click()};
+otp.forEach((el,i)=>{
+  el.addEventListener('input',()=>{
+    el.value=en(el.value).replace(/\D/g,'').slice(-1);
+    el.classList.toggle('fill',!!el.value);
+    if(el.value&&i<5)otp[i+1].focus();
+    if(otp.every(o=>o.value))submitOtp();
+  });
+  el.addEventListener('keydown',e=>{
+    if(e.key==='Backspace'&&!el.value&&i>0){otp[i-1].value='';otp[i-1].focus()}
+    if(e.key==='ArrowLeft'&&i<5)otp[i+1].focus();
+    if(e.key==='ArrowRight'&&i>0)otp[i-1].focus();
+  });
+  el.addEventListener('paste',e=>{
+    const d=en(e.clipboardData.getData('text')).replace(/\D/g,'').slice(0,6);
+    if(!d)return;e.preventDefault();
+    [...d].forEach((c,k)=>otp[k].value=c);
+    otp[Math.min(d.length,5)].focus();
+    if(d.length===6)submitOtp();
+  });
+  el.addEventListener('focus',()=>el.select());
+});
+
+/* ارسال فرم ثبت‌نام */
+su.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const st=su.dataset.step;
+
+  if(st==='1'){
+    const msg=su.querySelector('.p1 .msg'),b=su.querySelector('.p1 .submit');
+    if(!check(su)){msg.textContent='';return shake(su)}
+    busy(b,true);msg.style.color='';
+    try{
+      await sendCode();
+      otp.forEach(o=>{o.value='';o.classList.remove('fill')});
+      $('#otpMsg').textContent='';
+      step(2);
+    }catch(e){
+      msg.style.color='var(--bad)';msg.textContent=why(e,'ارسال کد انجام نشد. آیدی چت رو بررسی کن.');shake(su);
+    }
+    busy(b,false);
+
+  }else if(st==='2'){
+    const code=otp.map(o=>o.value).join(''),bx=$('#otp'),m=$('#otpMsg'),b=$('#verBtn');
+    const bad=txt=>{m.style.color='var(--bad)';m.textContent=txt;bx.classList.remove('bad');bx.offsetWidth;bx.classList.add('bad')};
+    if(code.length<6)return bad('هر شش رقم رو وارد کن.');
+    busy(b,true);m.textContent='';
+    let ok=false,vmsg='';
+    try{
+      if(API.verify){
+        const d=await apiPost(API.verify,{chat:en(su.chat.value.trim()),phone:norm(su.elements.phone.value),code,
+          name:su.elements.name.value.trim(),email:su.elements.email.value.trim(),pass:su.pass.value});
+        ok=true;token=d.token||'';
+        if(token)Auth.save(token,true);
+      }else{await wait(800);ok=code===demoCode}
+    }catch(e){ok=false;vmsg=why(e,'')}
+    busy(b,false);
+    if(ok){
+      bx.classList.remove('bad');bx.classList.add('good');
+      clearInterval(cd);$('#toast').classList.remove('on');
+      await wait(450);step(3);buildProg();runSteps();
+    }else{
+      bad(vmsg||'کد اشتباه است. دوباره امتحان کن.');
+      otp.forEach(o=>{o.value='';o.classList.remove('fill')});
+      otp[0].focus();
+    }
+  }
+});
+
+/* نوار مراحل بعد از تأیید کد */
+const userData=()=>({chat:en(su.chat.value.trim()),phone:norm(su.elements.phone.value),
+  name:su.elements.name.value.trim(),email:su.elements.email.value.trim()});
+
+async function call(url,data){
+  if(!url){await wait(500+Math.random()*500);return}   /* حالت نمایشی */
+  const h={'Content-Type':'application/json'};
+  if(token)h.Authorization='Bearer '+token;
+  const r=await fetch(url,{method:'POST',headers:h,body:JSON.stringify(data)});
+  if(!r.ok)throw 0;
+}
+function buildProg(){
+  from=0;
+  $('#prog').innerHTML=STEPS.map(s=>`<li><i></i><span>${s.t}</span></li>`).join('');
+  $('#progMsg').textContent='';$('#retry').hidden=true;
+}
+async function runSteps(){
+  const rows=$$('#prog li'),msg=$('#progMsg');
+  msg.style.color='';msg.textContent='';
+  for(let k=from;k<STEPS.length;k++){
+    rows[k].className='run';
+    try{await Promise.all([call(STEPS[k].url(),userData()),wait(700)])}
+    catch{
+      rows[k].className='fail';from=k;
+      msg.style.color='var(--bad)';msg.textContent='این مرحله انجام نشد. دوباره تلاش کن.';
+      $('#retry').hidden=false;return;
+    }
+    rows[k].className='ok';
+  }
+  msg.textContent='همه چیز آماده‌ست! در حال انتقال…';
+  confetti(90);await wait(1300);go();
+}
+$('#retry').onclick=()=>{$('#retry').hidden=true;runSteps()};
+
+/* کاغذ رنگی */
+const fx=$('#fx'),fc=fx.getContext('2d');
+function confetti(n){
+  if(reduce)return;
+  fx.width=innerWidth;fx.height=innerHeight;
+  const cols=['#142859','#cc9a2e','#5fcf9d','#fff'];
+  const a=Array.from({length:n},()=>({
+    x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.55,
+    vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,
+    s:Math.random()*7+4,c:cols[Math.random()*4|0],r:Math.random()*6,vr:(Math.random()-.5)*.4}));
+  let k=0;
+  (function f(){
+    fc.clearRect(0,0,fx.width,fx.height);
+    a.forEach(p=>{
+      p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+      fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);
+      fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);fc.restore();
+    });
+    ++k<120?requestAnimationFrame(f):fc.clearRect(0,0,fx.width,fx.height);
+  })();
+}
+</script>
+</body>
+</html>

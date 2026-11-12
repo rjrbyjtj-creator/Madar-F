@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مدار | صفحه اصلی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<style>
+/* مقیاس: ۱rem = ۱۶px در عرض ۱۶۷۲px (اندازه‌ی تصویر مرجع) و با عرض صفحه متناسب بزرگ و کوچک می‌شود */
+:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
+:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);font-size:clamp(12px,.957vw,22px)}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;
+  background:radial-gradient(60rem 40rem at 80% 10%,color-mix(in srgb,#fff 70%,transparent),transparent),radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.only-light{display:block}.only-dark{display:none}
+:root[data-theme=dark] .only-light{display:none}:root[data-theme=dark] .only-dark{display:block}
+/* جای عکس: اگه عکس لود نشه، کادر خط‌چین با برچسب نشون داده می‌شه */
+.ph:empty{display:grid;place-items:center;border:1.5px dashed color-mix(in srgb,var(--text) 30%,transparent);border-radius:.8rem;background:color-mix(in srgb,var(--text) 4%,transparent)}
+.ph:empty::before{content:attr(data-ph);color:var(--muted);font-size:.8rem}
+
+.page{min-height:100vh;display:flex;flex-direction:column;padding:1.1rem 4.75rem 0 4.4rem}
+
+/* هدر */
+.top{display:flex;align-items:center;height:3.6rem}
+.logo{display:flex;align-items:center;gap:.75rem}
+.logo .ph{width:3.3rem;height:3.6rem}
+.logo img{height:3.6rem;width:auto}
+.logo strong{display:block;font-size:2rem;font-weight:800;line-height:1.1}
+.logo small{display:block;font-size:.7rem;font-weight:700;line-height:1.4}
+.search{flex:0 0 35rem;margin-inline:18.2rem auto;display:flex;align-items:center;gap:.75rem;height:2.65rem;padding:0 1.1rem;background:var(--card);border:1px solid var(--cb);border-radius:999px;box-shadow:0 .25rem 1rem var(--sh);color:var(--muted);transition:box-shadow .3s,border-color .3s}
+.search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent)}
+.search svg.i{width:1.3rem;height:1.3rem;color:var(--text)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;font-size:.9rem;color:var(--text)}
+.search input::placeholder{color:var(--muted)}
+.actions{display:flex;align-items:center;gap:1.4rem}
+.ib{position:relative;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;color:var(--text);transition:background .2s,transform .3s var(--ease)}
+.ib:hover{background:var(--chip);transform:translateY(-2px)}
+.ib svg.i{width:1.4rem;height:1.4rem}
+.ib .dot{position:absolute;top:.25rem;right:.3rem;width:.55rem;height:.55rem;border-radius:50%;background:var(--gold);border:1.5px solid var(--bg2)}
+#themeBtn .sun,:root[data-theme=dark] #themeBtn .moon{display:none}
+:root[data-theme=dark] #themeBtn .sun{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;height:2.65rem;padding:0 1.15rem;color:var(--on);font-size:.82rem;font-weight:700;background:var(--login);border-radius:999px;box-shadow:0 .3rem .9rem color-mix(in srgb,var(--primary) 28%,transparent);transition:transform .3s var(--ease),filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.btn svg.i{width:1.15rem;height:1.15rem}
+
+/* منو */
+.nav{display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
+.nav a{position:relative;display:flex;align-items:center;gap:.45rem;padding-bottom:.55rem;font-size:.92rem;font-weight:500;white-space:nowrap;transition:color .2s}
+.nav a:hover,.nav a.on{color:var(--gold)}
+.nav a svg.i{width:.7rem;height:.7rem;stroke-width:2}
+.nav a.on::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;border-radius:2px;background:var(--gold)}
+
+/* هیرو */
+.hero{position:relative;min-height:23.2rem;margin-top:1rem;display:flex;align-items:center;padding-inline-start:5.3rem}
+.hero-art{position:absolute;left:-4.75rem;top:-1rem;width:53rem;height:24.5rem;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to right,#000 78%,transparent);mask-image:linear-gradient(to right,#000 78%,transparent)}
+.hero-art img{width:100%;height:100%;object-fit:contain;object-position:left center}
+.hero-art:empty{left:7.7rem;width:32.5rem;top:.5rem;height:21rem;-webkit-mask-image:none;mask-image:none}
+.hero-text{position:relative;z-index:1;max-width:38rem}
+.hi{display:flex;align-items:center;gap:1.1rem;color:var(--gold);font-size:1.85rem;font-weight:500;line-height:1.6}
+.hi::after{content:"";width:6.2rem;height:1px;background:linear-gradient(to left,var(--gold),transparent)}
+h1{margin-top:.7rem;font-size:2.75rem;font-weight:800;line-height:1.4}
+.hero-text>p{margin-top:.8rem;font-size:1.05rem;color:color-mix(in srgb,var(--text) 85%,transparent)}
+.cta{display:flex;align-items:center;gap:4.2rem;margin-top:2.1rem}
+.intro{display:flex;align-items:center;gap:.75rem;font-size:.88rem;font-weight:500}
+.intro span{display:grid;place-items:center;width:2rem;height:2rem;border:1.5px solid var(--text);border-radius:50%;transition:background .3s,color .3s}
+.intro:hover span{background:var(--text);color:var(--bg2)}
+.intro svg.i{width:.8rem;height:.8rem;fill:currentColor;stroke:none;margin-inline-start:-.1rem}
+.cta .btn{height:2.75rem;padding:0 1.4rem;font-size:.88rem;background:var(--primary)}
+
+/* میان‌برها */
+.quick{display:flex;width:75.2rem;max-width:100%;margin-top:.1rem;margin-inline-start:9.3rem}
+.qi{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.7rem 0 .55rem;transition:color .2s}
+.qi:first-child,.qi:last-child{border-bottom:1px solid var(--line)}
+.qi+.qi::before{content:"";position:absolute;inset-inline-start:0;top:1.9rem;height:1.9rem;width:1px;background:var(--line)}
+.qi svg.i{width:1.75rem;height:1.75rem;stroke-width:1.5}
+.qi span{font-size:.9rem;font-weight:700}
+.qi:hover{color:var(--gold)}
+
+/* کارت‌ها */
+.cards{display:grid;grid-template-columns:613fr 876fr;gap:2.3rem;margin-top:2.5rem}
+.card{min-height:12.6rem;background:var(--card);border:1px solid var(--cb);border-radius:1.1rem;box-shadow:0 .4rem 1.5rem var(--sh);padding-bottom:1.2rem}
+.ch{display:flex;align-items:center;gap:.85rem;height:4rem;padding:0 1.9rem}
+.ch>svg.i{width:1.4rem;height:1.4rem}
+.ch h2{font-size:1.03rem;font-weight:700}
+.all{display:inline-flex;align-items:center;gap:.45rem;margin-inline-start:auto;height:1.9rem;padding:0 .9rem;font-size:.8rem;color:var(--muted);background:var(--chip);border-radius:999px;transition:color .2s,transform .3s var(--ease)}
+.all:hover{color:var(--text);transform:translateX(-2px)}
+.all svg.i{width:.9rem;height:.9rem}
+.ann .ch{margin-inline:1.9rem;padding:0;border-bottom:1px solid var(--line)}
+.ann ul{list-style:none}
+.ann li a{display:flex;align-items:center;gap:1.1rem;height:2.45rem;padding:0 2.3rem;font-size:.91rem;font-weight:500;transition:color .2s}
+.ann li a:hover{color:var(--gold)}
+.ann li i{width:.75rem;height:.75rem;border-radius:50%;background:var(--gold);flex:none}
+.ann li time{margin-inline-start:auto;font-size:.82rem;font-weight:400;color:var(--muted)}
+.ex{position:relative;display:flex;align-items:center;height:6.75rem;margin:.2rem 1.95rem 0;padding:0 1.3rem 0 1.2rem;background:var(--inner);border:1px solid var(--line);border-radius:.9rem;overflow:hidden}
+.ex::before{content:"";position:absolute;left:-2rem;top:-1rem;width:11rem;height:9rem;background:radial-gradient(closest-side,color-mix(in srgb,var(--primary) 10%,transparent),transparent);pointer-events:none}
+.ex>*{position:relative}
+.ex-ic{display:grid;place-items:center;width:4.1rem;height:4.1rem;flex:none;color:#fff;background:var(--primary);border-radius:.8rem}
+.ex-ic svg.i{width:1.9rem;height:1.9rem;stroke-width:1.5}
+.chip{display:inline-flex;align-items:center;gap:.5rem;height:2.5rem;margin-inline-start:3.2rem;padding:0 1.3rem;font-size:.82rem;font-weight:500;background:var(--chip);border-radius:999px}
+.chip svg.i{width:1.05rem;height:1.05rem;color:var(--muted)}
+.ex-t{margin-inline-start:3.5rem}
+.ex-t b{display:block;font-size:.95rem;font-weight:700;line-height:1.6}
+.ex-t small{display:block;font-size:.82rem;color:var(--muted);line-height:1.5}
+.day{margin-inline-start:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;width:3.5rem;height:4rem;background:var(--tile);border-radius:.65rem;line-height:1.3}
+.day b{font-size:1.25rem;font-weight:800}
+.day small{font-size:.8rem;color:var(--muted)}
+
+/* نوار پایین */
+.more{display:grid;place-items:center;height:3.7rem;margin-top:2.7rem;color:var(--muted);border-radius:1.4rem 1.4rem 0 0;background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 7%,transparent),color-mix(in srgb,var(--primary) 3%,transparent));transition:color .2s}
+.more:hover{color:var(--text)}
+.more svg.i{width:1.2rem;height:1.2rem}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.hero-text>*,.cards .card{animation:rise .8s var(--ease) backwards}
+.hi{animation-delay:.1s}h1{animation-delay:.2s}.hero-text>p{animation-delay:.3s}.cta{animation-delay:.4s}.cards .card:nth-child(2){animation-delay:.1s}
+html.theming *,html.theming *::before,html.theming *::after{transition:background-color .45s,color .45s,border-color .45s,box-shadow .45s!important}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* واکنش‌گرا */
+@media(max-width:1180px){
+  html{font-size:15px}
+  .page{padding-inline:1.2rem}
+  .top{height:auto;flex-wrap:wrap;gap:.8rem}
+  .search{order:3;flex-basis:100%;margin:0}
+  .actions{margin-inline-start:auto}
+  .nav{padding-inline-start:0;gap:1.8rem;overflow-x:auto;scrollbar-width:none}
+  .hero{flex-direction:column;align-items:stretch;padding-inline:0;margin-top:1.5rem}
+  .hero-art,.hero-art:empty{position:relative;left:auto;top:auto;width:100%;height:16rem;order:2;margin-top:1rem;-webkit-mask-image:none;mask-image:none}
+  .quick{width:100%;margin:1rem 0 0;overflow-x:auto}
+  .qi{min-width:7rem}
+  .cards{grid-template-columns:1fr}
+  .cta{gap:1.5rem;flex-wrap:wrap}
+}
+@media(max-width:600px){
+  html{font-size:14px}
+  h1{font-size:2rem}.hi{font-size:1.4rem}
+  .ex{flex-wrap:wrap;height:auto;padding:1rem;gap:.8rem}
+  .chip,.ex-t{margin-inline-start:0}
+  .btn span.t{display:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-calg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18m-12 6 2 2 4-4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-head" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="13" width="4.5" height="7" rx="1.6"/><rect x="17" y="13" width="4.5" height="7" rx="1.6"/><path d="M20 20c0 1.5-2 2-5 2"/></symbol>
+  <symbol id="i-exam" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+</svg>
+
+<div class="page">
+
+  <!-- هدر -->
+  <header class="top">
+    <a href="#" class="logo" aria-label="مدار">
+      <!-- ★ جای لوگوی هدر -->
+      <span class="ph" data-ph="لوگو"><img class="only-light" src="../عکس ها/logo-light.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/logo-dark.png" alt="" onerror="this.remove()"></span>
+      <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
+    </a>
+    <label class="search">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input type="search" placeholder="جستجو در سامانه...">
+    </label>
+    <div class="actions">
+      <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
+      <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
+      <a href="../لاگین و ثبت نام/لاگین.html" class="btn"><svg class="i"><use href="#i-login"/></svg><span class="t">ورود به سامانه</span></a>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="منوی اصلی">
+    <a href="#" class="on">صفحه اصلی<svg class="i"><use href="#i-down"/></svg></a>
+    <a href="#">اطلاعیه‌ها<svg class="i"><use href="#i-down"/></svg></a>
+    <a href="#">آزمون‌ها<svg class="i"><use href="#i-down"/></svg></a>
+    <a href="#">برنامه‌ها<svg class="i"><use href="#i-down"/></svg></a>
+    <a href="#">معلمان<svg class="i"><use href="#i-down"/></svg></a>
+    <a href="#">مشاوره تحصیلی<svg class="i"><use href="#i-down"/></svg></a>
+    <a href="#">درباره ما<svg class="i"><use href="#i-down"/></svg></a>
+  </nav>
+
+  <!-- هیرو -->
+  <main class="hero">
+    <!-- ★ جای عکس بزرگ هیرو (کلاه فارغ‌التحصیلی + کتاب‌ها + پس‌زمینه‌ی چپ). اگه یک عکس داری آدرس هر دو رو یکی بذار. -->
+    <div class="hero-art ph" data-ph="جای عکس هیرو" aria-hidden="true"><img class="only-light" src="../عکس ها/hero-light.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/hero-dark.png" alt="" onerror="this.remove()"></div>
+
+    <section class="hero-text">
+      <div class="hi">سلام، <span id="uname">امیرحسین</span> عزیز!</div>
+      <h1>به دبیرستان مدار خوش آمدی</h1>
+      <p>با تلاش، برنامه‌ریزی و همراهی ما، مسیر موفقیت را هموارتر بسازید.</p>
+      <div class="cta">
+        <a href="#" class="intro"><span><svg class="i"><use href="#i-play"/></svg></span>معرفی مدرسه</a>
+        <a href="#" class="btn">مشاهده اطلاعیه‌ها<svg class="i"><use href="#i-back"/></svg></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- میان‌برها -->
+  <section class="quick" aria-label="دسترسی سریع">
+    <a href="#" class="qi"><svg class="i"><use href="#i-mega"/></svg><span>اطلاعیه‌ها</span></a>
+    <a href="#" class="qi"><svg class="i"><use href="#i-calg"/></svg><span>آزمون‌ها</span></a>
+    <a href="#" class="qi"><svg class="i"><use href="#i-cal"/></svg><span>برنامه درسی</span></a>
+    <a href="#" class="qi"><svg class="i"><use href="#i-users"/></svg><span>معلمان</span></a>
+    <a href="#" class="qi"><svg class="i"><use href="#i-head"/></svg><span>مشاوره تحصیلی</span></a>
+  </section>
+
+  <!-- کارت‌ها -->
+  <section class="cards">
+    <article class="card ann">
+      <div class="ch">
+        <svg class="i"><use href="#i-mega"/></svg>
+        <h2>آخرین اطلاعیه‌ها</h2>
+        <a href="#" class="all">مشاهده همه<svg class="i"><use href="#i-back"/></svg></a>
+      </div>
+      <ul id="annList">
+        <li><a href="#"><i></i>برنامه برگزاری آزمون‌های میان‌ترم اعلام شد<time>۲۴ آبان</time></a></li>
+        <li><a href="#"><i></i>اطلاعیه مهم در خصوص مشاوره تحصیلی<time>۲۲ آبان</time></a></li>
+        <li><a href="#"><i></i>تمدید مهلت ثبت‌نام آزمون‌های آزمایشی<time>۲۰ آبان</time></a></li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <div class="ch">
+        <svg class="i"><use href="#i-calg"/></svg>
+        <h2>آزمون‌های پیش‌رو</h2>
+        <a href="#" class="all">مشاهده همه<svg class="i"><use href="#i-back"/></svg></a>
+      </div>
+      <div class="ex" id="exList">
+        <span class="ex-ic"><svg class="i"><use href="#i-exam"/></svg></span>
+        <span class="chip"><svg class="i"><use href="#i-clock"/></svg>ساعت ۹:۰۰</span>
+        <div class="ex-t"><b>آزمون جامع نوبت اول</b><small>دوره دوم متوسطه</small></div>
+        <div class="day"><b>۲۵</b><small>آبان</small></div>
+      </div>
+    </article>
+  </section>
+
+  <button class="more" id="more" aria-label="پایین‌تر"><svg class="i"><use href="#i-down"/></svg></button>
+</div>
+
+<script>
+const root=document.documentElement;let timer;
+themeBtn.onclick=()=>{
+  const next=root.dataset.theme==='dark'?'light':'dark';
+  root.classList.add('theming');root.dataset.theme=next;
+  clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('theming'),700);
+  try{localStorage.setItem('theme',next)}catch(e){}
+};
+addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
+document.getElementById('more').onclick=()=>scrollBy({top:innerHeight*.8,behavior:'smooth'});
+/* اسم کاربر: document.getElementById('uname').textContent = نام واقعی از بک‌اند */
+</script>
+</body>
+</html>
