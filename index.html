@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>مدار | دبیرستان دوره دوم</title>
+  <title></title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,8 @@
       if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
     } catch (e) {}
   </script>
+
+  <link rel="icon" href="./عکس ها/تب.png">
 
   <style>
     /* ==========================================================================
@@ -612,6 +614,323 @@
         display: none;
       }
     }
+
+
+    /* ==========================================================================
+       بخش‌های جدید: اطلاعیه‌ها و آزمون‌ها
+       ========================================================================== */
+    html { scroll-behavior: smooth; }
+
+    .wrap { padding: 8px clamp(14px, 1.8vw, 28px) clamp(28px, 6vh, 56px); }
+    .sec { margin-top: clamp(40px, 8vh, 72px); scroll-margin-top: 16px; }
+    .sec:first-child { margin-top: clamp(24px, 5vh, 44px); }
+
+    /* --- سرتیتر بخش --- */
+    .sec-head {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 14px; margin-bottom: 18px;
+    }
+    .eyebrow { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
+    .eyebrow .ln { width: 18px; height: 1px; background: var(--gold); }
+    .sec-head h2 {
+      margin-top: 8px; font-size: clamp(20px, 1.9vw, 28px);
+      font-weight: 800; line-height: 1.45;
+    }
+    .sec-head h2 span { color: var(--gold); }
+    .sec-head p { margin-top: 2px; color: var(--muted); font-size: 12px; }
+
+    .btn-line {
+      display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 18px;
+      font-size: 12px; font-weight: 500; color: var(--text);
+      border: 1px solid var(--gold); border-radius: 999px;
+      transition: background .3s, transform .3s var(--ease);
+    }
+    .btn-line svg.i { width: 14px; height: 14px; color: var(--gold); }
+    .btn-line:hover { background: color-mix(in srgb, var(--gold) 14%, transparent); transform: translateY(-2px); }
+
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 16px;
+      font-size: 12px; font-weight: 700; color: #1a1300; background: var(--gold);
+      border-radius: 999px; box-shadow: 0 4px 12px color-mix(in srgb, var(--gold) 30%, transparent);
+      transition: transform .3s var(--ease), filter .2s;
+    }
+    .btn-gold svg.i { width: 14px; height: 14px; }
+    .btn-gold:hover { transform: translateY(-2px); filter: brightness(1.08); }
+
+    /* --- اجزای مشترک --- */
+    .box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 4px 14px var(--sh);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      transition: transform .4s var(--ease), border-color .3s, box-shadow .4s;
+    }
+    .lift:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--gold) 55%, var(--border));
+      box-shadow: 0 10px 22px var(--sh);
+    }
+
+    .ibox {
+      flex: none; display: grid; place-items: center; width: 32px; height: 32px;
+      color: var(--text); background: var(--field);
+      border: 1px solid var(--border); border-radius: 10px;
+    }
+    .ibox svg.i { width: 16px; height: 16px; }
+    .ibox.lg { width: 46px; height: 46px; border-radius: 13px; }
+    .ibox.lg svg.i { width: 22px; height: 22px; }
+    .ibox.gold { color: var(--gold); }
+
+    .vr { flex: none; width: 1px; align-self: stretch; margin-block: 6px; background: var(--border); }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+      font-size: 10.5px; background: var(--field); border-radius: 999px;
+    }
+    .tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+
+    .meta { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 11px; }
+    .dt { display: inline-flex; align-items: center; gap: 5px; }
+    .dt svg.i { width: 13px; height: 13px; }
+    .vsep { width: 1px; height: 14px; background: var(--border); }
+
+    .more { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 500; transition: color .2s; }
+    .more svg.i { width: 13px; height: 13px; }
+    .more::after { content: ""; width: 16px; height: 1px; background: var(--gold); }
+    a:hover > .more, .more:hover { color: var(--gold); }
+
+    /* --- کارت‌های کوچک --- */
+    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(8px, 1vw, 14px); }
+    .scard { display: flex; flex-direction: column; gap: 10px; padding: 12px 16px; }
+    .stop { display: flex; align-items: center; gap: 10px; }
+    .stop h3 { font-size: 13px; font-weight: 700; line-height: 1.5; }
+    .scard .more { align-self: flex-end; }
+    .sfoot { display: flex; align-items: center; justify-content: space-between; }
+    .sfoot .pill { margin-inline-start: 42px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px; padding: 3px 11px;
+      font-size: 10.5px; font-weight: 500; background: var(--field);
+      border: 1px solid var(--border); border-radius: 999px;
+    }
+    .pill svg.i { width: 12px; height: 12px; }
+
+    /* --- کارت بزرگ اطلاعیه --- */
+    .feat {
+      position: relative; display: flex; align-items: center; gap: 14px;
+      min-height: 160px; padding: 16px 18px; margin-bottom: clamp(8px, 1vw, 14px); overflow: hidden;
+    }
+    .feat-media { position: absolute; inset: 0 auto 0 0; width: 46%; background: var(--field); clip-path: polygon(0 0, 72% 0, 100% 100%, 0 100%); }
+    .feat-media img { width: 100%; height: 100%; object-fit: cover; }
+    .feat-edge { position: absolute; inset: 0 auto 0 0; width: 46%; height: 100%; pointer-events: none; }
+    .feat-edge line { stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+    .feat-body { width: calc(54% - 90px); }
+    .feat-body h3 { margin-top: 8px; font-size: 15px; font-weight: 700; line-height: 1.6; }
+    .feat-body > p {
+      margin-top: 2px; color: var(--muted); font-size: 11.5px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .feat-body .meta { margin-top: 12px; color: var(--text); }
+    .feat-body .meta .dt { color: var(--muted); }
+
+    /* --- بخش آزمون‌ها --- */
+    .exam-top { display: grid; grid-template-columns: 54fr 46fr; align-items: center; gap: 14px; margin-bottom: clamp(8px, 1vw, 14px); }
+    .xfeat { display: flex; align-items: center; gap: 14px; padding: 18px; }
+    .xbody { flex: 1; min-width: 0; }
+    .xbody h3 { margin-top: 8px; font-size: 15px; font-weight: 700; line-height: 1.6; }
+    .xfoot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .x-art {
+      position: relative; min-height: 230px; border-radius: 50% 40% 45% 55%;
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--primary) 22%, transparent), transparent);
+    }
+    .x-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: left center; }
+
+    /* --- واکنش‌گرایی بخش‌های جدید --- */
+    @media (max-width: 900px) {
+      .exam-top { grid-template-columns: 1fr; }
+      .x-art { display: none; }
+    }
+    @media (max-width: 700px) {
+      .feat { flex-wrap: wrap; padding-top: 0; }
+      .feat-media { position: relative; order: -1; width: calc(100% + 36px); height: 130px; margin: 0 -18px; clip-path: none; }
+      .feat-edge, .feat > .vr { display: none; }
+      .feat-body { flex: 1; width: auto; }
+      .sec-head .btn-line { width: 100%; justify-content: center; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ==================== بخش مقالات ==================== */
+.art-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2.1fr;
+  grid-template-rows: repeat(2, minmax(125px, auto));
+  gap: clamp(8px, 1vw, 14px);
+}
+.acard { position: relative; display: flex; overflow: hidden; }
+.acard h3 { font-size: 13px; font-weight: 700; line-height: 1.8; }
+.acard .meta { font-size: 10.5px; }
+.acard .meta svg.i { width: 13px; height: 13px; }
+.thumb { background: var(--field); overflow: hidden; }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.abody { display: flex; flex-direction: column; justify-content: space-between; gap: 12px; padding: 14px 16px; }
+.afoot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+/* دکمه فلش طلایی */
+.abtn {
+  flex: none; display: grid; place-items: center; width: 28px; height: 28px;
+  color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, transparent);
+  border: 1px solid var(--gold); border-radius: 8px;
+  transition: background .3s, color .3s, transform .4s var(--ease);
+}
+.abtn svg.i { width: 14px; height: 14px; }
+.acard:hover .abtn { background: var(--gold); color: #1a1300; transform: translateX(-3px); }
+
+/* کارت بلند (راست) */
+.a-tall { grid-column: 1; grid-row: 1 / span 2; flex-direction: column; }
+.a-tall .thumb { flex: 1; min-height: 150px; }
+.a-tall .abody { flex: none; }
+.a-tall h3 { font-size: 14px; }
+
+/* دو کارت کوچک (وسط) — عکس سمت چپ */
+.a-sm:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+.a-sm:nth-of-type(3) { grid-column: 2; grid-row: 2; }
+.a-sm .abody { flex: 1; min-width: 0; }
+.a-sm .thumb { flex: none; width: 40%; }
+
+/* کارت بزرگ (چپ) — عکس پس‌زمینه */
+.a-big { grid-column: 3; grid-row: 1 / span 2; }
+.a-big .thumb { position: absolute; inset: 0; }
+.a-big::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to left, var(--bg) 8%, color-mix(in srgb, var(--bg) 70%, transparent) 45%, transparent 85%);
+}
+.a-big .abody { position: relative; z-index: 2; width: 100%; padding: 18px 22px; }
+.a-big .tag { align-self: flex-start; background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--border); }
+.a-big h3 { font-size: clamp(16px, 1.6vw, 22px); line-height: 1.8; width: 52%; }
+.a-big .abody > div:nth-child(2) { margin-block: auto; }
+
+@media (max-width: 900px) {
+  .art-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .a-big { grid-column: 1 / -1; grid-row: 1; min-height: 220px; }
+  .a-tall { grid-column: 1; grid-row: 2 / span 2; }
+  .a-sm:nth-of-type(2) { grid-column: 2; grid-row: 2; }
+  .a-sm:nth-of-type(3) { grid-column: 2; grid-row: 3; }
+}
+@media (max-width: 600px) {
+  .art-grid { grid-template-columns: 1fr; }
+  .a-big, .a-tall, .a-sm:nth-of-type(n) { grid-column: 1; grid-row: auto; }
+  .a-tall .thumb { min-height: 170px; }
+  .a-big h3 { width: 100%; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== فوتر ==================== */
+.footer {
+  position: relative;
+  margin-top: clamp(40px, 8vh, 72px);
+  padding: clamp(32px, 5vh, 48px) clamp(14px, 1.8vw, 28px) 0;
+}
+.footer::before {
+  content: ""; position: absolute; top: 0; inset-inline: clamp(14px, 1.8vw, 28px); height: 1px;
+  background: linear-gradient(to left, transparent, var(--gold) 50%, transparent);
+}
+.f-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.1fr;
+  gap: clamp(24px, 4vw, 56px);
+}
+.f-brand .logo img { height: 40px; }
+.f-brand .logo strong { font-size: 22px; }
+.f-brand > p { margin-top: 14px; max-width: 320px; color: var(--muted); font-size: 12px; line-height: 2; }
+
+.f-social { display: flex; gap: 8px; margin-top: 16px; }
+.f-social a {
+  display: grid; place-items: center; width: 32px; height: 32px;
+  color: var(--muted); border: 1px solid var(--border); border-radius: 50%;
+  transition: color .3s, border-color .3s, transform .4s var(--ease);
+}
+.f-social a:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-3px); }
+
+.f-col h4 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13.5px; font-weight: 700; margin-bottom: 14px;
+}
+.f-col h4::after { content: ""; width: 18px; height: 1px; background: var(--gold); }
+.f-col ul { list-style: none; display: grid; gap: 9px; }
+.f-col li a, .f-contact li {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 12px; transition: color .2s, transform .3s var(--ease);
+}
+.f-col li a:hover { color: var(--gold); transform: translateX(-4px); }
+.f-contact li svg.i { color: var(--gold); width: 14px; height: 14px; }
+
+/* جای نماد اعتماد */
+.f-enamad { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+.f-enamad .slot {
+  display: grid; place-items: center; width: 84px; height: 96px;
+  border: 1px dashed color-mix(in srgb, var(--gold) 55%, var(--border)); border-radius: 12px;
+  color: var(--muted); font-size: 10px; text-align: center; line-height: 1.6;
+}
+.f-enamad .slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.f-bottom {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  margin-top: clamp(28px, 5vh, 44px); padding: 16px 0 20px;
+  border-top: 1px solid var(--border); color: var(--muted); font-size: 11px;
+}
+.f-bottom b { color: var(--gold); font-weight: 700; }
+.f-top {
+  display: inline-flex; align-items: center; gap: 6px; color: var(--muted);
+  transition: color .2s;
+}
+.f-top svg.i { width: 13px; height: 13px; transform: rotate(90deg); }
+.f-top:hover { color: var(--gold); }
+
+@media (max-width: 900px) {
+  .f-grid { grid-template-columns: 1fr 1fr; }
+  .f-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .f-grid { grid-template-columns: 1fr; }
+  .f-bottom { justify-content: center; text-align: center; }
+}
   </style>
 </head>
 
@@ -634,6 +953,17 @@
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
     <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+
+    <!-- آیکون‌های بخش اطلاعیه‌ها و آزمون‌ها -->
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 12l3-3 3 2 4-4"/></symbol>
   </svg>
 
   <div class="page">
@@ -683,8 +1013,8 @@
     <!-- ================= منوی اصلی ================= -->
     <nav class="nav" aria-label="منوی اصلی">
       <a href="#" class="active"><svg class="i"><use href="#i-home"/></svg>صفحه اصلی</a>
-      <a href="#"><svg class="i"><use href="#i-mega"/></svg>اطلاعیه‌ها</a>
-      <a href="#"><svg class="i"><use href="#i-exam"/></svg>آزمون‌ها</a>
+      <a href="#announcements"><svg class="i"><use href="#i-mega"/></svg>اطلاعیه‌ها</a>
+      <a href="#exams"><svg class="i"><use href="#i-exam"/></svg>آزمون‌ها</a>
       <a href="#"><svg class="i"><use href="#i-cal"/></svg>برنامه‌ها</a>
       <a href="#"><svg class="i"><use href="#i-users"/></svg>معلمان</a>
       <a href="#"><svg class="i"><use href="#i-head"/></svg>مشاوره تحصیلی</a>
@@ -708,7 +1038,7 @@
             <svg class="i"><use href="#i-mega"/></svg>
             آخرین اخبار و اطلاعیه‌ها...
           </div>
-          <a href="#" class="btn-dark">
+          <a href="#announcements" class="btn-dark">
             مشاهده اطلاعیه‌ها
             <svg class="i"><use href="#i-back"/></svg>
           </a>
@@ -721,7 +1051,7 @@
     <!-- ================= کارت‌های دسترسی سریع ================= -->
     <section class="cards" aria-label="دسترسی سریع">
 
-      <a href="#" class="qcard">
+      <a href="#announcements" class="qcard">
         <div>
           <svg class="i duo"><use href="#i-mega"/></svg>
           <h3>اطلاعیه‌ها</h3>
@@ -730,7 +1060,7 @@
         <span class="go"><svg class="i"><use href="#i-back"/></svg></span>
       </a>
 
-      <a href="#" class="qcard">
+      <a href="#exams" class="qcard">
         <div>
           <svg class="i duo"><use href="#i-exam"/></svg>
           <h3>آزمون‌ها</h3>
@@ -767,6 +1097,353 @@
       </a>
 
     </section>
+
+  </div>
+
+
+  <!-- ==========================================================================
+       ادامه صفحه: اطلاعیه‌ها و آزمون‌ها
+       ========================================================================== -->
+  <div class="wrap">
+
+    <!-- ====================== اطلاعیه‌ها ====================== -->
+    <section class="sec" id="announcements">
+
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">
+            <span class="ibox gold"><svg class="i"><use href="#i-bell"/></svg></span>
+            اطلاعیه‌ها
+            <span class="ln"></span>
+          </div>
+          <h2>آخرین اطلاعیه‌های مدرسه <span>مدار</span></h2>
+          <p>برای اطلاع از جدیدترین اخبار و اطلاعیه‌ها این بخش را دنبال کنید</p>
+        </div>
+        <a href="#" class="btn-line">مشاهده همه اطلاعیه‌ها<svg class="i"><use href="#i-back"/></svg></a>
+      </div>
+
+      <!-- کارت بزرگ -->
+      <article class="box feat lift">
+
+        <!-- ★★★ عکس کارت بزرگ اطلاعیه (سمت چپ، لبه مورب) ★★★
+             فقط آدرس src رو بنویس، مثلا: ./عکس ها/اطلاعیه.png -->
+        <div class="feat-media">
+          <img src="" alt="" onerror="this.remove()">
+        </div>
+        <svg class="feat-edge" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="edgeG" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="100">
+              <stop offset="0" style="stop-color: var(--gold)"/>
+              <stop offset=".65" style="stop-color: var(--gold); stop-opacity: 0"/>
+            </linearGradient>
+          </defs>
+          <line x1="72" y1="0" x2="100" y2="100" stroke="url(#edgeG)"/>
+        </svg>
+
+        <span class="ibox lg"><svg class="i"><use href="#i-cal"/></svg></span>
+        <div class="vr"></div>
+
+        <div class="feat-body">
+          <span class="tag"><i></i>اطلاعیه مهم</span>
+          <h3>آغاز ثبت‌نام ترم جدید مدرسه مدار</h3>
+          <p>به اطلاع دانش‌آموزان و اولیای محترم می‌رساند، ثبت‌نام ترم جدید از تاریخ ۲۸ تیر ۱۴۰۴ آغاز می‌شود.</p>
+          <div class="meta">
+            <span class="dt"><svg class="i"><use href="#i-cal"/></svg>۲۸ تیر ۱۴۰۴</span>
+            <span class="vsep"></span>
+            <a href="#" class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- سه کارت کوچک -->
+      <div class="grid3">
+
+        <a href="#" class="box scard lift">
+          <div class="stop">
+            <span class="ibox gold"><svg class="i"><use href="#i-mega"/></svg></span>
+            <div>
+              <h3>برنامه امتحانات پایان ترم</h3>
+              <span class="meta"><span class="dt"><svg class="i"><use href="#i-cal"/></svg>۲۶ تیر ۱۴۰۴</span></span>
+            </div>
+          </div>
+          <span class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></span>
+        </a>
+
+        <a href="#" class="box scard lift">
+          <div class="stop">
+            <span class="ibox"><svg class="i"><use href="#i-card"/></svg></span>
+            <div>
+              <h3>اطلاعیه شهریه و پرداخت‌ها</h3>
+              <span class="meta"><span class="dt"><svg class="i"><use href="#i-cal"/></svg>۲۵ تیر ۱۴۰۴</span></span>
+            </div>
+          </div>
+          <span class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></span>
+        </a>
+
+        <a href="#" class="box scard lift">
+          <div class="stop">
+            <span class="ibox"><svg class="i"><use href="#i-users"/></svg></span>
+            <div>
+              <h3>برگزاری جلسات مشاوره تحصیلی</h3>
+              <span class="meta"><span class="dt"><svg class="i"><use href="#i-cal"/></svg>۲۵ تیر ۱۴۰۴</span></span>
+            </div>
+          </div>
+          <span class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></span>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ====================== آزمون‌ها ====================== -->
+    <section class="sec" id="exams">
+
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">
+            <span class="ibox gold"><svg class="i"><use href="#i-exam"/></svg></span>
+            آزمون‌ها
+            <span class="ln"></span>
+          </div>
+          <h2>همیشه یک قدم <span>جلوتر</span></h2>
+          <p>با آزمون‌های منظم، سطح علمی خود را بسنجید و مسیر پیشرفت را ادامه دهید.</p>
+        </div>
+        <a href="#" class="btn-line">مشاهده همه آزمون‌ها<svg class="i"><use href="#i-back"/></svg></a>
+      </div>
+
+      <div class="exam-top">
+
+        <!-- کارت آزمون پیشرو -->
+        <article class="box xfeat lift">
+          <span class="ibox lg gold"><svg class="i"><use href="#i-target"/></svg></span>
+          <div class="vr"></div>
+          <div class="xbody">
+            <span class="tag"><i></i>آزمون پیشرو</span>
+            <h3>آزمون جامع نیمسال اول</h3>
+            <div class="xfoot">
+              <div class="meta">
+                <span class="dt"><svg class="i"><use href="#i-cal"/></svg>۲۸ دی ۱۴۰۴</span>
+                <span class="vsep"></span>
+                <span class="dt"><svg class="i"><use href="#i-clock"/></svg>۱۰:۰۰</span>
+              </div>
+              <a href="#" class="btn-gold">ثبت‌نام در آزمون<svg class="i"><use href="#i-back"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ★★★ عکس بزرگ بخش آزمون‌ها (سمت چپ: برگه آزمون + کرنومتر + خودکار) ★★★
+             فقط آدرس src رو بنویس، مثلا: ./عکس ها/آزمون.png -->
+        <div class="x-art" aria-hidden="true">
+          <img src="./عکس ها/ساعت.png" alt="" onerror="this.remove()">
+        </div>
+
+      </div>
+
+      <!-- سه کارت کوچک آزمون -->
+      <div class="grid3">
+
+        <a href="#" class="box scard lift">
+          <div class="stop">
+            <span class="ibox gold"><svg class="i"><use href="#i-board"/></svg></span>
+            <div>
+              <h3>آزمون کلاسی فصل پنجم</h3>
+              <span class="meta"><span class="dt"><svg class="i"><use href="#i-cal"/></svg>۱۵ تیر ۱۴۰۴</span></span>
+            </div>
+          </div>
+          <div class="sfoot">
+            <span class="pill"><svg class="i"><use href="#i-video"/></svg>آنلاین</span>
+            <span class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></span>
+          </div>
+        </a>
+
+        <a href="#" class="box scard lift">
+          <div class="stop">
+            <span class="ibox gold"><svg class="i"><use href="#i-book"/></svg></span>
+            <div>
+              <h3>آزمون میان‌ترم</h3>
+              <span class="meta"><span class="dt"><svg class="i"><use href="#i-cal"/></svg>۸ تیر ۱۴۰۴</span></span>
+            </div>
+          </div>
+          <div class="sfoot">
+            <span class="pill"><svg class="i"><use href="#i-pin"/></svg>حضوری</span>
+            <span class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></span>
+          </div>
+        </a>
+
+        <a href="#" class="box scard lift">
+          <div class="stop">
+            <span class="ibox gold"><svg class="i"><use href="#i-chart"/></svg></span>
+            <div>
+              <h3>آزمون مرور فصل ششم</h3>
+              <span class="meta"><span class="dt"><svg class="i"><use href="#i-cal"/></svg>۲۵ تیر ۱۴۰۴</span></span>
+            </div>
+          </div>
+          <div class="sfoot">
+            <span class="pill"><svg class="i"><use href="#i-pin"/></svg>حضوری</span>
+            <span class="more">مشاهده جزئیات<svg class="i"><use href="#i-back"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ====================== مقالات ====================== -->
+<section class="sec" id="articles">
+
+  <div class="sec-head">
+    <div>
+      <div class="eyebrow">
+        <span class="ibox gold"><svg class="i"><use href="#i-book"/></svg></span>
+        مقالات
+        <span class="ln"></span>
+      </div>
+      <h2>مقالات <span>آموزشی</span></h2>
+      <p>نکات مطالعه، برنامه‌ریزی و آمادگی برای کنکور</p>
+    </div>
+    <a href="#" class="btn-line">مشاهده همه مقالات<svg class="i"><use href="#i-back"/></svg></a>
+  </div>
+
+  <div class="art-grid">
+
+    <!-- کارت بلند (راست): نکات کلیدی شیمی -->
+    <a href="#" class="box acard lift a-tall">
+      <div class="thumb">
+        <!-- ★ عکس شیمی (لوله‌های آزمایشگاه آبی) — مثلا: ./عکس ها/مقاله-شیمی.png -->
+        <img src="" alt="" onerror="this.remove()">
+      </div>
+      <div class="abody">
+        <h3>نکات کلیدی شیمی برای کنکور</h3>
+        <div class="afoot">
+          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
+          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۶ دقیقه مطالعه</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- کارت کوچک ۱ -->
+    <a href="#" class="box acard lift a-sm">
+      <div class="abody">
+        <h3>روش‌های تقویت حافظه در دوران امتحانات</h3>
+        <div class="afoot">
+          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
+          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۶ دقیقه مطالعه</span></span>
+        </div>
+      </div>
+      <div class="thumb">
+        <!-- ★ عکس دفتر و خودکار — مثلا: ./عکس ها/مقاله-حافظه.png -->
+        <img src="" alt="" onerror="this.remove()">
+      </div>
+    </a>
+
+    <!-- کارت کوچک ۲ -->
+    <a href="#" class="box acard lift a-sm">
+      <div class="abody">
+        <h3>مدیریت استرس در جلسه کنکور</h3>
+        <div class="afoot">
+          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
+          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۷ دقیقه مطالعه</span></span>
+        </div>
+      </div>
+      <div class="thumb">
+        <!-- ★ عکس دفتر و خودکار قدیمی — مثلا: ./عکس ها/مقاله-استرس.png -->
+        <img src="" alt="" onerror="this.remove()">
+      </div>
+    </a>
+
+    <!-- کارت بزرگ (چپ): برنامه‌ریزی درسی -->
+    <a href="#" class="box acard lift a-big">
+      <div class="thumb">
+        <!-- ★ عکس کتاب‌های قدیمی روی میز — مثلا: ./عکس ها/مقاله-برنامه.png -->
+        <img src="" alt="" onerror="this.remove()">
+      </div>
+      <div class="abody">
+        <span class="tag"><i></i>آموزش و یادگیری</span>
+        <div><h3>چگونه برنامه‌ریزی در درسی داشته باشیم؟</h3></div>
+        <div class="afoot">
+          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
+          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۸ دقیقه مطالعه</span></span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ====================== فوتر ====================== -->
+<footer class="footer">
+
+  <div class="f-grid">
+
+    <!-- لوگو و درباره -->
+    <div class="f-brand">
+      <a href="#" class="logo" aria-label="مدار">
+        <!-- ★ لوگوی فوتر -->
+        <img class="only-light" src="./عکس ها/هدر.png" alt="" onerror="this.remove()">
+        <img class="only-dark" src="./عکس ها/هدر.png" alt="" onerror="this.remove()">
+        <span>
+          <strong>مدار</strong>
+          <small>دبیرستان دوره دوم</small>
+        </span>
+      </a>
+      <p>آموزش، برنامه‌ریزی و پشتیبانی تحصیلی برای ساختن آینده‌ای روشن؛ مدار همراه شما در مسیر موفقیت.</p>
+      <div class="f-social">
+        <a href="#" aria-label="تلگرام"><svg class="i"><use href="#i-send"/></svg></a>
+        <a href="#" aria-label="ارتباط با ما"><svg class="i"><use href="#i-mail"/></svg></a>
+        <a href="#" aria-label="تماس"><svg class="i"><use href="#i-phone"/></svg></a>
+      </div>
+    </div>
+
+    <!-- دسترسی سریع -->
+    <nav class="f-col" aria-label="دسترسی سریع">
+      <h4>دسترسی سریع</h4>
+      <ul>
+        <li><a href="#">صفحه اصلی</a></li>
+        <li><a href="#announcements">اطلاعیه‌ها</a></li>
+        <li><a href="#exams">آزمون‌ها</a></li>
+        <li><a href="#articles">مقالات</a></li>
+        <li><a href="#">معلمان</a></li>
+        <li><a href="#">مشاوره تحصیلی</a></li>
+      </ul>
+    </nav>
+
+    <!-- پیوندهای مفید -->
+    <nav class="f-col" aria-label="پیوندهای مفید">
+      <h4>پیوندهای مفید</h4>
+      <ul>
+        <li><a href="#">برنامه‌ها</a></li>
+        <li><a href="#">درباره ما</a></li>
+        <li><a href="#">ارتباط با ما</a></li>
+        <li><a href="#">قوانین و مقررات</a></li>
+        <li><a href="./لاگین و ثبت نام/لاگین.html">ورود به سامانه</a></li>
+      </ul>
+    </nav>
+
+    <!-- تماس و نماد اعتماد -->
+    <div class="f-col">
+      <h4>ارتباط با ما</h4>
+      <ul class="f-contact">
+        <li><svg class="i"><use href="#i-pin"/></svg>آدرس مدرسه را اینجا بنویسید</li>
+        <li><svg class="i"><use href="#i-phone"/></svg>۰۲۱-۰۰۰۰۰۰۰۰</li>
+        <li><svg class="i"><use href="#i-mail"/></svg>info@madar.ir</li>
+      </ul>
+
+      <div class="f-enamad">
+        <!-- ★★★ نماد اعتماد الکترونیکی: کد اینماد رو (به‌جای این div) اینجا بذار ★★★ -->
+        <div class="slot">نماد اعتماد<br>الکترونیکی</div>
+        <!-- اگه جای دیگه‌ای هم نماد داری (ساماندهی و...) یه slot دیگه کپی کن -->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="f-bottom">
+    <span>© ۱۴۰۴ تمامی حقوق برای دبیرستان <b>مدار</b> محفوظ است.</span>
+    <a href="#" class="f-top">بازگشت به بالا<svg class="i"><use href="#i-back"/></svg></a>
+  </div>
+
+</footer>
 
   </div>
 

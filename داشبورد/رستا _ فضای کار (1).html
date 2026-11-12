@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>مدار | صفحه اصلی</title>
+<title>مدار | داشبورد</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="./عکس ها/تب.png">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
 <style>
 /* مقیاس: ۱rem = ۱۶px در عرض ۱۶۷۲px (اندازه‌ی تصویر مرجع) و با عرض صفحه متناسب بزرگ و کوچک می‌شود */
-:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
-:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
+:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
+:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg);font-size:clamp(12px,.957vw,22px)}
 body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;
-  background:radial-gradient(60rem 40rem at 80% 10%,color-mix(in srgb,#fff 70%,transparent),transparent),radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
+  background:radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -51,6 +52,30 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 .btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
 .btn svg.i{width:1.15rem;height:1.15rem}
 
+/* عکس پروفایل + پنل کاربر */
+.profile{position:relative}
+.avatar{display:grid;place-items:center;width:2.65rem;height:2.65rem;border-radius:50%;color:var(--text);background:var(--tile);border:1.5px solid var(--line);transition:border-color .25s,transform .3s var(--ease)}
+.avatar:hover,.avatar[aria-expanded=true]{border-color:var(--gold);transform:translateY(-2px)}
+.avatar svg.i{width:1.4rem;height:1.4rem}
+.pp{position:absolute;top:calc(100% + .8rem);left:0;z-index:50;width:20rem;max-width:calc(100vw - 2rem);padding:1.1rem 1.2rem 1rem;background:var(--panel);border:1px solid var(--line);border-radius:1.1rem;box-shadow:0 1rem 2.5rem var(--sh);opacity:0;visibility:hidden;transform:translateY(-.5rem);transition:opacity .25s,transform .35s var(--ease),visibility .25s}
+.pp.open{opacity:1;visibility:visible;transform:none}
+.pp-head{display:flex;align-items:center;gap:.9rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.av-lg{display:grid;place-items:center;flex:none;width:3.6rem;height:3.6rem;border-radius:50%;background:var(--tile);border:1.5px solid var(--line)}
+.av-lg svg.i{width:1.9rem;height:1.9rem}
+.pp-head b{display:block;font-size:1rem;font-weight:700;line-height:1.5}
+.pp-head small{display:inline-block;margin-top:.15rem;padding:0 .75rem;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--chip);border-radius:999px}
+.pp-list{list-style:none;padding:.5rem 0}
+.pp-list li{display:flex;align-items:center;gap:.7rem;min-height:2.4rem;font-size:.85rem}
+.pp-list li svg.i{width:1.05rem;height:1.05rem;color:var(--muted)}
+.pp-list li span{color:var(--muted)}
+.pp-list li b{margin-inline-start:auto;max-width:11rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.pp-more{display:flex;align-items:center;justify-content:space-between;height:2.6rem;padding:0 1rem;font-size:.86rem;font-weight:700;color:var(--on);background:var(--primary);border-radius:.8rem;transition:filter .2s,transform .3s var(--ease)}
+.pp-more:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.pp-more svg.i{width:1rem;height:1rem}
+.pp-out{display:flex;align-items:center;gap:.5rem;width:100%;height:2.4rem;margin-top:.5rem;padding:0 .4rem;font-size:.82rem;color:var(--muted);transition:color .2s}
+.pp-out:hover{color:#d64545}
+.pp-out svg.i{width:1.05rem;height:1.05rem}
+
 /* منو */
 .nav{display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
 .nav a{position:relative;display:flex;align-items:center;gap:.45rem;padding-bottom:.55rem;font-size:.92rem;font-weight:500;white-space:nowrap;transition:color .2s}
@@ -58,25 +83,45 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 .nav a svg.i{width:.7rem;height:.7rem;stroke-width:2}
 .nav a.on::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;border-radius:2px;background:var(--gold)}
 
-/* هیرو */
-.hero{position:relative;min-height:23.2rem;margin-top:1rem;display:flex;align-items:center;padding-inline-start:5.3rem}
-.hero-art{position:absolute;left:-4.75rem;top:-1rem;width:53rem;height:24.5rem;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to right,#000 78%,transparent);mask-image:linear-gradient(to right,#000 78%,transparent)}
-.hero-art img{width:100%;height:100%;object-fit:contain;object-position:left center}
-.hero-art:empty{left:7.7rem;width:32.5rem;top:.5rem;height:21rem;-webkit-mask-image:none;mask-image:none}
-.hero-text{position:relative;z-index:1;max-width:38rem}
+/* هیرو (داشبورد) */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 33rem;align-items:center;gap:3rem;margin-top:1.6rem;padding-inline-start:2.6rem}
+.hero-text{max-width:38rem}
 .hi{display:flex;align-items:center;gap:1.1rem;color:var(--gold);font-size:1.85rem;font-weight:500;line-height:1.6}
-.hi::after{content:"";width:6.2rem;height:1px;background:linear-gradient(to left,var(--gold),transparent)}
-h1{margin-top:.7rem;font-size:2.75rem;font-weight:800;line-height:1.4}
-.hero-text>p{margin-top:.8rem;font-size:1.05rem;color:color-mix(in srgb,var(--text) 85%,transparent)}
-.cta{display:flex;align-items:center;gap:4.2rem;margin-top:2.1rem}
+.hi::after{content:"";width:6.2rem;height:1px;flex:none;background:linear-gradient(to left,var(--gold),transparent)}
+h1{margin-top:.6rem;font-size:2.5rem;font-weight:800;line-height:1.4}
+.hero-text>p{margin-top:.7rem;font-size:1.02rem;color:color-mix(in srgb,var(--text) 85%,transparent)}
+.cta{display:flex;align-items:center;gap:2rem;margin-top:1.8rem}
 .intro{display:flex;align-items:center;gap:.75rem;font-size:.88rem;font-weight:500}
 .intro span{display:grid;place-items:center;width:2rem;height:2rem;border:1.5px solid var(--text);border-radius:50%;transition:background .3s,color .3s}
 .intro:hover span{background:var(--text);color:var(--bg2)}
-.intro svg.i{width:.8rem;height:.8rem;fill:currentColor;stroke:none;margin-inline-start:-.1rem}
+.intro svg.i{width:.95rem;height:.95rem}
 .cta .btn{height:2.75rem;padding:0 1.4rem;font-size:.88rem;background:var(--primary)}
 
+/* کارت خلاصه‌ی امروز */
+.today{padding:1.3rem 1.5rem 1.2rem;background:var(--card);border:1px solid var(--cb);border-radius:1.1rem;box-shadow:0 .4rem 1.5rem var(--sh)}
+.td-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.td-h h2{font-size:1.03rem;font-weight:700}
+.td-h time{font-size:.8rem;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.st{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.8rem .4rem;background:var(--inner);border:1px solid var(--line);border-radius:.9rem}
+.st svg.i{width:1.3rem;height:1.3rem;color:var(--gold)}
+.st b{font-size:1.35rem;font-weight:800;line-height:1.5}
+.st small{font-size:.75rem;color:var(--muted)}
+.goal{margin-top:1.1rem}
+.goal-t{display:flex;justify-content:space-between;margin-bottom:.4rem;font-size:.8rem;color:var(--muted)}
+.goal-t b{color:var(--text);font-weight:700}
+.bar{height:.5rem;background:var(--chip);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:inherit;transition:width 1s var(--ease)}
+.week{display:flex;gap:.6rem;height:5.4rem;margin-top:1.1rem}
+.wd{flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.bw{position:relative;flex:1;width:100%}
+.bw i{position:absolute;bottom:0;left:50%;width:70%;max-width:1.7rem;min-height:.25rem;transform:translateX(-50%);border-radius:.45rem;background:color-mix(in srgb,var(--text) 18%,transparent)}
+.wd.now .bw i{background:var(--gold)}
+.wd span{font-size:.75rem;color:var(--muted)}
+.wd.now span{color:var(--text);font-weight:700}
+
 /* میان‌برها */
-.quick{display:flex;width:75.2rem;max-width:100%;margin-top:.1rem;margin-inline-start:9.3rem}
+.quick{display:flex;width:75.2rem;max-width:100%;margin-top:1.6rem;margin-inline-start:9.3rem}
 .qi{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.7rem 0 .55rem;transition:color .2s}
 .qi:first-child,.qi:last-child{border-bottom:1px solid var(--line)}
 .qi+.qi::before{content:"";position:absolute;inset-inline-start:0;top:1.9rem;height:1.9rem;width:1px;background:var(--line)}
@@ -119,8 +164,8 @@ h1{margin-top:.7rem;font-size:2.75rem;font-weight:800;line-height:1.4}
 .more svg.i{width:1.2rem;height:1.2rem}
 
 @keyframes rise{from{opacity:0;transform:translateY(18px)}}
-.hero-text>*,.cards .card{animation:rise .8s var(--ease) backwards}
-.hi{animation-delay:.1s}h1{animation-delay:.2s}.hero-text>p{animation-delay:.3s}.cta{animation-delay:.4s}.cards .card:nth-child(2){animation-delay:.1s}
+.hero-text>*,.today,.cards .card{animation:rise .8s var(--ease) backwards}
+.hi{animation-delay:.1s}h1{animation-delay:.2s}.hero-text>p{animation-delay:.3s}.cta{animation-delay:.4s}.today{animation-delay:.25s}.cards .card:nth-child(2){animation-delay:.1s}
 html.theming *,html.theming *::before,html.theming *::after{transition:background-color .45s,color .45s,border-color .45s,box-shadow .45s!important}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -132,8 +177,7 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
   .search{order:3;flex-basis:100%;margin:0}
   .actions{margin-inline-start:auto}
   .nav{padding-inline-start:0;gap:1.8rem;overflow-x:auto;scrollbar-width:none}
-  .hero{flex-direction:column;align-items:stretch;padding-inline:0;margin-top:1.5rem}
-  .hero-art,.hero-art:empty{position:relative;left:auto;top:auto;width:100%;height:16rem;order:2;margin-top:1rem;-webkit-mask-image:none;mask-image:none}
+  .hero{grid-template-columns:1fr;gap:1.6rem;padding-inline:0;margin-top:1.5rem}
   .quick{width:100%;margin:1rem 0 0;overflow-x:auto}
   .qi{min-width:7rem}
   .cards{grid-template-columns:1fr}
@@ -141,10 +185,9 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
 }
 @media(max-width:600px){
   html{font-size:14px}
-  h1{font-size:2rem}.hi{font-size:1.4rem}
+  h1{font-size:1.8rem}.hi{font-size:1.4rem}
   .ex{flex-wrap:wrap;height:auto;padding:1rem;gap:.8rem}
   .chip,.ex-t{margin-inline-start:0}
-  .btn span.t{display:none}
 }
 </style>
 </head>
@@ -154,10 +197,16 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
-  <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
   <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
   <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
   <symbol id="i-calg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
@@ -183,7 +232,28 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
     <div class="actions">
       <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
       <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
-      <a href="../لاگین و ثبت نام/لاگین.html" class="btn"><svg class="i"><use href="#i-login"/></svg><span class="t">ورود به سامانه</span></a>
+
+      <!-- عکس پروفایل + پنل اطلاعات کاربر -->
+      <div class="profile" id="profile">
+        <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profilePanel" aria-label="حساب کاربری">
+          <svg class="i"><use href="#i-user"/></svg>
+        </button>
+        <div class="pp" id="profilePanel" aria-hidden="true">
+          <div class="pp-head">
+            <span class="av-lg"><svg class="i"><use href="#i-user"/></svg></span>
+            <div><b id="pName">کاربر</b><small id="pRole">دانش‌آموز</small></div>
+          </div>
+          <ul class="pp-list">
+            <li><svg class="i"><use href="#i-phone"/></svg><span>شماره موبایل</span><b id="pPhone" dir="auto">—</b></li>
+            <li><svg class="i"><use href="#i-mail"/></svg><span>ایمیل</span><b id="pEmail" dir="auto">—</b></li>
+            <li><svg class="i"><use href="#i-send"/></svg><span>تلگرام</span><b id="pTg" dir="auto">—</b></li>
+            <li><svg class="i"><use href="#i-calg"/></svg><span>عضویت از</span><b id="pSince" dir="auto">—</b></li>
+          </ul>
+          <!-- ★ آدرس صفحه‌ی ویرایش پروفایل رو اینجا بذار -->
+          <a href="#" class="pp-more" id="pMore">تغییرات بیشتر<svg class="i"><use href="#i-back"/></svg></a>
+          <button class="pp-out" id="logoutBtn" type="button"><svg class="i"><use href="#i-logout"/></svg>خروج از حساب</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -197,20 +267,31 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
     <a href="#">درباره ما<svg class="i"><use href="#i-down"/></svg></a>
   </nav>
 
-  <!-- هیرو -->
+  <!-- هیرو داشبورد -->
   <main class="hero">
-    <!-- ★ جای عکس بزرگ هیرو (کلاه فارغ‌التحصیلی + کتاب‌ها + پس‌زمینه‌ی چپ). اگه یک عکس داری آدرس هر دو رو یکی بذار. -->
-    <div class="hero-art ph" data-ph="جای عکس هیرو" aria-hidden="true"><img class="only-light" src="../عکس ها/hero-light.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/hero-dark.png" alt="" onerror="this.remove()"></div>
-
     <section class="hero-text">
-      <div class="hi">سلام، <span id="uname">امیرحسین</span> عزیز!</div>
-      <h1>به دبیرستان مدار خوش آمدی</h1>
-      <p>با تلاش، برنامه‌ریزی و همراهی ما، مسیر موفقیت را هموارتر بسازید.</p>
+      <div class="hi">سلام، <span id="uname">دانش‌آموز</span> عزیز!</div>
+      <h1>امروز چه کارهایی انجام دادی؟</h1>
+      <p>فعالیت‌های درسی امروزت رو ثبت کن تا مشاورت مسیر پیشرفتت رو دنبال کنه.</p>
       <div class="cta">
-        <a href="#" class="intro"><span><svg class="i"><use href="#i-play"/></svg></span>معرفی مدرسه</a>
-        <a href="#" class="btn">مشاهده اطلاعیه‌ها<svg class="i"><use href="#i-back"/></svg></a>
+        <a href="#" class="btn"><svg class="i"><use href="#i-plus"/></svg>ثبت فعالیت امروز</a>
+        <a href="#" class="intro"><span><svg class="i"><use href="#i-chart"/></svg></span>گزارش هفتگی</a>
       </div>
     </section>
+
+    <aside class="today" aria-label="خلاصه امروز">
+      <div class="td-h"><h2>خلاصه‌ی امروز</h2><time id="todayDate"></time></div>
+      <div class="stats">
+        <div class="st"><svg class="i"><use href="#i-clock"/></svg><b id="stTime">۰:۰۰</b><small>ساعت مطالعه</small></div>
+        <div class="st"><svg class="i"><use href="#i-exam"/></svg><b id="stAct">۰</b><small>فعالیت ثبت‌شده</small></div>
+        <div class="st"><svg class="i"><use href="#i-flame"/></svg><b id="stStreak">۰</b><small>روز متوالی</small></div>
+      </div>
+      <div class="goal">
+        <div class="goal-t"><span>هدف مطالعه‌ی روزانه</span><b id="goalPct">۰٪</b></div>
+        <div class="bar"><i id="goalBar"></i></div>
+      </div>
+      <div class="week" id="week" aria-label="مطالعه‌ی هفته"></div>
+    </aside>
   </main>
 
   <!-- میان‌برها -->
@@ -255,17 +336,78 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
   <button class="more" id="more" aria-label="پایین‌تر"><svg class="i"><use href="#i-down"/></svg></button>
 </div>
 
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
 <script>
+const $=id=>document.getElementById(id);
+const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+
+/* ---------- تم ---------- */
 const root=document.documentElement;let timer;
-themeBtn.onclick=()=>{
+$('themeBtn').onclick=()=>{
   const next=root.dataset.theme==='dark'?'light':'dark';
   root.classList.add('theming');root.dataset.theme=next;
   clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('theming'),700);
   try{localStorage.setItem('theme',next)}catch(e){}
 };
 addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
-document.getElementById('more').onclick=()=>scrollBy({top:innerHeight*.8,behavior:'smooth'});
-/* اسم کاربر: document.getElementById('uname').textContent = نام واقعی از بک‌اند */
+$('more').onclick=()=>scrollBy({top:innerHeight*.8,behavior:'smooth'});
+
+/* ---------- پنل پروفایل ---------- */
+const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
+const setPanel=open=>{
+  pPanel.classList.toggle('open',open);
+  pBtn.setAttribute('aria-expanded',open);
+  pPanel.setAttribute('aria-hidden',!open);
+};
+pBtn.onclick=e=>{e.stopPropagation();setPanel(!pPanel.classList.contains('open'))};
+document.addEventListener('click',e=>{if(!$('profile').contains(e.target))setPanel(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setPanel(false)});
+$('logoutBtn').onclick=()=>{
+  if(typeof Auth!=='undefined')Auth.logout();
+  else location.href='../لاگین و ثبت نام/لاگین.html';
+};
+
+/* ---------- اطلاعات کاربر از بک‌اند ---------- */
+/* true: اگه وارد نشده باشه به صفحه‌ی لاگین می‌فرسته. برای دیدن طراحی بدون ورود false کن. */
+const REQUIRE_LOGIN=true;
+const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'};
+(async()=>{
+  let user=null;
+  try{user=REQUIRE_LOGIN?await Auth.requireAuth():await Auth.me()}catch(e){}
+  if(!user)return;
+  $('uname').textContent=user.name;
+  $('pName').textContent=user.name;
+  $('pRole').textContent=ROLE_FA[user.role]||'کاربر';
+  $('pPhone').textContent=user.phone?fa(user.phone):'—';
+  $('pEmail').textContent=user.email||'—';
+  $('pTg').textContent=user.telegramUsername?'@'+user.telegramUsername:'—';
+  $('pSince').textContent=user.createdAt
+    ?new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(new Date(user.createdAt))
+    :'—';
+})();
+
+/* ---------- خلاصه‌ی امروز ---------- */
+/* داده‌ی نمونه؛ وقتی بک‌اند فعالیت‌ها آماده شد، این رو از سرور پر کن.
+   week: دقیقه‌های مطالعه از شنبه تا جمعه */
+const SUMMARY={studyMinutes:200,goalMinutes:360,activities:4,streak:12,week:[150,210,120,260,180,200,0]};
+(function renderSummary(){
+  const s=SUMMARY;
+  const h=Math.floor(s.studyMinutes/60),m=String(s.studyMinutes%60).padStart(2,'0');
+  $('stTime').textContent=fa(h+':'+m);
+  $('stAct').textContent=fa(s.activities);
+  $('stStreak').textContent=fa(s.streak);
+  const pct=Math.min(100,Math.round(s.studyMinutes/s.goalMinutes*100));
+  $('goalPct').textContent=fa(pct)+'٪';
+  requestAnimationFrame(()=>{$('goalBar').style.width=pct+'%'});
+  const days=['ش','ی','د','س','چ','پ','ج'];
+  const today=(new Date().getDay()+1)%7;
+  const max=Math.max(...s.week,1);
+  $('week').innerHTML=days.map((d,i)=>
+    `<div class="wd${i===today?' now':''}"><div class="bw"><i style="height:${Math.max(s.week[i]/max*100,4)}%"></i></div><span>${d}</span></div>`
+  ).join('');
+  $('todayDate').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+})();
 </script>
 </body>
 </html>
