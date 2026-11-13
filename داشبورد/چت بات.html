@@ -224,7 +224,7 @@ select.fld{cursor:pointer}
 .themes button{border-radius:10px}.themes i{border-radius:6px}
 .btn{border-radius:8px}
 .av.big{border-radius:10px}
-</style>
+#callBtn.on{background:var(--pr);color:#fff}</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -476,7 +476,7 @@ async function send(text,fromVoice=false){
   if(conversation[conversation.length-1]?.role==='user')conversation.pop();
   const row=document.createElement('div');row.className='a';
   const msg=document.createElement('div');msg.className='t2';msg.textContent=error.message||'ارتباط با دستیار برقرار نشد.';row.appendChild(msg);$('chat').appendChild(row);scrollDown();
- }finally{d.remove();chatBusy=false;$('sb').disabled=false;sync()}
+ }finally{d.remove();chatBusy=false;$('sb').disabled=false;sync();if(fromVoice&&voiceCallEnabled)startCallListening()}
 }
 function quick(k){send(Q[k])}
 function resetChat(){
@@ -524,7 +524,7 @@ async function playSpeech(text,button,continueCall=false){
   if(button)button.textContent='در حال پخش…';
   await new Promise((resolve,reject)=>{audio.onended=resolve;audio.onerror=()=>reject(new Error('پخش فایل صوتی ناموفق بود.'));audio.play().catch(reject)});
   URL.revokeObjectURL(url);if(currentAudio===audio)currentAudio=null;
-  if(continueCall&&voiceCallEnabled)startCallListening();
+  if(continueCall&&voiceCallEnabled)toast('پاسخ تمام شد؛ می‌توانی صحبت کنی.');
  }catch(error){toast(error.message||'پخش صوت ممکن نشد.')}
  finally{if(button){button.disabled=false;button.innerHTML='<svg class="i"><use href="#mc"/></svg>پخش صوتی'}}
 }
