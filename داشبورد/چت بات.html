@@ -376,38 +376,30 @@ const $=id=>document.getElementById(id);
 const LOGO_AI='';
 const chats=[];
 let active=null;
+let conversationId=null;
 let conversation=[];
 let chatBusy=false;
-const AI_CHAT_URL='https://madar-jmy5.onrender.com/api/ai/chat';
+const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
+const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 
 const Q={plan:'یک برنامه مطالعاتی هفتگی استاندارد برای دروس تخصصی دوازدهم تنظیم کن.',quad:'معادله درجه دوم 2x² − 7x + 3 = 0 را گام‌به‌گام حل کن.',exam:'پنج نکته برای مدیریت زمان و کاهش استرس سر جلسه آزمون بگو.',focus:'چطور تمرکزم را هنگام مطالعه افزایش دهم؟'};
 
-function pick(q){
- if(/معادله|دلتا|درجه دوم/.test(q))return'quad';
- if(/برنامه|مطالعه|هفتگی/.test(q))return'plan';
- if(/آزمون|تست|کنکور|استرس/.test(q))return'exam';
- if(/تمرکز|حواس|مشاوره/.test(q))return'focus';
- if(/سرعت|تندی/.test(q))return'speed';
- return'gen';
-}
-
 function fmt(s){
  const safe=esc(s);
- const inl=x=>x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\$(.+?)\$/g,'<span class="m">$1</span>');
- return safe.split('\n').map(line=>{
+ const inl=x=>x.replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>').replace(/\\$(.+?)\\$/g,'<span class="m">$1</span>');
+ return safe.split('\\n').map(line=>{
   const l=line.trim();if(!l)return'';
   if(l.startsWith('### '))return'<h3>'+inl(l.slice(4))+'</h3>';
   if(l.startsWith('> '))return'<div class="note">'+inl(l.slice(2))+'</div>';
   let m;
-  if(m=l.match(/^[*-]\s+(.*)/))return'<div class="li"><b>•</b><span>'+inl(m[1])+'</span></div>';
-  if(m=l.match(/^(\d+)\.\s+(.*)/))return'<div class="li"><b>'+m[1]+'.</b><span>'+inl(m[2])+'</span></div>';
+  if(m=l.match(/^[*-]\\s+(.*)/))return'<div class="li"><b>•</b><span>'+inl(m[1])+'</span></div>';
+  if(m=l.match(/^(\\d+)\\.\\s+(.*)/))return'<div class="li"><b>'+m[1]+'.</b><span>'+inl(m[2])+'</span></div>';
   return'<p>'+inl(l)+'</p>';
  }).join('');
 }
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const scrollDown=()=>{const s=$('scroll');s.scrollTop=s.scrollHeight};
 
-/* Typed directly on the page: no bubble, text is revealed progressively */
 function typeInto(el,html,done){
  el.innerHTML=html;
  const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),nodes=[];
@@ -422,18 +414,33 @@ function typeInto(el,html,done){
  })();
 }
 
-function addUser(t){const d=document.createElement('div');d.className='u';d.innerHTML=esc(t);$('chat').appendChild(d);scrollDown()}
+function addUser(t){const d=document.createElement('div');d.className='u';d.textContent=t;$('chat').appendChild(d);scrollDown()}
 function addAI(reply,animate){
  const row=document.createElement('div');row.className='a';
  row.innerHTML='<span class="mark">'+LOGO_AI+'</span><div class="t2"></div>';
  $('chat').appendChild(row);
  const el=row.querySelector('.t2'),html=fmt(reply);
  const acts=()=>{const a=document.createElement('div');a.className='acts';
-  a.innerHTML='<button><svg class="i"><use href="#cp"/></svg>کپی</button>';
-  a.firstChild.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(el.innerText);toast('پاسخ کپی شد')};
-  el.appendChild(a);requestAnimationFrame(()=>a.classList.add('show'))};
+  const copy=document.createElement('button');copy.textContent='کپی';
+  copy.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(el.innerText);toast('پاسخ کپی شد')};
+  const speak=document.createElement('button');speak.textContent='پخش صوتی';
+  speak.onclick=()=>playSpeech(reply,speak);
+  a.append(copy,speak);el.appendChild(a);requestAnimationFrame(()=>a.classList.add('show'))};
  if(animate&&live)typeInto(el,html,acts);else{el.innerHTML=html;acts()}
  scrollDown();
+}
+async function playSpeech(text,button){
+ if(!Auth.get()){toast('برای پخش صوتی ابتدا وارد حساب شو.');return}
+ const old=button.textContent;button.disabled=true;button.textContent='در حال ساخت صدا…';
+ try{
+  const response=await fetch(AI_SPEECH_URL,{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({text})});
+  if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.message||'ساخت صدای پاسخ ناموفق بود.')}
+  const blob=new Blob([await response.arrayBuffer()],{type:'audio/wav'});
+  const url=URL.createObjectURL(blob);const audio=new Audio(url);
+  audio.onended=()=>URL.revokeObjectURL(url);audio.onerror=()=>URL.revokeObjectURL(url);
+  await audio.play();
+ }catch(error){toast(error.message||'پخش صدا انجام نشد.')}
+ finally{button.disabled=false;button.textContent=old}
 }
 
 function layoutChat(){
@@ -444,8 +451,8 @@ function layoutChat(){
 }
 async function send(text){
  if(chatBusy)return;
- const inp=$('inp');let t=(text||inp.value).trim();
- if(att){toast('در نسخه فعلی، دستیار فقط پیام متنی دریافت می‌کند؛ ارسال فایل هنوز فعال نیست.');return}
+ const inp=$('inp');const t=(text||inp.value).trim();
+ if(att){toast('ارسال فایل هنوز فعال نشده است؛ فعلاً متن یا صدایت را ارسال کن.');return}
  if(!t)return;
  layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
  if(!active)$('ttl').textContent=t.length>40?t.slice(0,40)+'…':t;
@@ -453,46 +460,60 @@ async function send(text){
  const d=document.createElement('div');d.className='dots';d.innerHTML='<i></i><i></i><i></i>';$('chat').appendChild(d);scrollDown();
  chatBusy=true;$('sb').disabled=true;
  try{
-  let token=null;
-  try{token=localStorage.getItem('madar_token')||sessionStorage.getItem('madar_token')}catch(e){}
-  if(!token)throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
+  if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
-   method:'POST',
-   headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-   body:JSON.stringify({messages:conversation.slice(-12)}),
+   method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
+   body:JSON.stringify({conversationId,message:t}),
   });
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.message||'دریافت پاسخ از هوش مصنوعی ناموفق بود.');
   if(typeof data.reply!=='string'||!data.reply.trim())throw new Error('پاسخ معتبری از هوش مصنوعی دریافت نشد.');
+  conversationId=data.conversationId||conversationId;active=conversationId;
   conversation.push({role:'model',content:data.reply});
+  const item={_id:conversationId,title:data.title||t,updatedAt:new Date().toISOString()};
+  const existing=chats.findIndex(c=>c._id===conversationId);
+  if(existing>=0)chats.splice(existing,1);
+  chats.unshift(item);renderHist($('q').value);
   addAI(data.reply,true);
  }catch(error){
   if(conversation[conversation.length-1]?.role==='user')conversation.pop();
   const row=document.createElement('div');row.className='a';
   const msg=document.createElement('div');msg.className='t2';msg.textContent=error.message||'ارتباط با دستیار برقرار نشد.';row.appendChild(msg);$('chat').appendChild(row);scrollDown();
- }finally{
-  d.remove();chatBusy=false;$('sb').disabled=false;sync();
- }
+ }finally{d.remove();chatBusy=false;$('sb').disabled=false;sync()}
 }
 function quick(k){send(Q[k])}
 function resetChat(){
- active=null;conversation=[];chatBusy=false;renderHist();$('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
+ active=null;conversationId=null;conversation=[];renderHist($('q').value);
+ $('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='دستیار آموزشی مدار';
  if(innerWidth<900)document.body.classList.remove('m-open');
  $('inp').focus();
 }
-function loadChat(id){
- const c=chats.find(x=>x.id===id);if(!c)return;
- active=id;conversation=c.messages.slice();renderHist($('q').value);
- layoutChat();$('chat').innerHTML='';$('ttl').textContent=c.t;
- c.messages.forEach(m=>{if(m.role==='user')addUser(m.content);else addAI(m.content,false)});
- if(innerWidth<900)document.body.classList.remove('m-open');
+async function loadConversations(){
+ if(!Auth.get())return;
+ try{
+  const response=await fetch(`${API_BASE_URL}/ai/conversations`,{headers:Auth.headers()});
+  if(!response.ok)return;
+  const data=await response.json();chats.splice(0,chats.length,...(data.conversations||[]));renderHist($('q').value);
+ }catch(error){console.warn('Conversation history could not be loaded.')}
+}
+async function loadChat(id){
+ if(chatBusy)return;
+ try{
+  const response=await fetch(`${API_BASE_URL}/ai/conversations/${encodeURIComponent(id)}`,{headers:Auth.headers()});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.message||'بارگذاری گفتگو انجام نشد.');
+  const c=data.conversation;active=id;conversationId=id;conversation=(c.messages||[]).map(m=>({role:m.role,content:m.content}));
+  renderHist($('q').value);layoutChat();$('chat').innerHTML='';$('ttl').textContent=c.title||'گفتگو';
+  conversation.forEach(m=>{if(m.role==='user')addUser(m.content);else addAI(m.content,false)});
+  if(innerWidth<900)document.body.classList.remove('m-open');
+ }catch(error){toast(error.message||'بارگذاری گفتگو ناموفق بود.')}
 }
 function renderHist(f=''){
  $('hist').innerHTML='';
- chats.filter(c=>c.t.includes(f.trim())).forEach(c=>{
-  const b=document.createElement('button');b.className=c.id===active?'on':'';
-  b.innerHTML='<span>'+esc(c.t)+'</span>';b.onclick=()=>loadChat(c.id);$('hist').appendChild(b);
+ chats.filter(c=>(c.title||'').toLowerCase().includes(f.trim().toLowerCase())).forEach(c=>{
+  const b=document.createElement('button');b.className=c._id===active?'on':'';
+  b.innerHTML='<span>'+esc(c.title||'گفتگوی جدید')+'</span>';b.onclick=()=>loadChat(c._id);$('hist').appendChild(b);
  });
 }
 
