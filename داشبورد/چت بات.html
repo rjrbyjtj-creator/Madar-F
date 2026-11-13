@@ -374,53 +374,11 @@ select.fld{cursor:pointer}
 const $=id=>document.getElementById(id);
 /* ▼▼ جای لوگوی ۳ (کنار پاسخ‌های هوش مصنوعی): مثلاً '<img src="logo.png" alt="">' ▼▼ */
 const LOGO_AI='';
-const chats=[
- {id:1,t:'برنامه مطالعه هفته اول',m:['من دوازدهم تجربی هستم؛ برای هفته اول یک برنامه مطالعه اصولی می‌خواهم.','plan']},
- {id:2,t:'سرعت متوسط و تندی متوسط',m:['تفاوت سرعت متوسط و تندی متوسط چیست؟','speed']},
- {id:3,t:'مدیریت زمان در آزمون',m:['برای مدیریت زمان سر جلسه آزمون چه کنم؟','exam']}
-];
+const chats=[];
 let active=null;
-
-const R={
-plan:`### ساختار پیشنهادی روزانه
-* **۱۶:۰۰ تا ۱۷:۳۰ — درس تخصصی سنگین:** زیست‌شناسی فصل اول و ۲۰ تست آموزشی.
-* **۱۷:۴۵ تا ۱۹:۱۵ — درس محاسباتی:** فیزیک یا ریاضی؛ مرور جزوه و حل تمرین کتاب.
-* **۲۰:۰۰ تا ۲۱:۱۵ — درس عمومی:** مرور شیمی دهم یا ادبیات فارسی.
-* **۲۱:۳۰ تا ۲۲:۱۵ — مرور شبانه:** بازیابی نکات همان روز و یک تست زمان‌دار کوتاه.
-> در هفته اول به‌جای افزایش ناگهانی ساعت مطالعه، روی کیفیت تمرکز کار کنید و بازه‌های ۷۵ دقیقه‌ای را بدون موبایل بگذرانید.`,
-speed:`### تفاوت کلیدی
-* **سرعت متوسط** کمیتی برداری است و به جابه‌جایی بستگی دارد.
-* **تندی متوسط** کمیتی نرده‌ای است و به مسافت کل بستگی دارد.
-<div class="eq">v = Δx / Δt  |  s = L / Δt</div>
-### مثال
-۴۰۰ متر به شرق و سپس ۱۰۰ متر به غرب، در مدت ۵۰ ثانیه:
-1. مسافت ۵۰۰ متر است، پس تندی متوسط برابر $10 m/s$ می‌شود.
-2. جابه‌جایی ۳۰۰ متر است، پس سرعت متوسط برابر $6 m/s$ می‌شود.
-> اگر مسیر مستقیم و بدون تغییر جهت باشد، اندازهٔ سرعت متوسط و تندی متوسط برابر است.`,
-quad:`معادلهٔ **2x² − 7x + 3 = 0** را گام‌به‌گام حل می‌کنیم.
-### گام اول: شناسایی ضرایب
-$a = 2$ ، $b = −7$ ، $c = 3$
-### گام دوم: محاسبهٔ مبین
-<div class="eq">Δ = b² − 4ac = 49 − 24 = 25</div>
-چون Δ مثبت است، معادله دو ریشهٔ حقیقی متمایز دارد.
-### گام سوم: محاسبهٔ ریشه‌ها
-<div class="eq">x = (7 ± 5) / 4</div>
-> پاسخ نهایی: $x = 3$ و $x = 0.5$`,
-exam:`### پنج تکنیک آزمون‌دهی
-1. **علامت‌گذاری:** سؤال‌های وقت‌گیر را نشان‌دار کنید و در دور اول از آن‌ها بگذرید.
-2. **زمان ذخیره:** برای هر درس کمی کمتر از زمان استاندارد در نظر بگیرید تا ۱۵ دقیقه برای مرور بماند.
-3. **خواندن دقیق:** زیر کلمات «نادرست»، «همیشه» و «حداقل» خط بکشید.
-4. **تنفس مربعی:** ۴ ثانیه دم، ۴ ثانیه نگه‌داشتن و ۴ ثانیه بازدم پیش از شروع.
-5. **تحلیل آزمون:** همان روز، اشتباه‌ها را دسته‌بندی کنید؛ ارزش تحلیل از خود آزمون بیشتر است.`,
-focus:`### افزایش تمرکز هنگام مطالعه
-* **پومودورو ۵۰/۱۰:** پنجاه دقیقه مطالعهٔ عمیق و ده دقیقه استراحت دور از صفحه نمایش.
-* **دفترچهٔ مزاحم‌های ذهنی:** هر فکر پراکنده را یادداشت کنید تا ذهن رها شود.
-* **پیش‌مطالعه:** پیش از شروع، پنج دقیقه تیترها، شکل‌ها و سؤال‌های پایان فصل را مرور کنید.`,
-gen:`### بررسی موضوع
-1. **مفهوم پایه:** ابتدا تعریف دقیق کتاب درسی و ارتباط آن با فصل‌های قبل را مرور کنید.
-2. **نکتهٔ امتحانی:** طراحان معمولاً از استثناها و ترکیب مفاهیم همین بخش سؤال می‌سازند.
-3. **گام بعدی:** دو سؤال تشریحی و پنج تست زمان‌دار از همین مبحث حل کنید.
-> اگر سؤال خود را با جزئیات بیشتر بنویسید، پاسخ دقیق‌تری دریافت می‌کنید.`};
+let conversation=[];
+let chatBusy=false;
+const AI_CHAT_URL='https://madar-jmy5.onrender.com/api/ai/chat';
 
 const Q={plan:'یک برنامه مطالعاتی هفتگی استاندارد برای دروس تخصصی دوازدهم تنظیم کن.',quad:'معادله درجه دوم 2x² − 7x + 3 = 0 را گام‌به‌گام حل کن.',exam:'پنج نکته برای مدیریت زمان و کاهش استرس سر جلسه آزمون بگو.',focus:'چطور تمرکزم را هنگام مطالعه افزایش دهم؟'};
 
@@ -434,15 +392,17 @@ function pick(q){
 }
 
 function fmt(s){
+ const safe=esc(s);
  const inl=x=>x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\$(.+?)\$/g,'<span class="m">$1</span>');
- return s.split('\n').map(l=>{l=l.trim();if(!l)return'';
-  if(l.startsWith('<div'))return l;
+ return safe.split('\n').map(line=>{
+  const l=line.trim();if(!l)return'';
   if(l.startsWith('### '))return'<h3>'+inl(l.slice(4))+'</h3>';
   if(l.startsWith('> '))return'<div class="note">'+inl(l.slice(2))+'</div>';
   let m;
   if(m=l.match(/^[*-]\s+(.*)/))return'<div class="li"><b>•</b><span>'+inl(m[1])+'</span></div>';
   if(m=l.match(/^(\d+)\.\s+(.*)/))return'<div class="li"><b>'+m[1]+'.</b><span>'+inl(m[2])+'</span></div>';
-  return'<p>'+inl(l)+'</p>';}).join('');
+  return'<p>'+inl(l)+'</p>';
+ }).join('');
 }
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const scrollDown=()=>{const s=$('scroll');s.scrollTop=s.scrollHeight};
@@ -463,11 +423,11 @@ function typeInto(el,html,done){
 }
 
 function addUser(t){const d=document.createElement('div');d.className='u';d.innerHTML=esc(t);$('chat').appendChild(d);scrollDown()}
-function addAI(key,animate){
+function addAI(reply,animate){
  const row=document.createElement('div');row.className='a';
  row.innerHTML='<span class="mark">'+LOGO_AI+'</span><div class="t2"></div>';
  $('chat').appendChild(row);
- const el=row.querySelector('.t2'),html=fmt(R[key]);
+ const el=row.querySelector('.t2'),html=fmt(reply);
  const acts=()=>{const a=document.createElement('div');a.className='acts';
   a.innerHTML='<button><svg class="i"><use href="#cp"/></svg>کپی</button>';
   a.firstChild.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(el.innerText);toast('پاسخ کپی شد')};
@@ -482,32 +442,56 @@ function layoutChat(){
   $('slotD').appendChild($('box'));
  }
 }
-function send(text){
- const inp=$('inp');let t=(text||inp.value).trim();if(!t&&!att)return;
- if(att){t=(t||'این فایل را بررسی کن.')+'\n[پیوست: '+att+']';clearAtt()}
+async function send(text){
+ if(chatBusy)return;
+ const inp=$('inp');let t=(text||inp.value).trim();
+ if(att){toast('در نسخه فعلی، دستیار فقط پیام متنی دریافت می‌کند؛ ارسال فایل هنوز فعال نیست.');return}
+ if(!t)return;
  layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
  if(!active)$('ttl').textContent=t.length>40?t.slice(0,40)+'…':t;
+ conversation.push({role:'user',content:t});
  const d=document.createElement('div');d.className='dots';d.innerHTML='<i></i><i></i><i></i>';$('chat').appendChild(d);scrollDown();
- setTimeout(()=>{d.remove();addAI(pick(t),true)},800);
+ chatBusy=true;$('sb').disabled=true;
+ try{
+  let token=null;
+  try{token=localStorage.getItem('madar_token')||sessionStorage.getItem('madar_token')}catch(e){}
+  if(!token)throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
+  const response=await fetch(AI_CHAT_URL,{
+   method:'POST',
+   headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+   body:JSON.stringify({messages:conversation.slice(-12)}),
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.message||'دریافت پاسخ از هوش مصنوعی ناموفق بود.');
+  if(typeof data.reply!=='string'||!data.reply.trim())throw new Error('پاسخ معتبری از هوش مصنوعی دریافت نشد.');
+  conversation.push({role:'model',content:data.reply});
+  addAI(data.reply,true);
+ }catch(error){
+  const row=document.createElement('div');row.className='a';
+  const msg=document.createElement('div');msg.className='t2';msg.textContent=error.message||'ارتباط با دستیار برقرار نشد.';row.appendChild(msg);$('chat').appendChild(row);scrollDown();
+ }finally{
+  d.remove();chatBusy=false;$('sb').disabled=false;sync();
+ }
 }
 function quick(k){send(Q[k])}
 function resetChat(){
- active=null;renderHist();$('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
+ active=null;conversation=[];chatBusy=false;renderHist();$('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='دستیار آموزشی مدار';
  if(innerWidth<900)document.body.classList.remove('m-open');
  $('inp').focus();
 }
 function loadChat(id){
- const c=chats.find(x=>x.id===id);active=id;renderHist($('q').value);
+ const c=chats.find(x=>x.id===id);if(!c)return;
+ active=id;conversation=c.messages.slice();renderHist($('q').value);
  layoutChat();$('chat').innerHTML='';$('ttl').textContent=c.t;
- addUser(c.m[0]);addAI(c.m[1],false);
+ c.messages.forEach(m=>{if(m.role==='user')addUser(m.content);else addAI(m.content,false)});
  if(innerWidth<900)document.body.classList.remove('m-open');
 }
 function renderHist(f=''){
  $('hist').innerHTML='';
  chats.filter(c=>c.t.includes(f.trim())).forEach(c=>{
   const b=document.createElement('button');b.className=c.id===active?'on':'';
-  b.innerHTML='<span>'+c.t+'</span>';b.onclick=()=>loadChat(c.id);$('hist').appendChild(b);
+  b.innerHTML='<span>'+esc(c.t)+'</span>';b.onclick=()=>loadChat(c.id);$('hist').appendChild(b);
  });
 }
 
