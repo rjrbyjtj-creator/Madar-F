@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پنل مدیریت مدرسه مدار</title>
+  <!-- فونت فارسی وزیرمتن -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+  <!-- آیکون‌های Lucide یا FontAwesome (در اینجا از آیکون‌های SVG خطی دقیق مطابق تصویر استفاده شده است) -->
+  <style>
+    :root {
+      --bg-body: #eaedf2;
+      --bg-header: #f1f3f6;
+      --bg-hero-left: #eff2f6;
+      --bg-white: #ffffff;
+      --primary-navy: #1c2b4b;
+      --primary-navy-hover: #273b66;
+      --accent-gold: #d4b16a;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --border-color: #dde2ea;
+      --btn-circle-bg: #e2e7f0;
+      --status-green: #22c55e;
+    }
+
+    /* حالت تاریک (اختیاری - با کلیک روی آیکون خورشید/ماه فعال می‌شود) */
+    body.dark-mode {
+      --bg-body: #0f172a;
+      --bg-header: #1e293b;
+      --bg-hero-left: #162032;
+      --bg-white: #1e293b;
+      --primary-navy: #e2e8f0;
+      --primary-navy-hover: #cbd5e1;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+      --border-color: #334155;
+      --btn-circle-bg: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ================= هدر بالایی ================= */
+    .top-header {
+      background-color: var(--bg-header);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 48px 0 48px;
+    }
+
+    .header-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    /* لوگوی راست بالا */
+    .brand-logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--primary-navy);
+    }
+
+    .brand-logo-img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary-navy);
+      letter-spacing: -0.5px;
+    }
+
+    /* نوار جستجو */
+    .search-box {
+      position: relative;
+      width: 340px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background-color: var(--bg-white);
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 9px 40px 9px 18px;
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      transition: border-color 0.2s;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-light);
+    }
+
+    .search-box input:focus {
+      border-color: #cbd5e1;
+    }
+
+    .search-box svg {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+
+    /* ابزارهای سمت چپ هدر (تم، اعلان، پروفایل) */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 4px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .icon-btn:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      width: 6px;
+      height: 6px;
+      background-color: #ef4444;
+      border-radius: 50%;
+    }
+
+    .user-profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-main);
+      font-size: 13.5px;
+      font-weight: 500;
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: #1c2b4b;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* منوی ناوبری ردیف دوم هدر */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding-bottom: 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 6px 4px;
+      transition: color 0.2s;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: var(--primary-navy);
+      font-weight: 700;
+    }
+
+    .nav-item svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ================= بخش هیرو (بنر خوش‌آمدگویی و آمار) ================= */
+    .hero-section {
+      position: relative;
+      display: flex;
+      min-height: 295px;
+      background-color: var(--bg-hero-left);
+      border-bottom: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    /* ستون محتوا و آمار سمت راست */
+    .hero-content {
+      flex: 1;
+      padding: 40px 48px 34px 24px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .welcome-block h1 {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 8px;
+    }
+
+    .welcome-block p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .gold-divider {
+      width: 36px;
+      height: 2.5px;
+      background-color: var(--accent-gold);
+      border-radius: 2px;
+    }
+
+    /* ردیف آمار 5 تایی */
+    .stats-row {
+      display: flex;
+      align-items: center;
+      gap: 46px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 72px;
+    }
+
+    .stat-icon {
+      color: var(--primary-navy);
+      margin-bottom: 8px;
+    }
+
+    .stat-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .stat-number {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary-navy);
+      line-height: 1.3;
+    }
+
+    .stat-label {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* تصویر ساختمان سمت چپ با برش مورب */
+    .hero-image-container {
+      width: 45%;
+      position: relative;
+      clip-path: polygon(16% 0, 100% 0, 100% 100%, 0% 100%);
+      background-color: #cbd5e1;
+    }
+
+    .hero-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* ================= بخش اصلی 3 ستونه ================= */
+    .main-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 1.35fr 0.9fr;
+      padding: 36px 48px;
+      gap: 0;
+    }
+
+    .grid-column {
+      padding: 0 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid-column:first-child {
+      padding-right: 0;
+    }
+
+    .grid-column:last-child {
+      padding-left: 0;
+    }
+
+    .grid-column:not(:last-child) {
+      border-left: 1px solid var(--border-color);
+    }
+
+    .column-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    .column-header h2 {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: var(--primary-navy);
+    }
+
+    .header-gold-line {
+      width: 24px;
+      height: 2px;
+      background-color: var(--accent-gold);
+    }
+
+    /* ستون ۱: میانبرهای سریع */
+    .shortcut-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .shortcut-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 4px 0;
+      transition: transform 0.2s;
+    }
+
+    .shortcut-item:hover {
+      transform: translateX(-4px);
+    }
+
+    .shortcut-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .shortcut-right svg {
+      width: 19px;
+      height: 19px;
+      color: var(--primary-navy);
+    }
+
+    .circle-arrow-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background-color: var(--btn-circle-bg);
+      color: var(--primary-navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+
+    .shortcut-item:hover .circle-arrow-btn {
+      background-color: #d2dae7;
+    }
+
+    /* ستون ۲: آخرین فعالیت‌ها */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .activity-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--text-main);
+    }
+
+    .activity-right svg {
+      width: 18px;
+      height: 18px;
+      color: var(--primary-navy);
+      flex-shrink: 0;
+    }
+
+    .gold-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .view-all-activities {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--primary-navy);
+      font-size: 13px;
+      font-weight: 600;
+      align-self: flex-end;
+    }
+
+    /* ستون ۳: وضعیت سامانه */
+    .system-status-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .status-center-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .status-check-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #1c2b4b;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 10px rgba(28, 43, 75, 0.2);
+    }
+
+    .status-message {
+      font-size: 13.5px;
+      color: var(--text-main);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .details-btn {
+      background-color: #1c2b4b;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 20px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .details-btn:hover {
+      background-color: var(--primary-navy-hover);
+    }
+
+    .status-footer-info {
+      margin-top: 24px;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-navy);
+    }
+
+    .green-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: var(--status-green);
+    }
+
+    .last-update {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* ================= فوتر پایینی ================= */
+    .bottom-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 16px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-right strong {
+      color: var(--primary-navy);
+      font-weight: 700;
+    }
+
+    .footer-heart {
+      color: var(--accent-gold);
+    }
+
+    /* ریسپانسیو برای تبلت و موبایل */
+    @media (max-width: 1024px) {
+      .hero-image-container {
+        width: 38%;
+      }
+      .stats-row {
+        gap: 24px;
+      }
+      .main-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .grid-column {
+        padding: 0;
+        border-left: none !important;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 24px;
+      }
+      .grid-column:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-header, .hero-content, .main-grid, .bottom-footer {
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+      .search-box {
+        display: none;
+      }
+      .nav-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .hero-section {
+        flex-direction: column;
+      }
+      .hero-image-container {
+        width: 100%;
+        height: 200px;
+        clip-path: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= هدر بالایی ================= -->
+  <header class="top-header">
+    <div class="header-top-row">
+      
+      <!-- ===================================================================== -->
+      <!-- ۱. محل قرارگیری عکس لوگوی بالای صفحه (سمت راست)                     -->
+      <!-- آدرس فایل لوگوی خود را در ویژگی src تگ img زیر جایگزین کنید           -->
+      <!-- ===================================================================== -->
+      <a href="#" class="brand-logo-wrapper">
+        <img 
+          src="YOUR_TOP_LOGO_PATH.png" 
+          alt="لوگوی مدار" 
+          class="brand-logo-img"
+          onerror="this.style.display='none'" 
+        />
+        <!-- آیکون جایگزین موقت تا زمانی که عکس خودتان را بگذارید (بعد از گذاشتن عکس می‌توانید این svg را حذف کنید) -->
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #1c2b4b;">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <span class="brand-title">مدار</span>
+      </a>
+
+      <!-- کادر جستجو -->
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="جستجو در سامانه..." />
+      </div>
+
+      <!-- ابزارهای سمت چپ (تغییر تم، زنگوله، پروفایل مدیر ارشد) -->
+      <div class="header-actions">
+        <!-- دکمه تغییر تم (خورشید) -->
+        <button class="icon-btn" id="themeToggle" title="تغییر تم">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+        </button>
+
+        <!-- دکمه اعلان‌ها (زنگوله) -->
+        <button class="icon-btn" title="اعلان‌ها">
+          <span class="notification-dot"></span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </button>
+
+        <!-- پروفایل مدیر ارشد -->
+        <button class="user-profile-btn">
+          <span>مدیر ارشد</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+          <div class="user-avatar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ردیف دوم هدر: منوی ناوبری -->
+    <nav class="nav-bar">
+      <a href="#" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        <span>داشبورد</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+        </svg>
+        <span>مدیریت مدرسه</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>مدیریت کاربران</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        </svg>
+        <span>پشتیبانی</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>گزارش‌ها</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>تنظیمات</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- ================= بخش هیرو (بنر اصلی) ================= -->
+  <section class="hero-section">
+    <!-- محتوای متنی و آمار سمت راست -->
+    <div class="hero-content">
+      <div class="welcome-block">
+        <h1>سلام، مدیر ارشد عزیز!</h1>
+        <p>به پنل مدیریت مدرسه مدار خوش آمدید.</p>
+        <div class="gold-divider"></div>
+      </div>
+
+      <!-- ردیف آمار -->
+      <div class="stats-row">
+        <!-- دانش‌آموزان -->
+        <div class="stat-item">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+            </svg>
+          </div>
+          <span class="stat-number">۳,۲۵۰</span>
+          <span class="stat-label">دانش‌آموزان</span>
+        </div>
+
+        <!-- مدیران -->
+        <div class="stat-item">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <span class="stat-number">۱۲</span>
+          <span class="stat-label">مدیران</span>
+        </div>
+
+        <!-- کاربران ویژه -->
+        <div class="stat-item">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <span class="stat-number">۱۸۹</span>
+          <span class="stat-label">کاربران ویژه</span>
+        </div>
+
+        <!-- مدرسه -->
+        <div class="stat-item">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3L2 8v2h20V8L12 3zm-7 9v7H3v2h18v-2h-2v-7h-2v7h-4v-7h-2v7H7v-7H5z"/>
+            </svg>
+          </div>
+          <span class="stat-number">۲۷۰</span>
+          <span class="stat-label">مدرسه</span>
+        </div>
+
+        <!-- تیکت پشتیبانی -->
+        <div class="stat-item">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            </svg>
+          </div>
+          <span class="stat-number">۴,۲۶۰</span>
+          <span class="stat-label">تیکت پشتیبانی</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- ۲. محل قرارگیری عکس بنر هیرو (تصویر ساختمان و لوگوی مدار سمت چپ)     -->
+    <!-- آدرس عکس هیرو خود را در ویژگی src تگ img زیر قرار دهید                -->
+    <!-- ===================================================================== -->
+    <div class="hero-image-container">
+      <img 
+        src="YOUR_HERO_IMAGE_PATH.jpg" 
+        alt="ساختمان مدرسه مدار" 
+      />
+    </div>
+  </section>
+
+  <!-- ================= بخش محتوای سه ستونه پایین ================= -->
+  <main class="main-grid">
+
+    <!-- ستون اول (راست): میانبرهای سریع -->
+    <section class="grid-column">
+      <div class="column-header">
+        <span class="header-gold-line"></span>
+        <h2>میانبرهای سریع</h2>
+        <span class="header-gold-line"></span>
+      </div>
+
+      <div class="shortcut-list">
+        <a href="#" class="shortcut-item">
+          <div class="shortcut-right">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3L2 8v2h20V8L12 3zm-7 9v7H3v2h18v-2h-2v-7h-2v7h-4v-7h-2v7H7v-7H5z"/>
+            </svg>
+            <span>افزودن مدرسه جدید</span>
+          </div>
+          <span class="circle-arrow-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <a href="#" class="shortcut-item">
+          <div class="shortcut-right">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+            <span>مدیریت کاربران</span>
+          </div>
+          <span class="circle-arrow-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <a href="#" class="shortcut-item">
+          <div class="shortcut-right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            </svg>
+            <span>مشاهده تیکت‌ها</span>
+          </div>
+          <span class="circle-arrow-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <a href="#" class="shortcut-item">
+          <div class="shortcut-right">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/>
+            </svg>
+            <span>گزارش‌گیری پیشرفته</span>
+          </div>
+          <span class="circle-arrow-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <a href="#" class="shortcut-item">
+          <div class="shortcut-right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>تنظیمات سامانه</span>
+          </div>
+          <span class="circle-arrow-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ستون دوم (وسط): آخرین فعالیت‌ها -->
+    <section class="grid-column">
+      <div class="column-header">
+        <span class="header-gold-line"></span>
+        <h2>آخرین فعالیت‌ها</h2>
+        <span class="header-gold-line"></span>
+      </div>
+
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-right">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3L2 8v2h20V8L12 3zm-7 9v7H3v2h18v-2h-2v-7h-2v7h-4v-7h-2v7H7v-7H5z"/>
+            </svg>
+            <span class="gold-dot"></span>
+            <span>یک مدرسه جدید ثبت شد.</span>
+          </div>
+          <span class="activity-time">امروز - ۱۴:۳۲</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-right">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+            <span class="gold-dot"></span>
+            <span>کاربر جدیدی ثبت‌نام کرد.</span>
+          </div>
+          <span class="activity-time">امروز - ۱۳:۱۰</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            </svg>
+            <span class="gold-dot"></span>
+            <span>تیکت جدید از پشتیبانی دریافت شد.</span>
+          </div>
+          <span class="activity-time">دیروز - ۱۹:۴۵</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-right">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/>
+            </svg>
+            <span class="gold-dot"></span>
+            <span>گزارش ماهانه آماده شد.</span>
+          </div>
+          <span class="activity-time">دیروز - ۱۷:۲۰</span>
+        </div>
+      </div>
+
+      <a href="#" class="view-all-activities">
+        <span>مشاهده فعالیت‌ها</span>
+        <span class="circle-arrow-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </span>
+      </a>
+    </section>
+
+    <!-- ستون سوم (چپ): وضعیت سامانه -->
+    <section class="grid-column">
+      <div class="column-header">
+        <span class="header-gold-line"></span>
+        <h2>وضعیت سامانه</h2>
+        <span class="header-gold-line"></span>
+      </div>
+
+      <div class="system-status-body">
+        <div class="status-center-box">
+          <div class="status-check-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <p class="status-message">
+            همه سرویس‌ها به درستی<br />در حال کار هستند.
+          </p>
+          <button class="details-btn">
+            <span>مشاهده جزئیات</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <div class="status-footer-info">
+          <div class="live-indicator">
+            <span class="green-dot"></span>
+            <span>سامانه در حال اجرا است</span>
+          </div>
+          <div class="last-update">آخرین بروزرسانی: امروز، ۱۴:۳۲</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= فوتر پایینی ================= -->
+  <footer class="bottom-footer">
+    <div class="footer-right">
+      <strong>مدرسه مدار</strong>
+      <span>|</span>
+      <span>پنل مدیریت نسخه ۱.۰.۰</span>
+    </div>
+    <div class="footer-left">
+      <span>طراحی شده با <span class="footer-heart">♥</span> برای آینده‌ای روشن‌تر</span>
+    </div>
+  </footer>
+
+  <script>
+    // اسکریپت ساده برای تغییر تم روشن/تاریک با کلیک روی آیکون خورشید
+    const themeToggleBtn = document.getElementById('themeToggle');
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+  </script>
+</body>
+</html>
