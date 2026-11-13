@@ -48,8 +48,8 @@ body.closed #sidebar{width:0;border-left-color:transparent}
 .pop{position:absolute;bottom:calc(100% + 6px);right:0;left:0;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:var(--sh);padding:6px;display:none;z-index:5}
 .pop.show{display:block;animation:up .18s ease}
 .pop .hd{padding:8px 10px 10px;border-bottom:1px solid var(--ln);margin-bottom:4px}.pop .hd b{font-size:13px}.pop .hd p{font-size:11px;color:var(--mu);margin-top:2px}
-.pop button{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:9px;font-size:12.5px;text-align:right}
-.pop button:hover{background:var(--hv)}.pop button svg{color:var(--mu)}.pop .out{color:#C0392B}.pop .out svg{color:#C0392B}
+.pop button,.pop a{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:9px;font-size:12.5px;text-align:right;text-decoration:none;color:inherit}.pop button,.pop a{cursor:pointer}
+.pop button:hover,.pop a:hover{background:var(--hv)}.pop button svg,.pop a svg{color:var(--mu)}.pop .out,.pop .out svg{color:#C0392B}
 
 /* Main */
 main{flex:1;display:flex;flex-direction:column;min-width:0;height:100%}
@@ -272,7 +272,7 @@ select.fld{cursor:pointer}
       <button onclick="openModal('look')"><svg class="i"><use href="#gr"/></svg>تنظیمات و ظاهر</button>
       <button onclick="setSide(document.body.classList.contains('left')?'right':'left')"><svg class="i pn"><use href="#pn"/></svg>جابه‌جایی منو (چپ / راست)</button>
       <button onclick="openModal('help')"><svg class="i"><use href="#hp"/></svg>راهنما</button>
-      <button class="out" onclick="backToDashboard()"><svg class="i"><use href="#rt"/></svg>بازگشت به داشبورد</button>
+      <a class="out" href="./رستا _ فضای کار (1).html"><svg class="i"><use href="#rt"/></svg>بازگشت به داشبورد</a>
     </div>
     <button class="acct" onclick="togglePop(event)"><span class="av"><svg class="i"><use href="#us"/></svg></span><b id="sidebar-account-name">در حال بارگذاری…</b><svg class="i chev"><use href="#cv"/></svg></button>
   </div>
@@ -475,11 +475,6 @@ async function send(text){
  }
 }
 function quick(k){send(Q[k])}
-function backToDashboard(){
- // همیشه مستقیم به داشبورد برگرد؛ بدون logout و بدون وابستگی به history مرورگر.
- const dashboard='./رستا _ فضای کار (1).html';
- location.replace(dashboard);
-}
 function resetChat(){
  active=null;conversation=[];chatBusy=false;renderHist();$('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='دستیار آموزشی مدار';
