@@ -844,7 +844,7 @@ async function openLiveCall(){
     }
    }catch(error){
     console.error('Gemini Live message error:',error);
-    if(liveCallActive)setLiveCallStatus('خطا در دریافت پاسخ',error.message||'ارتباط با Gemini دچار مشکل شد.');
+    if(liveCallActive){setLiveCallStatus('خطا در دریافت پاسخ',error.message||'ارتباط با Gemini دچار مشکل شد.');toast(error.message||'خطا در تماس صوتی');stopLiveCall()}
    }
   };
   liveSocket.onerror=()=>{
@@ -865,6 +865,7 @@ async function openLiveCall(){
  }
 }
 function stopLiveCall(){
+ if(liveUserTranscript.trim()&&liveModelTranscript.trim())saveLiveTurn();
  liveUserStopped=true;liveCallActive=false;liveSetupReady=false;
  if(liveFinalizeTimer){clearTimeout(liveFinalizeTimer);liveFinalizeTimer=null}
  if(liveSocket){
