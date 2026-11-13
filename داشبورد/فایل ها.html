@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مدار | فایل‌های آموزشی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<style>
+:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff}
+:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);min-height:100vh;line-height:1.8;background:radial-gradient(38rem 30rem at 8% 25%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
+a{color:inherit;text-decoration:none}button,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+svg.i{width:1.25rem;height:1.25rem;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.page{width:min(1320px,100% - 8rem);margin:auto;padding:1.5rem 0 3rem}
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.8rem}.brand img{width:3rem;height:3.2rem;object-fit:contain}.brand b{display:block;font-size:1.55rem;font-weight:800;line-height:1.2}.brand small{font-size:.72rem;font-weight:600;color:var(--muted)}
+.actions{display:flex;align-items:center;gap:.7rem}
+.icon-btn{display:grid;place-items:center;width:2.65rem;height:2.65rem;border:1px solid var(--line);border-radius:50%;background:var(--card);transition:.2s}
+.icon-btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+.back{display:inline-flex;align-items:center;gap:.55rem;padding:.65rem 1.1rem;border-radius:999px;background:var(--primary);color:var(--on);font-size:.86rem;font-weight:700;box-shadow:0 .4rem 1rem var(--sh)}
+.back:hover{filter:brightness(1.15)}
+.crumb{display:flex;align-items:center;gap:.5rem;margin-top:2.4rem;font-size:.82rem;color:var(--muted)}.crumb a:hover{color:var(--gold)}
+.hero{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;margin-top:1.2rem;padding:2.5rem 2.8rem;border:1px solid var(--line);border-radius:1.5rem;background:var(--card);box-shadow:0 .8rem 2.5rem var(--sh);overflow:hidden}
+.hero:after{content:"";position:absolute;width:20rem;height:20rem;left:-5rem;top:-10rem;border-radius:50%;background:color-mix(in srgb,var(--primary) 7%,transparent)}
+.pill{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem .9rem;border-radius:999px;background:var(--chip);font-size:.78rem;font-weight:700}
+.hero h1{margin-top:.8rem;font-size:clamp(1.7rem,3vw,2.5rem);font-weight:800;line-height:1.5}
+.hero p{max-width:42rem;margin-top:.4rem;color:var(--muted);font-size:.95rem}
+.hero-art{position:relative;z-index:1;display:grid;place-items:center;width:9rem;height:9rem;border-radius:2rem;background:var(--tile);color:var(--primary);transform:rotate(-7deg)}
+:root[data-theme=dark] .hero-art{color:#aab8ff}
+.hero-art svg{width:5rem;height:5rem;transform:rotate(7deg)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin:2.5rem 0 1rem}
+.section-head h2{font-size:1.35rem;font-weight:800}.section-head p{font-size:.82rem;color:var(--muted)}
+.search{display:flex;align-items:center;gap:.7rem;width:min(100%,27rem);height:3rem;padding:0 1rem;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted)}
+.search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 18%,transparent)}
+.search input{width:100%;border:0;outline:0;background:transparent;font-size:.85rem}
+.search input::placeholder{color:var(--muted)}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.category{display:flex;align-items:center;gap:1rem;padding:1.2rem;border:1px solid var(--line);border-radius:1.1rem;background:var(--card);text-align:right;transition:border-color .2s,transform .25s,box-shadow .2s}
+.category:hover,.category.active{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 .6rem 1.5rem var(--sh)}
+.cat-icon{display:grid;place-items:center;flex:none;width:3.3rem;height:3.3rem;border-radius:1rem;background:var(--tile);color:var(--primary)}
+:root[data-theme=dark] .cat-icon{color:#aab8ff}
+.cat-icon svg{width:1.7rem;height:1.7rem}
+.category b{display:block;font-size:.9rem;font-weight:800}.category small{display:block;margin-top:.1rem;font-size:.72rem;color:var(--muted)}
+.library{padding:1.5rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);box-shadow:0 .5rem 1.8rem var(--sh)}
+.library-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.library-top h3{font-size:1rem;font-weight:800}.library-top span{font-size:.78rem;color:var(--muted)}
+.empty{display:grid;justify-items:center;text-align:center;padding:3.8rem 1rem 3.3rem}
+.empty-icon{display:grid;place-items:center;width:5rem;height:5rem;border-radius:1.5rem;background:var(--tile);color:var(--muted)}
+.empty-icon svg{width:2.5rem;height:2.5rem}
+.empty h3{margin-top:1.1rem;font-size:1.1rem;font-weight:800}
+.empty p{max-width:32rem;margin-top:.35rem;font-size:.83rem;color:var(--muted)}
+.hint{display:flex;align-items:flex-start;gap:.8rem;margin-top:1.2rem;padding:1rem 1.2rem;border:1px solid var(--line);border-radius:1rem;background:var(--inner);font-size:.78rem;color:var(--muted)}
+.hint svg{color:var(--gold);margin-top:.15rem}
+.footer{display:flex;align-items:center;gap:.6rem;margin-top:2rem;color:var(--muted);font-size:.78rem}.footer i{display:block;width:3rem;height:2px;background:var(--gold);border-radius:9px}
+@media(max-width:900px){.page{width:calc(100% - 2.4rem)}.categories{grid-template-columns:repeat(2,1fr)}.hero{padding:2rem}.hero-art{width:7rem;height:7rem}.hero-art svg{width:4rem;height:4rem}}
+@media(max-width:600px){.page{width:calc(100% - 1.5rem);padding-top:1rem}.brand img{width:2.4rem;height:2.6rem}.brand b{font-size:1.25rem}.back{font-size:.75rem;padding:.55rem .8rem}.hero{grid-template-columns:1fr;padding:1.4rem}.hero-art{display:none}.section-head{align-items:stretch;flex-direction:column}.search{width:100%}.categories{grid-template-columns:1fr 1fr;gap:.65rem}.category{padding:.85rem;gap:.65rem}.cat-icon{width:2.7rem;height:2.7rem}.category b{font-size:.8rem}.category small{font-size:.66rem}.library{padding:1rem}.empty{padding:2.7rem .5rem}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></symbol>
+<symbol id="book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/></symbol>
+<symbol id="clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 4V2h6v2M8 10h8M8 14h8M8 18h5"/></symbol>
+<symbol id="flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3M8 15h8"/></symbol>
+<symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+<symbol id="moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+<symbol id="back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+</svg>
+<div class="page">
+<header class="top">
+<a class="brand" href="./رستا _ فضای کار (1).html"><img src="../عکس ها/هدر.png" alt="مدار"><span><b>مدار</b><small>دبیرستان دوره دوم</small></span></a>
+<div class="actions">
+<button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر حالت نمایش"><svg class="i"><use href="#moon"/></svg></button>
+<a class="back" href="./رستا _ فضای کار (1).html"><svg class="i"><use href="#back"/></svg>بازگشت به داشبورد</a>
+</div>
+</header>
+<div class="crumb"><a href="./رستا _ فضای کار (1).html">داشبورد</a><span> / </span><b>فایل‌های آموزشی</b></div>
+<main>
+<section class="hero">
+<div><span class="pill"><svg class="i"><use href="#folder"/></svg>کتابخانه آموزشی مدار</span><h1>همه منابع درسی، یک‌جا و مرتب</h1><p>جزوه‌ها، نمونه‌سؤال‌ها، تمرین‌ها و منابع کمک‌آموزشی را در یک فضای منظم دنبال کنید.</p></div>
+<div class="hero-art"><svg class="i"><use href="#folder"/></svg></div>
+</section>
+<section>
+<div class="section-head"><div><h2>دسته‌بندی فایل‌ها</h2><p>برای مشاهده منابع هر گروه، دسته‌بندی موردنظر را انتخاب کنید.</p></div></div>
+<div class="categories" id="categories">
+<button class="category active" type="button" data-category="all"><span class="cat-icon"><svg class="i"><use href="#folder"/></svg></span><span><b>همه فایل‌ها</b><small>نمایش کل منابع</small></span></button>
+<button class="category" type="button" data-category="notes"><span class="cat-icon"><svg class="i"><use href="#book"/></svg></span><span><b>جزوه‌های درسی</b><small>درس‌نامه و خلاصه‌ها</small></span></button>
+<button class="category" type="button" data-category="exams"><span class="cat-icon"><svg class="i"><use href="#clipboard"/></svg></span><span><b>نمونه سؤال‌ها</b><small>آزمون و تمرین امتحانی</small></span></button>
+<button class="category" type="button" data-category="practice"><span class="cat-icon"><svg class="i"><use href="#flask"/></svg></span><span><b>تمرین‌ها</b><small>فعالیت و تکلیف درسی</small></span></button>
+</div>
+</section>
+<section>
+<div class="section-head"><div><h2>کتابخانه فایل‌ها</h2><p>جستجو و مرور منابع آموزشی</p></div>
+<label class="search"><svg class="i"><use href="#search"/></svg><input id="searchInput" type="search" placeholder="جستجوی نام فایل یا درس..." autocomplete="off"></label></div>
+<div class="library">
+<div class="library-top"><h3 id="libraryTitle">همه فایل‌ها</h3><span id="libraryCount">در انتظار انتشار منابع</span></div>
+<div class="empty"><span class="empty-icon"><svg class="i"><use href="#file"/></svg></span><h3 id="emptyTitle">هنوز فایلی منتشر نشده است</h3><p id="emptyText">به‌محض اینکه منابع آموزشی توسط مدرسه بارگذاری شوند، فایل‌ها در این قسمت نمایش داده می‌شوند.</p></div>
+</div>
+<div class="hint"><svg class="i"><use href="#file"/></svg><span>در حال حاضر بخش نمایش و دسته‌بندی صفحه آماده است؛ برای بارگذاری، ذخیره و دانلود واقعی فایل‌ها باید سرویس مدیریت فایل به بک‌اند متصل شود.</span></div>
+</section>
+<footer class="footer"><svg class="i"><use href="#folder"/></svg>کتابخانه آموزشی مدرسه مدار<i></i></footer>
+</main>
+</div>
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+const root=document.documentElement;
+document.getElementById('themeBtn').addEventListener('click',()=>{
+ const next=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=next;
+ try{localStorage.setItem('theme',next)}catch(e){}
+});
+const labels={all:'همه فایل‌ها',notes:'جزوه‌های درسی',exams:'نمونه سؤال‌ها',practice:'تمرین‌ها'};
+let active='all';
+document.querySelectorAll('[data-category]').forEach(button=>button.addEventListener('click',()=>{
+ active=button.dataset.category;
+ document.querySelectorAll('[data-category]').forEach(item=>item.classList.toggle('active',item===button));
+ document.getElementById('libraryTitle').textContent=labels[active];
+ updateEmpty();
+}));
+function updateEmpty(){
+ const query=document.getElementById('searchInput').value.trim();
+ document.getElementById('emptyTitle').textContent=query?'فایلی با این عبارت پیدا نشد':'هنوز فایلی منتشر نشده است';
+ document.getElementById('emptyText').textContent=query?'با اضافه‌شدن منابع آموزشی، نتیجه جستجوی شما در این قسمت نمایش داده می‌شود.':'به‌محض اینکه منابع آموزشی توسط مدرسه بارگذاری شوند، فایل‌ها در این قسمت نمایش داده می‌شوند.';
+ document.getElementById('libraryCount').textContent=query?'بدون نتیجه':'در انتظار انتشار منابع';
+}
+document.getElementById('searchInput').addEventListener('input',updateEmpty);
+(async()=>{
+ try{if(typeof Auth!=='undefined'&&Auth.requireAuth)await Auth.requireAuth()}catch(error){}
+})();
+</script>
+</body>
+</html>
