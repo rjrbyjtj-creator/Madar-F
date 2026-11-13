@@ -263,6 +263,18 @@ select.fld{cursor:pointer}
 body.shared-view #sidebar{display:none}
 body.shared-view main{width:100%}
 body.shared-view #dock{display:none!important}
+.hist-inline-editor,.hist-share-panel{position:relative;margin:5px 2px 8px;padding:9px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:0 7px 20px -12px rgba(0,0,0,.2)}
+.hist-inline-editor{display:flex;align-items:center;gap:6px}
+.hist-inline-editor input{width:100%;min-width:0;height:34px;padding:0 9px;border:1px solid var(--ln);border-radius:7px;background:var(--bg);color:var(--tx);font:inherit;font-size:12px;outline:none}
+.hist-inline-editor input:focus,.hist-share-input:focus{border-color:var(--ac)}
+.hist-inline-editor button,.hist-share-copy{height:32px;min-width:34px;padding:0 9px;border-radius:7px;background:var(--ac);color:white;display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;white-space:nowrap}
+.hist-inline-editor .cancel-edit{background:var(--hv);color:var(--tx);border:1px solid var(--ln)}
+.hist-inline-editor svg,.hist-share-copy svg{width:14px;height:14px}
+.hist-share-panel{display:flex;align-items:center;gap:6px}
+.hist-share-input{height:34px;min-width:0;flex:1;padding:0 8px;border:1px solid var(--ln);border-radius:7px;background:var(--bg);color:var(--tx);font:inherit;font-size:10px;direction:ltr;text-align:left;outline:none}
+.hist-share-copy{flex:0 0 auto}
+.hist-share-close{position:absolute;top:-8px;right:-7px;width:21px;height:21px;border:1px solid var(--ln);border-radius:50%;background:var(--sf);color:var(--mu);display:grid;place-items:center}
+.hist-share-close svg{width:12px;height:12px}
 /* Inline voice-call glow is rendered beneath the composer; no modal panel. */
 
 </style>
@@ -596,20 +608,47 @@ function toggleChatMenu(event,id){
  closeChatMenus();
  if(!wasOpen){menu.classList.add('show');event.currentTarget.setAttribute('aria-expanded','true')}
 }
+function showRenameEditor(id){
+ const item=chats.find(chat=>chat._id===id),row=document.querySelector('#chat-menu-'+CSS.escape(id))?.parentElement;
+ if(!item||!row)return;
+ document.querySelectorAll('.hist-inline-editor,.hist-share-panel').forEach(el=>el.remove());
+ const editor=document.createElement('form');editor.className='hist-inline-editor';
+ editor.innerHTML='<input type="text" maxlength="80" aria-label="نام جدید گفتگو"><button type="submit"><svg class="i"><use href="#ck"/></svg>ثبت</button><button type="button" class="cancel-edit" aria-label="انصراف">انصراف</button>';
+ const input=editor.querySelector('input');input.value=item.title||'گفتگوی جدید';
+ editor.querySelector('.cancel-edit').onclick=()=>editor.remove();
+ editor.onsubmit=async e=>{
+  e.preventDefault();const title=input.value.trim();if(!title){toast('نام گفتگو نمی‌تواند خالی باشد.');input.focus();return}
+  const submit=editor.querySelector('[type=submit]');submit.disabled=true;
+  try{
+   const response=await fetch(`${API_BASE_URL}/ai/conversations/${encodeURIComponent(id)}/title`,{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({title})});
+   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.message||'ویرایش نام انجام نشد.');
+   item.title=data.conversation?.title||title;if(active===id)$('ttl').textContent=item.title;
+   editor.remove();renderHist($('q').value);toast('نام گفتگو تغییر کرد.');
+  }catch(error){toast(error.message||'ویرایش نام انجام نشد.');submit.disabled=false}
+ };
+ row.appendChild(editor);input.focus();input.select();
+}
+function showSharePanel(id,token){
+ const row=document.querySelector('#chat-menu-'+CSS.escape(id))?.parentElement;if(!row)return;
+ document.querySelectorAll('.hist-inline-editor,.hist-share-panel').forEach(el=>el.remove());
+ const link=new URL(location.href);link.search='';link.hash='';link.searchParams.set('share',token);
+ const panel=document.createElement('div');panel.className='hist-share-panel';
+ panel.innerHTML='<input class="hist-share-input" readonly aria-label="لینک اشتراک گفتگو"><button type="button" class="hist-share-copy"><svg class="i"><use href="#ck"/></svg>کپی</button><button type="button" class="hist-share-close" aria-label="بستن"><svg class="i"><use href="#close"/></svg></button>';
+ const field=panel.querySelector('input');field.value=link.toString();
+ panel.querySelector('.hist-share-close').onclick=()=>panel.remove();
+ panel.querySelector('.hist-share-copy').onclick=async()=>{
+  try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(field.value);else{field.focus();field.select();if(!document.execCommand('copy'))throw new Error('کپی خودکار در این مرورگر پشتیبانی نمی‌شود.')};toast('لینک گفتگو کپی شد.')}
+  catch(error){field.focus();field.select();toast('لینک انتخاب شد؛ آن را کپی کن.')}
+ };
+ row.appendChild(panel);field.focus();field.select();
+}
 async function chatAction(id,action){
  closeChatMenus();
  const item=chats.find(chat=>chat._id===id);if(!item)return;
  const url=`${API_BASE_URL}/ai/conversations/${encodeURIComponent(id)}`;
  try{
-  if(action==='rename'){
-   const title=prompt('نام جدید گفتگو را وارد کن:',item.title||'گفتگوی جدید');
-   if(title===null)return;
-   if(!title.trim()){toast('نام گفتگو نمی‌تواند خالی باشد.');return}
-   const response=await fetch(url+'/title',{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({title:title.trim()})});
-   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.message||'ویرایش نام انجام نشد.');
-   item.title=data.conversation?.title||title.trim();if(active===id)$('ttl').textContent=item.title;
-   renderHist($('q').value);toast('نام گفتگو تغییر کرد.');
-  }else if(action==='pin'){
+  if(action==='rename'){showRenameEditor(id);return}
+  if(action==='pin'){
    const response=await fetch(url+'/pin',{method:'POST',headers:Auth.headers()});
    const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.message||'تغییر وضعیت سنجاق انجام نشد.');
    item.isPinned=!!data.isPinned;renderHist($('q').value);toast(item.isPinned?'گفتگو پین شد.':'سنجاق گفتگو برداشته شد.');
@@ -623,9 +662,7 @@ async function chatAction(id,action){
   }else if(action==='share'){
    const response=await fetch(url+'/share',{method:'POST',headers:Auth.headers()});
    const data=await response.json().catch(()=>({}));if(!response.ok||!data.token)throw new Error(data.message||'ساخت لینک گفتگو ناموفق بود.');
-   const link=new URL(location.href);link.search='';link.hash='';link.searchParams.set('share',data.token);
-   await navigator.clipboard.writeText(link.toString());
-   toast('لینک گفتگو کپی شد.');
+   showSharePanel(id,data.token);
   }
  }catch(error){toast(error.message||'انجام عملیات ناموفق بود.')}
 }
