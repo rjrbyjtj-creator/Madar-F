@@ -267,14 +267,14 @@ select.fld{cursor:pointer}
   <div class="hist" id="hist"></div>
   <div class="foot">
     <div class="pop" id="pop">
-      <div class="hd"><b>امیرحسین رضایی</b><p>پایه دوازدهم • رشته تجربی</p></div>
+      <div class="hd"><b id="account-name">در حال دریافت اطلاعات…</b><p id="account-email">—</p></div>
       <button onclick="openModal('profile')"><svg class="i"><use href="#us"/></svg>پروفایل تحصیلی</button>
       <button onclick="openModal('look')"><svg class="i"><use href="#gr"/></svg>تنظیمات و ظاهر</button>
       <button onclick="setSide(document.body.classList.contains('left')?'right':'left')"><svg class="i pn"><use href="#pn"/></svg>جابه‌جایی منو (چپ / راست)</button>
       <button onclick="openModal('help')"><svg class="i"><use href="#hp"/></svg>راهنما</button>
-      <button class="out" onclick="toast('از حساب کاربری خارج شدید')"><svg class="i"><use href="./رستا _ فضای کار (1).html"/></svg>خروج از حساب</button>
+      <button class="out" onclick="Auth.logout('../لاگین و ثبت نام/لاگین.html')"><svg class="i"><use href="#ot"/></svg>خروج از حساب</button>
     </div>
-    <button class="acct" onclick="togglePop(event)"><span class="av"><svg class="i"><use href="#us"/></svg></span><b>امیرحسین رضایی</b><svg class="i chev"><use href="#cv"/></svg></button>
+    <button class="acct" onclick="togglePop(event)"><span class="av"><svg class="i"><use href="#us"/></svg></span><b id="sidebar-account-name">در حال بارگذاری…</b><svg class="i chev"><use href="#cv"/></svg></button>
   </div>
 </div></aside>
 
@@ -325,17 +325,15 @@ select.fld{cursor:pointer}
     <div class="sbody">
       <div class="pane" id="p-profile">
         <h3>پروفایل</h3>
-        <div class="srow"><div><b>تصویر پروفایل</b><small>PNG، JPEG یا WebP تا ۱۰ مگابایت</small></div><span class="av big"><svg class="i"><use href="#us"/></svg></span></div>
-        <div class="srow"><b>نام و نام خانوادگی</b><input class="fld" value="امیرحسین رضایی" onchange="toast('تغییرات ذخیره شد')"></div>
-        <div class="srow"><b>مدار شما را چه بنامد؟</b><input class="fld" value="امیرحسین" onchange="toast('تغییرات ذخیره شد')"></div>
-        <div class="srow"><b>پایه تحصیلی</b><select class="fld" onchange="toast('تغییرات ذخیره شد')"><option>دهم</option><option>یازدهم</option><option selected>دوازدهم</option></select></div>
-        <div class="srow"><b>رشته</b><select class="fld" onchange="toast('تغییرات ذخیره شد')"><option selected>علوم تجربی</option><option>ریاضی و فیزیک</option><option>علوم انسانی</option></select></div>
-        <div class="srow"><b>مشاور تحصیلی</b><span class="val">استاد محمدی</span></div>
-        <div class="srow"><b>شماره دانش‌آموزی</b><span class="val">۱۴۰۳۴۸۲۹ <button class="ib sm" onclick="navigator.clipboard&&navigator.clipboard.writeText('14034829');toast('کپی شد')" aria-label="کپی"><svg class="i"><use href="#cp"/></svg></button></span></div>
-        <div class="srow nb" style="margin-top:22px"><h3 style="margin:0">دستگاه‌های وارد شده</h3><button class="btn g" onclick="toast('از همه دستگاه‌ها خارج شدید')">خروج از همه دستگاه‌ها</button></div>
-        <div class="dev head"><span>دستگاه</span><span>آخرین فعالیت</span></div>
-        <div class="dev"><span>Chrome • ویندوز (این دستگاه)</span><span>اکنون</span></div>
-        <div class="dev"><span>Safari • iPhone</span><span>دیروز</span></div>
+        <div class="srow"><div><b>حساب کاربری</b><small>اطلاعات دریافت‌شده از حساب شما در مدار</small></div><span class="av big"><svg class="i"><use href="#us"/></svg></span></div>
+        <div class="srow"><b>نام و نام خانوادگی</b><span class="val" id="profile-name">—</span></div>
+        <div class="srow"><b>ایمیل</b><span class="val" id="profile-email">—</span></div>
+        <div class="srow"><b>شماره موبایل</b><span class="val" id="profile-phone">—</span></div>
+        <div class="srow"><b>نوع حساب</b><span class="val" id="profile-role">—</span></div>
+        <div class="srow"><b>شناسه تلگرام</b><span class="val" id="profile-telegram">—</span></div>
+        <div class="srow"><b>وضعیت تأیید شماره</b><span class="val" id="profile-phone-verified">—</span></div>
+        <div class="srow"><b>وضعیت اتصال تلگرام</b><span class="val" id="profile-telegram-verified">—</span></div>
+        <div class="srow"><b>تاریخ عضویت</b><span class="val" id="profile-created">—</span></div>
       </div>
       <div class="pane" id="p-look">
         <h3>ظاهر</h3>
@@ -370,6 +368,8 @@ select.fld{cursor:pointer}
 </div></div>
 <div id="toast"></div>
 
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 /* ▼▼ جای لوگوی ۳ (کنار پاسخ‌های هوش مصنوعی): مثلاً '<img src="logo.png" alt="">' ▼▼ */
@@ -502,6 +502,34 @@ function toggleSidebar(){
  else document.body.classList.toggle('closed');
 }
 function togglePop(e){e.stopPropagation();$('pop').classList.toggle('show')}
+
+function renderAccount(user){
+ const roleLabels={student:"دانش‌آموز",teacher:"دبیر",admin:"مدیر"};
+ const set=(id,value)=>{const el=$(id);if(el)el.textContent=value||"ثبت نشده"};
+ const fullName=user.name||"کاربر مدار";
+ set("account-name",fullName);set("account-email",user.email||"ایمیل ثبت نشده");
+ set("sidebar-account-name",fullName);set("profile-name",fullName);
+ set("profile-email",user.email);set("profile-phone",user.phone);
+ set("profile-role",roleLabels[user.role]||user.role);
+ set("profile-telegram",user.telegramUsername?("@"+user.telegramUsername):"متصل نشده");
+ set("profile-phone-verified",user.isPhoneVerified?"تأیید شده":"تأیید نشده");
+ set("profile-telegram-verified",user.isTelegramVerified?"تأیید شده":"تأیید نشده");
+ set("profile-created",user.createdAt?new Date(user.createdAt).toLocaleDateString("fa-IR"):"نامشخص");
+}
+
+async function loadAccount(){
+ const loginPage="../لاگین و ثبت نام/لاگین.html";
+ if(!Auth.get()){Auth.logout(loginPage);return;}
+ try{
+  const user=await Auth.me();
+  if(!user){Auth.logout(loginPage);return;}
+  renderAccount(user);
+ }catch(error){
+  toast("دریافت اطلاعات حساب ممکن نشد؛ اتصال اینترنت را بررسی کن.");
+  $("account-name").textContent="اطلاعات حساب در دسترس نیست";
+  $("sidebar-account-name").textContent="خطا در دریافت حساب";
+ }
+}
 document.addEventListener('click',e=>{if(!$('pop').contains(e.target))$('pop').classList.remove('show')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('pop').classList.remove('show')}});
 
@@ -545,6 +573,7 @@ let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sho
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
  setSide(sd,false);$('inp').addEventListener('input',sync);
  $('slotW').appendChild($('box'));renderHist();
+ loadAccount();
 })();
 </script>
 </body>
