@@ -386,14 +386,14 @@ const Q={plan:'یک برنامه مطالعاتی هفتگی استاندارد 
 
 function fmt(s){
  const safe=esc(s);
- const inl=x=>x.replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>').replace(/\\$(.+?)\\$/g,'<span class="m">$1</span>');
- return safe.split('\\n').map(line=>{
+ const inl=x=>x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\$(.+?)\$/g,'<span class="m">$1</span>');
+ return safe.split('\n').map(line=>{
   const l=line.trim();if(!l)return'';
   if(l.startsWith('### '))return'<h3>'+inl(l.slice(4))+'</h3>';
   if(l.startsWith('> '))return'<div class="note">'+inl(l.slice(2))+'</div>';
   let m;
-  if(m=l.match(/^[*-]\\s+(.*)/))return'<div class="li"><b>•</b><span>'+inl(m[1])+'</span></div>';
-  if(m=l.match(/^(\\d+)\\.\\s+(.*)/))return'<div class="li"><b>'+m[1]+'.</b><span>'+inl(m[2])+'</span></div>';
+  if(m=l.match(/^[*-]\s+(.*)/))return'<div class="li"><b>•</b><span>'+inl(m[1])+'</span></div>';
+  if(m=l.match(/^(\d+)\.\s+(.*)/))return'<div class="li"><b>'+m[1]+'.</b><span>'+inl(m[2])+'</span></div>';
   return'<p>'+inl(l)+'</p>';
  }).join('');
 }
@@ -545,6 +545,7 @@ async function loadAccount(){
   const user=await Auth.me();
   if(!user){Auth.logout(loginPage);return;}
   renderAccount(user);
+  await loadConversations();
  }catch(error){
   toast("دریافت اطلاعات حساب ممکن نشد؛ اتصال اینترنت را بررسی کن.");
   $("account-name").textContent="اطلاعات حساب در دسترس نیست";
