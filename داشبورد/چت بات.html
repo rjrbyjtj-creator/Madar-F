@@ -272,7 +272,7 @@ select.fld{cursor:pointer}
       <button onclick="openModal('look')"><svg class="i"><use href="#gr"/></svg>تنظیمات و ظاهر</button>
       <button onclick="setSide(document.body.classList.contains('left')?'right':'left')"><svg class="i pn"><use href="#pn"/></svg>جابه‌جایی منو (چپ / راست)</button>
       <button onclick="openModal('help')"><svg class="i"><use href="#hp"/></svg>راهنما</button>
-      <button class="out" onclick="Auth.logout('../لاگین و ثبت نام/لاگین.html')"><svg class="i"><use href="#ot"/></svg>خروج از حساب</button>
+      <button class="out" onclick="backToDashboard()"><svg class="i"><use href="#rt"/></svg>بازگشت به داشبورد</button>
     </div>
     <button class="acct" onclick="togglePop(event)"><span class="av"><svg class="i"><use href="#us"/></svg></span><b id="sidebar-account-name">در حال بارگذاری…</b><svg class="i chev"><use href="#cv"/></svg></button>
   </div>
@@ -475,6 +475,17 @@ async function send(text){
  }
 }
 function quick(k){send(Q[k])}
+function backToDashboard(){
+ const fallback='./رستا _ فضای کار (1).html';
+ try{
+  const previous=new URL(document.referrer);
+  if(previous.origin===location.origin&&previous.pathname.includes('/داشبورد/')){
+   history.back();
+   return;
+  }
+ }catch(e){}
+ location.assign(fallback);
+}
 function resetChat(){
  active=null;conversation=[];chatBusy=false;renderHist();$('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='دستیار آموزشی مدار';
