@@ -87,7 +87,13 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 #dock{display:none;padding:6px 22px 14px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
 #dock .col{padding:0}
 #dock small{display:block;text-align:center;font-size:11px;color:var(--mu);margin-top:8px}
-.box{background:var(--sf);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh);padding:12px 14px 10px;transition:border-color .2s}
+.box{position:relative;isolation:isolate;background:var(--sf);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh);padding:12px 14px 10px;transition:border-color .2s}
+#box.voice-active::after{content:'';position:absolute;z-index:-1;pointer-events:none;left:8%;right:8%;bottom:-19px;height:34px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(83,133,235,.48) 0%,rgba(83,133,235,.18) 42%,transparent 74%);filter:blur(calc(9px + var(--voice-level,0)*9px));opacity:calc(.22 + var(--voice-level,0)*.72);transform:scaleY(calc(.72 + var(--voice-level,0)*.9));transition:opacity .12s,transform .12s,filter .12s}
+#voiceStatusBar{display:none;text-align:center;font-size:11px;color:var(--mu);padding-top:9px;min-height:22px}
+#voiceStatusBar.show{display:block}
+#sttBtn.recording{color:#fff;background:#C83F4D;box-shadow:0 0 0 4px rgba(200,63,77,.12)}
+#sttBtn.recording svg{animation:micBeat 1s ease-in-out infinite}
+@keyframes micBeat{50%{transform:scale(1.15)}}
 .box:focus-within{border-color:var(--ac)}
 .box textarea{width:100%;border:0;outline:0;resize:none;background:none;color:var(--tx);font-size:15px;line-height:1.8;max-height:160px}
 .box textarea::placeholder{color:var(--mu)}
@@ -225,23 +231,7 @@ select.fld{cursor:pointer}
 .btn{border-radius:8px}
 .av.big{border-radius:10px}
 
-/* Gemini Live voice-call dialog */
-#voiceCall{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(8,13,27,.62);backdrop-filter:blur(8px)}
-#voiceCall.show{display:flex}
-.voice-card{position:relative;width:min(420px,94vw);min-height:420px;padding:34px 24px 26px;border:1px solid var(--ln);border-radius:28px;background:var(--sf);box-shadow:0 28px 90px -28px rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:up .22s ease}
-.voice-close{position:absolute;top:14px;left:14px}
-.voice-orb{width:156px;height:156px;border-radius:50%;display:grid;place-items:center;margin:14px auto 28px;color:#fff;background:radial-gradient(circle at 35% 28%,#6683c4 0,#2d4c91 42%,#14264f 78%);box-shadow:0 0 0 12px rgba(43,76,152,.08),0 18px 55px -12px rgba(20,38,79,.5);transition:transform .25s,box-shadow .25s}
-.voice-orb svg{width:48px;height:48px}
-.voice-orb.active{animation:voicePulse 1.8s ease-in-out infinite}
-.voice-orb.speaking{background:radial-gradient(circle at 35% 28%,#d9b96f 0,#b8892d 48%,#75551c 85%);box-shadow:0 0 0 12px rgba(184,137,45,.10),0 18px 55px -12px rgba(184,137,45,.42)}
-@keyframes voicePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 12px rgba(43,76,152,.08),0 18px 55px -12px rgba(20,38,79,.5)}50%{transform:scale(1.045);box-shadow:0 0 0 22px rgba(43,76,152,.04),0 18px 60px -12px rgba(20,38,79,.38)}}
-.voice-card h2{font-size:19px;font-weight:700}
-.voice-card p{font-size:13px;color:var(--mu);margin-top:8px;min-height:24px}
-.voice-status{font-size:14px;font-weight:600;color:var(--tx);margin-top:18px}
-.voice-end{margin-top:30px;display:flex;align-items:center;gap:10px;padding:11px 22px;border-radius:999px;background:#C83F4D;color:#fff;font-size:13px;font-weight:600}
-.voice-end:hover{background:#ad3040}
-.voice-end svg{width:18px;height:18px}
-.voice-end:disabled{opacity:.6;cursor:wait}
+/* Inline voice-call glow is rendered beneath the composer; no modal panel. */
 
 </style>
 </head>
@@ -262,6 +252,7 @@ select.fld{cursor:pointer}
 <symbol id="cp" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
 <symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
 <symbol id="mc" viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></symbol>
+<symbol id="wv" viewBox="0 0 24 24"><path d="M2 10v4m4-7v10m4-14v18m4-14v10m4-7v4m4-6v8"/></symbol>
 <symbol id="rt" viewBox="0 0 24 24"><path d="M20 5v6a3 3 0 0 1-3 3H5m0 0 4-4m-4 4 4 4"/></symbol>
 <symbol id="cv" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
 </defs></svg>
@@ -320,14 +311,14 @@ select.fld{cursor:pointer}
     </div></div>
     <div id="chat" class="col"></div>
   </div>
-  <div id="dock"><div class="col"><div id="slotD"></div><small>مدار ممکن است اشتباه کند؛ نکات کلیدی را با دبیر خود نیز بررسی کنید.</small></div></div>
+  <div id="dock"><div class="col"><div id="slotD"></div><div id="voiceStatusBar" aria-live="polite"></div><small>مدار ممکن است اشتباه کند؛ نکات کلیدی را با دبیر خود نیز بررسی کنید.</small></div></div>
 </main>
 
 <div id="tpl" style="display:none"><div class="box" id="box">
   <textarea id="inp" rows="2" placeholder="سؤال خود را اینجا بنویسید…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
   <div class="bar">
     <span class="l"><input type="file" id="file" hidden onchange="attach(this)"><button class="ib sm" onclick="$('file').click()" title="پیوست فایل" aria-label="پیوست فایل"><svg class="i"><use href="#pl"/></svg></button><span id="fn" class="chip" hidden onclick="clearAtt()" title="حذف پیوست"></span></span>
-    <span class="r"><button class="ib sm" onclick="openLiveCall()" title="تماس صوتی با مدار" aria-label="شروع تماس صوتی"><svg class="i"><use href="#mc"/></svg></button><button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button></span>
+    <span class="r"><button class="ib sm" id="sttBtn" onclick="toggleDictation()" title="تبدیل گفتار به متن" aria-label="شروع تایپ صوتی"><svg class="i"><use href="#mc"/></svg></button><button class="ib sm" id="liveBtn" onclick="openLiveCall()" title="گفتگوی صوتی با مدار" aria-label="شروع گفتگوی صوتی"><svg class="i"><use href="#wv"/></svg></button><button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button></span>
   </div>
 </div></div>
 
@@ -386,16 +377,7 @@ select.fld{cursor:pointer}
   </div>
 </div></div>
 
-<div id="voiceCall" aria-hidden="true">
-  <section class="voice-card" role="dialog" aria-modal="true" aria-labelledby="voiceTitle">
-    <button class="ib voice-close" onclick="stopLiveCall()" aria-label="بستن تماس"><svg class="i"><use href="#x"/></svg></button>
-    <div class="voice-orb" id="voiceOrb"><svg class="i"><use href="#mc"/></svg></div>
-    <h2 id="voiceTitle">تماس صوتی مدار</h2>
-    <div class="voice-status" id="voiceStatus">در حال آماده‌سازی تماس…</div>
-    <p id="voiceHint">برای مکالمه، بعد از اتصال شروع به صحبت کن.</p>
-    <button class="voice-end" id="voiceEnd" onclick="stopLiveCall()"><svg class="i"><use href="#x"/></svg>پایان تماس</button>
-  </section>
-</div>
+
 
 <div id="toast"></div>
 
@@ -587,7 +569,7 @@ async function loadAccount(){
  }
 }
 document.addEventListener('click',e=>{if(!$('pop').contains(e.target))$('pop').classList.remove('show')});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(liveCallActive)stopLiveCall();closeModal();$('pop').classList.remove('show')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(liveCallActive)stopLiveCall();if(dictationRecognition)stopDictation();closeModal();$('pop').classList.remove('show')}});
 
 function openModal(t){$('pop').classList.remove('show');$('modal').classList.add('show');tab(t)}
 function closeModal(){$('modal').classList.remove('show')}
@@ -605,6 +587,36 @@ function setTheme(m,note=true){
  if(note)toast(m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
 }
 let att=null;
+let dictationRecognition=null;
+let dictationActive=false;
+function toggleDictation(){
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SpeechRecognition){toast('تبدیل گفتار به متن در این مرورگر پشتیبانی نمی‌شود؛ از Chrome یا Edge استفاده کن.');return}
+ if(dictationActive){stopDictation();return}
+ if(liveCallActive){toast('برای تایپ صوتی، ابتدا گفتگوی زنده را پایان بده.');return}
+ if(!Auth.get()){toast('برای استفاده از دستیار ابتدا وارد حساب کاربری شو.');return}
+ dictationRecognition=new SpeechRecognition();dictationRecognition.lang='fa-IR';dictationRecognition.continuous=false;dictationRecognition.interimResults=true;
+ const input=$('inp'),base=input.value.trim();
+ dictationActive=true;$('sttBtn').classList.add('recording');$('sttBtn').title='توقف ضبط گفتار';
+ dictationRecognition.onresult=event=>{
+  let finalText='',interimText='';
+  for(let i=event.resultIndex;i<event.results.length;i++){
+   const piece=event.results[i][0].transcript;
+   if(event.results[i].isFinal)finalText+=piece;else interimText+=piece;
+  }
+  const spoken=(finalText||interimText).trim();
+  input.value=[base,spoken].filter(Boolean).join(base&&spoken?' ':'');
+  input.dispatchEvent(new Event('input',{bubbles:true}));
+ };
+ dictationRecognition.onerror=event=>{if(event.error!=='no-speech'&&event.error!=='aborted')toast('دریافت صدا ناموفق بود: '+event.error)};
+ dictationRecognition.onend=()=>stopDictation(false);
+ try{dictationRecognition.start();toast('دارم به صدات گوش می‌دم…')}catch(error){stopDictation(false);toast('شروع میکروفون ناموفق بود.')}
+}
+function stopDictation(stopEngine=true){
+ const current=dictationRecognition;dictationRecognition=null;dictationActive=false;
+ $('sttBtn').classList.remove('recording');$('sttBtn').title='تبدیل گفتار به متن';
+ if(stopEngine&&current){try{current.stop()}catch(error){}}
+}
 function sync(){$('sb').classList.toggle('on',!!$('inp').value.trim()||!!att)}
 function attach(el){const f=el.files[0];if(!f)return;att=f.name;$('fn').textContent=f.name;$('fn').hidden=false;sync()}
 function clearAtt(){att=null;$('file').value='';$('fn').hidden=true;sync()}
@@ -612,6 +624,8 @@ let liveSocket=null;
 let liveMicStream=null;
 let liveInputContext=null;
 let liveMicSource=null;
+let liveAnalyser=null;
+let liveMeterFrame=0;
 let liveProcessor=null;
 let liveSilentGain=null;
 let liveOutputContext=null;
@@ -626,9 +640,8 @@ let liveFinalizeTimer=null;
 let liveSaving=false;
 
 function setLiveCallStatus(status,hint){
- const statusEl=$('voiceStatus'),hintEl=$('voiceHint');
- if(statusEl)statusEl.textContent=status;
- if(hintEl&&hint)hintEl.textContent=hint;
+ const statusEl=$('voiceStatusBar');
+ if(statusEl){statusEl.textContent=status||'';statusEl.classList.toggle('show',!!status)}
 }
 function appendLiveTranscript(current,chunk){
  const next=String(chunk||'').trim();
@@ -707,6 +720,18 @@ async function startLiveMicrophone(){
  liveInputContext=new (window.AudioContext||window.webkitAudioContext)();
  await liveInputContext.resume();
  liveMicSource=liveInputContext.createMediaStreamSource(liveMicStream);
+ liveAnalyser=liveInputContext.createAnalyser();liveAnalyser.fftSize=256;
+ liveMicSource.connect(liveAnalyser);
+ const meterData=new Uint8Array(liveAnalyser.frequencyBinCount);
+ const paintMeter=()=>{
+  if(!liveCallActive||!liveAnalyser)return;
+  liveAnalyser.getByteTimeDomainData(meterData);
+  let energy=0;for(let i=0;i<meterData.length;i++){const v=(meterData[i]-128)/128;energy+=v*v}
+  const level=Math.min(1,Math.sqrt(energy/meterData.length)*3.8);
+  $('box').style.setProperty('--voice-level',String(level));
+  liveMeterFrame=requestAnimationFrame(paintMeter);
+ };
+ paintMeter();
  liveProcessor=liveInputContext.createScriptProcessor(4096,1,1);
  liveSilentGain=liveInputContext.createGain();liveSilentGain.gain.value=0;
  liveProcessor.onaudioprocess=event=>{
@@ -721,15 +746,18 @@ async function startLiveMicrophone(){
 }
 function stopLiveMicrophone(){
  if(liveProcessor){liveProcessor.disconnect();liveProcessor.onaudioprocess=null;liveProcessor=null}
+ if(liveMeterFrame){cancelAnimationFrame(liveMeterFrame);liveMeterFrame=0}
  if(liveMicSource){liveMicSource.disconnect();liveMicSource=null}
+ if(liveAnalyser){liveAnalyser.disconnect();liveAnalyser=null}
  if(liveSilentGain){liveSilentGain.disconnect();liveSilentGain=null}
  if(liveMicStream){liveMicStream.getTracks().forEach(track=>track.stop());liveMicStream=null}
  if(liveInputContext){liveInputContext.close().catch(()=>{});liveInputContext=null}
 }
 function updateLiveOrb(mode){
- const orb=$('voiceOrb');if(!orb)return;
- orb.classList.toggle('active',mode==='listening'||mode==='speaking');
- orb.classList.toggle('speaking',mode==='speaking');
+ const box=$('box');if(!box)return;
+ box.classList.toggle('voice-active',mode==='connecting'||mode==='listening'||mode==='speaking');
+ box.dataset.voiceMode=mode;
+ if(mode==='idle')box.style.setProperty('--voice-level','0');
 }
 async function saveLiveTurn(){
  if(liveSaving)return;
@@ -769,8 +797,8 @@ async function openLiveCall(){
  if(att){toast('برای شروع تماس صوتی، ابتدا پیوست انتخاب‌شده را حذف کن.');return}
  liveCallActive=true;liveUserStopped=false;liveSetupReady=false;
  liveUserTranscript='';liveModelTranscript='';
- $('voiceCall').classList.add('show');$('voiceCall').setAttribute('aria-hidden','false');
- $('voiceEnd').disabled=false;setLiveCallStatus('در حال اتصال…','در حال دریافت دسترسی امن و آماده‌سازی میکروفون هستم.');
+ $('liveBtn').classList.add('recording');$('liveBtn').title='پایان گفتگوی صوتی';
+ setLiveCallStatus('در حال اتصال گفتگوی صوتی…');
  updateLiveOrb('connecting');
  try{
   liveOutputContext=new (window.AudioContext||window.webkitAudioContext)({sampleRate:24000});
@@ -806,7 +834,7 @@ async function openLiveCall(){
      liveSocket.send(JSON.stringify({clientContent:{turns:prior.map(item=>({role:item.role,parts:[{text:item.content}]})),turnComplete:true}}));
      await startLiveMicrophone();
      if(!liveCallActive)return;
-     setLiveCallStatus('متصل شدی؛ گوش می‌دم','حالا می‌تونی طبیعی صحبت کنی. برای پایان، دکمه قرمز را بزن.');
+     setLiveCallStatus('گفتگوی صوتی فعاله — برای پایان، دوباره روی دکمه موج صدا بزن.');
      updateLiveOrb('listening');
      return;
     }
@@ -815,7 +843,7 @@ async function openLiveCall(){
     if(content.interrupted)clearLivePlayback();
     if(content.inputTranscription&&content.inputTranscription.text){
      liveUserTranscript=appendLiveTranscript(liveUserTranscript,content.inputTranscription.text);
-     setLiveCallStatus('دارم گوش می‌دم…','صدات رو دریافت می‌کنم.');
+     setLiveCallStatus('دارم گوش می‌دم…');
      updateLiveOrb('listening');
     }
     if(content.outputTranscription&&content.outputTranscription.text){
@@ -831,13 +859,13 @@ async function openLiveCall(){
      }
     }
     if(audioReceived){
-     setLiveCallStatus('مدار در حال پاسخ‌گویی است','می‌تونی هر زمان خواستی صحبت کنی؛ مکالمه زنده است.');
+     setLiveCallStatus('مدار در حال پاسخ‌گویی است…');
      updateLiveOrb('speaking');
     }
     if(content.turnComplete){
      scheduleLiveTurnSave();
      if(!audioReceived){
-      setLiveCallStatus('متصل شدی؛ گوش می‌دم','نوبت پاسخ تمام شد. هر وقت خواستی دوباره صحبت کن.');
+      setLiveCallStatus('گفتگوی صوتی فعاله — صحبت کن تا ادامه بدیم.');
       updateLiveOrb('listening');
      }
     }
@@ -853,8 +881,8 @@ async function openLiveCall(){
    stopLiveMicrophone();liveSetupReady=false;
    if(!liveUserStopped&&liveCallActive){
     liveCallActive=false;clearLivePlayback();
-    setLiveCallStatus('تماس قطع شد',event.reason||'ارتباط با Gemini پایان یافت.');
-    updateLiveOrb('idle');$('voiceEnd').disabled=true;
+    setLiveCallStatus('تماس صوتی قطع شد. برای شروع دوباره، دکمه موج صدا را بزن.');
+    updateLiveOrb('idle');$('liveBtn').classList.remove('recording');$('liveBtn').title='گفتگوی صوتی با مدار';
    }
   };
  }catch(error){
@@ -876,8 +904,8 @@ function stopLiveCall(){
  stopLiveMicrophone();clearLivePlayback();
  if(liveOutputContext){liveOutputContext.close().catch(()=>{});liveOutputContext=null}
  liveUserTranscript='';liveModelTranscript='';
- $('voiceCall').classList.remove('show');$('voiceCall').setAttribute('aria-hidden','true');
- $('voiceEnd').disabled=false;updateLiveOrb('idle');
+ $('liveBtn').classList.remove('recording');$('liveBtn').title='گفتگوی صوتی با مدار';
+ setLiveCallStatus('');updateLiveOrb('idle');
 }
 window.addEventListener('beforeunload',()=>{if(liveCallActive)stopLiveCall()});
 
