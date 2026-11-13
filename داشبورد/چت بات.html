@@ -503,6 +503,7 @@ async function send(text){
 function quick(k){send(Q[k])}
 function resetChat(){
  if(liveCallActive)stopLiveCall();
+ $('box').classList.remove('compact');
  active=null;conversationId=null;conversation=[];renderHist($('q').value);
  $('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='دستیار آموزشی مدار';
@@ -807,6 +808,7 @@ async function openLiveCall(){
  if(chatBusy){toast('اول صبر کن پاسخ فعلی کامل شود.');return}
  if(!Auth.get()){toast('برای تماس صوتی ابتدا وارد حساب کاربری شو.');return}
  if(att){toast('برای شروع تماس صوتی، ابتدا پیوست انتخاب‌شده را حذف کن.');return}
+ if(dictationActive)stopDictation();
  liveCallActive=true;liveUserStopped=false;liveSetupReady=false;
  liveUserTranscript='';liveModelTranscript='';
  $('liveBtn').classList.add('recording');$('liveBtn').title='پایان گفتگوی صوتی';
