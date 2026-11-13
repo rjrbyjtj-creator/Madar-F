@@ -495,7 +495,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({conversationId,message:t}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t}),
   });
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.message||'دریافت پاسخ از هوش مصنوعی ناموفق بود.');
