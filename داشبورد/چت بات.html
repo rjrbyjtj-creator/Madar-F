@@ -476,15 +476,9 @@ async function send(text){
 }
 function quick(k){send(Q[k])}
 function backToDashboard(){
- const fallback='./رستا _ فضای کار (1).html';
- try{
-  const previous=new URL(document.referrer);
-  if(previous.origin===location.origin&&previous.pathname.includes('/داشبورد/')){
-   history.back();
-   return;
-  }
- }catch(e){}
- location.assign(fallback);
+ // همیشه مستقیم به داشبورد برگرد؛ بدون logout و بدون وابستگی به history مرورگر.
+ const dashboard='./رستا _ فضای کار (1).html';
+ location.replace(dashboard);
 }
 function resetChat(){
  active=null;conversation=[];chatBusy=false;renderHist();$('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
