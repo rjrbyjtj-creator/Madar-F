@@ -13,6 +13,7 @@
 :root{--bg:#F6F7F9;--bg2:#FBFBFC;--card:#fff;--panel:#fff;--cb:rgba(255,255,255,.94);--inner:#FBFBFC;--tile:#EDEFF4;--chip:#EDEFF4;--text:#1B2233;--muted:#6B7488;--primary:#14264F;--login:#14264F;--gold:#B8892D;--line:#E3E6EC;--sh:rgba(20,38,79,.08);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
 :root[data-theme=dark]{--bg:#0C1222;--bg2:#0F1729;--card:#131C32;--panel:#131C32;--cb:rgba(19,28,50,.94);--inner:#0F1729;--tile:#1A2440;--chip:#1A2440;--text:#E6EAF3;--muted:#8D98B0;--primary:#2B4C98;--login:#2B4C98;--gold:#D9AE55;--line:#243049;--sh:rgba(0,0,0,.45)
 *{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg);font-size:clamp(12px,.957vw,22px);scroll-behavior:smooth}
 body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;
   background:radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
@@ -28,18 +29,18 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 .page{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:1.1rem 4.75rem 0 4.4rem}
 
 /* هدر */
-.top{position:relative;z-index:5;display:grid;grid-template-columns:auto minmax(220px,1fr) auto;align-items:center;gap:2rem;height:3.6rem}
-.logo{display:flex;align-items:center;gap:.55rem;min-width:max-content}
-.logo .ph{display:grid;place-items:center;width:2.8rem;height:2.8rem;overflow:hidden;border:0;background:transparent}
-.logo img{display:block;width:100%;height:100%;object-fit:contain}
-.logo strong{display:block;font-size:1.45rem;font-weight:800;line-height:1.2;letter-spacing:-.04em}
-.logo small{display:block;font-size:.68rem;font-weight:500;line-height:1.5;color:var(--muted)}
-.search{width:min(100%,34rem);min-width:0;margin:0 auto;display:flex;align-items:center;gap:.75rem;height:2.65rem;padding:0 1.1rem;background:var(--card);border:1px solid var(--cb);border-radius:999px;box-shadow:0 .25rem 1rem var(--sh);color:var(--muted);transition:box-shadow .3s,border-color .3s}
+.top{position:relative;z-index:5;display:flex;align-items:center;height:3.6rem}
+.logo{display:flex;align-items:center;gap:.75rem}
+.logo .ph{width:3.3rem;height:3.6rem}
+.logo img{height:3.6rem;width:auto}
+.logo strong{display:block;font-size:2rem;font-weight:800;line-height:1.1}
+.logo small{display:block;font-size:.7rem;font-weight:700;line-height:1.4}
+.search{flex:0 0 35rem;margin-inline:18.2rem auto;display:flex;align-items:center;gap:.75rem;height:2.65rem;padding:0 1.1rem;background:var(--card);border:1px solid var(--cb);border-radius:999px;box-shadow:0 .25rem 1rem var(--sh);color:var(--muted);transition:box-shadow .3s,border-color .3s}
 .search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent)}
 .search svg.i{width:1.3rem;height:1.3rem;color:var(--text)}
 .search input{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;font-size:.9rem;color:var(--text)}
 .search input::placeholder{color:var(--muted)}
-.actions{display:flex;align-items:center;gap:.9rem;justify-self:end}
+.actions{display:flex;align-items:center;gap:1.4rem}
 .ib{position:relative;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;color:var(--text);transition:background .2s,transform .3s var(--ease)}
 .ib:hover{background:var(--chip);transform:translateY(-2px)}
 .ib svg.i{width:1.4rem;height:1.4rem}
@@ -71,7 +72,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 .pp-out svg.i{width:1.05rem;height:1.05rem}
 
 /* منو */
-.nav{position:relative;z-index:3;display:flex;gap:2.6rem;margin-top:1.1rem;padding-inline-start:0}
+.nav{position:relative;z-index:3;display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
 .nav a{position:relative;display:flex;align-items:center;gap:.45rem;padding-bottom:.55rem;font-size:.92rem;font-weight:500;white-space:nowrap;transition:color .2s}
 .nav a:hover,.nav a.on{color:var(--gold)}
 .nav a svg.i{width:.7rem;height:.7rem;stroke-width:2}
@@ -180,9 +181,9 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 @media(max-width:1180px){
   html{font-size:15px}
   .page{padding-inline:1.2rem}
-  .top{height:auto;grid-template-columns:auto 1fr auto;gap:.8rem}
-  .search{grid-column:1/-1;grid-row:2;width:100%;max-width:none;margin:0}
-  .actions{margin-inline-start:0}
+  .top{height:auto;flex-wrap:wrap;gap:.8rem}
+  .search{order:3;flex-basis:100%;margin:0}
+  .actions{margin-inline-start:auto}
   .nav{padding-inline-start:0;gap:1.8rem;overflow:visible;flex-wrap:wrap;row-gap:.4rem}
 }
 @media(max-width:900px){
@@ -203,65 +204,6 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
   .an .big{grid-row:auto;min-height:12rem}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-
-/* بازطراحی بخش‌های پایین داشبورد */
-.intro{margin-top:2.6rem;padding-bottom:.2rem}
-.intro .pill{font-size:.72rem;padding:.22rem .8rem}
-.intro h2{margin-top:.55rem;font-size:1.7rem;letter-spacing:-.035em}
-.intro p{margin-top:.2rem;font-size:.88rem}
-.intro .gline{width:3.4rem;margin-top:.65rem}
-.cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.25rem}
-.fc,.fc:nth-child(n){grid-column:auto;display:flex;flex-direction:column;justify-content:space-between;min-height:12.4rem;padding:1.15rem 1.2rem;background:var(--card);border:1px solid var(--line);border-radius:1rem;box-shadow:0 .35rem 1.2rem var(--sh);transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
-.fc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--gold) 45%,var(--line));box-shadow:0 .7rem 1.5rem var(--sh)}
-.fh{align-items:flex-start;gap:.85rem}
-.fiw{width:3.25rem}
-.fiw::after{display:none}
-.fi{width:3.25rem;height:3.25rem;border-radius:.85rem}
-.fi svg{width:1.8rem;height:1.8rem}
-.fc h3{font-size:.98rem}
-.fc p{margin-top:.18rem;font-size:.75rem;line-height:1.8}
-.fbtn{min-width:0;width:max-content;max-width:100%;height:2.35rem;margin-top:1rem;padding:0 .95rem;gap:.7rem;font-size:.73rem;border-radius:.65rem;box-shadow:none}
-.fbtn svg.i{width:.85rem;height:.85rem}
-.sec,.sec.rev{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:2rem;margin-top:2.6rem;padding:1.5rem;background:var(--card);border:1px solid var(--line);border-radius:1.1rem;box-shadow:0 .35rem 1.2rem var(--sh)}
-.sec.rev>.txt{order:0}
-.txt h2{margin-top:.65rem;font-size:1.45rem;line-height:1.55}
-.txt>p{margin-top:.4rem;font-size:.82rem;line-height:2}
-.pts{gap:.4rem;margin-top:.9rem;font-size:.78rem}
-.box{padding:1.1rem 1.25rem;border-radius:.85rem;box-shadow:none;background:var(--inner);border-color:var(--line)}
-.row{gap:.8rem;padding:.65rem 0;font-size:.8rem}
-.row time{width:5rem;font-size:.7rem}
-.chat{gap:.6rem}
-.bub{font-size:.78rem;padding:.6rem .9rem}
-.ex{gap:.8rem}
-.ex .box:nth-child(even){margin-top:1rem}
-.ex .d{font-size:1.8rem}
-.an{gap:.8rem}
-.an .big{min-height:14rem}
-.an .big h4{font-size:1.05rem}
-.an .big p,.an .box p{font-size:.75rem}
-.foot{margin-top:2.5rem;padding:1rem 0;border-top:1px solid var(--line);font-size:.72rem}
-@media(max-width:900px){
- .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
- .sec,.sec.rev{grid-template-columns:1fr;gap:1.2rem;margin-top:1.2rem;padding:1.1rem}
- .sec.rev>.txt{order:0}
- .ex,.an{grid-template-columns:repeat(2,minmax(0,1fr))}
- .an .big{grid-row:span 2;min-height:12rem}
-}
-@media(max-width:560px){
- .top{grid-template-columns:1fr auto}
- .logo .ph{width:2.5rem;height:2.5rem}
- .logo strong{font-size:1.25rem}
- .nav{gap:1rem;overflow-x:auto;flex-wrap:nowrap;padding-bottom:.2rem}
- .nav a{font-size:.78rem}
- .cards{grid-template-columns:1fr}
- .fc,.fc:nth-child(n){min-height:0;padding:1rem}
- .ex,.an{grid-template-columns:1fr}
- .an .big{grid-row:auto;min-height:10rem}
- .intro h2{font-size:1.35rem}
- .txt h2{font-size:1.25rem}
- .foot{flex-wrap:wrap}
-}
-
 </style>
 </head>
 <body>
@@ -297,7 +239,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
   <header class="top">
     <a href="#" class="logo" aria-label="مدار">
       <span class="ph" data-ph="لوگو"><img class="only-light" src="../عکس ها/هدر.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/هدر.png" alt="" onerror="this.remove()"></span>
-      <span><strong>مدار</strong><small>فضای آموزشی</small></span>
+      <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
     </a>
     <label class="search">
       <svg class="i"><use href="#i-search"/></svg>
@@ -330,7 +272,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
     <div class="dd"><a href="#" class="on" aria-haspopup="true">صفحه اصلی<svg class="i"><use href="#i-down"/></svg></a>
       <ul class="sub"><li><a href="#">داشبورد</a></li><li><a href="#">پروفایل من</a></li></ul></div>
     <div class="dd"><a href="#" aria-haspopup="true">اطلاعیه‌ها<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">اطلاعیه‌های جدید</a></li><li><a href="#">اخبار و رویدادها</a></li><li><a href="#">بایگانی</a></li></ul></div>
+      <ul class="sub"><li><a href="#">اطلاعیه‌های جدید</a></li><li><a href="#">اخبار مدرسه</a></li><li><a href="#">بایگانی</a></li></ul></div>
     <a href="./files.html">فایل‌ها</a>
     <div class="dd"><a href="#" aria-haspopup="true">آزمون‌ها<svg class="i"><use href="#i-down"/></svg></a>
       <ul class="sub"><li><a href="#">آزمون‌های پیش‌رو</a></li><li><a href="#">آزمون آنلاین</a></li><li><a href="#">نتایج آزمون‌ها</a></li></ul></div>
@@ -341,7 +283,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
     <div class="dd"><a href="#" aria-haspopup="true">مشاوره تحصیلی<svg class="i"><use href="#i-down"/></svg></a>
       <ul class="sub"><li><a href="#">رزرو وقت مشاوره</a></li><li><a href="#">منابع مطالعاتی</a></li></ul></div>
     <div class="dd"><a href="#" aria-haspopup="true">درباره ما<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">معرفی مدار</a></li><li><a href="#">تماس با ما</a></li></ul></div>
+      <ul class="sub"><li><a href="#">معرفی مدرسه</a></li><li><a href="#">تماس با ما</a></li></ul></div>
   </nav>
 
 <main class="main">
@@ -374,9 +316,9 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 
   <!-- دسترسی سریع -->
   <section class="intro">
-    <span class="pill"><svg class="i"><use href="#i-cap"/></svg>امکانات و خدمات مدار</span>
-    <h2>همه ابزارهای موردنیاز، یک‌جا در مدار</h2>
-    <p>از برنامه‌ریزی و منابع آموزشی تا آزمون‌ها و ارتباط هوشمند؛ ساده و در دسترس.</p>
+    <span class="pill"><svg class="i"><use href="#i-cap"/></svg>به پنل کاربری خود خوش آمدید</span>
+    <h2>مدرسه مدار، همراه مسیر پیشرفت شما</h2>
+    <p>با امکانات هوشمندانه، تجربه‌ای بهتر از مدرسه را تجربه کنید.</p>
     <i class="gline"></i>
   </section>
 
@@ -388,13 +330,13 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
     </article>
     <article class="fc">
       <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-bot"/></svg></span></div>
-        <div><h3>چت بات</h3><p>پرسش‌های خود را از دستیار هوشمند مدار بپرسید.</p></div></div>
+        <div><h3>چت بات</h3><p>پرسش‌های خود را از دستیار هوشمند مدرسه بپرسید.</p></div></div>
       <a href="#chatbot" class="fbtn">ورود به چت بات<svg class="i"><use href="#i-chev"/></svg></a>
     </article>
     <article class="fc">
       <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-folder"/></svg></span></div>
         <div><h3>فایل‌ها</h3><p>دسترسی سریع به فایل‌های آموزشی و منابع درسی.</p></div></div>
-      <a href="./files.html" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+      <a href="#files" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
     </article>
     <article class="fc">
       <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-exam"/></svg></span></div>
@@ -403,7 +345,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
     </article>
     <article class="fc">
       <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-mega"/></svg></span></div>
-        <div><h3>اطلاعیه‌ها و اعلان‌ها</h3><p>آخرین اطلاعیه‌ها و اخبار و رویدادها را مشاهده کنید.</p></div></div>
+        <div><h3>اطلاعیه‌ها و اعلان‌ها</h3><p>آخرین اطلاعیه‌ها و اخبار مدرسه را مشاهده کنید.</p></div></div>
       <a href="#news" class="fbtn">ورود به بخش اطلاعیه‌ها<svg class="i"><use href="#i-chev"/></svg></a>
     </article>
   </section>
@@ -415,7 +357,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
       <h2>روز خود را از اول تا آخر ببینید</h2>
       <p>ساعت هر کلاس، نام درس و کلاس در حال برگزاری یک‌جا نمایش داده می‌شود تا هیچ زنگی را از دست ندهید.</p>
       <ul class="pts"><li>کلاس در حال برگزاری با رنگ طلایی مشخص می‌شود</li><li>تغییرات برنامه همان لحظه به‌روز می‌شود</li><li>نسخه هفتگی و امتحانی هم در دسترس است</li></ul>
-      <a href="#" class="fbtn">ورود به برنامه روزانه<svg class="i"><use href="#i-chev"/></svg></a>
+      <a href="./files.html" class="fbtn">ورود به برنامه روزانه<svg class="i"><use href="#i-chev"/></svg></a>
     </div>
     <div class="box">
       <h4>برنامه امروز</h4><small>۷ درس</small>
@@ -431,8 +373,8 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
     <div class="txt">
       <span class="pill"><svg class="i"><use href="#i-send"/></svg>چت بات</span>
       <h2>دستیار هوشمند، هر وقت سؤالی داشتید</h2>
-      <p>از ساعت کلاس‌ها تا راهنمای استفاده از مدار و زمان آزمون‌ها، سؤال خود را بنویسید و جواب را سریع بگیرید.</p>
-      <div class="chips"><span>ساعت زنگ‌ها</span><span>تاریخ آزمون‌ها</span><span>اطلاعات تماس</span><span>قوانین حضور و غیاب</span></div>
+      <p>از ساعت کلاس‌ها تا قوانین مدرسه و زمان آزمون‌ها، سؤال خود را بنویسید و جواب را سریع بگیرید.</p>
+      <div class="chips"><span>ساعت زنگ‌ها</span><span>تاریخ آزمون‌ها</span><span>آدرس مدرسه</span><span>قوانین حضور و غیاب</span></div>
       <a href="./چت بات.html" class="fbtn">ورود به چت بات<svg class="i"><use href="#i-chev"/></svg></a>
     </div>
     <div class="box chat">
@@ -450,14 +392,13 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
       <h2>منابع درسی، مرتب و در دسترس</h2>
       <p>جزوه‌ها، نمونه سؤال‌ها و تمرین‌ها به تفکیک درس دسته‌بندی شده‌اند و تازه‌ترین فایل‌ها همیشه بالای فهرست هستند.</p>
       <ul class="pts"><li>دسته‌بندی بر اساس درس و پایه</li><li>دانلود مستقیم بدون نیاز به واسطه</li></ul>
-      <a href="./files.html" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+      <a href="#" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
     </div>
     <div class="box">
-      <h4>کتابخانه آموزشی مدار</h4>
-      <small>دسترسی به منابع درسی</small>
-      <div class="row"><span class="ext"><svg class="i"><use href="#i-folder"/></svg></span><div><b>جزوه‌ها و درس‌نامه‌ها</b><small>منابع آموزشی</small></div></div>
-      <div class="row"><span class="ext"><svg class="i"><use href="#i-doc"/></svg></span><div><b>نمونه سؤال و تمرین</b><small>تمرین‌های درسی</small></div></div>
-      <div class="row"><span class="ext"><svg class="i"><use href="#i-back"/></svg></span><div><b>مشاهده همه منابع</b><small>ورود به کتابخانه فایل‌ها</small></div></div>
+      <h4>تازه‌ترین فایل‌ها</h4><small>۵ فایل جدید</small>
+      <div class="row"><span class="ext">PDF</span><div><b>جزوه فصل سوم فیزیک</b><small>فیزیک</small></div></div>
+      <div class="row"><span class="ext">DOC</span><div><b>تمرین‌های هفته دوم ریاضی</b><small>ریاضی</small></div></div>
+      <div class="row"><span class="ext">PDF</span><div><b>نمونه سؤال شیمی</b><small>شیمی</small></div></div>
     </div>
   </section>
 
@@ -482,7 +423,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
   <section class="sec" id="news">
     <div class="txt">
       <span class="pill"><svg class="i"><use href="#i-bell"/></svg>اطلاعیه‌ها و اعلان‌ها</span>
-      <h2>خبرها و اطلاعیه‌های مهم، یک‌جا</h2>
+      <h2>خبرهای مهم مدرسه، یک‌جا</h2>
       <p>اطلاعیه‌های مدیریت، اخبار برنامه‌ها و تغییرات کلاسی به ترتیب تاریخ نمایش داده می‌شوند.</p>
       <a href="#" class="fbtn">ورود به بخش اطلاعیه‌ها<svg class="i"><use href="#i-chev"/></svg></a>
     </div>
@@ -494,7 +435,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
   </section>
 
   <footer class="foot">
-    <svg class="i"><use href="#i-heart"/></svg>مدار، همراه مسیر یادگیری و پیشرفت شما<i class="gline"></i>
+    <svg class="i"><use href="#i-heart"/></svg>مدرسه مدار، گامی به سوی آینده روشن‌تر<i class="gline"></i>
   </footer>
 </main>
 </div>
