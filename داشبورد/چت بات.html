@@ -235,6 +235,26 @@ select.fld{cursor:pointer}
 .btn{border-radius:8px}
 .av.big{border-radius:10px}
 
+/* Sidebar chat actions */
+.hist-item{position:relative;display:flex;align-items:center;gap:2px;width:100%;border-radius:9px}
+.hist-item:hover,.hist-item.active{background:var(--hv)}
+.hist-item .hist-open{flex:1;min-width:0;display:flex;align-items:center;gap:7px;padding:7px 5px 7px 8px;border-radius:8px;text-align:right;font-size:12.5px;color:var(--tx)}
+.hist-item .hist-open span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.hist-item .hist-open .pin-mark{width:13px;height:13px;color:var(--ac);flex-shrink:0}
+.hist-menu-trigger{width:28px;height:28px;flex-shrink:0;border-radius:7px;color:var(--mu);display:grid;place-items:center;opacity:0;transition:.15s}
+.hist-item:hover .hist-menu-trigger,.hist-item.active .hist-menu-trigger,.hist-menu-trigger:focus-visible,.hist-menu-trigger[aria-expanded=true]{opacity:1}
+.hist-menu-trigger:hover,.hist-menu-trigger[aria-expanded=true]{background:var(--ln);color:var(--tx)}
+.hist-menu-trigger svg{width:17px;height:17px}
+.hist-actions{position:absolute;z-index:20;top:calc(100% - 2px);left:4px;width:176px;padding:5px;background:var(--sf);border:1px solid var(--ln);border-radius:11px;box-shadow:0 12px 32px -12px rgba(0,0,0,.28);display:none}
+.hist-actions.show{display:block;animation:up .14s ease}
+.hist-actions button{width:100%;display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:7px;text-align:right;font-size:12px;color:var(--tx)}
+.hist-actions button:hover{background:var(--hv)}
+.hist-actions svg{width:15px;height:15px;color:var(--mu);flex-shrink:0}
+.hist-actions .danger,.hist-actions .danger svg{color:#C0392B}
+.hist-actions .menu-sep{height:1px;background:var(--ln);margin:4px 5px}
+body.shared-view #sidebar{display:none}
+body.shared-view main{width:100%}
+body.shared-view #dock{display:none!important}
 /* Inline voice-call glow is rendered beneath the composer; no modal panel. */
 
 </style>
@@ -533,10 +553,80 @@ async function loadChat(id){
 }
 function renderHist(f=''){
  $('hist').innerHTML='';
- chats.filter(c=>(c.title||'').toLowerCase().includes(f.trim().toLowerCase())).forEach(c=>{
-  const b=document.createElement('button');b.className=c._id===active?'on':'';
-  b.innerHTML='<span>'+esc(c.title||'گفتگوی جدید')+'</span>';b.onclick=()=>loadChat(c._id);$('hist').appendChild(b);
- });
+ chats.filter(c=>(c.title||'').toLowerCase().includes(f.trim().toLowerCase()))
+  .sort((a,b)=>Number(!!b.isPinned)-Number(!!a.isPinned))
+  .forEach(c=>{
+   const row=document.createElement('div');row.className='hist-item'+(c._id===active?' active':'');
+   const open=document.createElement('button');open.type='button';open.className='hist-open';
+   open.innerHTML=(c.isPinned?'<svg class="pin-mark i"><use href="#pin"/></svg>':'')+'<span>'+esc(c.title||'گفتگوی جدید')+'</span>';
+   open.title=c.title||'گفتگوی جدید';open.onclick=()=>loadChat(c._id);
+   const trigger=document.createElement('button');trigger.type='button';trigger.className='hist-menu-trigger';trigger.setAttribute('aria-label','گزینه‌های گفتگو');trigger.setAttribute('aria-expanded','false');
+   trigger.innerHTML='<svg class="i"><use href="#more"/></svg>';trigger.onclick=e=>toggleChatMenu(e,c._id);
+   const menu=document.createElement('div');menu.className='hist-actions';menu.id='chat-menu-'+c._id;
+   menu.innerHTML=
+    '<button type="button" data-action="rename"><svg class="i"><use href="#edit"/></svg>ویرایش نام</button>'+
+    '<button type="button" data-action="pin"><svg class="i"><use href="#pin"/></svg>'+(c.isPinned?'برداشتن سنجاق':'پین کردن')+'</button>'+
+    '<button type="button" data-action="share"><svg class="i"><use href="#share"/></svg>لینک چت</button>'+
+    '<div class="menu-sep"></div>'+
+    '<button type="button" class="danger" data-action="delete"><svg class="i"><use href="#trash"/></svg>حذف گفتگو</button>';
+   menu.querySelectorAll('button[data-action]').forEach(button=>button.addEventListener('click',e=>{e.stopPropagation();chatAction(c._id,button.dataset.action)}));
+   row.append(open,trigger,menu);$('hist').appendChild(row);
+  });
+}
+function closeChatMenus(){
+ document.querySelectorAll('.hist-actions.show').forEach(menu=>menu.classList.remove('show'));
+ document.querySelectorAll('.hist-menu-trigger[aria-expanded=true]').forEach(button=>button.setAttribute('aria-expanded','false'));
+}
+function toggleChatMenu(event,id){
+ event.stopPropagation();
+ const menu=$('chat-menu-'+id),wasOpen=menu.classList.contains('show');
+ closeChatMenus();
+ if(!wasOpen){menu.classList.add('show');event.currentTarget.setAttribute('aria-expanded','true')}
+}
+async function chatAction(id,action){
+ closeChatMenus();
+ const item=chats.find(chat=>chat._id===id);if(!item)return;
+ const url=`${API_BASE_URL}/ai/conversations/${encodeURIComponent(id)}`;
+ try{
+  if(action==='rename'){
+   const title=prompt('نام جدید گفتگو را وارد کن:',item.title||'گفتگوی جدید');
+   if(title===null)return;
+   if(!title.trim()){toast('نام گفتگو نمی‌تواند خالی باشد.');return}
+   const response=await fetch(url+'/title',{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({title:title.trim()})});
+   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.message||'ویرایش نام انجام نشد.');
+   item.title=data.conversation?.title||title.trim();if(active===id)$('ttl').textContent=item.title;
+   renderHist($('q').value);toast('نام گفتگو تغییر کرد.');
+  }else if(action==='pin'){
+   const response=await fetch(url+'/pin',{method:'POST',headers:Auth.headers()});
+   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.message||'تغییر وضعیت سنجاق انجام نشد.');
+   item.isPinned=!!data.isPinned;renderHist($('q').value);toast(item.isPinned?'گفتگو پین شد.':'سنجاق گفتگو برداشته شد.');
+  }else if(action==='delete'){
+   if(!confirm('این گفتگو برای همیشه حذف شود؟'))return;
+   const response=await fetch(url,{method:'DELETE',headers:Auth.headers()});
+   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.message||'حذف گفتگو انجام نشد.');
+   const index=chats.findIndex(chat=>chat._id===id);if(index>=0)chats.splice(index,1);
+   if(active===id)resetChat();else renderHist($('q').value);
+   toast('گفتگو حذف شد.');
+  }else if(action==='share'){
+   const response=await fetch(url+'/share',{method:'POST',headers:Auth.headers()});
+   const data=await response.json().catch(()=>({}));if(!response.ok||!data.token)throw new Error(data.message||'ساخت لینک گفتگو ناموفق بود.');
+   const link=new URL(location.href);link.search='';link.hash='';link.searchParams.set('share',data.token);
+   await navigator.clipboard.writeText(link.toString());
+   toast('لینک گفتگو کپی شد.');
+  }
+ }catch(error){toast(error.message||'انجام عملیات ناموفق بود.')}
+}
+async function loadSharedChat(token){
+ document.body.classList.add('shared-view');
+ try{
+  const response=await fetch(`${API_BASE_URL}/ai/conversations/shared/${encodeURIComponent(token)}`);
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||!data.conversation)throw new Error(data.message||'این لینک گفتگو معتبر نیست.');
+  const c=data.conversation;
+  $('welcome').style.display='none';$('chat').style.display='flex';$('chat').innerHTML='';
+  $('ttl').textContent=c.title||'گفتگوی اشتراکی';
+  (c.messages||[]).forEach(message=>{if(message.role==='user')addUser(message.content);else addAI(message.content,false)});
+ }catch(error){$('welcome').style.display='';$('welcome').querySelector('h1').textContent='گفتگو در دسترس نیست';$('welcome').querySelector('p').textContent=error.message||'لینک گفتگو معتبر نیست.'}
 }
 
 /* Sidebar: fully closes on desktop, slides over on mobile */
@@ -574,7 +664,7 @@ async function loadAccount(){
   $("sidebar-account-name").textContent="خطا در دریافت حساب";
  }
 }
-document.addEventListener('click',e=>{if(!$('pop').contains(e.target))$('pop').classList.remove('show')});
+document.addEventListener('click',e=>{if(!$('pop').contains(e.target))$('pop').classList.remove('show');if(!e.target.closest('.hist-item'))closeChatMenus()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(liveCallActive)stopLiveCall();if(dictationRecognition)stopDictation();closeModal();$('pop').classList.remove('show')}});
 
 function openModal(t){$('pop').classList.remove('show');$('modal').classList.add('show');tab(t)}
@@ -937,6 +1027,8 @@ let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sho
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
  setSide(sd,false);$('inp').addEventListener('input',sync);
  $('slotW').appendChild($('box'));renderHist();
+ const sharedToken=new URLSearchParams(location.search).get('share');
+ if(sharedToken){loadSharedChat(sharedToken);return}
  loadAccount();
 })();
 </script>
