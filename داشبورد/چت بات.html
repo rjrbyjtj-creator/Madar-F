@@ -731,7 +731,7 @@ function updateLiveOrb(mode){
  orb.classList.toggle('active',mode==='listening'||mode==='speaking');
  orb.classList.toggle('speaking',mode==='speaking');
 }
-async async function saveLiveTurn(){
+async function saveLiveTurn(){
  if(liveSaving)return;
  const userText=liveUserTranscript.trim(),modelText=liveModelTranscript.trim();
  liveUserTranscript='';liveModelTranscript='';
