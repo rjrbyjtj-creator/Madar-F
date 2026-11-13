@@ -124,6 +124,20 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .themes button.on{border-color:var(--ac);box-shadow:0 0 0 3px rgba(184,137,45,.15)}
 .themes i{display:block;height:54px;border-radius:9px;margin-bottom:9px;border:1px solid #ccd}
 .pane ul{padding-right:18px;font-size:13px;line-height:2.1;color:var(--mu)}
+.persona-intro{font-size:12px;line-height:1.9;color:var(--mu);margin:10px 0 13px}
+.persona-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.persona-option{display:flex;align-items:center;gap:9px;min-width:0;padding:11px;border:1px solid var(--ln);border-radius:12px;text-align:right;background:var(--sf);transition:.16s}
+.persona-option:hover{border-color:var(--ac);background:var(--hv)}
+.persona-option.selected{border-color:var(--ac);background:rgba(184,137,45,.07);box-shadow:0 0 0 2px rgba(184,137,45,.1)}
+.persona-icon{width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;border-radius:10px;background:var(--hv);font-size:18px}
+.persona-option>span:nth-child(2){flex:1;min-width:0}
+.persona-option b{display:block;font-size:12px;font-weight:600}
+.persona-option small{display:block;margin-top:3px;font-size:10px;line-height:1.6;color:var(--mu)}
+.persona-check{width:19px;height:19px;border:1px solid var(--ln);border-radius:50%;display:grid;place-items:center;color:transparent;font-size:11px;flex-shrink:0}
+.persona-option.selected .persona-check{background:var(--ac);border-color:var(--ac);color:white}
+.persona-note{font-size:11px;color:var(--mu);padding:9px 11px;margin:10px 0 14px;background:var(--hv);border-radius:9px}
+@media(max-width:560px){.persona-options{grid-template-columns:1fr}}
+
 .pf-actions{display:flex;gap:8px;margin-top:18px}
 #toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--tx);color:var(--bg);font-size:12.5px;padding:9px 18px;border-radius:999px;transition:.25s;z-index:60}
 #toast.show{opacity:1;transform:translate(-50%,0)}
@@ -409,6 +423,14 @@ body.shared-view #dock{display:none!important}
       </div>
       <div class="pane" id="p-bot">
         <h3>دستیار مدار</h3>
+        <div class="persona-intro">لحن و شخصیت دستیار مدار را انتخاب کن. این تنظیم روی پاسخ‌های متنی و گفتگوی صوتی اثر می‌گذارد.</div>
+        <div class="persona-options" role="radiogroup" aria-label="لحن دستیار">
+          <button type="button" class="persona-option" data-persona="balanced" onclick="setPersona('balanced')"><span class="persona-icon">🎓</span><span><b>متعادل و آموزشی</b><small>محترمانه، دقیق و روشن؛ حالت پیش‌فرض</small></span><span class="persona-check">✓</span></button>
+          <button type="button" class="persona-option" data-persona="friendly" onclick="setPersona('friendly')"><span class="persona-icon">😊</span><span><b>صمیمی و خودمانی</b><small>لحن گرم و محاوره‌ای، بدون رسمی‌گویی زیاد</small></span><span class="persona-check">✓</span></button>
+          <button type="button" class="persona-option" data-persona="buddy" onclick="setPersona('buddy')"><span class="persona-icon">🤝</span><span><b>رفیق و همراه</b><small>مثل یک دوست حمایتگر و راحت صحبت می‌کند</small></span><span class="persona-check">✓</span></button>
+          <button type="button" class="persona-option" data-persona="witty" onclick="setPersona('witty')"><span class="persona-icon">😄</span><span><b>شوخ‌طبع و بانمک</b><small>گاهی شوخی ملایم و به‌جا؛ بدون حواس‌پرتی از درس</small></span><span class="persona-check">✓</span></button>
+        </div>
+        <div class="persona-note" id="persona-note">حالت متعادل و آموزشی فعاله.</div>
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
         <div class="srow"><div><b>سرعت تایپ</b><small>فقط وقتی تایپ زنده روشن است</small></div><select class="fld" onchange="spd=+this.value"><option value="2">آرام</option><option value="5" selected>معمولی</option><option value="12">سریع</option></select></div>
         <div class="srow"><div><b>اندازهٔ متن پاسخ‌ها</b></div><select class="fld" onchange="document.documentElement.style.setProperty('--fs',this.value+'px')"><option value="13.5">کوچک</option><option value="14.5" selected>متوسط</option><option value="16">بزرگ</option></select></div>
@@ -527,7 +549,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona}),
   });
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.message||'دریافت پاسخ از هوش مصنوعی ناموفق بود.');
@@ -724,6 +746,26 @@ function tab(t){
  document.querySelectorAll('.snav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
 }
 function navFilter(v){document.querySelectorAll('.snav button').forEach(b=>b.style.display=b.textContent.includes(v.trim())?'':'none')}
+const PERSONAS={
+ balanced:{label:'متعادل و آموزشی',note:'حالت متعادل و آموزشی فعاله.'},
+ friendly:{label:'صمیمی و خودمانی',note:'با لحنی گرم، راحت و محاوره‌ای پاسخ می‌دم.'},
+ buddy:{label:'رفیق و همراه',note:'مثل یک رفیق حمایتگر و قابل اعتماد کنارت هستم.'},
+ witty:{label:'شوخ‌طبع و بانمک',note:'گاهی چاشنی شوخی ملایم هم اضافه می‌کنم؛ ولی جواب درست همچنان اولویته.'}
+};
+let assistantPersona='balanced';
+try{const saved=localStorage.getItem('madar-ai-persona');if(PERSONAS[saved])assistantPersona=saved}catch(e){}
+function setPersona(value){
+ if(!PERSONAS[value])return;
+ assistantPersona=value;
+ try{localStorage.setItem('madar-ai-persona',value)}catch(e){}
+ document.querySelectorAll('.persona-option').forEach(button=>button.classList.toggle('selected',button.dataset.persona===value));
+ $('persona-note').textContent=PERSONAS[value].note;
+ toast('لحن دستیار روی «'+PERSONAS[value].label+'» تنظیم شد.');
+}
+function initPersona(){
+ document.querySelectorAll('.persona-option').forEach(button=>button.classList.toggle('selected',button.dataset.persona===assistantPersona));
+ $('persona-note').textContent=PERSONAS[assistantPersona].note;
+}
 let live=true,spd=5;
 function setLive(el){live=!live;el.classList.toggle('on',live)}
 function setTheme(m,note=true){
@@ -957,7 +999,7 @@ async function openLiveCall(){
  try{
   liveOutputContext=new (window.AudioContext||window.webkitAudioContext)({sampleRate:24000});
   await liveOutputContext.resume();
-  const tokenResponse=await fetch(API_BASE_URL+'/ai/voice/token',{method:'POST',headers:Auth.headers()});
+  const tokenResponse=await fetch(API_BASE_URL+'/ai/voice/token',{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({persona:assistantPersona})});
   const tokenData=await tokenResponse.json().catch(()=>({}));
   if(!tokenResponse.ok||!tokenData.success||!tokenData.token)throw new Error(tokenData.message||'گرفتن مجوز تماس صوتی از سرور ناموفق بود.');
   if(!liveCallActive)return;
@@ -1079,7 +1121,7 @@ let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sho
  $('slotW').appendChild($('box'));renderHist();
  const sharedToken=new URLSearchParams(location.search).get('share');
  if(sharedToken){loadSharedChat(sharedToken);return}
- loadAccount();
+ initPersona();loadAccount();
 })();
 </script>
 </body>
