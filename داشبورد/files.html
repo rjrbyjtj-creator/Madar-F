@@ -9,42 +9,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
 <style>
-:root{color-scheme:light;--bg:#f5f6fa;--surface:#fff;--surface-2:#f8f9fc;--text:#172344;--muted:#7a8298;--line:#e8eaf1;--primary:#1b2d5b;--accent:#c69a4a;--shadow:0 8px 28px rgba(25,42,83,.045)}
-:root[data-theme=dark]{color-scheme:dark;--bg:#111a32;--surface:#192442;--surface-2:#202d4d;--text:#eef2ff;--muted:#a3aec8;--line:rgba(255,255,255,.09);--primary:#aab9f3;--accent:#e0b45e;--shadow:0 8px 28px rgba(0,0,0,.14)}
+:root{color-scheme:light;--bg:#f4f5f8;--surface:#fff;--surface-2:#f8f9fb;--text:#202b43;--muted:#8790a2;--line:#e9ebf0;--primary:#263b68;--accent:#c29a55;--shadow:0 3px 14px rgba(25,42,83,.035)}
+:root[data-theme=dark]{color-scheme:dark;--bg:#121a2b;--surface:#19243a;--surface-2:#202d45;--text:#edf1fa;--muted:#9aa7bd;--line:rgba(255,255,255,.08);--primary:#b8c6f1;--accent:#dfb86f;--shadow:0 3px 14px rgba(0,0,0,.12)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;background:var(--bg);color:var(--text);font:400 14px/1.8 'Vazirmatn',Tahoma,sans-serif}
+body{min-height:100vh;background:var(--bg);color:var(--text);font:400 13px/1.8 'Vazirmatn',Tahoma,sans-serif}
 a{color:inherit;text-decoration:none}button,input{font:inherit;color:inherit}button{cursor:pointer}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.page{width:min(1060px,calc(100% - 40px));margin:auto;padding:22px 0 52px}
-.topbar{height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px}
-.brand{display:flex;align-items:center;gap:9px}.brand img{width:31px;height:34px;object-fit:contain}.brand-name{font-size:16px;font-weight:800;line-height:1.3}.brand-sub{font-size:10px;color:var(--muted)}
-.top-actions{display:flex;align-items:center;gap:10px}
-.back,.theme{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;border:1px solid var(--line);border-radius:9px;background:var(--surface);font-size:12px;transition:.2s}
-.back{padding:0 11px}.theme{width:35px}.back:hover,.theme:hover{border-color:var(--accent);color:var(--accent)}
-.breadcrumb{display:flex;align-items:center;gap:8px;margin:23px 0 12px;color:var(--muted);font-size:11px}.breadcrumb a:hover{color:var(--accent)}.breadcrumb strong{color:var(--text);font-weight:600}
-.heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:23px}
-.heading h1{font-size:22px;line-height:1.5;font-weight:800;letter-spacing:-.4px}
-.heading p{margin-top:3px;color:var(--muted);font-size:12px}
-.heading-mark{width:34px;height:3px;background:var(--accent);border-radius:5px;margin-top:9px}
-.tools{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:13px}
-.tabs{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-.tab{height:32px;padding:0 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);font-size:11px;transition:.2s}
-.tab:hover{color:var(--text);background:var(--surface)}
-.tab.active{background:var(--surface);border-color:var(--line);color:var(--text);font-weight:700;box-shadow:0 2px 8px rgba(25,42,83,.035)}
-.search{display:flex;align-items:center;gap:8px;width:230px;height:34px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted)}
-.search:focus-within{border-color:var(--accent)}.search svg{width:15px;height:15px}
-.search input{width:100%;min-width:0;border:0;outline:0;background:transparent;font-size:11px}.search input::placeholder{color:var(--muted)}
-.panel{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow)}
-.panel-head{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line)}
-.panel-head h2{font-size:12px;font-weight:700}.panel-head span{font-size:10px;color:var(--muted)}
-.empty{min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px;text-align:center}
-.empty-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:11px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
-.empty-icon svg{width:20px;height:20px}
-.empty h3{margin-top:12px;font-size:13px;font-weight:700}.empty p{max-width:390px;margin-top:4px;color:var(--muted);font-size:11px}
-.note{display:flex;align-items:center;gap:8px;margin-top:12px;color:var(--muted);font-size:10px}.note svg{width:14px;height:14px;color:var(--accent)}
-.footer{margin-top:30px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
-@media(max-width:680px){.page{width:calc(100% - 28px);padding-top:14px}.heading{align-items:start}.heading h1{font-size:19px}.tools{align-items:stretch;flex-direction:column}.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px}.tab{flex:none}.search{width:100%}.panel-head{padding:0 12px}.footer{gap:10px;flex-direction:column}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.page{width:min(900px,calc(100% - 36px));margin:auto;padding:17px 0 36px}
+.topbar{height:43px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}
+.brand{display:flex;align-items:center;gap:8px}.brand img{width:26px;height:28px;object-fit:contain}.brand-name{display:block;font-size:14px;font-weight:800;line-height:1.2}.brand-sub{display:block;font-size:9px;color:var(--muted);line-height:1.4}
+.top-actions{display:flex;align-items:center;gap:7px}
+.back,.theme{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:10px;transition:.18s}
+.back{padding:0 9px}.theme{width:30px}.back:hover,.theme:hover{border-color:var(--accent);color:var(--accent)}
+.breadcrumb{display:flex;align-items:center;gap:7px;margin:17px 0 10px;color:var(--muted);font-size:10px}.breadcrumb a:hover{color:var(--accent)}.breadcrumb strong{color:var(--text);font-weight:600}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.heading h1{font-size:19px;line-height:1.5;font-weight:800;letter-spacing:-.3px}
+.heading p{margin-top:2px;color:var(--muted);font-size:11px}
+.heading-mark{width:27px;height:2px;background:var(--accent);border-radius:5px;margin-top:6px}
+.library{display:grid;grid-template-columns:158px minmax(0,1fr);gap:12px;align-items:start}
+.sidebar,.content{border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:var(--shadow)}
+.sidebar{padding:10px}.side-label{padding:2px 7px 7px;color:var(--muted);font-size:9px;font-weight:600}
+.tabs{display:grid;gap:3px}
+.tab{height:31px;display:flex;align-items:center;gap:8px;padding:0 8px;border:0;border-radius:6px;background:transparent;color:var(--muted);font-size:10px;text-align:right;transition:.18s}
+.tab svg{width:14px;height:14px}.tab:hover{background:var(--surface-2);color:var(--text)}
+.tab.active{background:var(--surface-2);color:var(--primary);font-weight:700}
+:root[data-theme=dark] .tab.active{color:var(--text)}
+.tab-count{margin-right:auto;color:var(--muted);font-size:9px;font-variant-numeric:tabular-nums}
+.content{min-height:245px;overflow:hidden}
+.content-top{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 13px;border-bottom:1px solid var(--line)}
+.content-title{font-size:11px;font-weight:700}.content-sub{font-size:9px;color:var(--muted);margin-top:1px}
+.search{display:flex;align-items:center;gap:7px;width:205px;height:30px;padding:0 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);color:var(--muted)}
+.search:focus-within{border-color:var(--accent)}.search svg{width:13px;height:13px}
+.search input{width:100%;min-width:0;border:0;outline:0;background:transparent;font-size:10px}.search input::placeholder{color:var(--muted)}
+.empty{min-height:195px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 14px;text-align:center}
+.empty-icon{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--muted)}
+.empty-icon svg{width:17px;height:17px}
+.empty h3{margin-top:10px;font-size:12px;font-weight:700}.empty p{max-width:330px;margin-top:3px;color:var(--muted);font-size:10px}
+.note{display:flex;align-items:center;gap:6px;margin:9px 2px 0;color:var(--muted);font-size:9px}.note svg{width:12px;height:12px;color:var(--accent)}
+.footer{margin-top:24px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted);font-size:9px}
+@media(max-width:620px){.page{width:calc(100% - 26px);padding-top:12px}.heading h1{font-size:17px}.library{grid-template-columns:1fr;gap:9px}.sidebar{padding:7px}.side-label{padding:0 5px 5px}.tabs{display:flex;overflow-x:auto}.tab{flex:none;height:29px;padding:0 9px}.tab-count{margin-right:0}.content-top{align-items:stretch;flex-direction:column;padding:10px}.search{width:100%}.empty{min-height:175px}.footer{gap:8px;flex-direction:column}} 
 </style>
 </head>
 <body>
@@ -64,25 +68,30 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
 <section class="heading">
 <div><h1>فایل‌های آموزشی</h1><p>جزوه‌ها، نمونه‌سؤال‌ها و منابع درسی در یک فضای مرتب.</p><div class="heading-mark"></div></div>
 </section>
-<section aria-label="کتابخانه فایل‌ها">
-<div class="tools">
+<section class="library" aria-label="کتابخانه فایل‌ها">
+<aside class="sidebar">
+<div class="side-label">دسته‌بندی منابع</div>
 <div class="tabs" id="categories" role="group" aria-label="دسته‌بندی فایل‌ها">
-<button class="tab active" type="button" data-category="all">همه فایل‌ها</button>
-<button class="tab" type="button" data-category="notes">جزوه‌ها</button>
-<button class="tab" type="button" data-category="exams">نمونه‌سؤال‌ها</button>
-<button class="tab" type="button" data-category="practice">تمرین‌ها</button>
+<button class="tab active" type="button" data-category="all"><svg><use href="#grid"/></svg>همه فایل‌ها<span class="tab-count">۰</span></button>
+<button class="tab" type="button" data-category="notes"><svg><use href="#file"/></svg>جزوه‌ها<span class="tab-count">۰</span></button>
+<button class="tab" type="button" data-category="exams"><svg><use href="#clipboard"/></svg>نمونه‌سؤال‌ها<span class="tab-count">۰</span></button>
+<button class="tab" type="button" data-category="practice"><svg><use href="#edit"/></svg>تمرین‌ها<span class="tab-count">۰</span></button>
 </div>
-<label class="search"><svg><use href="#search"/></svg><input id="searchInput" type="search" placeholder="جستجوی فایل یا درس..." autocomplete="off"></label>
+</aside>
+<div>
+<div class="content">
+<div class="content-top">
+<div><div class="content-title" id="libraryTitle">همه فایل‌ها</div><div class="content-sub">منابع و محتوای آموزشی مدرسه</div></div>
+<label class="search"><svg><use href="#search"/></svg><input id="searchInput" type="search" placeholder="جستجو در فایل‌ها..." autocomplete="off"></label>
 </div>
-<div class="panel">
-<div class="panel-head"><h2 id="libraryTitle">همه فایل‌ها</h2><span id="libraryCount">۰ فایل</span></div>
 <div class="empty">
 <span class="empty-icon"><svg><use href="#file"/></svg></span>
 <h3 id="emptyTitle">هنوز فایلی منتشر نشده است</h3>
-<p id="emptyText">با انتشار منابع توسط مدرسه، فایل‌ها در همین بخش نمایش داده می‌شوند.</p>
+<p id="emptyText">به‌محض انتشار منابع آموزشی، فایل‌ها در این قسمت قرار می‌گیرند.</p>
 </div>
 </div>
-<p class="note"><svg><use href="#info"/></svg>امکان بارگذاری و دانلود فایل‌ها پس از اتصال سرویس مدیریت فایل فعال می‌شود.</p>
+<p class="note"><svg><use href="#info"/></svg>بارگذاری و دریافت فایل‌ها پس از اتصال سرویس مدیریت منابع فعال می‌شود.</p>
+</div>
 </section>
 <footer class="footer"><span>مدار · فضای آموزشی دانش‌آموزان</span><span>کتابخانه منابع درسی</span></footer>
 </main>
@@ -91,6 +100,9 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
 <symbol id="arrow" viewBox="0 0 24 24"><path d="m14 18-6-6 6-6M8 12h12"/></symbol>
 <symbol id="moon" viewBox="0 0 24 24"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></symbol>
 <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+<symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5h6V2H9zM9 11h6m-6 4h6"/></symbol>
+<symbol id="edit" viewBox="0 0 24 24"><path d="m14 5 5 5M4 20l4-.8L19 8a2.1 2.1 0 0 0-3-3L5 16z"/></symbol>
 <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
 <symbol id="file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
 <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></symbol>
@@ -105,7 +117,7 @@ themeBtn.addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'l
 const names={all:'همه فایل‌ها',notes:'جزوه‌ها',exams:'نمونه‌سؤال‌ها',practice:'تمرین‌ها'};
 let active='all';
 document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{active=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x===btn));document.getElementById('libraryTitle').textContent=names[active];updateEmpty()}));
-function updateEmpty(){const hasQuery=document.getElementById('searchInput').value.trim().length>0;document.getElementById('emptyTitle').textContent=hasQuery?'نتیجه‌ای پیدا نشد':'هنوز فایلی منتشر نشده است';document.getElementById('emptyText').textContent=hasQuery?'با انتشار فایل‌های آموزشی، نتیجه جستجوی شما در این بخش نمایش داده می‌شود.':'با انتشار منابع توسط مدرسه، فایل‌ها در همین بخش نمایش داده می‌شوند.'}
+function updateEmpty(){const hasQuery=document.getElementById('searchInput').value.trim().length>0;document.getElementById('emptyTitle').textContent=hasQuery?'نتیجه‌ای پیدا نشد':'هنوز فایلی منتشر نشده است';document.getElementById('emptyText').textContent=hasQuery?'با انتشار فایل‌های آموزشی، نتیجه جستجوی شما در این بخش نمایش داده می‌شود.':'به‌محض انتشار منابع آموزشی، فایل‌ها در این قسمت قرار می‌گیرند.'}
 document.getElementById('searchInput').addEventListener('input',updateEmpty);
 (async()=>{try{if(typeof Auth!=='undefined'&&Auth.requireAuth)await Auth.requireAuth()}catch(e){console.error('Auth check failed',e)}})();
 </script>
