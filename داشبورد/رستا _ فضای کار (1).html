@@ -10,11 +10,10 @@
 <link rel="icon" href="./عکس ها/تب.png">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
 <style>
-/* مقیاس: ۱rem = ۱۶px در عرض ۱۶۷۲px (اندازه‌ی تصویر مرجع) و با عرض صفحه متناسب بزرگ و کوچک می‌شود */
 :root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
 :root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--bg);font-size:clamp(12px,.957vw,22px)}
+html{background:var(--bg);font-size:clamp(12px,.957vw,22px);scroll-behavior:smooth}
 body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;
   background:radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
 a{color:inherit;text-decoration:none}
@@ -23,14 +22,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .only-light{display:block}.only-dark{display:none}
 :root[data-theme=dark] .only-light{display:none}:root[data-theme=dark] .only-dark{display:block}
-/* جای عکس: اگه عکس لود نشه، کادر خط‌چین با برچسب نشون داده می‌شه */
 .ph:empty{display:grid;place-items:center;border:1.5px dashed color-mix(in srgb,var(--text) 30%,transparent);border-radius:.8rem;background:color-mix(in srgb,var(--text) 4%,transparent)}
 .ph:empty::before{content:attr(data-ph);color:var(--muted);font-size:.8rem}
 
-.page{min-height:100vh;display:flex;flex-direction:column;padding:1.1rem 4.75rem 0 4.4rem}
+.page{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:1.1rem 4.75rem 0 4.4rem}
 
 /* هدر */
-.top{display:flex;align-items:center;height:3.6rem}
+.top{position:relative;z-index:5;display:flex;align-items:center;height:3.6rem}
 .logo{display:flex;align-items:center;gap:.75rem}
 .logo .ph{width:3.3rem;height:3.6rem}
 .logo img{height:3.6rem;width:auto}
@@ -48,11 +46,7 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 .ib .dot{position:absolute;top:.25rem;right:.3rem;width:.55rem;height:.55rem;border-radius:50%;background:var(--gold);border:1.5px solid var(--bg2)}
 #themeBtn .sun,:root[data-theme=dark] #themeBtn .moon{display:none}
 :root[data-theme=dark] #themeBtn .sun{display:block}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;height:2.65rem;padding:0 1.15rem;color:var(--on);font-size:.82rem;font-weight:700;background:var(--login);border-radius:999px;box-shadow:0 .3rem .9rem color-mix(in srgb,var(--primary) 28%,transparent);transition:transform .3s var(--ease),filter .2s}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
-.btn svg.i{width:1.15rem;height:1.15rem}
 
-/* عکس پروفایل + پنل کاربر */
 .profile{position:relative}
 .avatar{display:grid;place-items:center;width:2.65rem;height:2.65rem;border-radius:50%;color:var(--text);background:var(--tile);border:1.5px solid var(--line);transition:border-color .25s,transform .3s var(--ease)}
 .avatar:hover,.avatar[aria-expanded=true]{border-color:var(--gold);transform:translateY(-2px)}
@@ -77,118 +71,138 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 .pp-out svg.i{width:1.05rem;height:1.05rem}
 
 /* منو */
-.nav{display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
+.nav{position:relative;z-index:3;display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
 .nav a{position:relative;display:flex;align-items:center;gap:.45rem;padding-bottom:.55rem;font-size:.92rem;font-weight:500;white-space:nowrap;transition:color .2s}
 .nav a:hover,.nav a.on{color:var(--gold)}
 .nav a svg.i{width:.7rem;height:.7rem;stroke-width:2}
 .nav a.on::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;border-radius:2px;background:var(--gold)}
+.dd{position:relative}
+.dd>a svg.i{transition:transform .3s var(--ease)}
+.dd:hover>a,.dd.open>a,.dd:has(:focus-visible)>a{color:var(--gold)}
+.dd:hover>a svg.i,.dd.open>a svg.i{transform:rotate(180deg)}
+.sub{position:absolute;top:calc(100% + .45rem);inset-inline-start:-.8rem;z-index:40;min-width:12.5rem;list-style:none;padding:.5rem;background:var(--panel);border:1px solid var(--line);border-radius:1rem;box-shadow:0 1rem 2.5rem var(--sh);opacity:0;visibility:hidden;transform:translateY(-.4rem);transition:opacity .25s,transform .35s var(--ease),visibility .25s}
+.sub::before{content:"";position:absolute;inset:-.6rem 0 auto;height:.6rem}
+.dd:hover .sub,.dd.open .sub,.dd:has(:focus-visible) .sub{opacity:1;visibility:visible;transform:none}
+.nav .sub a{padding:.5rem .8rem;border-radius:.6rem;font-size:.85rem}
+.nav .sub a:hover{background:var(--chip);color:var(--gold)}
 
-/* هیرو (داشبورد) */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) 33rem;align-items:center;gap:3rem;margin-top:1.6rem;padding-inline-start:2.6rem}
-.hero-text{max-width:38rem}
-.hi{display:flex;align-items:center;gap:1.1rem;color:var(--gold);font-size:1.85rem;font-weight:500;line-height:1.6}
-.hi::after{content:"";width:6.2rem;height:1px;flex:none;background:linear-gradient(to left,var(--gold),transparent)}
-h1{margin-top:.6rem;font-size:2.5rem;font-weight:800;line-height:1.4}
-.hero-text>p{margin-top:.7rem;font-size:1.02rem;color:color-mix(in srgb,var(--text) 85%,transparent)}
-.cta{display:flex;align-items:center;gap:2rem;margin-top:1.8rem}
-.intro{display:flex;align-items:center;gap:.75rem;font-size:.88rem;font-weight:500}
-.intro span{display:grid;place-items:center;width:2rem;height:2rem;border:1.5px solid var(--text);border-radius:50%;transition:background .3s,color .3s}
-.intro:hover span{background:var(--text);color:var(--bg2)}
-.intro svg.i{width:.95rem;height:.95rem}
-.cta .btn{height:2.75rem;padding:0 1.4rem;font-size:.88rem;background:var(--primary)}
+/* تزئینات + انتقال تم */
+.theming,.theming *{transition:background-color .5s,color .5s,border-color .5s!important}
+.deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.deco i{position:absolute;border-radius:50%}
+.deco .a{top:-15rem;left:-13rem;width:35rem;height:35rem;background:color-mix(in srgb,var(--primary) 9%,transparent)}
+.deco .b{top:30rem;right:-12rem;width:34rem;height:34rem;border:2px solid color-mix(in srgb,var(--primary) 14%,transparent)}
 
-/* کارت خلاصه‌ی امروز */
-.today{padding:1.3rem 1.5rem 1.2rem;background:var(--card);border:1px solid var(--cb);border-radius:1.1rem;box-shadow:0 .4rem 1.5rem var(--sh)}
-.td-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.td-h h2{font-size:1.03rem;font-weight:700}
-.td-h time{font-size:.8rem;color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
-.st{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.8rem .4rem;background:var(--inner);border:1px solid var(--line);border-radius:.9rem}
-.st svg.i{width:1.3rem;height:1.3rem;color:var(--gold)}
-.st b{font-size:1.35rem;font-weight:800;line-height:1.5}
-.st small{font-size:.75rem;color:var(--muted)}
-.goal{margin-top:1.1rem}
-.goal-t{display:flex;justify-content:space-between;margin-bottom:.4rem;font-size:.8rem;color:var(--muted)}
-.goal-t b{color:var(--text);font-weight:700}
-.bar{height:.5rem;background:var(--chip);border-radius:999px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:inherit;transition:width 1s var(--ease)}
-.week{display:flex;gap:.6rem;height:5.4rem;margin-top:1.1rem}
-.wd{flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem}
-.bw{position:relative;flex:1;width:100%}
-.bw i{position:absolute;bottom:0;left:50%;width:70%;max-width:1.7rem;min-height:.25rem;transform:translateX(-50%);border-radius:.45rem;background:color-mix(in srgb,var(--text) 18%,transparent)}
-.wd.now .bw i{background:var(--gold)}
-.wd span{font-size:.75rem;color:var(--muted)}
-.wd.now span{color:var(--text);font-weight:700}
+/* ===== هیرو (بلندتر و بازتر) ===== */
+.main{position:relative;z-index:1;margin-top:1.4rem;padding-bottom:3rem}
+.pill{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem 1rem;font-size:.78rem;font-weight:700;background:var(--chip);border-radius:999px}
+.pill svg.i{width:1.1rem;height:1.1rem}
+.hero{display:grid;grid-template-columns:1fr 24rem;align-items:center;gap:2rem 3rem;min-height:30rem;padding-top:3rem}
+.hero h1{margin-top:1.2rem;font-size:2.6rem;font-weight:800;line-height:1.5;max-width:30rem}
+.hero p{margin-top:.6rem;font-size:1rem;font-weight:500;color:var(--muted);max-width:28rem}
+.hero .fbtn{margin-top:2rem}
+.hero-art{position:relative;display:grid;min-height:20rem}
+.hero-art::before{content:"";position:absolute;inset:-2.5rem 0 -1rem -9rem;border-radius:46% 54% 58% 42%/52% 44% 56% 48%;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 11%,transparent),color-mix(in srgb,var(--primary) 3%,transparent))}
+.hero-img{position:relative;min-height:20rem}
+.hero-img img{width:100%;height:100%;object-fit:contain}
+.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);padding-top:1.6rem;border-top:1px solid var(--line)}
+.st{display:flex;align-items:center;gap:.8rem;padding-inline:1.6rem;border-inline-start:1px solid var(--line)}
+.st:first-child{border:0;padding-inline-start:0}
+.st svg.i{width:1.6rem;height:1.6rem}
+.st b{display:block;font-size:.88rem;font-weight:700;line-height:1.4}
+.st small{display:flex;align-items:center;gap:.4rem;font-size:.75rem}
+.st small::before{content:"";width:.38rem;height:.38rem;border-radius:50%;background:var(--gold)}
 
-/* میان‌برها */
-.quick{display:flex;width:75.2rem;max-width:100%;margin-top:1.6rem;margin-inline-start:9.3rem}
-.qi{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.7rem 0 .55rem;transition:color .2s}
-.qi:first-child,.qi:last-child{border-bottom:1px solid var(--line)}
-.qi+.qi::before{content:"";position:absolute;inset-inline-start:0;top:1.9rem;height:1.9rem;width:1px;background:var(--line)}
-.qi svg.i{width:1.75rem;height:1.75rem;stroke-width:1.5}
-.qi span{font-size:.9rem;font-weight:700}
-.qi:hover{color:var(--gold)}
+/* ===== عنوان + کارت‌های دسترسی سریع ===== */
+.intro{margin-top:3.5rem}
+.intro h2{margin-top:.9rem;font-size:2rem;font-weight:800;line-height:1.5}
+.intro p{color:var(--muted)}
+.gline{display:block;width:7rem;height:2px;margin-top:.8rem;border-radius:2px;background:var(--gold)}
+.cards{display:grid;grid-template-columns:repeat(6,1fr);margin-top:1.6rem}
+.fc{grid-column:span 2;padding:1.8rem 2rem;border-inline-start:1px solid var(--line)}
+.fc:nth-child(n+4){grid-column:span 3;border-top:1px solid var(--line)}
+.fc:nth-child(1),.fc:nth-child(4){border-inline-start:0}
+.fh{display:flex;align-items:center;gap:1.1rem}
+.fiw{flex:none;width:6.2rem;transition:transform .4s var(--ease)}
+.fiw::after{content:"";display:block;width:75%;height:.7rem;margin:.1rem auto 0;border-bottom:2px solid var(--gold);border-radius:0 0 50% 50%/0 0 100% 100%}
+.fi{display:grid;place-items:center;width:6.2rem;height:6.2rem;border-radius:50%;background:var(--tile);color:var(--login)}
+.fi svg{width:3.4rem;height:3.4rem}
+:root[data-theme=dark] .fi{color:#9aaaf0}
+.fc h3{font-size:1.15rem;font-weight:800;transition:color .2s}
+.fc p{font-size:.82rem;color:var(--muted);line-height:1.9}
+.fbtn{display:inline-flex;align-items:center;justify-content:space-between;gap:1.2rem;min-width:12.5rem;height:2.9rem;margin-top:1.4rem;padding:0 1.3rem;font-size:.85rem;font-weight:700;color:var(--on);background:var(--login);border-radius:999px;box-shadow:0 .5rem 1rem var(--sh);transition:filter .2s,transform .3s var(--ease)}
+.fbtn svg.i{width:1rem;height:1rem}
+.fc:hover .fiw{transform:translateY(-4px)}
+.fc:hover h3{color:var(--gold)}
+.fbtn:hover{filter:brightness(1.2);transform:translateY(-2px)}
 
-/* کارت‌ها */
-.cards{display:grid;grid-template-columns:613fr 876fr;gap:2.3rem;margin-top:2.5rem}
-.card{min-height:12.6rem;background:var(--card);border:1px solid var(--cb);border-radius:1.1rem;box-shadow:0 .4rem 1.5rem var(--sh);padding-bottom:1.2rem}
-.ch{display:flex;align-items:center;gap:.85rem;height:4rem;padding:0 1.9rem}
-.ch>svg.i{width:1.4rem;height:1.4rem}
-.ch h2{font-size:1.03rem;font-weight:700}
-.all{display:inline-flex;align-items:center;gap:.45rem;margin-inline-start:auto;height:1.9rem;padding:0 .9rem;font-size:.8rem;color:var(--muted);background:var(--chip);border-radius:999px;transition:color .2s,transform .3s var(--ease)}
-.all:hover{color:var(--text);transform:translateX(-2px)}
-.all svg.i{width:.9rem;height:.9rem}
-.ann .ch{margin-inline:1.9rem;padding:0;border-bottom:1px solid var(--line)}
-.ann ul{list-style:none}
-.ann li a{display:flex;align-items:center;gap:1.1rem;height:2.45rem;padding:0 2.3rem;font-size:.91rem;font-weight:500;transition:color .2s}
-.ann li a:hover{color:var(--gold)}
-.ann li i{width:.75rem;height:.75rem;border-radius:50%;background:var(--gold);flex:none}
-.ann li time{margin-inline-start:auto;font-size:.82rem;font-weight:400;color:var(--muted)}
-.ex{position:relative;display:flex;align-items:center;height:6.75rem;margin:.2rem 1.95rem 0;padding:0 1.3rem 0 1.2rem;background:var(--inner);border:1px solid var(--line);border-radius:.9rem;overflow:hidden}
-.ex::before{content:"";position:absolute;left:-2rem;top:-1rem;width:11rem;height:9rem;background:radial-gradient(closest-side,color-mix(in srgb,var(--primary) 10%,transparent),transparent);pointer-events:none}
-.ex>*{position:relative}
-.ex-ic{display:grid;place-items:center;width:4.1rem;height:4.1rem;flex:none;color:#fff;background:var(--primary);border-radius:.8rem}
-.ex-ic svg.i{width:1.9rem;height:1.9rem;stroke-width:1.5}
-.chip{display:inline-flex;align-items:center;gap:.5rem;height:2.5rem;margin-inline-start:3.2rem;padding:0 1.3rem;font-size:.82rem;font-weight:500;background:var(--chip);border-radius:999px}
-.chip svg.i{width:1.05rem;height:1.05rem;color:var(--muted)}
-.ex-t{margin-inline-start:3.5rem}
-.ex-t b{display:block;font-size:.95rem;font-weight:700;line-height:1.6}
-.ex-t small{display:block;font-size:.82rem;color:var(--muted);line-height:1.5}
-.day{margin-inline-start:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;width:3.5rem;height:4rem;background:var(--tile);border-radius:.65rem;line-height:1.3}
-.day b{font-size:1.25rem;font-weight:800}
-.day small{font-size:.8rem;color:var(--muted)}
+/* ===== سکشن‌های هر بخش ===== */
+.sec{display:grid;grid-template-columns:1fr 1.2fr;align-items:center;gap:5rem;margin-top:5rem;padding-top:5rem;border-top:1px solid var(--line);scroll-margin-top:1rem}
+.sec.rev{grid-template-columns:1.2fr 1fr}
+.sec.rev>.txt{order:2}
+.txt h2{margin-top:1rem;font-size:1.8rem;font-weight:800;line-height:1.6}
+.txt>p{margin-top:.6rem;max-width:30rem;font-size:.92rem;line-height:2.1;color:var(--muted)}
+.pts{list-style:none;display:grid;gap:.6rem;margin-top:1.4rem;font-size:.88rem}
+.pts li{display:flex;align-items:center;gap:.7rem}
+.pts li::before{content:"";flex:none;width:.4rem;height:.4rem;border-radius:50%;background:var(--gold)}
+.box{padding:1.6rem 1.8rem;background:var(--card);border:1px solid var(--cb);border-radius:1.2rem;box-shadow:0 .5rem 1.6rem var(--sh)}
+.box h4{font-size:.95rem;font-weight:800}
+.box small{display:block;font-size:.76rem;color:var(--muted)}
+.row{display:flex;align-items:center;gap:1.2rem;padding:.85rem 0;border-bottom:1px solid var(--line);font-size:.88rem}
+.row:last-child{border:0;padding-bottom:0}
+.row time{flex:none;width:5.5rem;font-size:.78rem;color:var(--muted)}
+.row b{font-weight:700}
+.row em{margin-inline-start:auto;font-style:normal;font-size:.72rem;color:var(--gold)}
+.row.now b{color:var(--gold)}
+.chat{display:flex;flex-direction:column;gap:.8rem}
+.bub{max-width:82%;padding:.7rem 1.1rem;border-radius:1.1rem;font-size:.85rem;line-height:1.9;background:var(--chip)}
+.bub.me{align-self:flex-start;border-end-start-radius:.3rem;color:var(--on);background:var(--login)}
+.bub.bot{align-self:flex-end;border-end-end-radius:.3rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.chips span{padding:.2rem .9rem;font-size:.76rem;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.ext{display:grid;place-items:center;flex:none;width:2.5rem;height:2.5rem;border-radius:.7rem;font-size:.62rem;font-weight:800;background:var(--tile)}
+.row small{margin-inline-start:auto}
+.ex{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+.ex .box:nth-child(even){margin-top:2.4rem}
+.ex .d{display:block;font-size:2.2rem;font-weight:800;line-height:1.2;color:var(--gold)}
+.ex .m{display:block;font-size:.8rem;color:var(--muted)}
+.ex h4{margin-top:1.1rem}
+.an{display:grid;grid-template-columns:1.3fr 1fr;gap:1.3rem}
+.an .big{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:18rem;border-inline-start:3px solid var(--gold)}
+.an .big h4{font-size:1.2rem;line-height:1.7}
+.an .big p,.an .box p{margin-top:.5rem;font-size:.82rem;color:var(--muted);line-height:1.9}
+.an time{margin-bottom:.6rem;font-size:.74rem;color:var(--gold)}
 
-/* نوار پایین */
-.more{display:grid;place-items:center;height:3.7rem;margin-top:2.7rem;color:var(--muted);border-radius:1.4rem 1.4rem 0 0;background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 7%,transparent),color-mix(in srgb,var(--primary) 3%,transparent));transition:color .2s}
-.more:hover{color:var(--text)}
-.more svg.i{width:1.2rem;height:1.2rem}
+.foot{display:flex;align-items:center;gap:.7rem;margin-top:5rem;font-size:.8rem;color:var(--muted)}
+.foot svg.i{width:1.2rem;height:1.2rem}
+.foot .gline{width:4.5rem;margin:0}
 
-@keyframes rise{from{opacity:0;transform:translateY(18px)}}
-.hero-text>*,.today,.cards .card{animation:rise .8s var(--ease) backwards}
-.hi{animation-delay:.1s}h1{animation-delay:.2s}.hero-text>p{animation-delay:.3s}.cta{animation-delay:.4s}.today{animation-delay:.25s}.cards .card:nth-child(2){animation-delay:.1s}
-html.theming *,html.theming *::before,html.theming *::after{transition:background-color .45s,color .45s,border-color .45s,box-shadow .45s!important}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* واکنش‌گرا */
 @media(max-width:1180px){
   html{font-size:15px}
   .page{padding-inline:1.2rem}
   .top{height:auto;flex-wrap:wrap;gap:.8rem}
   .search{order:3;flex-basis:100%;margin:0}
   .actions{margin-inline-start:auto}
-  .nav{padding-inline-start:0;gap:1.8rem;overflow-x:auto;scrollbar-width:none}
-  .hero{grid-template-columns:1fr;gap:1.6rem;padding-inline:0;margin-top:1.5rem}
-  .quick{width:100%;margin:1rem 0 0;overflow-x:auto}
-  .qi{min-width:7rem}
-  .cards{grid-template-columns:1fr}
-  .cta{gap:1.5rem;flex-wrap:wrap}
+  .nav{padding-inline-start:0;gap:1.8rem;overflow:visible;flex-wrap:wrap;row-gap:.4rem}
 }
-@media(max-width:600px){
+@media(max-width:900px){
   html{font-size:14px}
-  h1{font-size:1.8rem}.hi{font-size:1.4rem}
-  .ex{flex-wrap:wrap;height:auto;padding:1rem;gap:.8rem}
-  .chip,.ex-t{margin-inline-start:0}
+  .hero{grid-template-columns:1fr;min-height:0;padding-top:1.5rem}
+  .hero h1{font-size:1.9rem}
+  .hero-art::before{inset:0}.hero-img{min-height:14rem}
+  .stats{grid-template-columns:repeat(2,1fr);gap:.9rem 0}
+  .st:nth-child(odd){border:0;padding-inline-start:0}
+  .intro h2{font-size:1.5rem}
+  .cards{grid-template-columns:1fr}
+  .fc,.fc:nth-child(n){grid-column:auto;padding:1.4rem 0;border:0;border-top:1px solid var(--line)}
+  .fc:first-child{border-top:0}
+  .sec,.sec.rev{grid-template-columns:1fr;gap:2.5rem;margin-top:3.5rem;padding-top:3.5rem}
+  .sec.rev>.txt{order:0}
+  .ex,.an{grid-template-columns:1fr}
+  .ex .box:nth-child(even){margin-top:0}
+  .an .big{grid-row:auto;min-height:12rem}
 }
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -202,27 +216,28 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></symbol>
   <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
-  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
-  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
-  <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-calg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
-  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18m-12 6 2 2 4-4"/></symbol>
-  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
-  <symbol id="i-head" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="13" width="4.5" height="7" rx="1.6"/><rect x="17" y="13" width="4.5" height="7" rx="1.6"/><path d="M20 20c0 1.5-2 2-5 2"/></symbol>
-  <symbol id="i-exam" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="m22 10-10-5L2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5M22 10v6"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="ic-cal" viewBox="0 0 64 64"><rect x="10" y="14" width="40" height="38" rx="6" fill="currentColor"/><rect x="18" y="8" width="5" height="12" rx="2.5" fill="currentColor"/><rect x="37" y="8" width="5" height="12" rx="2.5" fill="currentColor"/><rect x="15" y="25" width="30" height="22" rx="3" style="fill:var(--tile)"/><g fill="currentColor"><circle cx="21" cy="31" r="2"/><circle cx="30" cy="31" r="2"/><circle cx="39" cy="31" r="2"/><circle cx="21" cy="39" r="2"/><circle cx="30" cy="39" r="2"/><circle cx="39" cy="39" r="2"/></g><circle cx="48" cy="46" r="10" style="fill:var(--gold)"/><path d="M48 40v6l4 2" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="ic-bot" viewBox="0 0 64 64"><rect x="12" y="20" width="40" height="32" rx="11" fill="currentColor"/><rect x="6" y="30" width="6" height="12" rx="3" fill="currentColor"/><rect x="52" y="30" width="6" height="12" rx="3" fill="currentColor"/><path d="M32 20v-7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="10" r="4" style="fill:var(--gold)"/><rect x="17" y="26" width="30" height="20" rx="8" style="fill:var(--tile)"/><circle cx="25" cy="34" r="3" fill="currentColor"/><circle cx="39" cy="34" r="3" fill="currentColor"/><path d="M27 40q5 4 10 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="ic-folder" viewBox="0 0 64 64"><path d="M6 18a5 5 0 0 1 5-5h12l5 6h25a5 5 0 0 1 5 5v22a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5z" fill="currentColor"/><path d="M6 25h52v6H6z" style="fill:var(--gold)"/></symbol>
+  <symbol id="ic-exam" viewBox="0 0 64 64"><rect x="12" y="6" width="38" height="48" rx="6" fill="currentColor"/><path d="M20 20h4M29 20h14M20 29h4M29 29h14M20 38h4M29 38h9" fill="none" stroke-width="3" stroke-linecap="round" style="stroke:var(--tile)"/><circle cx="47" cy="47" r="11" style="fill:var(--gold)"/><path d="m42 47 4 4 7-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-mega" viewBox="0 0 64 64"><path d="M10 26h10l22-12v36L20 38H10a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3z" fill="currentColor"/><path d="m18 40 4 14h6l-3-13z" fill="currentColor"/><path d="m50 22 7-4M52 32h7M50 42l7 4" fill="none" stroke-width="3" stroke-linecap="round" style="stroke:var(--gold)"/></symbol>
 </svg>
 
 <div class="page">
+  <div class="deco" aria-hidden="true"><i class="a"></i><i class="b"></i></div>
 
   <!-- هدر -->
   <header class="top">
     <a href="#" class="logo" aria-label="مدار">
-      <!-- ★ جای لوگوی هدر -->
-      <span class="ph" data-ph="لوگو"><img class="only-light" src="../عکس ها/logo-light.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/logo-dark.png" alt="" onerror="this.remove()"></span>
+      <span class="ph" data-ph="لوگو"><img class="only-light" src="../عکس ها/هدر.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/هدر.png" alt="" onerror="this.remove()"></span>
       <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
     </a>
     <label class="search">
@@ -232,12 +247,8 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
     <div class="actions">
       <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
       <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
-
-      <!-- عکس پروفایل + پنل اطلاعات کاربر -->
       <div class="profile" id="profile">
-        <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profilePanel" aria-label="حساب کاربری">
-          <svg class="i"><use href="#i-user"/></svg>
-        </button>
+        <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profilePanel" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
         <div class="pp" id="profilePanel" aria-hidden="true">
           <div class="pp-head">
             <span class="av-lg"><svg class="i"><use href="#i-user"/></svg></span>
@@ -249,7 +260,6 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
             <li><svg class="i"><use href="#i-send"/></svg><span>تلگرام</span><b id="pTg" dir="auto">—</b></li>
             <li><svg class="i"><use href="#i-calg"/></svg><span>عضویت از</span><b id="pSince" dir="auto">—</b></li>
           </ul>
-          <!-- ★ آدرس صفحه‌ی ویرایش پروفایل رو اینجا بذار -->
           <a href="#" class="pp-more" id="pMore">تغییرات بیشتر<svg class="i"><use href="#i-back"/></svg></a>
           <button class="pp-out" id="logoutBtn" type="button"><svg class="i"><use href="#i-logout"/></svg>خروج از حساب</button>
         </div>
@@ -258,82 +268,174 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
   </header>
 
   <nav class="nav" aria-label="منوی اصلی">
-    <a href="#" class="on">صفحه اصلی<svg class="i"><use href="#i-down"/></svg></a>
-    <a href="#">اطلاعیه‌ها<svg class="i"><use href="#i-down"/></svg></a>
-    <a href="#">آزمون‌ها<svg class="i"><use href="#i-down"/></svg></a>
-    <a href="#">برنامه‌ها<svg class="i"><use href="#i-down"/></svg></a>
-    <a href="#">معلمان<svg class="i"><use href="#i-down"/></svg></a>
-    <a href="#">مشاوره تحصیلی<svg class="i"><use href="#i-down"/></svg></a>
-    <a href="#">درباره ما<svg class="i"><use href="#i-down"/></svg></a>
+    <div class="dd"><a href="#" class="on" aria-haspopup="true">صفحه اصلی<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">داشبورد</a></li><li><a href="#">پروفایل من</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">اطلاعیه‌ها<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">اطلاعیه‌های جدید</a></li><li><a href="#">اخبار مدرسه</a></li><li><a href="#">بایگانی</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">آزمون‌ها<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">آزمون‌های پیش‌رو</a></li><li><a href="#">آزمون آنلاین</a></li><li><a href="#">نتایج آزمون‌ها</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">برنامه‌ها<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">برنامه روزانه</a></li><li><a href="#">برنامه هفتگی</a></li><li><a href="#">برنامه امتحانی</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">معلمان<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">لیست معلمان</a></li><li><a href="#">ارتباط با معلم</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">مشاوره تحصیلی<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">رزرو وقت مشاوره</a></li><li><a href="#">منابع مطالعاتی</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">درباره ما<svg class="i"><use href="#i-down"/></svg></a>
+      <ul class="sub"><li><a href="#">معرفی مدرسه</a></li><li><a href="#">تماس با ما</a></li></ul></div>
   </nav>
 
-  <!-- هیرو داشبورد -->
-  <main class="hero">
-    <section class="hero-text">
-      <div class="hi">سلام، <span id="uname">دانش‌آموز</span> عزیز!</div>
-      <h1>امروز چه کارهایی انجام دادی؟</h1>
-      <p>فعالیت‌های درسی امروزت رو ثبت کن تا مشاورت مسیر پیشرفتت رو دنبال کنه.</p>
-      <div class="cta">
-        <a href="#" class="btn"><svg class="i"><use href="#i-plus"/></svg>ثبت فعالیت امروز</a>
-        <a href="#" class="intro"><span><svg class="i"><use href="#i-chart"/></svg></span>گزارش هفتگی</a>
-      </div>
-    </section>
+<main class="main">
 
-    <aside class="today" aria-label="خلاصه امروز">
-      <div class="td-h"><h2>خلاصه‌ی امروز</h2><time id="todayDate"></time></div>
-      <div class="stats">
-        <div class="st"><svg class="i"><use href="#i-clock"/></svg><b id="stTime">۰:۰۰</b><small>ساعت مطالعه</small></div>
-        <div class="st"><svg class="i"><use href="#i-exam"/></svg><b id="stAct">۰</b><small>فعالیت ثبت‌شده</small></div>
-        <div class="st"><svg class="i"><use href="#i-flame"/></svg><b id="stStreak">۰</b><small>روز متوالی</small></div>
-      </div>
-      <div class="goal">
-        <div class="goal-t"><span>هدف مطالعه‌ی روزانه</span><b id="goalPct">۰٪</b></div>
-        <div class="bar"><i id="goalBar"></i></div>
-      </div>
-      <div class="week" id="week" aria-label="مطالعه‌ی هفته"></div>
-    </aside>
-  </main>
+  <!-- هیرو: بدون سلام و اسم کاربر -->
+  <section class="hero">
+    <div>
+      <span class="pill"><svg class="i"><use href="#i-cap"/></svg>داشبورد دانش‌آموز</span>
+      <h1>همه‌چیز مدرسه، در یک نگاه</h1>
+      <p>برنامه امروز، آزمون‌های پیش‌رو و آخرین اطلاعیه‌ها را از همین‌جا دنبال کنید.</p>
+      <a href="#daily" class="fbtn">مشاهده برنامه امروز<svg class="i"><use href="#i-chev"/></svg></a>
+    </div>
 
-  <!-- میان‌برها -->
-  <section class="quick" aria-label="دسترسی سریع">
-    <a href="#" class="qi"><svg class="i"><use href="#i-mega"/></svg><span>اطلاعیه‌ها</span></a>
-    <a href="#" class="qi"><svg class="i"><use href="#i-calg"/></svg><span>آزمون‌ها</span></a>
-    <a href="#" class="qi"><svg class="i"><use href="#i-cal"/></svg><span>برنامه درسی</span></a>
-    <a href="#" class="qi"><svg class="i"><use href="#i-users"/></svg><span>معلمان</span></a>
-    <a href="#" class="qi"><svg class="i"><use href="#i-head"/></svg><span>مشاوره تحصیلی</span></a>
+<div class="hero-art">
+    <div class="hero-img">
+        <img 
+            src="../عکس ها/داشبورد.png"
+            alt="تصویر داشبورد دانش‌آموز"
+        >
+    </div>
+</div>
+
+    <div class="stats">
+      <div class="st"><svg class="i"><use href="#i-calg"/></svg><div><b>برنامه امروز</b><small id="sCls">۷ درس</small></div></div>
+      <div class="st"><svg class="i"><use href="#i-bell"/></svg><div><b>اعلان‌های جدید</b><small id="sNtf">۳ مورد</small></div></div>
+      <div class="st"><svg class="i"><use href="#i-doc"/></svg><div><b>اطلاعیه‌های جدید</b><small id="sAnn">۲ مورد</small></div></div>
+      <div class="st"><svg class="i"><use href="#i-folder"/></svg><div><b>فایل‌های جدید</b><small id="sFil">۵ فایل</small></div></div>
+    </div>
   </section>
 
-  <!-- کارت‌ها -->
+  <!-- دسترسی سریع -->
+  <section class="intro">
+    <span class="pill"><svg class="i"><use href="#i-cap"/></svg>به پنل کاربری خود خوش آمدید</span>
+    <h2>مدرسه مدار، همراه مسیر پیشرفت شما</h2>
+    <p>با امکانات هوشمندانه، تجربه‌ای بهتر از مدرسه را تجربه کنید.</p>
+    <i class="gline"></i>
+  </section>
+
   <section class="cards">
-    <article class="card ann">
-      <div class="ch">
-        <svg class="i"><use href="#i-mega"/></svg>
-        <h2>آخرین اطلاعیه‌ها</h2>
-        <a href="#" class="all">مشاهده همه<svg class="i"><use href="#i-back"/></svg></a>
-      </div>
-      <ul id="annList">
-        <li><a href="#"><i></i>برنامه برگزاری آزمون‌های میان‌ترم اعلام شد<time>۲۴ آبان</time></a></li>
-        <li><a href="#"><i></i>اطلاعیه مهم در خصوص مشاوره تحصیلی<time>۲۲ آبان</time></a></li>
-        <li><a href="#"><i></i>تمدید مهلت ثبت‌نام آزمون‌های آزمایشی<time>۲۰ آبان</time></a></li>
-      </ul>
+    <article class="fc">
+      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-cal"/></svg></span></div>
+        <div><h3>برنامه روزانه</h3><p>مشاهده برنامه کلاسی و فعالیت‌های روزانه شما</p></div></div>
+      <a href="#daily" class="fbtn">ورود به برنامه روزانه<svg class="i"><use href="#i-chev"/></svg></a>
     </article>
-
-    <article class="card">
-      <div class="ch">
-        <svg class="i"><use href="#i-calg"/></svg>
-        <h2>آزمون‌های پیش‌رو</h2>
-        <a href="#" class="all">مشاهده همه<svg class="i"><use href="#i-back"/></svg></a>
-      </div>
-      <div class="ex" id="exList">
-        <span class="ex-ic"><svg class="i"><use href="#i-exam"/></svg></span>
-        <span class="chip"><svg class="i"><use href="#i-clock"/></svg>ساعت ۹:۰۰</span>
-        <div class="ex-t"><b>آزمون جامع نوبت اول</b><small>دوره دوم متوسطه</small></div>
-        <div class="day"><b>۲۵</b><small>آبان</small></div>
-      </div>
+    <article class="fc">
+      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-bot"/></svg></span></div>
+        <div><h3>چت بات</h3><p>پرسش‌های خود را از دستیار هوشمند مدرسه بپرسید.</p></div></div>
+      <a href="#chatbot" class="fbtn">ورود به چت بات<svg class="i"><use href="#i-chev"/></svg></a>
+    </article>
+    <article class="fc">
+      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-folder"/></svg></span></div>
+        <div><h3>فایل‌ها</h3><p>دسترسی سریع به فایل‌های آموزشی و منابع درسی.</p></div></div>
+      <a href="#files" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+    </article>
+    <article class="fc">
+      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-exam"/></svg></span></div>
+        <div><h3>آزمون‌ها</h3><p>مشاهده و شرکت در آزمون‌های آنلاین و حضوری.</p></div></div>
+      <a href="#exams" class="fbtn">ورود به بخش آزمون‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+    </article>
+    <article class="fc">
+      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-mega"/></svg></span></div>
+        <div><h3>اطلاعیه‌ها و اعلان‌ها</h3><p>آخرین اطلاعیه‌ها و اخبار مدرسه را مشاهده کنید.</p></div></div>
+      <a href="#news" class="fbtn">ورود به بخش اطلاعیه‌ها<svg class="i"><use href="#i-chev"/></svg></a>
     </article>
   </section>
 
-  <button class="more" id="more" aria-label="پایین‌تر"><svg class="i"><use href="#i-down"/></svg></button>
+  <!-- ۱) برنامه روزانه (داده‌ها نمونه‌اند؛ بعداً از بک‌اند پر کن) -->
+  <section class="sec" id="daily">
+    <div class="txt">
+      <span class="pill"><svg class="i"><use href="#i-calg"/></svg>برنامه روزانه</span>
+      <h2>روز خود را از اول تا آخر ببینید</h2>
+      <p>ساعت هر کلاس، نام درس و کلاس در حال برگزاری یک‌جا نمایش داده می‌شود تا هیچ زنگی را از دست ندهید.</p>
+      <ul class="pts"><li>کلاس در حال برگزاری با رنگ طلایی مشخص می‌شود</li><li>تغییرات برنامه همان لحظه به‌روز می‌شود</li><li>نسخه هفتگی و امتحانی هم در دسترس است</li></ul>
+      <a href="#" class="fbtn">ورود به برنامه روزانه<svg class="i"><use href="#i-chev"/></svg></a>
+    </div>
+    <div class="box">
+      <h4>برنامه امروز</h4><small>۷ درس</small>
+      <div class="row now"><time>۰۸:۰۰ – ۰۹:۱۵</time><b>ریاضی</b><em>در حال برگزاری</em></div>
+      <div class="row"><time>۰۹:۳۰ – ۱۰:۴۵</time><b>فیزیک</b></div>
+      <div class="row"><time>۱۱:۰۰ – ۱۲:۱۵</time><b>ادبیات فارسی</b></div>
+      <div class="row"><time>۱۲:۳۰ – ۱۳:۴۵</time><b>شیمی</b></div>
+    </div>
+  </section>
+
+  <!-- ۲) چت بات -->
+  <section class="sec rev" id="chatbot">
+    <div class="txt">
+      <span class="pill"><svg class="i"><use href="#i-send"/></svg>چت بات</span>
+      <h2>دستیار هوشمند، هر وقت سؤالی داشتید</h2>
+      <p>از ساعت کلاس‌ها تا قوانین مدرسه و زمان آزمون‌ها، سؤال خود را بنویسید و جواب را سریع بگیرید.</p>
+      <div class="chips"><span>ساعت زنگ‌ها</span><span>تاریخ آزمون‌ها</span><span>آدرس مدرسه</span><span>قوانین حضور و غیاب</span></div>
+      <a href="./چت بات.html" class="fbtn">ورود به چت بات<svg class="i"><use href="#i-chev"/></svg></a>
+    </div>
+    <div class="box chat">
+      <div class="bub me">آزمون بعدی فیزیک چه روزیه؟</div>
+      <div class="bub bot">آزمون فیزیک سه‌شنبه هفته آینده ساعت ۹ برگزار می‌شود.</div>
+      <div class="bub me">فایل نمونه سؤال هم دارید؟</div>
+      <div class="bub bot">بله، در بخش فایل‌ها پوشه «فیزیک» را ببینید.</div>
+    </div>
+  </section>
+
+  <!-- ۳) فایل‌ها -->
+  <section class="sec" id="files">
+    <div class="txt">
+      <span class="pill"><svg class="i"><use href="#i-folder"/></svg>فایل‌ها</span>
+      <h2>منابع درسی، مرتب و در دسترس</h2>
+      <p>جزوه‌ها، نمونه سؤال‌ها و تمرین‌ها به تفکیک درس دسته‌بندی شده‌اند و تازه‌ترین فایل‌ها همیشه بالای فهرست هستند.</p>
+      <ul class="pts"><li>دسته‌بندی بر اساس درس و پایه</li><li>دانلود مستقیم بدون نیاز به واسطه</li></ul>
+      <a href="#" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+    </div>
+    <div class="box">
+      <h4>تازه‌ترین فایل‌ها</h4><small>۵ فایل جدید</small>
+      <div class="row"><span class="ext">PDF</span><div><b>جزوه فصل سوم فیزیک</b><small>فیزیک</small></div></div>
+      <div class="row"><span class="ext">DOC</span><div><b>تمرین‌های هفته دوم ریاضی</b><small>ریاضی</small></div></div>
+      <div class="row"><span class="ext">PDF</span><div><b>نمونه سؤال شیمی</b><small>شیمی</small></div></div>
+    </div>
+  </section>
+
+  <!-- ۴) آزمون‌ها (چیدمان پلکانی) -->
+  <section class="sec rev" id="exams">
+    <div class="txt">
+      <span class="pill"><svg class="i"><use href="#i-doc"/></svg>آزمون‌ها</span>
+      <h2>آزمون‌های پیش‌رو، بدون غافلگیری</h2>
+      <p>تاریخ و ساعت هر آزمون را از قبل ببینید و برای آزمون‌های آنلاین مستقیم از همین‌جا وارد شوید.</p>
+      <ul class="pts"><li>یادآوری قبل از شروع آزمون</li><li>مشاهده نتیجه پس از اعلام نمره</li></ul>
+      <a href="#" class="fbtn">ورود به بخش آزمون‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+    </div>
+    <div class="ex">
+      <div class="box"><span class="d">۲۹</span><span class="m">آبان</span><h4>فیزیک</h4><small>حضوری · ساعت ۹</small></div>
+      <div class="box"><span class="d">۳</span><span class="m">آذر</span><h4>ریاضی</h4><small>آنلاین · ساعت ۱۰</small></div>
+      <div class="box"><span class="d">۷</span><span class="m">آذر</span><h4>شیمی</h4><small>حضوری · ساعت ۸:۳۰</small></div>
+      <div class="box"><span class="d">۱۲</span><span class="m">آذر</span><h4>ادبیات</h4><small>آنلاین · ساعت ۱۱</small></div>
+    </div>
+  </section>
+
+  <!-- ۵) اطلاعیه‌ها (یک کارت بزرگ + دو کارت کوچک) -->
+  <section class="sec" id="news">
+    <div class="txt">
+      <span class="pill"><svg class="i"><use href="#i-bell"/></svg>اطلاعیه‌ها و اعلان‌ها</span>
+      <h2>خبرهای مهم مدرسه، یک‌جا</h2>
+      <p>اطلاعیه‌های مدیریت، اخبار برنامه‌ها و تغییرات کلاسی به ترتیب تاریخ نمایش داده می‌شوند.</p>
+      <a href="#" class="fbtn">ورود به بخش اطلاعیه‌ها<svg class="i"><use href="#i-chev"/></svg></a>
+    </div>
+    <div class="an">
+      <div class="box big"><time>۲۲ آبان</time><h4>تغییر ساعت شروع کلاس‌ها از هفته آینده</h4><p>ساعت شروع زنگ اول از هفته آینده نیم ساعت زودتر خواهد بود.</p></div>
+      <div class="box"><time>۲۰ آبان</time><h4>ثبت‌نام اردوی علمی</h4><p>مهلت ثبت‌نام تا پایان هفته است.</p></div>
+      <div class="box"><time>۱۸ آبان</time><h4>برنامه امتحانی منتشر شد</h4><p>جدول کامل در بخش آزمون‌ها قرار دارد.</p></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <svg class="i"><use href="#i-heart"/></svg>مدرسه مدار، گامی به سوی آینده روشن‌تر<i class="gline"></i>
+  </footer>
+</main>
 </div>
 
 <script src="../js/config.js"></script>
@@ -342,7 +444,7 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
 const $=id=>document.getElementById(id);
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 
-/* ---------- تم ---------- */
+/* تم */
 const root=document.documentElement;let timer;
 $('themeBtn').onclick=()=>{
   const next=root.dataset.theme==='dark'?'light':'dark';
@@ -351,9 +453,8 @@ $('themeBtn').onclick=()=>{
   try{localStorage.setItem('theme',next)}catch(e){}
 };
 addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
-$('more').onclick=()=>scrollBy({top:innerHeight*.8,behavior:'smooth'});
 
-/* ---------- پنل پروفایل ---------- */
+/* پنل پروفایل */
 const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
 const setPanel=open=>{
   pPanel.classList.toggle('open',open);
@@ -368,15 +469,13 @@ $('logoutBtn').onclick=()=>{
   else location.href='../لاگین و ثبت نام/لاگین.html';
 };
 
-/* ---------- اطلاعات کاربر از بک‌اند ---------- */
-/* true: اگه وارد نشده باشه به صفحه‌ی لاگین می‌فرسته. برای دیدن طراحی بدون ورود false کن. */
+/* اطلاعات کاربر از بک‌اند */
 const REQUIRE_LOGIN=true;
 const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'};
 (async()=>{
   let user=null;
   try{user=REQUIRE_LOGIN?await Auth.requireAuth():await Auth.me()}catch(e){}
   if(!user)return;
-  $('uname').textContent=user.name;
   $('pName').textContent=user.name;
   $('pRole').textContent=ROLE_FA[user.role]||'کاربر';
   $('pPhone').textContent=user.phone?fa(user.phone):'—';
@@ -387,26 +486,13 @@ const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'
     :'—';
 })();
 
-/* ---------- خلاصه‌ی امروز ---------- */
-/* داده‌ی نمونه؛ وقتی بک‌اند فعالیت‌ها آماده شد، این رو از سرور پر کن.
-   week: دقیقه‌های مطالعه از شنبه تا جمعه */
-const SUMMARY={studyMinutes:200,goalMinutes:360,activities:4,streak:12,week:[150,210,120,260,180,200,0]};
-(function renderSummary(){
-  const s=SUMMARY;
-  const h=Math.floor(s.studyMinutes/60),m=String(s.studyMinutes%60).padStart(2,'0');
-  $('stTime').textContent=fa(h+':'+m);
-  $('stAct').textContent=fa(s.activities);
-  $('stStreak').textContent=fa(s.streak);
-  const pct=Math.min(100,Math.round(s.studyMinutes/s.goalMinutes*100));
-  $('goalPct').textContent=fa(pct)+'٪';
-  requestAnimationFrame(()=>{$('goalBar').style.width=pct+'%'});
-  const days=['ش','ی','د','س','چ','پ','ج'];
-  const today=(new Date().getDay()+1)%7;
-  const max=Math.max(...s.week,1);
-  $('week').innerHTML=days.map((d,i)=>
-    `<div class="wd${i===today?' now':''}"><div class="bw"><i style="height:${Math.max(s.week[i]/max*100,4)}%"></i></div><span>${d}</span></div>`
-  ).join('');
-  $('todayDate').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+/* منوی کشویی (موبایل با کلیک) */
+(()=>{
+  const dds=[...document.querySelectorAll('.dd')];
+  const closeAll=ex=>dds.forEach(d=>d!==ex&&d.classList.remove('open'));
+  dds.forEach(d=>d.firstElementChild.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeAll(d);d.classList.toggle('open')}));
+  document.addEventListener('click',()=>closeAll());
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 })();
 </script>
 </body>
