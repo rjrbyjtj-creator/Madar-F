@@ -88,7 +88,7 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 #dock .col{padding:0}
 #dock small{display:block;text-align:center;font-size:11px;color:var(--mu);margin-top:8px}
 .box{position:relative;isolation:isolate;background:var(--sf);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh);padding:12px 14px 10px;transition:border-color .2s}
-#box.voice-active::after{content:'';position:absolute;z-index:-1;pointer-events:none;left:8%;right:8%;bottom:-19px;height:34px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(83,133,235,.48) 0%,rgba(83,133,235,.18) 42%,transparent 74%);filter:blur(calc(9px + var(--voice-level,0)*9px));opacity:calc(.22 + var(--voice-level,0)*.72);transform:scaleY(calc(.72 + var(--voice-level,0)*.9));transition:opacity .12s,transform .12s,filter .12s}
+#box.voice-active::after{content:'';position:absolute;z-index:-1;pointer-events:none;left:8%;right:8%;bottom:-20px;height:38px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(83,133,235,.48) 0%,rgba(83,133,235,.18) 42%,transparent 74%);filter:blur(var(--voice-blur,12px));opacity:var(--voice-opacity,.2);transform:scaleY(var(--voice-scale,.7));transition:opacity .08s,transform .08s,filter .08s}
 #voiceStatusBar{display:none;text-align:center;font-size:11px;color:var(--mu);padding-top:9px;min-height:22px}
 #voiceStatusBar.show{display:block}
 #sttBtn.recording{color:#fff;background:#C83F4D;box-shadow:0 0 0 4px rgba(200,63,77,.12)}
@@ -158,7 +158,11 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .pop button{padding:7px 10px}
 #welcome h1{font-size:26px}
 .box{border-radius:22px;padding:12px 12px 8px}.box textarea{padding:2px 6px}
-.bar{margin-top:2px}.bar .l,.bar .r{display:flex;align-items:center;gap:2px;font-size:inherit;color:inherit}
+.bar{margin-top:2px;direction:ltr}.bar .l,.bar .r{display:flex;align-items:center;gap:2px;font-size:inherit;color:inherit}.bar .l,.bar .r{direction:ltr}
+#dock .box.compact{padding:7px 11px 6px;border-radius:17px}
+#dock .box.compact textarea{height:42px!important;min-height:42px;padding:11px 7px 3px;line-height:1.55;font-size:14px}
+#dock .box.compact .bar{margin-top:0}
+#dock .box.compact .ib.sm,#dock .box.compact .send{width:32px;height:32px}
 .chip{font-size:11.5px;background:var(--hv);padding:3px 10px;border-radius:999px;color:var(--tx);max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:6px;cursor:pointer}
 .send{width:34px;height:34px;border-radius:11px;background:var(--hv);color:var(--mu);margin-right:4px;transition:.18s}
 .send svg{width:18px;height:18px}
@@ -317,8 +321,8 @@ select.fld{cursor:pointer}
 <div id="tpl" style="display:none"><div class="box" id="box">
   <textarea id="inp" rows="2" placeholder="سؤال خود را اینجا بنویسید…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
   <div class="bar">
-    <span class="l"><input type="file" id="file" hidden onchange="attach(this)"><button class="ib sm" onclick="$('file').click()" title="پیوست فایل" aria-label="پیوست فایل"><svg class="i"><use href="#pl"/></svg></button><span id="fn" class="chip" hidden onclick="clearAtt()" title="حذف پیوست"></span></span>
-    <span class="r"><button class="ib sm" id="sttBtn" onclick="toggleDictation()" title="تبدیل گفتار به متن" aria-label="شروع تایپ صوتی"><svg class="i"><use href="#mc"/></svg></button><button class="ib sm" id="liveBtn" onclick="openLiveCall()" title="گفتگوی صوتی با مدار" aria-label="شروع گفتگوی صوتی"><svg class="i"><use href="#wv"/></svg></button><button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button></span>
+    <span class="l"><input type="file" id="file" hidden onchange="attach(this)"><button class="ib sm" onclick="$('file').click()" title="پیوست فایل" aria-label="پیوست فایل"><svg class="i"><use href="#pl"/></svg></button><span id="fn" class="chip" hidden onclick="clearAtt()" title="حذف پیوست"></span><button class="ib sm" id="sttBtn" onclick="toggleDictation()" title="تبدیل گفتار به متن" aria-label="شروع تایپ صوتی"><svg class="i"><use href="#mc"/></svg></button><button class="ib sm" id="liveBtn" onclick="openLiveCall()" title="گفتگوی صوتی با مدار" aria-label="شروع گفتگوی صوتی"><svg class="i"><use href="#wv"/></svg></button></span>
+    <span class="r"><button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button></span>
   </div>
 </div></div>
 
@@ -461,6 +465,7 @@ function layoutChat(){
   $('welcome').style.display='none';$('chat').style.display='flex';$('dock').style.display='block';
   $('slotD').appendChild($('box'));
  }
+ $('box').classList.add('compact');
 }
 async function send(text){
  if(liveCallActive){toast('پیش از ارسال پیام متنی، تماس صوتی را پایان بده.');return}
@@ -722,13 +727,19 @@ async function startLiveMicrophone(){
  liveMicSource=liveInputContext.createMediaStreamSource(liveMicStream);
  liveAnalyser=liveInputContext.createAnalyser();liveAnalyser.fftSize=256;
  liveMicSource.connect(liveAnalyser);
- const meterData=new Uint8Array(liveAnalyser.frequencyBinCount);
+ const meterData=new Uint8Array(liveAnalyser.frequencyBinCount);let smoothLevel=0;
  const paintMeter=()=>{
   if(!liveCallActive||!liveAnalyser)return;
-  liveAnalyser.getByteTimeDomainData(meterData);
-  let energy=0;for(let i=0;i<meterData.length;i++){const v=(meterData[i]-128)/128;energy+=v*v}
-  const level=Math.min(1,Math.sqrt(energy/meterData.length)*3.8);
-  $('box').style.setProperty('--voice-level',String(level));
+  liveAnalyser.getByteFrequencyData(meterData);
+  let energy=0;for(let i=2;i<meterData.length;i++)energy+=meterData[i];
+  const average=energy/Math.max(1,meterData.length-2)/255;
+  const target=Math.max(0,Math.min(1,(average-.018)*8.5));
+  smoothLevel+=(target-smoothLevel)*(target>smoothLevel ? .42 : .16);
+  const box=$('box');
+  box.style.setProperty('--voice-level',smoothLevel.toFixed(3));
+  box.style.setProperty('--voice-opacity',(0.16+smoothLevel*.62).toFixed(3));
+  box.style.setProperty('--voice-scale',(0.68+smoothLevel*.95).toFixed(3));
+  box.style.setProperty('--voice-blur',(15-smoothLevel*6).toFixed(1)+'px');
   liveMeterFrame=requestAnimationFrame(paintMeter);
  };
  paintMeter();
@@ -749,6 +760,7 @@ function stopLiveMicrophone(){
  if(liveMeterFrame){cancelAnimationFrame(liveMeterFrame);liveMeterFrame=0}
  if(liveMicSource){liveMicSource.disconnect();liveMicSource=null}
  if(liveAnalyser){liveAnalyser.disconnect();liveAnalyser=null}
+ const box=$('box');if(box){box.style.setProperty('--voice-level','0');box.style.setProperty('--voice-opacity','.16');box.style.setProperty('--voice-scale','.68');box.style.setProperty('--voice-blur','15px')}
  if(liveSilentGain){liveSilentGain.disconnect();liveSilentGain=null}
  if(liveMicStream){liveMicStream.getTracks().forEach(track=>track.stop());liveMicStream=null}
  if(liveInputContext){liveInputContext.close().catch(()=>{});liveInputContext=null}
@@ -791,7 +803,7 @@ function scheduleLiveTurnSave(){
  liveFinalizeTimer=setTimeout(()=>{liveFinalizeTimer=null;saveLiveTurn()},450);
 }
 async function openLiveCall(){
- if(liveCallActive)return;
+ if(liveCallActive){stopLiveCall();return}
  if(chatBusy){toast('اول صبر کن پاسخ فعلی کامل شود.');return}
  if(!Auth.get()){toast('برای تماس صوتی ابتدا وارد حساب کاربری شو.');return}
  if(att){toast('برای شروع تماس صوتی، ابتدا پیوست انتخاب‌شده را حذف کن.');return}
