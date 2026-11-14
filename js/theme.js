@@ -20,7 +20,7 @@
     green: ["--green", "--ok", "--status-green"]
   };
   var DARK = { bg: "#0f172a", surface: "#172238", line: "#2a3850", text: "#e7edf6", muted: "#9aa7bc" };
-  function setVar(name, value) { if (value) root.style.setProperty(name, value); }
+  function setVar(name, value) { if (value) { root.style.setProperty(name, value); if (document.body) document.body.style.setProperty(name, value); } }
   function apply(theme) {
     if (!theme || !theme.colors) return;
     var c = theme.colors, dark = theme.mode === "dark";
