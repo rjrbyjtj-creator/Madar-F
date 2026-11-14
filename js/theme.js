@@ -10,8 +10,8 @@
     system: "system-ui,-apple-system,sans-serif"
   };
   var MAP = {
-    bg: ["--bg", "--bg2", "--hdr", "--bg-header", "--bg-body"],
-    surface: ["--surface", "--surface-2", "--panel", "--field", "--card", "--sf", "--sb", "--inner", "--tile", "--chip", "--bg-white"],
+    bg: ["--bg", "--bg2", "--hdr", "--bg-header", "--bg-body", "--bg-hero-left"],
+    surface: ["--surface", "--surface-2", "--panel", "--field", "--card", "--sf", "--sb", "--inner", "--tile", "--chip", "--bg-white", "--btn-circle-bg"],
     line: ["--line", "--border", "--ln", "--border-color"],
     text: ["--text", "--tx", "--text-main"],
     muted: ["--muted", "--mu", "--text-muted", "--text-light"],
