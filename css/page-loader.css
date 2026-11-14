@@ -1,0 +1,46 @@
+/* لودر انتقال صفحه — فقط مربع‌ها */
+#madar-page-loader{
+  position:fixed;inset:0;z-index:99999;
+  display:grid;place-items:center;
+  background:var(--bg,#F6F7F9);
+  color:var(--text,#1B2233);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .38s cubic-bezier(.22,1,.36,1),visibility .38s,background-color .35s;
+}
+#madar-page-loader.on{
+  opacity:1;visibility:visible;pointer-events:auto;
+}
+#madar-page-loader.leaving{
+  opacity:0;visibility:visible;pointer-events:none;
+}
+html[data-theme=dark] #madar-page-loader,
+:root[data-theme=dark] #madar-page-loader{
+  background:var(--bg,#0C1222);
+}
+#madar-page-loader .mpl-stage{
+  transform:scale(1.25);
+  opacity:.92;
+  transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s ease;
+}
+#madar-page-loader.on .mpl-stage{
+  transform:scale(1.35);
+  opacity:1;
+}
+.flat-grid-loader{
+  --sq:24px;--gap:5px;--step:29px;--out:36px;--pr:var(--primary,var(--navy,#3b82f6));
+  position:relative;direction:ltr;
+  width:calc(var(--sq)*2 + var(--gap));
+  height:calc(var(--sq)*2 + var(--gap));
+  transform:translateX(calc(var(--out)*-.25));
+}
+.flat-grid-loader span{
+  position:absolute;top:0;left:0;width:var(--sq);height:var(--sq);
+  border:3.5px solid var(--pr);border-radius:6px;
+  will-change:transform;backface-visibility:hidden;
+}
+.flat-grid-loader span:nth-child(1){transform:translate3d(var(--step),var(--step),0)}
+.flat-grid-loader span:nth-child(2){transform:translate3d(var(--step),0,0)}
+.flat-grid-loader span:nth-child(4){transform:translate3d(0,var(--step),0)}
+@media (prefers-reduced-motion:reduce){
+  #madar-page-loader{transition-duration:.2s}
+}
