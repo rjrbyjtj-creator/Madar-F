@@ -28,7 +28,7 @@ const API = Object.freeze({
   dashboard: "../داشبورد/رستا _ فضای کار (1).html",
 
   // پنل مدیریت — بعد از ورود با نقش admin
-  adminDashboard: "https://rjrbyjtj-creator.github.io/A-/",
+  adminDashboard: "https://rjrbyjtj-creator.github.io/Madar-F/admin/",
 });
 
 const API_CONFIG = Object.freeze({
