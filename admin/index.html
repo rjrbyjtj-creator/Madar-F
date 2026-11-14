@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>پنل مدیریت مدرسه مدار</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
-<link rel="stylesheet" href="./css/admin-panel.css?v=global-theme-20261114" />
+<link rel="stylesheet" href="./css/admin-panel.css?v=admin-stats-theme-20261114" />
 </head>
 <body>
 
@@ -54,7 +54,6 @@
     <a href="#"><svg viewBox="0 0 24 24"><use href="#users-o"/></svg><span>مدیریت کاربران</span></a>
     <a href="#"><svg viewBox="0 0 24 24"><use href="#headset"/></svg><span>پشتیبانی</span></a>
     <a href="#"><svg viewBox="0 0 24 24"><use href="#chart-o"/></svg><span>گزارش‌ها</span></a>
-    <a href="#look"><svg viewBox="0 0 24 24"><use href="#gear"/></svg><span>تنظیمات</span></a>
   </nav>
 </header>
 
@@ -64,12 +63,13 @@
     <h1>سلام، مدیر ارشد عزیز!</h1>
     <p>به پنل مدیریت مدرسه مدار خوش آمدید.</p>
     <div class="gold-bar"></div>
-    <div class="stats">
-      <div class="stat"><svg viewBox="0 0 24 24"><use href="#cap"/></svg><b>۳,۲۵۰</b><span>دانش‌آموزان</span></div>
-      <div class="stat"><svg viewBox="0 0 24 24"><use href="#user"/></svg><b>۱۲</b><span>مدیران</span></div>
-      <div class="stat"><svg viewBox="0 0 24 24"><use href="#star"/></svg><b>۱۸۹</b><span>کاربران ویژه</span></div>
-      <div class="stat"><svg viewBox="0 0 24 24"><use href="#school"/></svg><b>۲۷۰</b><span>مدرسه</span></div>
-      <div class="stat"><svg viewBox="0 0 24 24"><use href="#headset"/></svg><b>۴,۲۶۰</b><span>تیکت پشتیبانی</span></div>
+    <div class="stats" id="adminStats" aria-live="polite">
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#users"/></svg><b data-stat="totalUsers">…</b><span>کل کاربران</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#cap"/></svg><b data-stat="students">…</b><span>دانش‌آموزان</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#user"/></svg><b data-stat="teachers">…</b><span>معلمان</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#star"/></svg><b data-stat="admins">…</b><span>مدیران سامانه</span></div>
+      <div class="stat stat-unavailable"><svg viewBox="0 0 24 24"><use href="#school"/></svg><b data-stat="schools">—</b><span>مدارس <small>داده ثبت‌شده نیست</small></span></div>
+      <div class="stat stat-unavailable"><svg viewBox="0 0 24 24"><use href="#headset"/></svg><b data-stat="supportTickets">—</b><span>تیکت‌ها <small>داده ثبت‌شده نیست</small></span></div>
     </div>
   </div>
 </section>
@@ -100,78 +100,11 @@
   <section class="col">
     <div class="col-head"><i></i><h2>میانبرهای سریع</h2></div>
     <div class="rows">
-      <a href="#look" class="row shortcut"><svg viewBox="0 0 24 24"><use href="#gear"/></svg><span>تنظیمات ظاهری</span><span class="circ"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
       <a href="#" class="row shortcut"><svg viewBox="0 0 24 24"><use href="#school"/></svg><span>افزودن مدرسه</span><span class="circ"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
       <a href="#" class="row shortcut"><svg viewBox="0 0 24 24"><use href="#users"/></svg><span>مدیریت کاربران</span><span class="circ"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
     </div>
   </section>
 </main>
-
-<section class="look" id="look" aria-label="تنظیمات ظاهری سایت">
-  <div class="look-top">
-    <div>
-      <div class="ttl"><i></i><h2>تنظیمات ظاهری سایت</h2></div>
-      <p>پالت را انتخاب کن و با یک دکمه روی کل سایت ذخیره و فعال کن</p>
-    </div>
-    <div class="look-act">
-      <a class="btn-reset" href="./themes.html" style="text-decoration:none" aria-label="مدیریت پالت‌ها">مدیریت پالت‌ها</a>
-      <button class="btn-reset" type="button" id="lkReset"><svg viewBox="0 0 24 24"><use href="#refresh"/></svg>بازنشانی</button>
-      <button class="btn-save" type="button" id="lkSave"><svg viewBox="0 0 24 24"><use href="#save"/></svg>ذخیره و فعال‌سازی روی کل سایت</button>
-    </div>
-  </div>
-
-  <div class="look-col">
-    <div class="lk-card">
-      <h3><svg viewBox="0 0 24 24"><use href="#drop"/></svg>رنگ‌های پالت فعال</h3>
-      <p style="color:var(--muted);font-size:1rem;margin-bottom:1rem">هر رنگ را عوض کن؛ با «ذخیره و فعال‌سازی» روی کل سایت اعمال می‌شود.</p>
-      <div class="color-vars" id="colorVars"></div>
-      <div id="palList" class="saved-mini" style="margin-top:1rem"></div>
-    </div>
-
-    <div class="lk-card">
-      <h3><svg viewBox="0 0 24 24"><use href="#gear"/></svg>تنظیمات کلی</h3>
-      <div class="opts">
-        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#frame"/></svg></span>گوشه‌ها
-          <select class="sel" id="sRad"><option value=".6">کم</option><option value="1.2" selected>معمولی</option><option value="1.8">زیاد</option></select></div>
-        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#grid"/></svg></span>کارت‌ها
-          <select class="sel" id="sGap"><option value=".8">فشرده</option><option value="1.2" selected>متوسط</option><option value="1.8">باز</option></select></div>
-        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#sun"/></svg></span>روشن
-          <button class="sw" id="swLight" type="button" role="switch" aria-checked="true"></button></div>
-        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#moon"/></svg></span>تاریک
-          <button class="sw" id="swDark" type="button" role="switch" aria-checked="false"></button></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="look-col">
-    <div class="pv" id="pv" data-mode="light">
-      <div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
-      <div class="pv-pals" id="themeCards" aria-label="پالت‌های پیشنهادی"></div>
-      <div class="site">
-        <div class="pv-nav"><b class="pv-logo">M</b><span>خانه</span><span>آزمون‌ها</span><span>مقالات</span><em class="pv-login">ورود</em></div>
-        <div class="pv-hero">
-          <small>آموزش، آینده‌سازی</small>
-          <h4>مدرسه هوشمند <span>مدار</span></h4>
-          <p>پیش‌نمایش زنده پالت فعلی</p>
-          <span class="pv-btn">بیشتر بدانید</span>
-        </div>
-      </div>
-    </div>
-    <div class="lk-card">
-      <h3><svg viewBox="0 0 24 24"><use href="#type"/></svg>فونت</h3>
-      <div class="fonts">
-        <div class="fctl">
-          <label class="frow">فونت فارسی
-            <select class="sel" id="sFont"><option value="vazir">وزیرمتن</option><option value="tahoma">تاهوما</option><option value="system">سیستم</option></select></label>
-          <label class="frow">اندازه
-            <select class="sel" id="sSize"><option value="14">14px</option><option value="16" selected>16px</option><option value="18">18px</option></select></label>
-        </div>
-        <div class="fs" id="fs"><b>مدار</b><span>آموزش، آینده‌سازی</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="lk-toast" id="lkToast" role="status"></div>
-</section>
 
 <footer class="footer">
   <span>طراحی شده با <span class="heart">♥</span> برای آینده‌ای روشن‌تر</span>
@@ -179,7 +112,6 @@
 </footer>
 
 <script src="./js/admin-guard.js"></script>
-<script src="./js/admin-theme.js?v=global-theme-20261114"></script>
-<script src="./js/look-api.js?v=theme-api-fix-20261114"></script>
+<script src="./js/admin-theme.js?v=admin-theme-toggle-20261114"></script>
 </body>
 </html>
