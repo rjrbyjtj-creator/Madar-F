@@ -592,7 +592,8 @@ function layoutChat(){
  $('box').classList.add('compact');
 }
 async function confirmPlanProposal(proposal,button){
- if(!proposal||!Auth.get()){toast('برای ثبت برنامه ابتدا وارد حساب دانش‌آموزی شو.');return}
+ if(!proposal||pendingPlanProposal!==proposal){toast('این پیشنهاد دیگر فعال نیست؛ دوباره از مدار برنامه بخواه.');return}
+ if(!Auth.get()){toast('برای ثبت برنامه ابتدا وارد حساب دانش‌آموزی شو.');return}
  if(button){button.disabled=true;button.textContent='در حال ذخیره…'}
  try{
   const response=await fetch(API.plans+'/'+encodeURIComponent(proposal.date),{
@@ -661,7 +662,7 @@ function quick(k){send(Q[k])}
 function resetChat(){
  if(liveCallActive)stopLiveCall();
  $('box').classList.remove('compact');
- active=null;conversationId=null;conversation=[];renderHist($('q').value);
+ active=null;conversationId=null;conversation=[];pendingPlanProposal=null;renderHist($('q').value);
  $('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='دستیار آموزشی مدار';
  if(innerWidth<900)document.body.classList.remove('m-open');
