@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#14264F">
+<title>مدیریت مقالات | مدار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F7F9;--panel:#fff;--field:#FBFBFC;--border:#E3E6EC;--text:#1B2233;--muted:#6B7488;--primary:#14264F;--gold:#B8892D;--ok:#2E7D5B;--bad:#B3413A;--shadow:0 8px 24px -12px rgba(20,38,79,.14)}
+body.dark{--bg:#0C1222;--panel:#131C32;--field:#1A2440;--border:#243049;--text:#E6EAF3;--muted:#8D98B0;--primary:#2B4C98;--gold:#D9AE55;--ok:#4FB38A;--bad:#E07A72;--shadow:0 8px 28px -12px rgba(0,0,0,.6)}
+*{box-sizing:border-box} [hidden]{display:none!important}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:13px/1.8 Vazirmatn,Tahoma,sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.page{max-width:1180px;margin:auto;padding:22px 20px 90px}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}.brand img{height:34px;width:auto}
+.search{margin-inline:auto;display:flex;align-items:center;gap:8px;max-width:420px;flex:1;background:var(--panel);border:1px solid var(--border);border-radius:30px;padding:0 14px;height:40px}.search input{border:0;outline:0;background:none;width:100%}
+.actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 16px;border-radius:24px;border:1px solid var(--border);background:var(--panel);font-weight:600}
+.btn.primary{background:var(--primary);color:white;border-color:var(--primary)}.btn.gold{background:var(--gold);color:#211800;border-color:var(--gold)}.btn.danger{color:var(--bad)}
+nav{display:flex;gap:10px;flex-wrap:wrap;padding:14px 0}nav a{padding:7px 13px;border-radius:20px;color:var(--muted)}nav a.active,nav a:hover{background:var(--panel);color:var(--text);border:1px solid var(--border)}
+.hero{padding:28px 0 18px}.eyebrow{color:var(--gold);font-weight:700}.hero h1{font-size:clamp(24px,3vw,32px);margin:5px 0}.hero p{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 30px}.stat,.panel,.article{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+.stat{padding:14px 18px}.stat b{display:block;font-size:23px}.stat span{color:var(--muted);font-size:12px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 14px}.section-head h2{font-size:19px;margin:0}
+.filters{display:flex;gap:7px;flex-wrap:wrap}.filter{border:1px solid var(--border);background:var(--panel);padding:6px 13px;border-radius:22px}.filter.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.article{overflow:hidden}.cover{height:132px;background:var(--field);display:grid;place-items:center;color:var(--muted)}.cover img{width:100%;height:100%;object-fit:cover}.article-body{padding:14px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.tag{font-size:10px;padding:2px 9px;border-radius:15px;background:var(--field);border:1px solid var(--border);color:var(--muted)}.tag.live{color:var(--ok)}.article h3{font-size:14px;margin:0 0 6px}.article p{font-size:11px;color:var(--muted);margin:0;min-height:42px}.meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:10px;margin:12px 0}.article-actions{display:flex;gap:6px;border-top:1px solid var(--border);padding-top:10px}.article-actions button{flex:1;padding:6px 5px;font-size:11px;border:1px solid var(--border);border-radius:8px;background:var(--field)}
+.editor{max-width:850px;margin:22px auto}.panel{padding:18px;margin-bottom:14px}.panel h3{margin:0 0 14px;font-size:14px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:block;margin-bottom:12px}.field:last-child{margin-bottom:0}.field span{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.control{width:100%;border:1px solid var(--border);background:var(--field);border-radius:10px;padding:9px 12px;outline:0}.control:focus{border-color:var(--gold);box-shadow:0 0 0 3px #b8892d22}textarea.control{resize:vertical;line-height:1.9}.cover-preview{height:130px;border:1px dashed var(--border);border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--field);margin-bottom:10px;color:var(--muted)}.cover-preview img{width:100%;height:100%;object-fit:cover}
+.editor-actions{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:30px;box-shadow:var(--shadow);z-index:5}
+.empty{padding:40px;text-align:center;color:var(--muted);background:var(--panel);border:1px dashed var(--border);border-radius:14px}
+.toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:9px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:.2s;z-index:10}.toast.show{opacity:1}
+.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.page{padding:14px 12px 100px}.grid,.form-grid{grid-template-columns:1fr}.search{order:3;flex-basis:100%;max-width:none}.editor-actions{width:calc(100% - 20px);justify-content:center}.editor-actions .btn{flex:1;padding:8px 7px}}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+<a class="brand" href="./index.html"><img src="./assets/header.png" alt="مدار" onerror="this.style.display='none'"><span>مدار <small style="display:block;color:var(--muted);font-size:10px;font-weight:400">مدیریت مجله</small></span></a>
+<label class="search"><span>⌕</span><input id="search" type="search" placeholder="جستجو در مقالات..."></label>
+<div class="actions"><button class="btn" id="theme" type="button">تغییر تم</button><a class="btn" href="./index.html">بازگشت به پنل</a><button class="btn primary" id="new" type="button">＋ مقاله جدید</button></div>
+</header>
+<nav><a href="./index.html">داشبورد</a><a href="./articles.html" class="active">مدیریت مقالات</a><a href="../index.html">مشاهده سایت</a></nav>
+<main>
+<section id="listView">
+<div class="hero"><div class="eyebrow">مجله آموزشی مدار</div><h1>مدیریت مقالات</h1><p>مقالات را ثبت، ویرایش و منتشر کنید. تغییرات مستقیماً در پایگاه داده ذخیره می‌شوند.</p></div>
+<div class="stats">
+<div class="stat"><b id="total">—</b><span>همه مقالات</span></div><div class="stat"><b id="published">—</b><span>منتشرشده</span></div><div class="stat"><b id="drafts">—</b><span>پیش‌نویس</span></div><div class="stat"><b id="featured">—</b><span>مقاله ویژه</span></div>
+</div>
+<div class="section-head"><div><h2>فهرست مقالات</h2><div class="status" id="connection">در حال دریافت اطلاعات…</div></div><div class="filters"><button class="filter active" data-filter="all">همه</button><button class="filter" data-filter="published">منتشرشده</button><button class="filter" data-filter="draft">پیش‌نویس</button></div></div>
+<div id="articles" class="grid"></div><div id="empty" class="empty" hidden>مقاله‌ای ثبت نشده است. از «مقاله جدید» شروع کنید.</div>
+</section>
+<section id="editView" hidden>
+<div class="editor">
+<div class="section-head"><div><div class="eyebrow" id="mode">مقاله جدید</div><h2>اطلاعات مقاله</h2></div><span class="status">ذخیره امن از طریق API مدیریت</span></div>
+<div class="panel">
+<h3>اطلاعات اصلی</h3>
+<label class="field"><span>عنوان مقاله</span><input class="control" id="title" maxlength="180" placeholder="عنوان مقاله"></label>
+<div class="form-grid">
+<label class="field"><span>شناسه انگلیسی (Slug)</span><input class="control" id="slug" dir="ltr" maxlength="100" placeholder="my-new-article"></label>
+<label class="field"><span>دسته‌بندی</span><input class="control" id="category" maxlength="80" value="مقالات آموزشی"></label>
+</div>
+<label class="field"><span>توضیح کوتاه / خلاصه مقاله</span><textarea class="control" id="excerpt" rows="3" maxlength="500" placeholder="خلاصه‌ای که در کارت مقاله سایت نمایش داده می‌شود"></textarea></label>
+<div class="form-grid">
+<label class="field"><span>مدت مطالعه (دقیقه)</span><input class="control" id="readTime" type="number" min="1" max="120" value="5"></label>
+<label class="field"><span>ترتیب نمایش</span><input class="control" id="order" type="number" min="-1000" max="1000" value="0"></label>
+</div>
+<label class="field"><span>آدرس صفحه مقاله</span><input class="control" id="url" dir="ltr" placeholder="https://... یا ../articles/..."></label>
+<label class="field"><span>آدرس تصویر شاخص</span><input class="control" id="cover" dir="ltr" placeholder="../عکس ها/2.png یا https://..."></label>
+<div class="cover-preview" id="preview">پیش‌نمایش تصویر شاخص</div>
+<div class="form-grid">
+<label class="field"><span><input type="checkbox" id="isPublished"> انتشار مقاله</span></label>
+<label class="field"><span><input type="checkbox" id="isFeatured"> نمایش به‌عنوان مقاله ویژه</span></label>
+</div>
+</div>
+<div class="panel"><h3>نکته انتشار</h3><p style="margin:0;color:var(--muted);font-size:12px">این پنل اطلاعات و وضعیت انتشار مقاله را در پایگاه داده مدیریت می‌کند. برای محتوای کامل مقاله، آدرس صفحه‌ای را وارد کنید که متن مقاله در آن قرار دارد. انتشار در اینجا، مقاله را در فهرست عمومی سایت قابل نمایش می‌کند.</p></div>
+<div class="editor-actions"><button class="btn" id="cancel" type="button">بازگشت</button><button class="btn primary" id="saveDraft" type="button">ذخیره پیش‌نویس</button><button class="btn gold" id="publish" type="button">ذخیره و انتشار</button></div>
+</div>
+</section>
+</main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="./js/admin-guard.js"></script>
+<script src="./js/admin-theme.js"></script>
+<script>
+(function(){
+'use strict';
+var API='https://madar-jmy5.onrender.com/api/articles',tokenKey='madar_token';
+var $=function(id){return document.getElementById(id)};
+var items=[],current=null,filter='all';
+function token(){try{return localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey)||''}catch(e){return ''}}
+function notify(message){var el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(function(){el.classList.remove('show')},2600)}
+function headers(){return {'Content-Type':'application/json','Authorization':'Bearer '+token()}}
+async function request(path,options){var response=await fetch(API+path,Object.assign({headers:headers(),cache:'no-store'},options||{}));var data={};try{data=await response.json()}catch(e){}if(response.status===401||response.status===403){throw new Error('دسترسی مدیر تأیید نشد؛ دوباره وارد حساب مدیر شوید.')}if(!response.ok)throw new Error(data.message||'خطا در ارتباط با سرور ('+response.status+')');return data}
+function safe(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function show(view){$('listView').hidden=view!=='list';$('editView').hidden=view!=='edit';window.scrollTo(0,0)}
+function visibleItems(){var q=$('search').value.trim().toLowerCase();return items.filter(function(a){return(filter==='all'||(filter==='published'?a.published:!a.published))&&(!q||[a.title,a.slug,a.category,a.excerpt].join(' ').toLowerCase().includes(q))})}
+function render(){var data=visibleItems();$('total').textContent=items.length.toLocaleString('fa-IR');$('published').textContent=items.filter(function(a){return a.published}).length.toLocaleString('fa-IR');$('drafts').textContent=items.filter(function(a){return !a.published}).length.toLocaleString('fa-IR');$('featured').textContent=items.filter(function(a){return a.featured}).length.toLocaleString('fa-IR');$('articles').innerHTML=data.map(function(a){return '<article class="article"><div class="cover">'+(a.coverImage?'<img src="'+safe(a.coverImage)+'" alt="" loading="lazy">':'بدون تصویر')+'</div><div class="article-body"><div class="tags"><span class="tag '+(a.published?'live':'')+'">'+(a.published?'منتشرشده':'پیش‌نویس')+'</span><span class="tag">'+safe(a.category)+'</span>'+(a.featured?'<span class="tag">ویژه</span>':'')+'</div><h3>'+safe(a.title)+'</h3><p>'+safe(a.excerpt)+'</p><div class="meta"><span>'+safe(a.readTime||5)+' دقیقه مطالعه</span><span>'+safe(a.slug)+'</span></div><div class="article-actions"><button data-action="edit" data-id="'+safe(a._id)+'">ویرایش</button><button data-action="toggle" data-id="'+safe(a._id)+'">'+(a.published?'لغو انتشار':'انتشار')+'</button><button data-action="delete" data-id="'+safe(a._id)+'">حذف</button></div></div></article>'}).join('');$('articles').hidden=!data.length;$('empty').hidden=!!data.length}
+async function load(){ $('connection').textContent='در حال دریافت اطلاعات…';try{var data=await request('/manage');items=Array.isArray(data.articles)?data.articles:[];$('connection').textContent='اتصال به پایگاه داده برقرار است';render()}catch(e){$('connection').textContent=e.message;$('articles').innerHTML='';$('empty').hidden=false;$('empty').textContent=e.message;notify(e.message)}}
+function fill(a){current=a||null;$('mode').textContent=a?'ویرایش مقاله':'مقاله جدید';$('title').value=a?.title||'';$('slug').value=a?.slug||'';$('category').value=a?.category||'مقالات آموزشی';$('excerpt').value=a?.excerpt||'';$('readTime').value=a?.readTime||5;$('order').value=a?.order||0;$('url').value=a?.url||'';$('cover').value=a?.coverImage||'';$('isPublished').checked=!!a?.published;$('isFeatured').checked=!!a?.featured;preview();show('edit')}
+function preview(){var value=$('cover').value.trim();$('preview').innerHTML=value?'<img src="'+safe(value)+'" alt="پیش‌نمایش" onerror="this.parentElement.textContent=\'تصویر بارگذاری نشد\'">':'پیش‌نمایش تصویر شاخص'}
+function payload(published){return{title:$('title').value.trim(),slug:$('slug').value.trim().toLowerCase(),category:$('category').value.trim(),excerpt:$('excerpt').value.trim(),readTime:Number($('readTime').value)||5,order:Number($('order').value)||0,url:$('url').value.trim(),coverImage:$('cover').value.trim(),published:published,featured:$('isFeatured').checked,publishedAt:published?new Date().toISOString():undefined}}
+async function save(published){var data=payload(published);if(!data.title||data.title.length<3){notify('عنوان مقاله را کامل وارد کنید');return}if(!/^[a-z0-9-]{2,100}$/.test(data.slug)){notify('شناسه انگلیسی معتبر وارد کنید؛ مانند my-article');return}if(data.excerpt.length<10){notify('توضیح کوتاه حداقل ۱۰ نویسه باشد');return}if(!data.url){notify('آدرس صفحه مقاله را وارد کنید');return}try{if(current){await request('/'+encodeURIComponent(current._id),{method:'PUT',body:JSON.stringify(data)})}else{await request('',{method:'POST',body:JSON.stringify(data)})}notify(published?'مقاله منتشر شد':'پیش‌نویس ذخیره شد');await load();show('list')}catch(e){notify(e.message)}}
+$('new').onclick=function(){fill(null)};$('cancel').onclick=function(){show('list')};$('saveDraft').onclick=function(){save(false)};$('publish').onclick=function(){save(true)};$('cover').oninput=preview;$('search').oninput=render;
+document.querySelectorAll('[data-filter]').forEach(function(b){b.onclick=function(){filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(function(x){x.classList.toggle('active',x===b)});render()}});
+$('articles').onclick=async function(e){var b=e.target.closest('button[data-action]');if(!b)return;var a=items.find(function(x){return x._id===b.dataset.id});if(!a)return;if(b.dataset.action==='edit'){fill(a);return}if(b.dataset.action==='delete'){if(!confirm('این مقاله حذف شود؟'))return;try{await request('/'+encodeURIComponent(a._id),{method:'DELETE'});notify('مقاله حذف شد');load()}catch(err){notify(err.message)}return}if(b.dataset.action==='toggle'){try{await request('/'+encodeURIComponent(a._id),{method:'PUT',body:JSON.stringify({published:!a.published})});notify(a.published?'انتشار لغو شد':'مقاله منتشر شد');load()}catch(err){notify(err.message)}}};
+$('theme').onclick=function(){document.body.classList.toggle('dark');try{localStorage.setItem('madar_admin_mode',document.body.classList.contains('dark')?'dark':'light')}catch(e){}};
+load();
+})();
+</script>
+</body>
+</html>
