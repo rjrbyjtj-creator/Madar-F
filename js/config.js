@@ -1,4 +1,3 @@
-
 /* =================================
    MADAR - FRONTEND CONFIGURATION
 ================================= */
@@ -28,9 +27,8 @@ const API = Object.freeze({
   // Dashboard دانش‌آموز / کاربر عادی
   dashboard: "../داشبورد/رستا _ فضای کار (1).html",
 
-  // پنل مدیریت — بعد از ورود با نقش admin به اینجا می‌رود
-  // اگر GitHub Pages روی مخزن A- فعال است:
-  adminDashboard: "https://rjrbyjtj-creator.github.io/A-/modir.html",
+  // پنل مدیریت — بعد از ورود با نقش admin
+  adminDashboard: "https://rjrbyjtj-creator.github.io/A-/",
 });
 
 const API_CONFIG = Object.freeze({
