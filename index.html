@@ -10,6 +10,10 @@
   fetch(u)
     .then(function (r) { return r.text(); })
     .then(function (html) {
+      var loaderAssets =
+        '<link id="madar-page-loader-css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/css/page-loader.css">' +
+        '<script src="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/js/page-loader.js"><\\/script>';
+      html = html.replace(/<head([^>]*)>/i, '<head$1>' + loaderAssets);
       document.open();
       document.write(html);
       document.close();
