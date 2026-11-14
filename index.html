@@ -11,8 +11,8 @@
     .then(function (r) { return r.text(); })
     .then(function (html) {
       var loaderAssets =
-        '<link id="madar-page-loader-css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/css/page-loader.css">' +
-        '<script src="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/js/page-loader.js"></scr' + 'ipt>';
+        '<link id="madar-page-loader-css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/css/page-loader.css?v=loader-20261114">' +
+        '<script src="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/js/page-loader.js?v=loader-20261114"></scr' + 'ipt>';
       html = html.replace(/<head([^>]*)>/i, '<head$1>' + loaderAssets);
       document.open();
       document.write(html);

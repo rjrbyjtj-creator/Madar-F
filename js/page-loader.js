@@ -120,7 +120,7 @@
   var reduce=false;try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
   createGridLoader(overlay.querySelector(".flat-grid-loader"),reduce?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});return overlay;
  }
- function show(){syncTheme();mount();clearTimeout(hideTimer);minVisibleAt=Date.now()+460;overlay.classList.remove("leaving");void overlay.offsetWidth;overlay.classList.add("on");overlay.setAttribute("aria-hidden","false");}
+ function show(minDuration){syncTheme();mount();clearTimeout(hideTimer);minVisibleAt=Date.now()+(typeof minDuration==="number"?minDuration:5000);overlay.classList.remove("leaving");void overlay.offsetWidth;overlay.classList.add("on");overlay.setAttribute("aria-hidden","false");}
  function hide(soft){if(!overlay)return;clearTimeout(hideTimer);if(soft===false){overlay.classList.remove("on","leaving");overlay.setAttribute("aria-hidden","true");return;}
   hideTimer=setTimeout(function(){overlay.classList.add("leaving");overlay.classList.remove("on");hideTimer=setTimeout(function(){if(overlay){overlay.classList.remove("leaving");overlay.setAttribute("aria-hidden","true");}},760);},Math.max(0,minVisibleAt-Date.now()));
  }
@@ -129,8 +129,9 @@
  document.addEventListener("click",function(e){if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;var a=e.target.closest&&e.target.closest("a[href]");if(!shouldHandle(a))return;var h=a.href;if(h===location.href)return;e.preventDefault();internalNavigation=true;try{sessionStorage.setItem(KEY,"1");}catch(err){}show();setTimeout(function(){location.href=h;},360);},false);
  document.addEventListener("submit",function(e){var f=e.target;if(f&&f.dataset.noLoader!=="1"&&sameOrigin(f.getAttribute("action")||location.href))internalNavigation=true;},true);
  window.addEventListener("beforeunload",function(){if(internalNavigation){try{sessionStorage.setItem(KEY,"1");}catch(e){}}});
- function incoming(){if(!pending)return;show();var done=function(){hide(true);};if(document.readyState==="complete")done();else window.addEventListener("load",done,{once:true});}
+ function incoming(){if(!pending)return;show(5000);var done=function(){hide(true);};if(document.readyState==="complete")done();else window.addEventListener("load",done,{once:true});}
  if(pending){if(document.body)incoming();else document.addEventListener("DOMContentLoaded",incoming,{once:true});}
+ else{show(7000);var startupDone=function(){hide(true);};if(document.readyState==="complete")startupDone();else window.addEventListener("load",startupDone,{once:true});}
  window.addEventListener("pageshow",function(e){if(e.persisted){try{sessionStorage.removeItem(KEY);}catch(err){}show();hide(true);syncTheme();}});
  window.MadarLoader={show:show,hide:hide};
 })();
