@@ -4,6 +4,7 @@
   var API = "https://madar-jmy5.onrender.com/api/themes/active";
   var CACHE = "madar_active_theme";
   var root = document.documentElement;
+  var currentTheme = null;
   var FONT_MAP = {
     vazir: "'Vazirmatn',Tahoma,sans-serif",
     tahoma: "Tahoma,sans-serif",
@@ -23,6 +24,7 @@
   function setVar(name, value) { if (value) { root.style.setProperty(name, value); if (document.body) document.body.style.setProperty(name, value); } }
   function apply(theme) {
     if (!theme || !theme.colors) return;
+    currentTheme = Object.assign({}, theme);
     var c = theme.colors, dark = theme.mode === "dark";
     Object.keys(MAP).forEach(function (key) {
       var value = c[key];
@@ -56,8 +58,24 @@
         return r.json();
       }).then(function (d) { if (d && d.theme) apply(d.theme); return d && d.theme; });
     },
-    refresh: function () { return this.getActive(); }
+    refresh: function () { return this.getActive(); },
+    setMode: function (mode) {
+      if (currentTheme && (mode === "light" || mode === "dark")) apply(Object.assign({}, currentTheme, { mode: mode }));
+    }
   };
   try { var cached = localStorage.getItem(CACHE); if (cached) apply(JSON.parse(cached)); } catch (e) {}
+  if (window.MutationObserver) {
+    var observer = new MutationObserver(function (records) {
+      if (!currentTheme || !records.length) return;
+      var target = records[records.length - 1].target;
+      var dark = target === root
+        ? (root.dataset.theme === "dark" || root.classList.contains("dark"))
+        : !!(document.body && (document.body.classList.contains("dark") || document.body.classList.contains("dark-mode")));
+      var mode = dark ? "dark" : "light";
+      if (currentTheme.mode !== mode) apply(Object.assign({}, currentTheme, { mode: mode }));
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ["data-theme", "class"] });
+    if (document.body) observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  }
   window.MadarTheme.getActive().catch(function () {});
 })();
