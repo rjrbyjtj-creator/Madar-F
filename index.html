@@ -1,77 +1,24 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" data-theme="light">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مدار</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
-<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
-<link rel="icon" href="./عکس ها/تب.png">
-<link rel="stylesheet" href="./css/home-page.css">
-<link rel="stylesheet" href="./css/page-loader.css">
-<script src="./js/theme.js" defer></script>
-<script src="./js/page-loader.js" defer></script>
-</head>
-<body>
-<div class="page">
-  <div class="art" aria-hidden="true">
-    <img class="only-light" src="./عکس ها/f2e13dd0-33af-4ff6-9a6e-5003fcf8d901.png" alt="" onerror="this.style.display='none'">
-    <img class="only-dark" src="./عکس ها/f2e13dd0-33af-4ff6-9a6e-5003fcf8d901.png" alt="" onerror="this.style.display='none'">
-  </div>
-  <header class="top">
-    <a href="./index.html" class="logo" aria-label="مدار">
-      <img class="only-light" src="./عکس ها/هدر.png" alt="" onerror="this.remove()">
-      <img class="only-dark" src="./عکس ها/هدر.png" alt="" onerror="this.remove()">
-      <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
-    </a>
-    <div class="search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input type="search" placeholder="جستجو در سایت…"></div>
-    <div class="actions">
-      <button class="icon-btn" id="themeBtn" type="button" title="تغییر تم" aria-label="تم">
-        <svg class="i sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        <svg class="i moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-      </button>
-      <a class="btn-dark" href="./لاگین و ثبت نام/لاگین.html">ورود</a>
-    </div>
-  </header>
-  <nav class="nav" aria-label="منوی اصلی">
-    <a href="./index.html" class="active">خانه</a>
-    <a href="#announcements">اطلاعیه‌ها</a>
-    <a href="#exams">آزمون‌ها</a>
-    <a href="#articles">مقالات</a>
-    <a href="./لاگین و ثبت نام/لاگین.html">ورود</a>
-  </nav>
-  <section class="hero">
-    <div class="hero-text">
-      <div class="badge"><i></i>آموزش، آینده‌سازی</div>
-      <h1>مدرسه هوشمند <span>مدار</span></h1>
-      <p>مسیر یادگیری، آزمون و مشاوره در یک سامانه یکپارچه.</p>
-      <div class="news">
-        <span class="news-label">آخرین اطلاعیه</span>
-        <a class="btn-dark" href="./لاگین و ثبت نام/لاگین.html">ورود به سامانه</a>
-      </div>
-    </div>
-  </section>
-  <section class="cards" aria-label="دسترسی سریع">
-    <a class="qcard" href="./لاگین و ثبت نام/لاگین.html"><div><h3>ورود دانش‌آموز</h3><p>ورود به فضای کار</p></div><span class="go">←</span></a>
-    <a class="qcard" href="#exams"><div><h3>آزمون‌ها</h3><p>برنامه و نتایج</p></div><span class="go">←</span></a>
-    <a class="qcard" href="#articles"><div><h3>مقالات</h3><p>مطالب آموزشی</p></div><span class="go">←</span></a>
-  </section>
-</div>
 <script>
-(function(){
-  var btn=document.getElementById('themeBtn');
-  if(!btn)return;
-  btn.onclick=function(){
-    var root=document.documentElement;
-    var next=root.dataset.theme==='dark'?'light':'dark';
-    root.classList.add('theming');
-    root.dataset.theme=next;
-    setTimeout(function(){root.classList.remove('theming')},700);
-    try{localStorage.setItem('theme',next)}catch(e){}
-  };
+(function () {
+  var u = "https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@6f58e28d29079e43e98bf21fd9b9a4a5c9bac70d/index.html";
+  fetch(u)
+    .then(function (r) { return r.text(); })
+    .then(function (html) {
+      document.open();
+      document.write(html);
+      document.close();
+    })
+    .catch(function () {
+      location.replace(u);
+    });
 })();
 </script>
-</body>
+</head>
+<body></body>
 </html>
