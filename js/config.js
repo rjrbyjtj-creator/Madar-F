@@ -17,6 +17,7 @@ const API = Object.freeze({
 
   // User
   profile: `${API_BASE_URL}/users/me`,
+  plans: `${API_BASE_URL}/plans`,
 
   // مراحل نوار پیشرفت بعد از تأیید کد
   createAccount: "",
