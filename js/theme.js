@@ -1,58 +1,81 @@
-/* MADAR — تم فعال از بک‌اند روی کل سایت */
+/* MADAR GLOBAL THEME — shared by every public page */
 (function () {
+  "use strict";
   var API = "https://madar-jmy5.onrender.com/api/themes/active";
+  var CACHE = "madar_active_theme";
+  var root = document.documentElement;
+  var currentTheme = null;
   var FONT_MAP = {
     vazir: "'Vazirmatn',Tahoma,sans-serif",
     tahoma: "Tahoma,sans-serif",
     system: "system-ui,-apple-system,sans-serif"
   };
-
+  var MAP = {
+    bg: ["--bg", "--bg2", "--hdr", "--bg-header", "--bg-body", "--bg-hero-left"],
+    surface: ["--surface", "--surface-2", "--panel", "--field", "--card", "--sf", "--sb", "--inner", "--tile", "--chip", "--bg-white", "--btn-circle-bg"],
+    line: ["--line", "--border", "--ln", "--border-color"],
+    text: ["--text", "--tx", "--text-main"],
+    muted: ["--muted", "--mu", "--text-muted", "--text-light"],
+    navy: ["--navy", "--primary", "--blue", "--pr", "--pr2", "--primary-navy", "--primary-navy-hover", "--login"],
+    gold: ["--gold", "--accent", "--acc", "--ac", "--accent-gold"],
+    green: ["--green", "--ok", "--status-green"]
+  };
+  var DARK = { bg: "#0f172a", surface: "#172238", line: "#2a3850", text: "#e7edf6", muted: "#9aa7bc" };
+  function setVar(name, value) { if (value) { root.style.setProperty(name, value); if (document.body) document.body.style.setProperty(name, value); } }
   function apply(theme) {
     if (!theme || !theme.colors) return;
-    var c = theme.colors;
-    var root = document.documentElement;
-    var pairs = [
-      ["--navy", c.navy],
-      ["--primary", c.navy],
-      ["--blue", c.navy],
-      ["--gold", c.gold],
-      ["--bg", c.bg],
-      ["--bg2", c.bg],
-      ["--green", c.green],
-      ["--ok", c.green],
-      ["--text", c.text],
-      ["--muted", c.muted],
-      ["--surface", c.surface],
-      ["--card", c.surface],
-      ["--panel", c.surface],
-      ["--field", c.surface],
-      ["--line", c.line],
-      ["--border", c.line]
-    ];
-    pairs.forEach(function (p) {
-      if (p[1]) root.style.setProperty(p[0], p[1]);
+    currentTheme = Object.assign({}, theme);
+    var c = theme.colors, dark = theme.mode === "dark";
+    Object.keys(MAP).forEach(function (key) {
+      var value = c[key];
+      if (dark && Object.prototype.hasOwnProperty.call(DARK, key)) value = DARK[key];
+      MAP[key].forEach(function (name) { setVar(name, value); });
     });
-    if (theme.font && FONT_MAP[theme.font]) {
-      root.style.setProperty("--font-main", FONT_MAP[theme.font]);
-      if (document.body) document.body.style.fontFamily = FONT_MAP[theme.font];
+    setVar("--on-primary", "#ffffff");
+    setVar("--on", "#ffffff");
+    setVar("--navy-hover", c.navy);
+    var font = FONT_MAP[theme.font] || FONT_MAP.vazir;
+    setVar("--font-main", font);
+    root.style.fontFamily = font;
+    root.dataset.theme = dark ? "dark" : "light";
+    root.classList.toggle("dark", dark);
+    function syncBody() {
+      if (!document.body) return;
+      document.body.classList.toggle("dark", dark);
+      document.body.classList.toggle("dark-mode", dark);
+      document.body.style.fontFamily = font;
     }
-    if (theme.mode === "dark") {
-      root.dataset.theme = "dark";
-      if (document.body) document.body.classList.add("dark");
-    } else {
-      root.dataset.theme = "light";
-      if (document.body) document.body.classList.remove("dark");
-    }
-    try { localStorage.setItem("madar_active_theme", JSON.stringify(theme)); } catch (e) {}
+    syncBody();
+    if (!document.body) document.addEventListener("DOMContentLoaded", syncBody, { once: true });
+    try { localStorage.setItem(CACHE, JSON.stringify(theme)); } catch (e) {}
+    window.dispatchEvent(new CustomEvent("madar:theme-applied", { detail: theme }));
   }
-
-  try {
-    var raw = localStorage.getItem("madar_active_theme");
-    if (raw) apply(JSON.parse(raw));
-  } catch (e) {}
-
-  fetch(API)
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { if (d && d.theme) apply(d.theme); })
-    .catch(function () {});
+  window.MadarTheme = {
+    apply: apply,
+    getActive: function () {
+      return fetch(API, { cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw new Error("Theme request failed");
+        return r.json();
+      }).then(function (d) { if (d && d.theme) apply(d.theme); return d && d.theme; });
+    },
+    refresh: function () { return this.getActive(); },
+    setMode: function (mode) {
+      if (currentTheme && (mode === "light" || mode === "dark")) apply(Object.assign({}, currentTheme, { mode: mode }));
+    }
+  };
+  try { var cached = localStorage.getItem(CACHE); if (cached) apply(JSON.parse(cached)); } catch (e) {}
+  if (window.MutationObserver) {
+    var observer = new MutationObserver(function (records) {
+      if (!currentTheme || !records.length) return;
+      var target = records[records.length - 1].target;
+      var dark = target === root
+        ? (root.dataset.theme === "dark" || root.classList.contains("dark"))
+        : !!(document.body && (document.body.classList.contains("dark") || document.body.classList.contains("dark-mode")));
+      var mode = dark ? "dark" : "light";
+      if (currentTheme.mode !== mode) apply(Object.assign({}, currentTheme, { mode: mode }));
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ["data-theme", "class"] });
+    if (document.body) observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  }
+  window.MadarTheme.getActive().catch(function () {});
 })();
