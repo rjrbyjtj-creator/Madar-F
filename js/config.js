@@ -35,3 +35,24 @@ const API_CONFIG = Object.freeze({
   baseURL: API_BASE_URL,
   timeout: 15000,
 });
+
+/* بارگذاری خودکار تم فعال سایت */
+(function () {
+  if (window.__madarThemeLoaded) return;
+  window.__madarThemeLoaded = true;
+  var src = "../js/theme.js";
+  try {
+    var scripts = document.getElementsByTagName("script");
+    for (var i = 0; i < scripts.length; i++) {
+      var s = scripts[i].src || "";
+      if (s.indexOf("config.js") !== -1) {
+        src = s.replace(/config\.js(\?.*)?$/, "theme.js");
+        break;
+      }
+    }
+  } catch (e) {}
+  var el = document.createElement("script");
+  el.src = src;
+  el.async = true;
+  document.head.appendChild(el);
+})();
