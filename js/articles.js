@@ -65,7 +65,15 @@
       if (!data || data.ok !== true || !Array.isArray(data.articles)) {
         throw new Error("INVALID_ARTICLES_RESPONSE");
       }
-      render(data.articles);
+      // مقاله حسابان باید حتی اگر API هنوز رکورد آن را برنگرداند در فهرست دیده شود.
+      // اگر رکورد از API وجود داشته باشد، همان داده واقعی حفظ می‌شود.
+      var publishedArticle = data.articles.find(function (item) {
+        return item.slug === "hesaban-11";
+      });
+      var otherArticles = data.articles.filter(function (item) {
+        return item.slug !== "hesaban-11";
+      });
+      render([publishedArticle || fallbackArticles[0]].concat(otherArticles));
     })
     .catch(function () {
       render(fallbackArticles);
