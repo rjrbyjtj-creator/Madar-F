@@ -92,7 +92,7 @@ async function persistDay(date){
 }
 const save=()=>{try{localStorage.setItem(STORAGE,JSON.stringify(tasks))}catch{notify('ذخیره‌سازی مرورگر در دسترس نیست')}queueRemoteSave(selected)};
 async function loadCloudPlans(){
- const response=await fetch(API.plans,{headers:Auth.headers()}),data=await response.json().catch(()=>({}));
+ const response=await fetch(API.plans,{headers:Auth.headers(),cache:'no-store'}),data=await response.json().catch(()=>({}));
  if(!response.ok||!data.ok)throw new Error(data.message||'بارگذاری برنامه از سرور انجام نشد.');
  const localTasks=[...tasks],localNotes={...planNotes},plans=Array.isArray(data.plans)?data.plans:[];
  if(plans.length){
