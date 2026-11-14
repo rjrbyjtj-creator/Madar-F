@@ -38,9 +38,9 @@ const Auth = (() => {
   }
 
   /** کاربر فعلی را از سرور می‌گیرد؛ اگر وارد نشده یا توکن منقضی باشد null. */
-  async function me() {
+  async function me(signal) {
     if (!get()) return null;
-    const res = await fetch(API.profile, { headers: headers() });
+    const res = await fetch(API.profile, { headers: headers(), signal });
     if (res.status === 401) { clear(); return null; }
     if (!res.ok) throw new Error("PROFILE_REQUEST_FAILED");
     return (await res.json()).user;

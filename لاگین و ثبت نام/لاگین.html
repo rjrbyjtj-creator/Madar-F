@@ -152,7 +152,35 @@
 </main>
 
 <script src="../js/config.js"></script>
-<script src="../js/auth.js"></script>
+<script src="../js/auth.js?v=session-redirect-20261114"></script>
+<script>
+/* اگر نشست قبلی معتبر است، بدون نمایش مجدد فرم ورود به مقصد مناسب برو. */
+(async function restoreExistingSession(){
+  if (!Auth.get()) return;
+  const form = document.getElementById("loginForm");
+  const submit = form && form.querySelector("button[type=submit]");
+  const message = form && form.querySelector(".msg");
+  if (submit) submit.disabled = true;
+  if (form) form.setAttribute("aria-busy", "true");
+  if (message) message.textContent = "در حال بررسی ورود قبلی…";
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const user = await Auth.me(controller.signal);
+    if (!user) return; // توکن نامعتبر است؛ Auth.me آن را پاک کرده و فرم ورود فعال می‌ماند.
+    const destination = user.role === "admin" ? API.adminDashboard : API.dashboard;
+    if (destination) location.replace(destination);
+  } catch (error) {
+    console.warn("Madar saved-session check failed", error);
+    if (message) message.textContent = "بررسی ورود قبلی ممکن نشد؛ اتصال اینترنت را بررسی کن یا دوباره وارد شو.";
+  } finally {
+    clearTimeout(timeout);
+    if (submit) submit.disabled = false;
+    if (form) form.removeAttribute("aria-busy");
+  }
+})();
+</script>
 
 <script>
 const STEPS=[
