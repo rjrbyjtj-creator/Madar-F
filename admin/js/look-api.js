@@ -7,7 +7,7 @@ document.getElementById('themeToggle').addEventListener('click', function () {
 });
 
 (function () {
-  var API = "https://madar-jmy5.onrender.com/api/themes";
+  var API = "https://madar-jmy5.onrender.com/api/themes/";
   var KEY = "madar_token";
   var COLOR_KEYS = [
     { key: "navy", label: "اصلی / سرمه‌ای", css: "--navy" },
@@ -40,6 +40,7 @@ document.getElementById('themeToggle').addEventListener('click', function () {
     }
   ];
   var state = {
+    loaded: false,
     colors: Object.assign({}, DEF),
     font: "vazir",
     mode: "light",
@@ -60,10 +61,11 @@ document.getElementById('themeToggle').addEventListener('click', function () {
     return h;
   }
   async function api(path, opt) {
-    var r = await fetch(API + path, opt || {});
+    var endpoint = API + String(path || "").replace(/^\\//, "");
+    var r = await fetch(endpoint, opt || {});
     var d = {};
     try { d = await r.json(); } catch (e) {}
-    if (!r.ok) throw new Error(d.message || "خطای سرور");
+    if (!r.ok) throw new Error((d.message || "خطای سرور") + " (" + r.status + ")");
     return d;
   }
   function say(m) {
@@ -173,17 +175,21 @@ document.getElementById('themeToggle').addEventListener('click', function () {
     try {
       var d = await api("", { headers: headers() });
       state.themes = d.themes || [];
+      state.loaded = true;
       var active = state.themes.find(function (t) { return t.isActive; });
       if (active) selectTheme(active);
       else pickSuggested(SUGGESTED[0]);
     } catch (e) {
+      state.loaded = false;
       pickSuggested(SUGGESTED[0]);
+      say("دریافت فهرست تم‌ها ناموفق بود: " + (e.message || "خطای ارتباط"));
     }
   }
   async function saveAndActivate() {
     var btn = document.getElementById("lkSave");
     if (btn) btn.disabled = true;
     try {
+      if (!state.loaded) throw new Error("فهرست تم‌ها از سرور دریافت نشده؛ صفحه را تازه‌سازی کن.");
       var colors = {
         navy: state.colors.navy, gold: state.colors.gold, bg: state.colors.bg, green: state.colors.green,
         text: state.colors.text, muted: state.colors.muted, surface: state.colors.surface, line: state.colors.line
