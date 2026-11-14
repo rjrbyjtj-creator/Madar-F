@@ -4,25 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مدار</title>
+<meta http-equiv="refresh" content="0; url=./home.html?v=articles-card-20261114-v5">
 <script>
-(function () {
-  var u = "https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/home.html?v=articles-card-20261114-v4";
-  fetch(u)
-    .then(function (r) { return r.text(); })
-    .then(function (html) {
-      var loaderAssets =
-        '<link id="madar-page-loader-css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/css/page-loader.css?v=loader-20261114">' +
-        '<script src="https://cdn.jsdelivr.net/gh/rjrbyjtj-creator/Madar-F@main/js/page-loader.js?v=loader-20261114"></scr' + 'ipt>';
-      html = html.replace(/<head([^>]*)>/i, '<head$1>' + loaderAssets);
-      document.open();
-      document.write(html);
-      document.close();
-    })
-    .catch(function () {
-      location.replace(u);
-    });
-})();
+  // انتقال مستقیم و هم‌دامنه؛ بدون CDN خارجی و بدون document.write.
+  window.location.replace("./home.html?v=articles-card-20261114-v5");
 </script>
 </head>
-<body></body>
+<body>
+  <p><a href="./home.html?v=articles-card-20261114-v5">ورود به صفحه اصلی مدار</a></p>
+</body>
 </html>
