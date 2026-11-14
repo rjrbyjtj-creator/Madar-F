@@ -21,6 +21,7 @@
   }
 
   function render(articles) {
+    grid.setAttribute("aria-busy", "false");
     if (!Array.isArray(articles) || !articles.length) {
       grid.innerHTML = '<div class="articles-empty">هنوز مقاله‌ای منتشر نشده است.</div>';
       return;
