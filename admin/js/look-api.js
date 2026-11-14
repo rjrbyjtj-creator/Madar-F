@@ -61,7 +61,7 @@ document.getElementById('themeToggle').addEventListener('click', function () {
     return h;
   }
   async function api(path, opt) {
-    var endpoint = API + String(path || "").replace(/^\\//, "");
+    var endpoint = API + String(path || "").replace("/", "");
     var r = await fetch(endpoint, opt || {});
     var d = {};
     try { d = await r.json(); } catch (e) {}
