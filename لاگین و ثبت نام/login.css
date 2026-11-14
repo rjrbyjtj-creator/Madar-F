@@ -157,3 +157,18 @@ main{position:relative;z-index:1;display:grid;grid-template-columns:1fr;min-heig
 @media(max-height:760px){#signupForm .sub{display:none}}
 @media(max-height:640px){.brand,.sub,.legal{display:none}.tabs{margin-bottom:12px}.card{padding:16px 20px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
+/* Login layout guard: keep the auth card content-sized and centered. */
+.side{align-items:center;justify-items:center}
+.card{
+  height:fit-content;
+  min-height:0;
+  max-height:calc(100dvh - 40px);
+  align-self:center;
+  justify-self:center;
+  flex:none;
+}
+@media(max-width:560px){
+  .card{max-height:calc(100dvh - 20px)}
+}
