@@ -1,1 +1,107 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ورود | مدار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<style>
+:root,:root[data-theme=light]{--bg:#F6F7F9;--bg2:#FBFBFC;--panel:rgba(255,255,255,.92);--field:#FBFBFC;--line:#E3E6EC;--text:#1B2233;--muted:#6B7488;--primary:#14264F;--gold:#B8892D;--blue:#14264F;--on:#fff;--bad:#c2494c;--ok:#1f8f5f;--sh:rgba(20,38,79,.10);--grid:rgba(20,38,79,.045);--seg:#fff;--card:rgba(255,255,255,.94)}
+:root[data-theme=dark]{--bg:#0C1222;--bg2:#0F1729;--panel:rgba(19,28,50,.94);--field:#1A2440;--line:#243049;--text:#E6EAF3;--muted:#8D98B0;--primary:#2B4C98;--gold:#D9AE55;--blue:#D9AE55;--on:#fff;--bad:#e5787a;--ok:#5fcf9d;--sh:rgba(0,0,0,.45);--grid:rgba(255,255,255,.04);--seg:rgba(255,255,255,.08);--card:rgba(19,28,50,.94)}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overflow:hidden}body{font:12px/1.7 'Vazirmatn',Tahoma,sans-serif;color:var(--text);display:grid;grid-template-rows:1fr;background:linear-gradient(135deg,var(--bg),var(--bg2))}button,input{font:inherit;color:inherit}a{color:inherit;text-decoration:none}[hidden]{display:none!important}
+.card{width:min(400px,92vw);margin:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 10px 34px var(--sh)}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:18px}.brand strong{font-size:20px}.brand small{color:var(--muted);font-size:11px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:18px}.tabs button{height:38px;border:0;background:none;cursor:pointer;color:var(--muted)}.tabs button.on{color:var(--text);font-weight:700;border-bottom:2px solid var(--text)}
+.form{display:none}.card[data-m=login] #loginForm,.card[data-m=signup] #signupForm{display:block}
+.f{display:block;margin-bottom:10px}.f>span{display:block;margin-bottom:4px;font-size:11.5px;color:var(--muted)}
+.in{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--field);border:1px solid var(--line);border-radius:10px}.in input{flex:1;border:0;background:none;outline:0}.ltr{direction:ltr;text-align:right}
+.seg{display:flex;gap:2px;padding:3px;margin-bottom:12px;border-radius:10px;background:var(--field);border:1px solid var(--line)}.seg button{flex:1;height:28px;border:0;border-radius:7px;background:none;color:var(--muted);cursor:pointer}.seg button.on{background:var(--seg);color:var(--blue);font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;margin:12px 0;font-size:12px;color:var(--muted)}
+.submit{width:100%;height:42px;margin-top:12px;border:0;border-radius:10px;cursor:pointer;background:var(--primary);color:#fff;font-weight:700}.msg{min-height:20px;margin-top:8px;text-align:center;font-size:12px;color:var(--blue)}
+.sw{text-align:center;font-size:12px;color:var(--muted);margin-top:10px}.sw button{background:none;border:0;color:var(--blue);font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<main style="display:grid;place-items:center;height:100%">
+<div class="card" id="box" data-m="login">
+  <div class="brand"><span><strong>مدار</strong><small>ورود به سامانه</small></span></div>
+  <div class="tabs" role="tablist">
+    <button type="button" class="on" data-go="login">ورود</button>
+    <button type="button" data-go="signup">ثبت‌نام</button>
+  </div>
+  <form class="form" id="loginForm" novalidate>
+    <div class="seg" id="seg" data-m="id">
+      <button type="button" class="on" data-m="id">ایمیل / نام کاربری</button>
+      <button type="button" data-m="phone">موبایل</button>
+    </div>
+    <label class="f"><span id="ul">ایمیل یا نام کاربری</span>
+      <div class="in"><input name="user" autocomplete="username" required class="ltr"></div>
+    </label>
+    <label class="f"><span>رمز عبور</span>
+      <div class="in"><input name="pass" type="password" autocomplete="current-password" required class="ltr"></div>
+    </label>
+    <div class="row"><label><input type="checkbox" name="remember"> مرا به خاطر بسپار</label></div>
+    <button class="submit" type="submit">ورود به حساب</button>
+    <div class="msg" role="status"></div>
+    <p class="sw">حساب نداری؟ <button type="button" data-go="signup">ثبت‌نام کن</button></p>
+  </form>
+  <form class="form" id="signupForm" novalidate>
+    <p style="color:var(--muted);font-size:12px;margin-bottom:12px">برای ثبت‌نام دانش‌آموز از نسخه کامل صفحه استفاده کن.</p>
+    <p class="sw"><button type="button" data-go="login">بازگشت به ورود</button></p>
+  </form>
+</div>
+</main>
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const box=$('#box'), lf=$('#loginForm'), seg=$('#seg');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function norm(v){return String(v||'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/\D/g,'')}
+async function apiPost(url,body){
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  let d={};try{d=await r.json()}catch{}
+  if(!r.ok){const e=new Error('http');e.msg=d.message||'خطا';throw e}
+  return d;
+}
+const go=(user)=>{
+  if(user && user.role==='admin' && API.adminDashboard){location.href=API.adminDashboard;return;}
+  if(API.dashboard) location.href=API.dashboard;
+};
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{
+  box.dataset.m=b.dataset.go;
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x.dataset.go===b.dataset.go));
+});
+seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  seg.dataset.m=b.dataset.m;
+  seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  $('#ul').textContent=b.dataset.m==='phone'?'شماره موبایل':'ایمیل یا نام کاربری';
+});
+lf.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const msg=lf.querySelector('.msg'), btn=lf.querySelector('.submit');
+  msg.style.color=''; msg.textContent='در حال ورود…'; btn.disabled=true;
+  try{
+    const rem=lf.elements.remember.checked;
+    const d=await apiPost(API.login,{
+      type:seg.dataset.m,
+      user:seg.dataset.m==='phone'?norm(lf.elements.user.value):lf.elements.user.value.trim(),
+      pass:lf.elements.pass.value,
+      remember:rem
+    });
+    Auth.save(d.token, rem);
+    msg.textContent='وارد شدی! در حال انتقال…';
+    await wait(600);
+    go(d.user||null);
+  }catch(err){
+    msg.style.color='var(--bad)';
+    msg.textContent=(err&&err.msg)||'نام کاربری یا رمز اشتباه است.';
+  }
+  btn.disabled=false;
+});
+</script>
+</body>
+</html>
