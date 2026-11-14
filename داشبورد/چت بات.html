@@ -636,7 +636,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0')}),
    signal:controller.signal,
   });
   const data=await response.json().catch(()=>({}));
