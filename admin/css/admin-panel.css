@@ -186,3 +186,13 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer}s
 .lk-toast{background:var(--navy);color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.16)}
 .look button:focus-visible,.look select:focus-visible,.look input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media(max-width:720px){.look{margin-inline:1.6rem}.look-top{align-items:flex-start}.look-act{width:100%}.btn-save{flex:1;justify-content:center}}
+
+
+/* Admin dashboard: live database metrics */
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;margin-top:2.4rem}
+.stat{min-width:0;padding:.4rem .5rem}
+.stat b{font-variant-numeric:tabular-nums}
+.stat small{display:block;font-size:.78rem;font-weight:500;color:var(--muted);margin-top:.2rem}
+.stat-unavailable b{color:var(--muted)}
+@media(max-width:1250px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:1.2rem}.stat:nth-child(4){border-inline-start:0}}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:1.8rem}.stat:nth-child(odd){border-inline-start:0}}
