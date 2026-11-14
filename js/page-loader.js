@@ -6,7 +6,7 @@
   try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")return t;
    var raw=localStorage.getItem("madar_active_theme");if(raw){var v=JSON.parse(raw);if(v&&(v.mode==="dark"||v.mode==="light"))return v.mode;}
   }catch(e){}
-  var r=document.documentElement;if(r.classList.contains("dark")||r.dataset.theme==="dark")return "dark";
+  var r=document.documentElement;if(r.classList.contains("dark")||r.dataset.theme==="dark"||(document.body&&document.body.classList.contains("dark-mode")))return "dark";
   if(r.dataset.theme==="light")return "light";return null;
  }
  function syncTheme(){var t=theme();if(t)document.documentElement.dataset.theme=t;}
