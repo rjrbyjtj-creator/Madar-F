@@ -934,6 +934,7 @@
   </style>
   <script src="./js/madar-connect.js?v=connect-20261114"></script>
 <script defer src="./js/theme.js?v=global-theme-20261114"></script>
+  <link rel="stylesheet" href="./css/articles.css?v=articles-20261114">
 </head>
 
 <body>
@@ -1292,83 +1293,20 @@
 
     <!-- ====================== مقالات ====================== -->
 <section class="sec" id="articles">
-
   <div class="sec-head">
     <div>
       <div class="eyebrow">
         <span class="ibox gold"><svg class="i"><use href="#i-book"/></svg></span>
-        مقالات
+        مجله مدار
         <span class="ln"></span>
       </div>
       <h2>مقالات <span>آموزشی</span></h2>
-      <p>نکات مطالعه، برنامه‌ریزی و آمادگی برای کنکور</p>
+      <p>مطالب کاربردی برای یادگیری بهتر، برنامه‌ریزی و مسیر تحصیلی</p>
     </div>
-    <a href="./articles/hesaban-11/" class="btn-line">مشاهده همه مقالات<svg class="i"><use href="#i-back"/></svg></a>
+    <a href="#articles-grid" class="btn-line">مرور مقالات<svg class="i"><use href="#i-back"/></svg></a>
   </div>
-
-  <div class="art-grid">
-
-    <!-- کارت بلند (راست): نکات کلیدی شیمی -->
-    <a href="#" class="box acard lift a-tall">
-      <div class="thumb">
-        <!-- ★ عکس شیمی (لوله‌های آزمایشگاه آبی) — مثلا: ./عکس ها/مقاله-شیمی.png -->
-        <img src="" alt="" onerror="this.remove()">
-      </div>
-      <div class="abody">
-        <h3>نکات کلیدی شیمی برای کنکور</h3>
-        <div class="afoot">
-          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
-          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۶ دقیقه مطالعه</span></span>
-        </div>
-      </div>
-    </a>
-
-    <!-- کارت کوچک ۱ -->
-    <a href="#" class="box acard lift a-sm">
-      <div class="abody">
-        <h3>روش‌های تقویت حافظه در دوران امتحانات</h3>
-        <div class="afoot">
-          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
-          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۶ دقیقه مطالعه</span></span>
-        </div>
-      </div>
-      <div class="thumb">
-        <!-- ★ عکس دفتر و خودکار — مثلا: ./عکس ها/مقاله-حافظه.png -->
-        <img src="" alt="" onerror="this.remove()">
-      </div>
-    </a>
-
-    <!-- کارت کوچک ۲ -->
-    <a href="#" class="box acard lift a-sm">
-      <div class="abody">
-        <h3>مدیریت استرس در جلسه کنکور</h3>
-        <div class="afoot">
-          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
-          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۷ دقیقه مطالعه</span></span>
-        </div>
-      </div>
-      <div class="thumb">
-        <!-- ★ عکس دفتر و خودکار قدیمی — مثلا: ./عکس ها/مقاله-استرس.png -->
-        <img src="" alt="" onerror="this.remove()">
-      </div>
-    </a>
-
-    <!-- کارت بزرگ (چپ): برنامه‌ریزی درسی -->
-    <a href="#" class="box acard lift a-big">
-      <div class="thumb">
-        <!-- ★ عکس کتاب‌های قدیمی روی میز — مثلا: ./عکس ها/مقاله-برنامه.png -->
-        <img src="" alt="" onerror="this.remove()">
-      </div>
-      <div class="abody">
-        <span class="tag"><i></i>آموزش و یادگیری</span>
-        <div><h3>چگونه برنامه‌ریزی در درسی داشته باشیم؟</h3></div>
-        <div class="afoot">
-          <span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>
-          <span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>۸ دقیقه مطالعه</span></span>
-        </div>
-      </div>
-    </a>
-
+  <div class="art-grid" id="articles-grid" aria-live="polite" aria-busy="true">
+    <div class="articles-empty">در حال دریافت مقالات...</div>
   </div>
 </section>
 
@@ -1468,5 +1406,6 @@
     };
   </script>
 
+  <script src="./js/articles.js?v=articles-20261114"></script>
 </body>
 </html>
