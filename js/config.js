@@ -25,8 +25,12 @@ const API = Object.freeze({
   saveProfile: "",
   prepare: "",
 
-  // Dashboard
+  // Dashboard دانش‌آموز / کاربر عادی
   dashboard: "../داشبورد/رستا _ فضای کار (1).html",
+
+  // پنل مدیریت — بعد از ورود با نقش admin به اینجا می‌رود
+  // اگر GitHub Pages روی مخزن A- فعال است:
+  adminDashboard: "https://rjrbyjtj-creator.github.io/A-/modir.html",
 });
 
 const API_CONFIG = Object.freeze({
