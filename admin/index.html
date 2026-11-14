@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>پنل مدیریت مدرسه مدار</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+<link rel="stylesheet" href="./css/admin-panel.css?v=global-theme-20261114" />
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="home" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
+  <symbol id="school-o" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M12 8v3"/></symbol>
+  <symbol id="school" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L3 6v3h18V6l-9-4zM4 10v9H2v2h20v-2h-2v-9h-2v9h-3v-9h-2v9h-2v-9H9v9H6v-9H4z"/></symbol>
+  <symbol id="users-o" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="users" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></symbol>
+  <symbol id="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+  <symbol id="cap" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></symbol>
+  <symbol id="headset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></symbol>
+  <symbol id="chart-o" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></symbol>
+  <symbol id="chart" viewBox="0 0 24 24" fill="currentColor"><path d="M4 12h4v8H4zM10 4h4v16h-4zM16 9h4v11h-4z"/></symbol>
+  <symbol id="gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 1.5-2.2-.5-1.2.3-2.3 1.6-2.3H17a4 4 0 0 0 4-4C21 6.9 17 3 12 3z"/><circle cx="7.5" cy="11" r=".8"/><circle cx="10" cy="7" r=".8"/><circle cx="15" cy="7" r=".8"/></symbol>
+  <symbol id="drop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3s6 6.2 6 10.5a6 6 0 0 1-12 0C6 9.2 12 3 12 3z"/></symbol>
+  <symbol id="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="frame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/></symbol>
+  <symbol id="grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol>
+  <symbol id="type" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></symbol>
+  <symbol id="save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h11l4 4v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM7 3v5h8V3M7 21v-7h10v7"/></symbol>
+  <symbol id="refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.5-5.8M20 4v4h-4"/></symbol>
+</svg>
+
+<header class="top-header">
+  <div class="header-row">
+    <a href="#" class="brand" aria-label="مدار"><img class="brand-logo" src="https://raw.githubusercontent.com/rjrbyjtj-creator/A-/main/%D8%B9%DA%A9%D8%B3%20%D9%87%D8%A7/%D9%87%D8%AF%D8%B1.png" alt="لوگوی مدار" /></a>
+    <div class="search"><svg viewBox="0 0 24 24"><use href="#search"/></svg><input type="text" placeholder="جستجو در سامانه..." /></div>
+    <div class="actions">
+      <button class="icon-btn" id="themeToggle" title="تغییر تم"><svg viewBox="0 0 24 24"><use href="#sun"/></svg></button>
+      <button class="icon-btn" title="اعلان‌ها"><span class="dot-red"></span><svg viewBox="0 0 24 24"><use href="#bell"/></svg></button>
+      <button class="user-btn"><div class="avatar"><svg viewBox="0 0 24 24"><use href="#user"/></svg></div><span>مدیر ارشد</span><svg class="chev" viewBox="0 0 24 24"><use href="#chev"/></svg></button>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="#" class="active"><svg viewBox="0 0 24 24"><use href="#home"/></svg><span>داشبورد</span></a>
+    <a href="#"><svg viewBox="0 0 24 24"><use href="#school-o"/></svg><span>مدیریت مدرسه</span></a>
+    <a href="#"><svg viewBox="0 0 24 24"><use href="#users-o"/></svg><span>مدیریت کاربران</span></a>
+    <a href="#"><svg viewBox="0 0 24 24"><use href="#headset"/></svg><span>پشتیبانی</span></a>
+    <a href="#"><svg viewBox="0 0 24 24"><use href="#chart-o"/></svg><span>گزارش‌ها</span></a>
+    <a href="#look"><svg viewBox="0 0 24 24"><use href="#gear"/></svg><span>تنظیمات</span></a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-image"><span class="blob-gold"></span><div class="hero-photo"><img src="https://raw.githubusercontent.com/rjrbyjtj-creator/A-/main/%D8%B9%DA%A9%D8%B3%20%D9%87%D8%A7/f2e13dd0-33af-4ff6-9a6e-5003fcf8d901.png" alt="ساختمان مدرسه مدار" /></div></div>
+  <div class="hero-body">
+    <h1>سلام، مدیر ارشد عزیز!</h1>
+    <p>به پنل مدیریت مدرسه مدار خوش آمدید.</p>
+    <div class="gold-bar"></div>
+    <div class="stats">
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#cap"/></svg><b>۳,۲۵۰</b><span>دانش‌آموزان</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#user"/></svg><b>۱۲</b><span>مدیران</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#star"/></svg><b>۱۸۹</b><span>کاربران ویژه</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#school"/></svg><b>۲۷۰</b><span>مدرسه</span></div>
+      <div class="stat"><svg viewBox="0 0 24 24"><use href="#headset"/></svg><b>۴,۲۶۰</b><span>تیکت پشتیبانی</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+  <section class="col">
+    <div class="col-head"><i></i><h2>وضعیت سامانه</h2></div>
+    <div class="status">
+      <div class="status-mark">
+        <div class="ring"><div><svg viewBox="0 0 24 24"><use href="#check"/></svg></div></div>
+        <span class="live"><i></i>سامانه در حال اجرا است</span>
+        <span class="updated">آخرین بروزرسانی: امروز</span>
+      </div>
+      <div class="status-text">
+        <p>همه سرویس‌ها به درستی در حال کار هستند.</p>
+        <button class="pill-btn"><span>مشاهده جزئیات</span><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></button>
+      </div>
+    </div>
+  </section>
+  <section class="col">
+    <div class="col-head"><i></i><h2>آخرین فعالیت‌ها</h2></div>
+    <div class="rows">
+      <div class="row"><svg viewBox="0 0 24 24"><use href="#school"/></svg><span class="bullet b-blue"></span><span>یک مدرسه جدید ثبت شد.</span><time>امروز</time></div>
+      <div class="row"><svg viewBox="0 0 24 24"><use href="#users"/></svg><span class="bullet b-green"></span><span>کاربر جدیدی ثبت‌نام کرد.</span><time>امروز</time></div>
+      <div class="row"><svg viewBox="0 0 24 24"><use href="#headset"/></svg><span class="bullet b-amber"></span><span>تیکت جدید از پشتیبانی.</span><time>دیروز</time></div>
+    </div>
+  </section>
+  <section class="col">
+    <div class="col-head"><i></i><h2>میانبرهای سریع</h2></div>
+    <div class="rows">
+      <a href="#look" class="row shortcut"><svg viewBox="0 0 24 24"><use href="#gear"/></svg><span>تنظیمات ظاهری</span><span class="circ"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="row shortcut"><svg viewBox="0 0 24 24"><use href="#school"/></svg><span>افزودن مدرسه</span><span class="circ"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="row shortcut"><svg viewBox="0 0 24 24"><use href="#users"/></svg><span>مدیریت کاربران</span><span class="circ"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
+    </div>
+  </section>
+</main>
+
+<section class="look" id="look" aria-label="تنظیمات ظاهری سایت">
+  <div class="look-top">
+    <div>
+      <div class="ttl"><i></i><h2>تنظیمات ظاهری سایت</h2></div>
+      <p>پالت را انتخاب کن و با یک دکمه روی کل سایت ذخیره و فعال کن</p>
+    </div>
+    <div class="look-act">
+      <a class="btn-reset" href="./themes.html" style="text-decoration:none" aria-label="مدیریت پالت‌ها">مدیریت پالت‌ها</a>
+      <button class="btn-reset" type="button" id="lkReset"><svg viewBox="0 0 24 24"><use href="#refresh"/></svg>بازنشانی</button>
+      <button class="btn-save" type="button" id="lkSave"><svg viewBox="0 0 24 24"><use href="#save"/></svg>ذخیره و فعال‌سازی روی کل سایت</button>
+    </div>
+  </div>
+
+  <div class="look-col">
+    <div class="lk-card">
+      <h3><svg viewBox="0 0 24 24"><use href="#drop"/></svg>رنگ‌های پالت فعال</h3>
+      <p style="color:var(--muted);font-size:1rem;margin-bottom:1rem">هر رنگ را عوض کن؛ با «ذخیره و فعال‌سازی» روی کل سایت اعمال می‌شود.</p>
+      <div class="color-vars" id="colorVars"></div>
+      <div id="palList" class="saved-mini" style="margin-top:1rem"></div>
+    </div>
+
+    <div class="lk-card">
+      <h3><svg viewBox="0 0 24 24"><use href="#gear"/></svg>تنظیمات کلی</h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#frame"/></svg></span>گوشه‌ها
+          <select class="sel" id="sRad"><option value=".6">کم</option><option value="1.2" selected>معمولی</option><option value="1.8">زیاد</option></select></div>
+        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#grid"/></svg></span>کارت‌ها
+          <select class="sel" id="sGap"><option value=".8">فشرده</option><option value="1.2" selected>متوسط</option><option value="1.8">باز</option></select></div>
+        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#sun"/></svg></span>روشن
+          <button class="sw" id="swLight" type="button" role="switch" aria-checked="true"></button></div>
+        <div class="opt"><span class="ic"><svg viewBox="0 0 24 24"><use href="#moon"/></svg></span>تاریک
+          <button class="sw" id="swDark" type="button" role="switch" aria-checked="false"></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-col">
+    <div class="pv" id="pv" data-mode="light">
+      <div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+      <div class="pv-pals" id="themeCards" aria-label="پالت‌های پیشنهادی"></div>
+      <div class="site">
+        <div class="pv-nav"><b class="pv-logo">M</b><span>خانه</span><span>آزمون‌ها</span><span>مقالات</span><em class="pv-login">ورود</em></div>
+        <div class="pv-hero">
+          <small>آموزش، آینده‌سازی</small>
+          <h4>مدرسه هوشمند <span>مدار</span></h4>
+          <p>پیش‌نمایش زنده پالت فعلی</p>
+          <span class="pv-btn">بیشتر بدانید</span>
+        </div>
+      </div>
+    </div>
+    <div class="lk-card">
+      <h3><svg viewBox="0 0 24 24"><use href="#type"/></svg>فونت</h3>
+      <div class="fonts">
+        <div class="fctl">
+          <label class="frow">فونت فارسی
+            <select class="sel" id="sFont"><option value="vazir">وزیرمتن</option><option value="tahoma">تاهوما</option><option value="system">سیستم</option></select></label>
+          <label class="frow">اندازه
+            <select class="sel" id="sSize"><option value="14">14px</option><option value="16" selected>16px</option><option value="18">18px</option></select></label>
+        </div>
+        <div class="fs" id="fs"><b>مدار</b><span>آموزش، آینده‌سازی</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="lk-toast" id="lkToast" role="status"></div>
+</section>
+
+<footer class="footer">
+  <span>طراحی شده با <span class="heart">♥</span> برای آینده‌ای روشن‌تر</span>
+  <span class="school"><strong>مدرسه مدار</strong><span>|</span><span>پنل مدیریت</span></span>
+</footer>
+
+<script src="./js/admin-guard.js"></script>
+<script src="./js/admin-theme.js?v=global-theme-20261114"></script>
+<script src="./js/look-api.js"></script>
+</body>
+</html>
