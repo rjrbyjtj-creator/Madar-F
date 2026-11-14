@@ -111,7 +111,7 @@ h1{font-size:2.5rem;letter-spacing:-.03em}
 <script src="./js/admin-theme.js?v=global-theme-20261114"></script>
 <script>
 (function () {
-  var API = "https://madar-jmy5.onrender.com/api/themes";
+  var API = "https://madar-jmy5.onrender.com/api/themes/";
   var KEY = "madar_token";
 
   function token() {
@@ -125,10 +125,11 @@ h1{font-size:2.5rem;letter-spacing:-.03em}
     return h;
   }
   async function api(path, opt) {
-    var r = await fetch(API + path, opt);
+    var endpoint = API + String(path || "").replace("/", "");
+    var r = await fetch(endpoint, opt);
     var d = {};
     try { d = await r.json(); } catch (e) {}
-    if (!r.ok) throw new Error(d.message || "خطا");
+    if (!r.ok) throw new Error((d.message || "خطا") + " (" + r.status + ")");
     return d;
   }
 
