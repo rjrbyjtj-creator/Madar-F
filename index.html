@@ -4,13 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مدار</title>
-<meta http-equiv="refresh" content="0; url=./home.html?v=articles-card-20261114-v5">
 <script>
-  // انتقال مستقیم و هم‌دامنه؛ بدون CDN خارجی و بدون document.write.
-  window.location.replace("./home.html?v=articles-card-20261114-v5");
+(function () {
+  // دریافت home.html از همان دامنه؛ بدون CDN خارجی یا تزریق اسکریپت با document.write.
+  var url = "./home.html?v=articles-card-20261114-v5";
+  fetch(url, { cache: "no-store" })
+    .then(function (response) {
+      if (!response.ok) throw new Error("HOME_HTTP_" + response.status);
+      return response.text();
+    })
+    .then(function (html) {
+      document.open();
+      document.write(html);
+      document.close();
+    })
+    .catch(function () {
+      var link = document.createElement("a");
+      link.href = url;
+      link.textContent = "برای ورود به صفحه اصلی مدار کلیک کنید";
+      document.body.appendChild(link);
+    });
+})();
 </script>
 </head>
 <body>
-  <p><a href="./home.html?v=articles-card-20261114-v5">ورود به صفحه اصلی مدار</a></p>
+  <p>در حال بارگذاری صفحه اصلی مدار...</p>
 </body>
 </html>
