@@ -53,8 +53,8 @@
  <section class="card">
   <div class="card-head"><h2>یادداشت روزانه</h2></div>
   <textarea class="note" id="note" maxlength="500" placeholder="نکته‌ها، چالش‌ها یا مواردی که می‌خواهی بعداً مرور کنی..."></textarea>
-  <div class="card-foot"><small>یادداشت فقط در همین مرورگر ذخیره می‌شود.</small><button class="primary-btn" id="saveNote">ذخیره یادداشت</button></div>
-  <p class="hint">اتصال به مشاور و ارسال آنلاین گزارش در این نسخه فعال نیست؛ اطلاعات برنامه‌ها و یادداشت‌ها روی همین دستگاه می‌مانند.</p>
+  <div class="card-foot"><small>یادداشت این روز نیز همراه برنامه با سرور همگام‌سازی می‌شود.</small><button class="primary-btn" id="saveNote">ذخیره یادداشت</button></div>
+  <p class="hint">برنامه‌ها و یادداشت‌ها پس از ورود به حساب، با سرور مدار همگام‌سازی می‌شوند.</p>
  </section>
 </div>
 </main>
@@ -70,8 +70,8 @@
 </form>
 </dialog>
 <div id="toast" role="status"></div>
-<script src="../js/config.js?v=20261114-2"></script>
-<script src="../js/auth.js?v=20261114-2"></script>
+<script src="../js/config.js?v=20261114-3"></script>
+<script src="../js/auth.js?v=20261114-3"></script>
 <script>
 const $=s=>document.querySelector(s),fa=v=>String(v).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'),dateOf=s=>new Date(s+'T12:00:00'),min=t=>{const [h,m]=t.split(':').map(Number);return h*60+m},hm=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0'),fmt=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',day:'numeric',month:'long'}),weekDays=['ش','ی','د','س','چ','پ','ج'];
 const TYPES={study:['مطالعه','▤'],video:['ویدیو','▶'],test:['تست','✓'],note:['جزوه','✎']};
@@ -80,30 +80,41 @@ let tasks=[],selected=iso(new Date()),selectedType='study',toastTimer;
 try{tasks=JSON.parse(localStorage.getItem(STORAGE)||'[]');if(!Array.isArray(tasks))tasks=[]}catch{tasks=[]}
 let cloudReady=false,remoteTimer=null,planNotes={};
 try{planNotes=JSON.parse(localStorage.getItem(NOTES)||'{}');if(!planNotes||typeof planNotes!=='object')planNotes={}}catch{planNotes={}}
-function queueRemoteSave(date=selected){if(!cloudReady||!Auth.get())return;clearTimeout(remoteTimer);remoteTimer=setTimeout(()=>persistDay(date),450)}
+function queueRemoteSave(date=selected){
+ if(!cloudReady||!Auth.get())return;
+ clearTimeout(remoteTimer);
+ remoteTimer=setTimeout(async()=>{try{await persistDay(date);notify('برنامه با سرور همگام شد')}catch(error){notify(error.message||'همگام‌سازی با سرور ناموفق بود؛ نسخه محلی حفظ شد.')}},450);
+}
 async function persistDay(date){
- if(!cloudReady)return;
+ if(!cloudReady||!Auth.get())throw new Error('برای همگام‌سازی برنامه ابتدا وارد حساب دانش‌آموزی شو.');
  const dayTasks=tasks.filter(t=>t.date===date),note=String(planNotes[date]||'');
- try{
-  const response=await fetch(API.plans+'/'+encodeURIComponent(date),{method:'PUT',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({tasks:dayTasks.map(t=>({id:String(t.id),title:String(t.title),type:t.type,start:t.start,end:t.end,done:!!t.done})),note})});
-  const data=await response.json().catch(()=>({}));
-  if(!response.ok||!data.ok)throw new Error(data.message||'ذخیره برنامه در سرور ناموفق بود.');
- }catch(error){notify(error.message||'اتصال به سرور برقرار نشد؛ اطلاعات فعلاً روی همین مرورگر می‌ماند.')}
+ const response=await fetch(API.plans+'/'+encodeURIComponent(date),{method:'PUT',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({tasks:dayTasks.map(t=>({id:String(t.id),title:String(t.title),type:t.type,start:t.start,end:t.end,done:!!t.done})),note})});
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||!data.ok)throw new Error(data.message||'ذخیره برنامه در سرور ناموفق بود.');
+ return data.plan;
+}
+async function requestCloudPlans(){
+ let response=await fetch(API.plans,{headers:Auth.headers(),cache:'no-store'});
+ if(response.status===304)response=await fetch(API.plans,{headers:Auth.headers(),cache:'reload'});
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||!data.ok)throw new Error(data.message||'بارگذاری برنامه از سرور انجام نشد.');
+ return Array.isArray(data.plans)?data.plans:[];
+}
+function applyCloudPlans(plans){
+ tasks=plans.flatMap(day=>(day.tasks||[]).map(t=>({...t,date:day.date,id:String(t.id)})));
+ planNotes={};plans.forEach(day=>{if(day.note)planNotes[day.date]=day.note});
 }
 const save=()=>{try{localStorage.setItem(STORAGE,JSON.stringify(tasks))}catch{notify('ذخیره‌سازی مرورگر در دسترس نیست')}queueRemoteSave(selected)};
 async function loadCloudPlans(){
- const response=await fetch(API.plans,{headers:Auth.headers(),cache:'no-store'}),data=await response.json().catch(()=>({}));
- if(!response.ok||!data.ok)throw new Error(data.message||'بارگذاری برنامه از سرور انجام نشد.');
- const localTasks=[...tasks],localNotes={...planNotes},plans=Array.isArray(data.plans)?data.plans:[];
- if(plans.length){
-  tasks=plans.flatMap(day=>(day.tasks||[]).map(t=>({...t,date:day.date,id:String(t.id)})));
-  planNotes={};plans.forEach(day=>{if(day.note)planNotes[day.date]=day.note});
- }else{
-  tasks=localTasks;planNotes=localNotes;cloudReady=true;
-  const dates=new Set([...localTasks.map(t=>t.date),...Object.keys(localNotes)]);
-  for(const date of dates)await persistDay(date);
- }
+ const localTasks=[...tasks],localNotes={...planNotes};
+ let plans=await requestCloudPlans();
+ const remoteDates=new Set(plans.map(day=>day.date));
+ const localOnlyDates=[...new Set([...localTasks.map(t=>t.date),...Object.keys(localNotes)])].filter(date=>!remoteDates.has(date));
+ applyCloudPlans(plans);
+ for(const date of localOnlyDates){tasks.push(...localTasks.filter(t=>t.date===date));if(localNotes[date])planNotes[date]=localNotes[date]}
  cloudReady=true;
+ for(const date of localOnlyDates)await persistDay(date);
+ if(localOnlyDates.length){plans=await requestCloudPlans();applyCloudPlans(plans)}
  try{localStorage.setItem(STORAGE,JSON.stringify(tasks));localStorage.setItem(NOTES,JSON.stringify(planNotes))}catch{}
 }
 function notify(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2400)}
@@ -138,8 +149,8 @@ $('#dateJump').onchange=e=>{if(e.target.value){selected=e.target.value;render();
 $('#analyzeBtn').onclick=renderSuggestions;
 $('#addBtn').onclick=()=>{const L=dayTasks(),start=Math.min(L.length?min(L[L.length-1].end):16*60,1380);$('#taskTitle').value='';$('#formError').textContent='';selectedType='study';document.querySelectorAll('[data-type]').forEach(x=>x.classList.toggle('active',x.dataset.type===selectedType));$('#startTime').value=hm(start);$('#endTime').value=hm(Math.min(start+60,1439));$('#taskDialog').showModal()};
 $('#cancelBtn').onclick=()=>$('#taskDialog').close();
-$('#taskForm').onsubmit=e=>{e.preventDefault();const start=$('#startTime').value,end=$('#endTime').value,title=$('#taskTitle').value.trim()||TYPES[selectedType][0];if(!start||!end||min(end)<=min(start)){$('#formError').textContent='ساعت پایان باید بعد از ساعت شروع باشد.';return}tasks.push({id:Date.now()+'',date:selected,title,type:selectedType,start,end,done:false});save();$('#taskDialog').close();render();renderSuggestions();notify('برنامه ذخیره شد')};
-$('#saveNote').onclick=()=>{try{planNotes[selected]=$('#note').value;localStorage.setItem(NOTES,JSON.stringify(planNotes));queueRemoteSave(selected);notify('یادداشت ذخیره شد')}catch{notify('ذخیره یادداشت ممکن نشد')}};
+$('#taskForm').onsubmit=e=>{e.preventDefault();const start=$('#startTime').value,end=$('#endTime').value,title=$('#taskTitle').value.trim()||TYPES[selectedType][0];if(!start||!end||min(end)<=min(start)){$('#formError').textContent='ساعت پایان باید بعد از ساعت شروع باشد.';return}tasks.push({id:Date.now()+'',date:selected,title,type:selectedType,start,end,done:false});save();$('#taskDialog').close();render();renderSuggestions();notify('برنامه در مرورگر ثبت شد؛ همگام‌سازی با سرور در حال انجام است.')};
+$('#saveNote').onclick=()=>{try{planNotes[selected]=$('#note').value;localStorage.setItem(NOTES,JSON.stringify(planNotes));queueRemoteSave(selected);notify('یادداشت در مرورگر ثبت شد؛ همگام‌سازی با سرور در حال انجام است.')}catch{notify('ذخیره یادداشت ممکن نشد')}};
 function loadNote(){$('#note').value=planNotes[selected]||''}
 const originalRender=render;render=()=>{originalRender();loadNote()};
 $('#themeBtn').onclick=()=>{const root=document.documentElement,next=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=next;try{localStorage.setItem('theme',next)}catch{}};
