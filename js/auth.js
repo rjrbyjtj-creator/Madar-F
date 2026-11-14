@@ -42,11 +42,15 @@ const Auth = (() => {
     if (!get()) return null;
     // Profile is used to decide whether protected pages should load cloud data.
     // Avoid conditional-cache 304 responses: they have no JSON body and are not res.ok.
-    const res = await fetch(API.profile, {
+    let res = await fetch(API.profile, {
       headers: headers(),
       signal,
       cache: "no-store",
     });
+    // Retry if an intermediary still returns a body-less 304 response.
+    if (res.status === 304) {
+      res = await fetch(API.profile, { headers: headers(), signal, cache: "reload" });
+    }
     if (res.status === 401) { clear(); return null; }
     if (!res.ok) throw new Error("PROFILE_REQUEST_FAILED");
     return (await res.json()).user;
