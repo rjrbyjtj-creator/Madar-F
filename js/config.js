@@ -36,30 +36,23 @@ const API_CONFIG = Object.freeze({
   timeout: 15000,
 });
 
-/* بارگذاری خودکار تم + لودر انتقال صفحه */
+/* بارگذاری خودکار تم فعال سایت */
 (function () {
-  function sibling(name) {
-    var src = "../js/" + name;
-    try {
-      var scripts = document.getElementsByTagName("script");
-      for (var i = 0; i < scripts.length; i++) {
-        var s = scripts[i].src || "";
-        if (s.indexOf("config.js") !== -1) {
-          src = s.replace(/config\.js(\?.*)?$/, name);
-          break;
-        }
+  if (window.__madarThemeLoaded) return;
+  window.__madarThemeLoaded = true;
+  var src = "../js/theme.js";
+  try {
+    var scripts = document.getElementsByTagName("script");
+    for (var i = 0; i < scripts.length; i++) {
+      var s = scripts[i].src || "";
+      if (s.indexOf("config.js") !== -1) {
+        src = s.replace(/config\.js(\?.*)?$/, "theme.js");
+        break;
       }
-    } catch (e) {}
-    return src;
-  }
-  function load(name, flag) {
-    if (window[flag]) return;
-    window[flag] = true;
-    var el = document.createElement("script");
-    el.src = sibling(name);
-    el.async = true;
-    document.head.appendChild(el);
-  }
-  load("theme.js", "__madarThemeLoaded");
-  load("page-loader.js", "__madarPageLoaderScript");
+    }
+  } catch (e) {}
+  var el = document.createElement("script");
+  el.src = src;
+  el.async = true;
+  document.head.appendChild(el);
 })();
