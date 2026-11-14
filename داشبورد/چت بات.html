@@ -617,7 +617,7 @@ async function send(text){
  const inp=$('inp');const t=(text||inp.value).trim();
  if(att){toast('ارسال فایل هنوز فعال نشده است؛ فعلاً متن یا صدایت را ارسال کن.');return}
  if(!t)return;
- if(pendingPlanProposal&&/^(بله|آره|اره|تأیید|تایید|تأیید می‌کنم|تایید میکنم|ثبت کن|انجام بده|موافقم)[.!؟ ]*$/i.test(t)){
+ if(pendingPlanProposal&&/^(بله|آره|اره|تأیید|تایید|تأیید می‌کنم|تایید میکنم|ثبت کن|انجام بده|موافقم)([،, ]|[.!؟]|$)/i.test(t)){
   const proposal=pendingPlanProposal;layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
   await confirmPlanProposal(proposal,null);return;
  }
