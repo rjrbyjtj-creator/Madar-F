@@ -70,8 +70,8 @@
 </form>
 </dialog>
 <div id="toast" role="status"></div>
-<script src="../js/config.js"></script>
-<script src="../js/auth.js"></script>
+<script src="../js/config.js?v=20261114-2"></script>
+<script src="../js/auth.js?v=20261114-2"></script>
 <script>
 const $=s=>document.querySelector(s),fa=v=>String(v).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'),dateOf=s=>new Date(s+'T12:00:00'),min=t=>{const [h,m]=t.split(':').map(Number);return h*60+m},hm=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0'),fmt=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',day:'numeric',month:'long'}),weekDays=['ش','ی','د','س','چ','پ','ج'];
 const TYPES={study:['مطالعه','▤'],video:['ویدیو','▶'],test:['تست','✓'],note:['جزوه','✎']};
@@ -147,7 +147,7 @@ $('#themeBtn').onclick=()=>{const root=document.documentElement,next=root.datase
  try{
   const user=window.Auth?await Auth.requireAuth():null;
   if(user&&user.role==='student'){
-   try{await loadCloudPlans()}catch(error){notify('سرور برنامه‌ریزی در دسترس نیست؛ فعلاً از ذخیره محلی استفاده می‌شود.')}
+   try{await loadCloudPlans()}catch(error){console.error('Cloud planner load failed:',error);notify(error.message||'بارگذاری برنامه از سرور انجام نشد. اطلاعات محلی دست‌نخورده باقی ماند.')}
   }else if(user&&user.role!=='admin'){notify('این بخش برای دانش‌آموزان طراحی شده است')}
  }catch(error){console.warn('Planner initialization failed:',error)}
  render();renderSuggestions();
