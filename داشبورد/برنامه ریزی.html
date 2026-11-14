@@ -78,7 +78,34 @@ const TYPES={study:['مطالعه','▤'],video:['ویدیو','▶'],test:['تس
 const STORAGE='madar-plans-v1',NOTES='madar-plan-notes-v1';
 let tasks=[],selected=iso(new Date()),selectedType='study',toastTimer;
 try{tasks=JSON.parse(localStorage.getItem(STORAGE)||'[]');if(!Array.isArray(tasks))tasks=[]}catch{tasks=[]}
-const save=()=>{try{localStorage.setItem(STORAGE,JSON.stringify(tasks))}catch{notify('ذخیره‌سازی مرورگر در دسترس نیست')}};
+let cloudReady=false,remoteTimer=null,planNotes={};
+try{planNotes=JSON.parse(localStorage.getItem(NOTES)||'{}');if(!planNotes||typeof planNotes!=='object')planNotes={}}catch{planNotes={}}
+function queueRemoteSave(date=selected){if(!cloudReady||!Auth.get())return;clearTimeout(remoteTimer);remoteTimer=setTimeout(()=>persistDay(date),450)}
+async function persistDay(date){
+ if(!cloudReady)return;
+ const dayTasks=tasks.filter(t=>t.date===date),note=String(planNotes[date]||'');
+ try{
+  const response=await fetch(API.plans+'/'+encodeURIComponent(date),{method:'PUT',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({tasks:dayTasks.map(t=>({id:String(t.id),title:String(t.title),type:t.type,start:t.start,end:t.end,done:!!t.done})),note})});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||!data.ok)throw new Error(data.message||'ذخیره برنامه در سرور ناموفق بود.');
+ }catch(error){notify(error.message||'اتصال به سرور برقرار نشد؛ اطلاعات فعلاً روی همین مرورگر می‌ماند.')}
+}
+const save=()=>{try{localStorage.setItem(STORAGE,JSON.stringify(tasks))}catch{notify('ذخیره‌سازی مرورگر در دسترس نیست')}queueRemoteSave(selected)};
+async function loadCloudPlans(){
+ const response=await fetch(API.plans,{headers:Auth.headers()}),data=await response.json().catch(()=>({}));
+ if(!response.ok||!data.ok)throw new Error(data.message||'بارگذاری برنامه از سرور انجام نشد.');
+ const localTasks=[...tasks],localNotes={...planNotes},plans=Array.isArray(data.plans)?data.plans:[];
+ if(plans.length){
+  tasks=plans.flatMap(day=>(day.tasks||[]).map(t=>({...t,date:day.date,id:String(t.id)})));
+  planNotes={};plans.forEach(day=>{if(day.note)planNotes[day.date]=day.note});
+ }else{
+  tasks=localTasks;planNotes=localNotes;cloudReady=true;
+  const dates=new Set([...localTasks.map(t=>t.date),...Object.keys(localNotes)]);
+  for(const date of dates)await persistDay(date);
+ }
+ cloudReady=true;
+ try{localStorage.setItem(STORAGE,JSON.stringify(tasks));localStorage.setItem(NOTES,JSON.stringify(planNotes))}catch{}
+}
 function notify(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2400)}
 function dayTasks(){return tasks.filter(t=>t.date===selected).sort((a,b)=>min(a.start)-min(b.start))}
 function tick(){const n=new Date();$('#clock').textContent=fa([n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':'));$('#todayText').textContent=fmt.format(n)}
@@ -112,12 +139,19 @@ $('#analyzeBtn').onclick=renderSuggestions;
 $('#addBtn').onclick=()=>{const L=dayTasks(),start=Math.min(L.length?min(L[L.length-1].end):16*60,1380);$('#taskTitle').value='';$('#formError').textContent='';selectedType='study';document.querySelectorAll('[data-type]').forEach(x=>x.classList.toggle('active',x.dataset.type===selectedType));$('#startTime').value=hm(start);$('#endTime').value=hm(Math.min(start+60,1439));$('#taskDialog').showModal()};
 $('#cancelBtn').onclick=()=>$('#taskDialog').close();
 $('#taskForm').onsubmit=e=>{e.preventDefault();const start=$('#startTime').value,end=$('#endTime').value,title=$('#taskTitle').value.trim()||TYPES[selectedType][0];if(!start||!end||min(end)<=min(start)){$('#formError').textContent='ساعت پایان باید بعد از ساعت شروع باشد.';return}tasks.push({id:Date.now()+'',date:selected,title,type:selectedType,start,end,done:false});save();$('#taskDialog').close();render();renderSuggestions();notify('برنامه ذخیره شد')};
-$('#saveNote').onclick=()=>{try{const all=JSON.parse(localStorage.getItem(NOTES)||'{}');all[selected]=$('#note').value;localStorage.setItem(NOTES,JSON.stringify(all));notify('یادداشت ذخیره شد')}catch{notify('ذخیره یادداشت ممکن نشد')}};
-function loadNote(){try{const all=JSON.parse(localStorage.getItem(NOTES)||'{}');$('#note').value=all[selected]||''}catch{$('#note').value=''}}
+$('#saveNote').onclick=()=>{try{planNotes[selected]=$('#note').value;localStorage.setItem(NOTES,JSON.stringify(planNotes));queueRemoteSave(selected);notify('یادداشت ذخیره شد')}catch{notify('ذخیره یادداشت ممکن نشد')}};
+function loadNote(){$('#note').value=planNotes[selected]||''}
 const originalRender=render;render=()=>{originalRender();loadNote()};
 $('#themeBtn').onclick=()=>{const root=document.documentElement,next=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=next;try{localStorage.setItem('theme',next)}catch{}};
-(async()=>{try{if(window.Auth){const user=await Auth.requireAuth();if(user&&user.role&&user.role!=='student'&&user.role!=='admin'){notify('این بخش برای دانش‌آموزان طراحی شده است')}}}catch{}})();
-render();renderSuggestions();
+(async()=>{
+ try{
+  const user=window.Auth?await Auth.requireAuth():null;
+  if(user&&user.role==='student'){
+   try{await loadCloudPlans()}catch(error){notify('سرور برنامه‌ریزی در دسترس نیست؛ فعلاً از ذخیره محلی استفاده می‌شود.')}
+  }else if(user&&user.role!=='admin'){notify('این بخش برای دانش‌آموزان طراحی شده است')}
+ }catch(error){console.warn('Planner initialization failed:',error)}
+ render();renderSuggestions();
+})();
 </script>
 </body>
 </html>
