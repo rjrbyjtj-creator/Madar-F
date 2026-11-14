@@ -53,9 +53,16 @@
     }).join("");
   }
 
+  // کارت مقاله از ابتدا در HTML وجود دارد؛ پاسخ کند API نباید آن را پنهان کند.
+  var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  var timeoutId = setTimeout(function () {
+    if (controller) controller.abort();
+  }, 7000);
+
   fetch("https://madar-jmy5.onrender.com/api/articles", {
     method: "GET",
-    cache: "no-store"
+    cache: "no-store",
+    signal: controller ? controller.signal : undefined
   })
     .then(function (response) {
       if (!response.ok) throw new Error("ARTICLES_HTTP_" + response.status);
@@ -65,17 +72,20 @@
       if (!data || data.ok !== true || !Array.isArray(data.articles)) {
         throw new Error("INVALID_ARTICLES_RESPONSE");
       }
-      // مقاله حسابان باید حتی اگر API هنوز رکورد آن را برنگرداند در فهرست دیده شود.
-      // اگر رکورد از API وجود داشته باشد، همان داده واقعی حفظ می‌شود.
       var publishedArticle = data.articles.find(function (item) {
         return item.slug === "hesaban-11";
       });
       var otherArticles = data.articles.filter(function (item) {
         return item.slug !== "hesaban-11";
       });
+      // همیشه مقاله حسابان در فهرست بماند؛ پاسخ خالی API نباید آن را حذف کند.
       render([publishedArticle || fallbackArticles[0]].concat(otherArticles));
     })
     .catch(function () {
+      // در خطای API یا بیدارشدن سرویس، کارت محلی حفظ می‌شود.
       render(fallbackArticles);
+    })
+    .finally(function () {
+      clearTimeout(timeoutId);
     });
 })();
