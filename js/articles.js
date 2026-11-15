@@ -7,11 +7,10 @@
   var articleUrl = "https://rjrbyjtj-creator.github.io/Madar-F/articles/hesaban-11/index.html";
   var articleImage = "https://rjrbyjtj-creator.github.io/Madar-F/عکس%20ها/2.png";
 
-  // اطلاعات جایگزین، هم‌راستا با محتوای واقعی مقاله
   var fallbackArticles = [{
     slug: "hesaban-11",
     title: "بهترین روش مطالعه حسابان یازدهم",
-    excerpt: "درس حسابان یکی از مهم‌ترین دروس رشته ریاضی است. در این مقاله روش‌های مطالعه، برنامه‌ریزی و نکات کلیدی برای موفقیت در امتحانات و کنکور را بررسی می‌کنیم.",
+    excerpt: "با رعایت سه نکته کلیدی، برنامه‌ریزی اصولی، یادگیری مفهومی و تمرین زیاد، در حسابان یازدهم بدرخشید.",
     category: "ریاضی و یادگیری",
     readTime: 5,
     coverImage: articleImage,
@@ -25,35 +24,61 @@
     });
   }
 
+  function card(article, className, index) {
+    var url = escapeHtml(article.url || articleUrl);
+    var title = escapeHtml(article.title || "مقاله آموزشی");
+    var category = escapeHtml(article.category || "مقاله آموزشی");
+    var readTime = escapeHtml(article.readTime || 5);
+    var imageUrl = article.coverImage || article.image || "";
+    var image = imageUrl
+      ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + title + '" loading="lazy" onerror="this.remove()">'
+      : "";
+
+    if (className === "a-big") {
+      return '<a href="' + url + '" class="box acard lift a-big">' +
+        '<div class="thumb">' + image + '</div>' +
+        '<div class="abody"><span class="tag"><i></i>' + category + '</span>' +
+        '<div><h3>' + title + '</h3></div>' +
+        '<div class="afoot"><span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>' +
+        '<span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>' + readTime + ' دقیقه مطالعه</span></span></div></div></a>';
+    }
+
+    if (className === "a-tall") {
+      return '<a href="' + url + '" class="box acard lift a-tall">' +
+        '<div class="thumb">' + image + '</div>' +
+        '<div class="abody"><h3>' + title + '</h3>' +
+        '<div class="afoot"><span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>' +
+        '<span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>' + readTime + ' دقیقه مطالعه</span></span></div></div></a>';
+    }
+
+    return '<a href="' + url + '" class="box acard lift a-sm">' +
+      '<div class="abody"><h3>' + title + '</h3>' +
+      '<div class="afoot"><span class="abtn"><svg class="i"><use href="#i-back"/></svg></span>' +
+      '<span class="meta"><span class="dt"><svg class="i"><use href="#i-clock"/></svg>' + readTime + ' دقیقه مطالعه</span></span></div></div>' +
+      '<div class="thumb">' + image + '</div></a>';
+  }
+
   function render(articles) {
     grid.setAttribute("aria-busy", "false");
-
     if (!Array.isArray(articles) || !articles.length) {
-      grid.innerHTML = '<div class="articles-empty">هنوز مقاله‌ای منتشر نشده است.</div>';
+      grid.classList.add("art-grid--single");
+      grid.innerHTML = '<div class="box acard a-big"><div class="abody"><h3>هنوز مقاله‌ای منتشر نشده است.</h3></div></div>';
       return;
     }
 
-    grid.innerHTML = articles.slice(0, 6).map(function (article, index) {
-      var url = article.url || articleUrl;
-      var image = article.coverImage
-        ? '<img src="' + escapeHtml(article.coverImage) + '" alt="' + escapeHtml(article.title) + '" loading="lazy" onerror="this.parentElement.classList.add(\'is-empty\');this.remove()">'
-        : "";
+    var ordered = articles.slice(0, 4);
+    grid.classList.toggle("art-grid--single", ordered.length === 1);
 
-      return '<a class="article-card' + (article.featured || index === 0 ? ' article-card--featured' : '') + '" href="' + escapeHtml(url) + '">' +
-        '<div class="article-card__cover">' + image +
-          '<span class="article-card__category">' + escapeHtml(article.category || "مقاله آموزشی") + '</span>' +
-        '</div>' +
-        '<div class="article-card__content">' +
-          '<div><span class="article-card__eyebrow">مجله آموزشی مدار</span>' +
-          '<h3>' + escapeHtml(article.title) + '</h3>' +
-          '<p>' + escapeHtml(article.excerpt || "") + '</p></div>' +
-          '<div class="article-card__bottom"><span>' + escapeHtml(article.readTime || 5) + ' دقیقه مطالعه</span>' +
-          '<span class="article-card__arrow" aria-hidden="true">←</span></div>' +
-        '</div></a>';
-    }).join("");
+    // ترتیب DOM دقیقاً مانند طرح اولیه حفظ می‌شود تا جای‌گذاری CSS کارت‌ها تغییر نکند:
+    // کارت بلند، دو کارت کوچک، سپس کارت شاخص بزرگ.
+    var markup = [];
+    if (ordered[1]) markup.push(card(ordered[1], "a-tall", 1));
+    if (ordered[2]) markup.push(card(ordered[2], "a-sm", 2));
+    if (ordered[3]) markup.push(card(ordered[3], "a-sm", 3));
+    markup.push(card(ordered[0], "a-big", 0));
+    grid.innerHTML = markup.join("");
   }
 
-  // کارت مقاله از ابتدا در HTML وجود دارد؛ پاسخ کند API نباید آن را پنهان کند.
   var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
   var timeoutId = setTimeout(function () {
     if (controller) controller.abort();
@@ -78,11 +103,9 @@
       var otherArticles = data.articles.filter(function (item) {
         return item.slug !== "hesaban-11";
       });
-      // همیشه مقاله حسابان در فهرست بماند؛ پاسخ خالی API نباید آن را حذف کند.
       render([publishedArticle || fallbackArticles[0]].concat(otherArticles));
     })
     .catch(function () {
-      // در خطای API یا بیدارشدن سرویس، کارت محلی حفظ می‌شود.
       render(fallbackArticles);
     })
     .finally(function () {
