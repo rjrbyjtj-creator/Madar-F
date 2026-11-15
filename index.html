@@ -1,33 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>مدار</title>
-<script>
-(function () {
-  // دریافت home.html از همان دامنه؛ بدون CDN خارجی یا تزریق اسکریپت با document.write.
-  var url = "./home.html?v=articles-card-20261114-v5";
-  fetch(url, { cache: "no-store" })
-    .then(function (response) {
-      if (!response.ok) throw new Error("HOME_HTTP_" + response.status);
-      return response.text();
-    })
-    .then(function (html) {
-      document.open();
-      document.write(html);
-      document.close();
-    })
-    .catch(function () {
-      var link = document.createElement("a");
-      link.href = url;
-      link.textContent = "برای ورود به صفحه اصلی مدار کلیک کنید";
-      document.body.appendChild(link);
-    });
-})();
-</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow">
+<title>مدار | صفحه اصلی</title>
+<link rel="canonical" href="https://rjrbyjtj-creator.github.io/Madar-F/">
+<meta http-equiv="refresh" content="0;url=./home.html">
+<script>window.location.replace("./home.html");</script>
 </head>
 <body>
-  <p>در حال بارگذاری صفحه اصلی مدار...</p>
+<noscript><a href="./home.html">ورود به صفحه اصلی مدار</a></noscript>
 </body>
 </html>
