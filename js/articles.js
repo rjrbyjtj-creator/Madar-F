@@ -18,6 +18,40 @@
     featured: true
   }];
 
+
+  var introArticles = [
+  {
+    "slug": "madar-platform-guide",
+    "title": "سایت مدار چیست؟ راهنمای امکانات آموزشی و تحصیلی",
+    "excerpt": "با سایت مدار آشنا شوید؛ راهنمای بخش‌های آموزشی، مقالات، آزمون‌ها، برنامه‌ریزی درسی و دستیار هوشمند برای دانش‌آموزان.",
+    "category": "معرفی مدار",
+    "readTime": 6,
+    "coverImage": "https://rjrbyjtj-creator.github.io/Madar-F/عکس%20ها/2.png",
+    "url": "https://rjrbyjtj-creator.github.io/Madar-F/articles/madar-platform-guide/",
+    "featured": false
+  },
+  {
+    "slug": "study-planning-with-madar",
+    "title": "چگونه با برنامه‌ریزی درسی در مدار مطالعه منظم‌تری داشته باشیم؟",
+    "excerpt": "راهنمای عملی برنامه‌ریزی درسی برای دانش‌آموزان؛ هدف‌گذاری، تقسیم زمان، ثبت فعالیت‌ها و بازبینی برنامه با کمک ابزار برنامه‌ریزی مدار.",
+    "category": "برنامه‌ریزی درسی",
+    "readTime": 7,
+    "coverImage": "https://rjrbyjtj-creator.github.io/Madar-F/عکس%20ها/2.png",
+    "url": "https://rjrbyjtj-creator.github.io/Madar-F/articles/study-planning-with-madar/",
+    "featured": false
+  },
+  {
+    "slug": "madar-ai-study-assistant",
+    "title": "دستیار هوشمند مدار چگونه به دانش‌آموزان کمک می‌کند؟",
+    "excerpt": "راهنمای استفاده بهتر از چت‌بات هوشمند مدار برای پرسش‌های درسی، توضیح مفاهیم و گفت‌وگو درباره برنامه مطالعه؛ همراه با نکات بررسی پاسخ‌ها.",
+    "category": "دستیار هوشمند",
+    "readTime": 6,
+    "coverImage": "https://rjrbyjtj-creator.github.io/Madar-F/عکس%20ها/2.png",
+    "url": "https://rjrbyjtj-creator.github.io/Madar-F/articles/madar-ai-study-assistant/",
+    "featured": false
+  }
+];
+
   function escapeHtml(value) {
     return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
       return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
@@ -103,10 +137,16 @@
       var otherArticles = data.articles.filter(function (item) {
         return item.slug !== "hesaban-11";
       });
-      render([publishedArticle || fallbackArticles[0]].concat(otherArticles));
+      var seen = {};
+      var combined = [publishedArticle || fallbackArticles[0]].concat(otherArticles, introArticles);
+      render(combined.filter(function (item) {
+        if (!item || seen[item.slug]) return false;
+        seen[item.slug] = true;
+        return true;
+      }));
     })
     .catch(function () {
-      render(fallbackArticles);
+      render(fallbackArticles.concat(introArticles));
     })
     .finally(function () {
       clearTimeout(timeoutId);

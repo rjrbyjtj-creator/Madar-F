@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دستیار هوشمند مدار چگونه به دانش‌آموزان کمک می‌کند؟ | مجله مدار</title>
+  <meta name="description" content="راهنمای استفاده بهتر از چت‌بات هوشمند مدار برای پرسش‌های درسی، توضیح مفاهیم و گفت‌وگو درباره برنامه مطالعه؛ همراه با نکات بررسی پاسخ‌ها.">
+  <meta name="theme-color" content="#14264F">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rjrbyjtj-creator.github.io/Madar-F/articles/madar-ai-study-assistant/">
+  <meta property="og:type" content="article">
+  <meta property="og:description" content="راهنمای استفاده از دستیار هوشمند مدار برای پرسش‌های درسی، توضیح مفاهیم و گفت‌وگو درباره برنامه مطالعه.">
+  <meta property="og:title" content="دستیار هوشمند مدار چگونه به دانش‌آموزان کمک می‌کند؟">
+  <meta property="og:image" content="https://rjrbyjtj-creator.github.io/Madar-F/عکس%20ها/2.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"دستیار هوشمند مدار چگونه به دانش‌آموزان کمک می‌کند؟","inLanguage":"fa","datePublished":"2026-11-15","author":{"@type":"Organization","name":"تیم تحریریه مدار"},"publisher":{"@type":"Organization","name":"مدار"}}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- تم ذخیره‌شده، قبل از رسم صفحه اعمال می‌شود تا چشمک نزند -->
+  <script>
+    try {
+      if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+    } catch (e) {}
+  </script>
+
+  <link rel="icon" href="../../عکس ها/تب.png">
+
+  <style>
+    /* ===== پایه، لوگو، جستجو و دکمه‌ها (کپی از index.html) ===== */
+    /* ==========================================================================
+       رنگ‌ها (پالت: سرمه‌ای + طلایی)
+       ========================================================================== */
+    :root {
+      --bg: #F6F7F9;
+      --bg2: #FBFBFC;
+      --panel: rgba(255,255,255,.92);
+      --field: #FBFBFC;
+      --border: #E3E6EC;
+      --text: #1B2233;
+      --muted: #6B7488;
+      --primary: #14264F;
+      --on-primary: #fff;
+      --gold: #B8892D;
+      --sh: 0 1px 2px rgba(20,38,79,.05),0 8px 24px -12px rgba(20,38,79,.14);
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --card: #fff;
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0C1222;
+      --bg2: #0F1729;
+      --panel: rgba(19,28,50,.94);
+      --field: #1A2440;
+      --border: #243049;
+      --text: #E6EAF3;
+      --muted: #8D98B0;
+      --primary: #2B4C98;
+      --on-primary: #fff;
+      --gold: #D9AE55;
+      --sh: 0 8px 28px -12px rgba(0,0,0,.6);
+      --card: #131C32;
+    }
+
+
+    /* ==========================================================================
+       پایه
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    @font-face {
+    font-family: "iransansdn";
+    src: url("./iransansdn.ttf") format("opentype");
+    font-weight: 100;
+    font-style: normal;
+}
+
+    body {
+      font-family: 'Vazirmatn', Tahoma, sans-serif;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(900px 600px at 12% 40%, color-mix(in srgb, var(--primary) 8%, transparent), transparent),
+        linear-gradient(135deg, var(--bg), var(--bg2) 55%, var(--bg));
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    svg.i {
+      width: 15px;
+      height: 15px;
+      flex: none;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    svg.i.duo {
+      fill: currentColor;
+      fill-opacity: .16;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 14px clamp(14px, 1.8vw, 28px) clamp(14px, 3vh, 28px);
+    }
+
+
+
+    :root[data-theme="dark"] .only-light,
+    :root:not([data-theme="dark"]) .only-dark {
+      display: none;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo img {
+      height: 34px;
+      width: auto;
+    }
+
+    .logo strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .logo small {
+      display: block;
+      color: var(--muted);
+      font-size: 10.5px;
+    }
+
+    .search {
+      flex: 0 1 440px;
+      margin-inline: 5vw auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 14px;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 3px 12px var(--sh);
+      transition: box-shadow .3s, border-color .3s;
+    }
+
+    .search:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 22%, transparent);
+    }
+
+    .search input {
+      flex: 1;
+      min-width: 0;
+      background: none;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      font: inherit;
+      font-size: 12.5px;
+    }
+
+    .search input::placeholder {
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      color: var(--muted);
+      background: none;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: color .2s, background .2s, transform .3s var(--ease);
+    }
+
+    .icon-btn:hover {
+      color: var(--text);
+      background: var(--field);
+      transform: translateY(-2px);
+    }
+
+    .icon-btn svg.i {
+      width: 17px;
+      height: 17px;
+    }
+
+    #themeBtn .moon {
+      display: none;
+    }
+
+    :root[data-theme="dark"] #themeBtn .sun {
+      display: none;
+    }
+
+    :root[data-theme="dark"] #themeBtn .moon {
+      display: block;
+    }
+
+    .btn-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 34px;
+      padding: 0 16px;
+      color: var(--on-primary);
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--primary);
+      border-radius: 999px;
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 28%, transparent);
+      transition: transform .3s var(--ease), box-shadow .3s, filter .2s;
+    }
+
+    .btn-dark:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+    }
+
+    .btn-dark svg.i {
+      width: 14px;
+      height: 14px;
+    }
+
+
+    /* ===== اجزای مشترک: دکمه‌ها، باکس، تگ، متا (کپی از index.html) ===== */
+    html { scroll-behavior: smooth; }
+
+    .wrap { padding: 8px clamp(14px, 1.8vw, 28px) clamp(28px, 6vh, 56px); }
+    .sec { margin-top: clamp(40px, 8vh, 72px); scroll-margin-top: 16px; }
+    .sec:first-child { margin-top: clamp(24px, 5vh, 44px); }
+
+    /* --- سرتیتر بخش --- */
+    .sec-head {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 14px; margin-bottom: 18px;
+    }
+    .eyebrow { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
+    .eyebrow .ln { width: 18px; height: 1px; background: var(--gold); }
+    .sec-head h2 {
+      margin-top: 8px; font-size: clamp(20px, 1.9vw, 28px);
+      font-weight: 800; line-height: 1.45;
+    }
+    .sec-head h2 span { color: var(--gold); }
+    .sec-head p { margin-top: 2px; color: var(--muted); font-size: 12px; }
+
+    .btn-line {
+      display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 18px;
+      font-size: 12px; font-weight: 500; color: var(--text);
+      border: 1px solid var(--gold); border-radius: 999px;
+      transition: background .3s, transform .3s var(--ease);
+    }
+    .btn-line svg.i { width: 14px; height: 14px; color: var(--gold); }
+    .btn-line:hover { background: color-mix(in srgb, var(--gold) 14%, transparent); transform: translateY(-2px); }
+
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 16px;
+      font-size: 12px; font-weight: 700; color: #1a1300; background: var(--gold);
+      border-radius: 999px; box-shadow: 0 4px 12px color-mix(in srgb, var(--gold) 30%, transparent);
+      transition: transform .3s var(--ease), filter .2s;
+    }
+    .btn-gold svg.i { width: 14px; height: 14px; }
+    .btn-gold:hover { transform: translateY(-2px); filter: brightness(1.08); }
+
+    /* --- اجزای مشترک --- */
+    .box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 4px 14px var(--sh);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      transition: transform .4s var(--ease), border-color .3s, box-shadow .4s;
+    }
+    .lift:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--gold) 55%, var(--border));
+      box-shadow: 0 10px 22px var(--sh);
+    }
+
+    .ibox {
+      flex: none; display: grid; place-items: center; width: 32px; height: 32px;
+      color: var(--text); background: var(--field);
+      border: 1px solid var(--border); border-radius: 10px;
+    }
+    .ibox svg.i { width: 16px; height: 16px; }
+    .ibox.lg { width: 46px; height: 46px; border-radius: 13px; }
+    .ibox.lg svg.i { width: 22px; height: 22px; }
+    .ibox.gold { color: var(--gold); }
+
+    .vr { flex: none; width: 1px; align-self: stretch; margin-block: 6px; background: var(--border); }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+      font-size: 10.5px; background: var(--field); border-radius: 999px;
+    }
+    .tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+
+    .meta { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 11px; }
+    .dt { display: inline-flex; align-items: center; gap: 5px; }
+    .dt svg.i { width: 13px; height: 13px; }
+    .vsep { width: 1px; height: 14px; background: var(--border); }
+
+    .more { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 500; transition: color .2s; }
+    .more svg.i { width: 13px; height: 13px; }
+    .more::after { content: ""; width: 16px; height: 1px; background: var(--gold); }
+    a:hover > .more, .more:hover { color: var(--gold); }
+
+
+    /* ===== هدر جدید: دو طبقه (نوار اصلی + نوار دسته‌های مجله) ===== */
+    .page { padding: 0; }
+    .wrap { max-width: 1280px; width: 100%; margin-inline: auto; }
+    @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+    .layout > * { animation: rise .8s var(--ease) backwards; }
+    html.theming *, html.theming *::before, html.theming *::after {
+      transition: background-color .45s ease, color .45s ease, border-color .45s ease, box-shadow .45s ease !important;
+    }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+    .page > .pbar { position: fixed; inset: 0 0 auto 0; z-index: 60; height: 3px; transform: scaleX(0); transform-origin: right;
+      background: linear-gradient(to left, var(--gold), color-mix(in srgb, var(--gold) 25%, transparent)); }
+    .page > .hdr { position: sticky; top: -41px; z-index: 50; background: var(--panel);
+      -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .hdr-in { max-width: 1280px; margin-inline: auto; padding-inline: clamp(14px, 1.8vw, 28px); }
+    .hdr-main { display: flex; align-items: center; gap: 16px; height: 68px; }
+    .hdr-main .actions { gap: 8px; }
+    .hdr .logo img { height: 40px; }
+    .hdr .logo strong { font-size: 22px; }
+    .hdr-nav { display: flex; align-items: center; margin-inline-end: auto; }
+    .hdr-nav a { position: relative; display: inline-flex; align-items: center; flex: none; gap: 6px; padding: 8px 8px; font-size: 13px; font-weight: 500; white-space: nowrap;
+      color: color-mix(in srgb, var(--text) 78%, transparent); transition: color .2s; }
+    .hdr-nav a:hover { color: var(--gold); }
+    .hdr-nav a svg.i { width: 15px; height: 15px; transition: color .2s, transform .35s var(--ease); }
+    .hdr-nav a:hover svg.i, .hdr-nav a.active svg.i { color: var(--gold); }
+    .hdr-nav a:hover svg.i { transform: translateY(-2px) scale(1.15); }
+    @keyframes navIn { from { opacity: 0; transform: translateY(-8px); } }
+    .hdr-nav a { animation: navIn .6s var(--ease) backwards; }
+    .hdr-nav a:nth-child(2) { animation-delay: .05s; } .hdr-nav a:nth-child(3) { animation-delay: .1s; }
+    .hdr-nav a:nth-child(4) { animation-delay: .15s; } .hdr-nav a:nth-child(5) { animation-delay: .2s; }
+    .hdr-nav a:nth-child(6) { animation-delay: .25s; } .hdr-nav a:nth-child(7) { animation-delay: .3s; }
+    .hdr-nav a:nth-child(8) { animation-delay: .35s; } .hdr-nav a:nth-child(9) { animation-delay: .4s; }
+    .hdr-nav a + a::before { content: ""; position: absolute; inset-inline-start: 0; top: 50%; width: 1px; height: 14px; background: var(--border); transform: translateY(-50%); }
+    .hdr-nav a.active { color: var(--text); font-weight: 700; }
+    .hdr-nav a::after { content: ""; position: absolute; inset-inline: 8px; bottom: -15px; height: 2px; border-radius: 2px; background: var(--gold);
+      transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease); }
+    .hdr-nav a:hover::after, .hdr-nav a.active::after { transform: scaleX(1); }
+    .hdr-sub { border-top: 1px solid var(--border); background: var(--bg2); }
+    .hdr-sub .hdr-in { display: flex; align-items: center; gap: 4px; height: 40px; overflow-x: auto; scrollbar-width: none; }
+    .hdr-sub .lbl { display: flex; align-items: center; flex: none; gap: 6px; margin-inline-end: 10px; padding-inline-end: 14px; border-inline-end: 1px solid var(--border); font-size: 11.5px; font-weight: 800; line-height: 20px; }
+    .hdr-sub .lbl svg.i { width: 14px; height: 14px; color: var(--gold); }
+    .cat { position: relative; display: inline-flex; align-items: center; flex: none; gap: 6px; padding: 4px 12px; font-size: 11.5px; color: var(--muted);
+      border: 1px solid transparent; border-radius: 999px; transition: color .2s, background .2s, border-color .2s; }
+    .cat svg.i { width: 13px; height: 13px; transition: color .2s, transform .35s var(--ease); }
+    .cat:hover svg.i { transform: translateY(-1px) scale(1.2) rotate(-6deg); }
+    .cat:hover svg.i, .cat.on svg.i { color: var(--gold); }
+    .cat + .cat { margin-inline-start: 8px; }
+    .cat + .cat::before { content: ""; position: absolute; inset-inline-start: -7px; top: 50%; width: 1px; height: 14px; background: var(--border); transform: translateY(-50%); }
+    .cat:hover { color: var(--gold); }
+    .cat.on { color: var(--text); background: var(--field); border-color: var(--border); }
+    .hdr-sub .search { flex: 0 1 230px; margin: 0; margin-inline-start: auto; height: 28px; padding: 0 12px; box-shadow: none; }
+    .hdr-sub .search input { font-size: 11.5px; }
+    @media (max-width: 1360px) {
+      .hdr .logo small { display: none; }
+      .hdr-main .actions .icon-btn:not(#themeBtn) { display: none; }
+    }
+    @media (max-width: 1180px) {
+      .hdr .logo small { display: block; }
+      .hdr-main .actions .icon-btn:not(#themeBtn) { display: grid; }
+      .hdr-main .btn-dark .txt-hide { display: inline; }
+      .hdr-main { height: auto; flex-wrap: wrap; gap: 8px 16px; padding-block: 10px 0; }
+      .hdr-nav { order: 3; flex-basis: 100%; margin: 0; overflow-x: auto; scrollbar-width: none; }
+      .hdr-nav a::after { bottom: 0; }
+      .actions { margin-inline-start: auto; }
+    }
+    @media (max-width: 600px) { .hdr-main .btn-dark .txt-hide { display: none; } .hdr-sub .search { flex-basis: 150px; } }
+
+    /* ==========================================================================
+       صفحه مقاله — نسخه مینیمال (کادر خط‌نازک، بدون سایه، فاصله‌های کم)
+       ========================================================================== */
+    .layout .box, .related .box { border-radius: 10px; box-shadow: none; }
+    .lift:hover { transform: none; box-shadow: none; }
+
+    .crumbs { display: flex; align-items: center; gap: 6px; margin: 16px 0 10px; color: var(--muted); font-size: 11px; }
+    .crumbs a { display: inline-flex; align-items: center; gap: 5px; transition: color .2s; }
+    .crumbs a:hover { color: var(--gold); }
+    .crumbs svg.i { width: 12px; height: 12px; }
+
+    /* دو ستون: مقاله (راست) + سایدبار (چپ) */
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 252px; gap: 12px; align-items: start; }
+
+    .article { padding: 12px; }
+    .cover { height: clamp(120px, 15vw, 180px); border-radius: 8px; overflow: hidden; background: var(--field); }
+    .cover img, .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    .a-head { display: grid; justify-items: start; gap: 6px; margin-top: 12px; }
+    .tag { padding: 2px 9px; font-size: 10px; border: 1px solid var(--border); }
+    .tag svg.i { width: 11px; height: 11px; color: var(--gold); }
+    .a-title { font-size: clamp(18px, 1.7vw, 24px); font-weight: 800; line-height: 1.5; }
+    .a-sub { color: var(--muted); font-size: 12px; }
+    .a-meta { width: 100%; flex-wrap: wrap; gap: 10px; margin-top: 2px; padding-bottom: 10px; border-bottom: 1px solid var(--border); font-size: 10.5px; }
+    .a-meta .author { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font-weight: 500; }
+    .a-meta .dt svg.i { width: 12px; height: 12px; }
+    .a-meta .vsep { height: 11px; }
+    .av { width: 20px; height: 20px; border-radius: 50%; overflow: hidden; background: var(--field); border: 1px solid var(--border); }
+    .av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .a-body { display: grid; gap: 12px; padding-top: 12px; }
+    .a-body p { font-size: 12.5px; line-height: 2; color: color-mix(in srgb, var(--text) 82%, transparent); }
+    .step h2 { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; line-height: 1.6; }
+    .step h2 b {
+      flex: none; display: grid; place-items: center; width: 20px; height: 20px;
+      font-size: 11px; font-weight: 700; color: var(--gold);
+      background: color-mix(in srgb, var(--gold) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--gold) 60%, var(--border)); border-radius: 6px;
+    }
+    .step p { margin-top: 2px; padding-inline-start: 28px; }
+
+    .note {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 9px 12px; background: var(--field);
+      border: 1px solid var(--border); border-inline-start: 2px solid var(--gold); border-radius: 8px;
+    }
+    .note strong { display: inline; margin-inline-end: 4px; font-size: 12px; font-weight: 700; }
+    .note p { display: inline; font-size: 12px; line-height: 1.9; }
+    .note svg.i { flex: none; width: 18px; height: 18px; color: var(--gold); }
+
+    /* دیدگاه‌ها */
+    .comments { margin-top: 12px; padding: 10px 12px; }
+    .c-head { display: flex; align-items: center; justify-content: flex-start; gap: 6px; }
+    .c-head h3 { font-size: 12.5px; font-weight: 700; }
+    .c-head svg.i { width: 14px; height: 14px; color: var(--gold); }
+    .comments > p { margin-top: 1px; color: var(--muted); font-size: 10.5px; }
+    .c-form { display: flex; align-items: stretch; gap: 8px; margin-top: 8px; }
+    .c-form textarea {
+      flex: 1; min-width: 0; height: 36px; min-height: 36px; resize: vertical; padding: 8px 14px;
+      font: inherit; font-size: 12px; line-height: 1.6; color: var(--text);
+      background: var(--field); border: 1px solid var(--border); border-radius: 18px; outline: 0;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .c-form textarea::placeholder { color: var(--muted); }
+    .c-form textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 20%, transparent); }
+    .c-form .btn-dark { height: 36px; padding: 0 16px; border: 0; cursor: pointer; font-family: inherit; font-size: 11.5px; box-shadow: none; }
+    .c-form .btn-dark svg.i { width: 13px; height: 13px; }
+
+    /* مقالات پیشنهادی (پایین مقاله) */
+    .related { margin-top: 14px; }
+    .related > h3, .w-title { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; }
+    .related > h3 svg.i, .w-title svg.i { width: 14px; height: 14px; color: var(--gold); }
+    .related > h3 { margin-bottom: 8px; }
+    .r-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .rcard { display: flex; flex-direction: column; overflow: hidden; }
+    .thumb { background: var(--field); overflow: hidden; }
+    .rcard .thumb { aspect-ratio: 2 / 1; }
+    .rcard .rbody { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 7px 10px; }
+    .rcard h4 { font-size: 11.5px; font-weight: 500; line-height: 1.7; }
+    .abtn {
+      flex: none; display: grid; place-items: center; width: 22px; height: 22px;
+      color: var(--gold); border: 1px solid color-mix(in srgb, var(--gold) 60%, var(--border)); border-radius: 6px;
+      transition: background .3s, color .3s;
+    }
+    .abtn svg.i { width: 12px; height: 12px; }
+    .rcard:hover { border-color: color-mix(in srgb, var(--gold) 55%, var(--border)); }
+    .rcard:hover .abtn { background: var(--gold); color: #1a1300; }
+
+    /* سایدبار */
+    .side { display: grid; gap: 10px; position: sticky; top: 12px; }
+    .widget { padding: 10px 8px; }
+    .w-title { padding: 0 6px 8px; margin-bottom: 4px; border-bottom: 1px solid var(--border); }
+    .w-list { list-style: none; display: grid; gap: 0; }
+    .w-list a { display: flex; align-items: center; gap: 8px; padding: 6px; font-size: 11.5px; line-height: 1.7; border-radius: 8px; transition: background .2s, color .2s; }
+    .w-list a:hover { background: var(--field); color: var(--gold); }
+    .w-list .chev { margin-inline-start: auto; width: 11px; height: 11px; color: var(--muted); }
+    .w-list .ibox { width: 24px; height: 24px; border-radius: 7px; }
+    .w-list .ibox svg.i { width: 13px; height: 13px; }
+    .w-thumb { flex: none; width: 46px; height: 34px; border-radius: 6px; overflow: hidden; }
+    .w-list.sm .w-thumb { width: 34px; height: 34px; }
+    .w-all { display: flex; align-items: center; gap: 5px; padding: 6px 6px 0; color: var(--gold); font-size: 11px; font-weight: 500; }
+    .w-all svg.i { width: 12px; height: 12px; }
+
+    @media (max-width: 1000px) {
+      .layout { grid-template-columns: 1fr; }
+      .side { position: static; }
+      .r-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .r-grid { grid-template-columns: 1fr; }
+      .c-form { flex-direction: column; }
+      .c-form textarea { height: 44px; }
+      .note { flex-direction: column-reverse; align-items: flex-start; }
+    }
+
+    [hidden] { display: none !important; }
+    /* ===== جزئیات: ابزار مقاله، فهرست، برچسب، بازخورد، دیدگاه‌ها ===== */
+    .a-body p { font-size: var(--fs, 12.5px); }
+    .step { scroll-margin-top: 90px; }
+    .tools { display: flex; gap: 6px; margin-inline-start: auto; }
+    .tbtn { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; font: inherit; font-size: 10.5px;
+      color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 999px; cursor: pointer; transition: color .2s, border-color .2s; }
+    .tbtn:hover, .tbtn.on { color: var(--gold); border-color: var(--gold); }
+    .tbtn svg.i { width: 12px; height: 12px; }
+    .tbtn.dn svg.i { transform: rotate(180deg); }
+    .toc { margin-top: 12px; padding: 8px 12px; background: var(--field); border: 1px solid var(--border); border-radius: 8px; }
+    .toc summary { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; font-weight: 700; list-style: none; }
+    .toc summary::-webkit-details-marker { display: none; }
+    .toc summary svg.i { width: 14px; height: 14px; color: var(--gold); }
+    .toc summary::after { content: ""; margin-inline-start: auto; width: 6px; height: 6px; border: solid var(--muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform .3s; }
+    .toc[open] summary::after { transform: rotate(-135deg); }
+    .toc ol { display: grid; gap: 2px; margin-top: 6px; padding-inline-start: 18px; font-size: 12px; }
+    .toc a { color: var(--muted); transition: color .2s; }
+    .toc a:hover, .toc a.on { color: var(--gold); }
+    .tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); }
+    .tags a { padding: 2px 10px; font-size: 10.5px; background: var(--field); border: 1px solid var(--border); border-radius: 999px; transition: color .2s, border-color .2s; }
+    .tags a:hover { color: var(--gold); border-color: var(--gold); }
+    .a-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: 11px; color: var(--muted); }
+    .fb, .share { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .pn a { display: grid; padding: 8px 12px; font-size: 11.5px; font-weight: 500; border: 1px solid var(--border); border-radius: 8px; transition: border-color .2s; }
+    .pn a:hover { border-color: var(--gold); }
+    .pn small { color: var(--muted); font-size: 10px; font-weight: 400; }
+    .pn a:last-child { text-align: left; }
+    .cnt { color: var(--muted); font-weight: 400; }
+    .cl { list-style: none; margin-top: 10px; }
+    .cl li { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); }
+    .cl .av { flex: none; display: grid; place-items: center; width: 26px; height: 26px; font-size: 11px; font-weight: 700; color: var(--gold); }
+    .cl b { font-size: 11.5px; }
+    .cl small { margin-inline-start: 6px; color: var(--muted); font-size: 10px; }
+    .cl p { margin-top: 1px; font-size: 12px; line-height: 1.9; }
+    .totop { position: fixed; left: 18px; bottom: 18px; z-index: 40; display: grid; place-items: center; width: 34px; height: 34px; cursor: pointer;
+      color: var(--gold); background: var(--card); border: 1px solid var(--border); border-radius: 50%; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .3s; }
+    .totop.show { opacity: 1; pointer-events: auto; transform: none; }
+    .totop svg.i { width: 15px; height: 15px; }
+    .toast { position: fixed; left: 50%; bottom: 20px; z-index: 70; padding: 8px 16px; font-size: 11.5px; color: var(--on-primary); background: var(--primary);
+      border-radius: 999px; opacity: 0; transform: translate(-50%, 12px); pointer-events: none; transition: .3s; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 600px) { .pn { grid-template-columns: 1fr; } .tools { margin-inline-start: 0; } }
+    @media print {
+      .hdr, .pbar, .side, .comments, .related, .footer, .totop, .toast, .tools, .a-foot, .pn, .crumbs { display: none !important; }
+      .layout { display: block; } .box { border: 0 !important; }
+    }
+
+    /* ===== فوتر (کپی از index.html) ===== */
+/* ==================== فوتر ==================== */
+.footer {
+  position: relative;
+  margin-top: clamp(40px, 8vh, 72px);
+  padding: clamp(32px, 5vh, 48px) clamp(14px, 1.8vw, 28px) 0;
+}
+.footer::before {
+  content: ""; position: absolute; top: 0; inset-inline: clamp(14px, 1.8vw, 28px); height: 1px;
+  background: linear-gradient(to left, transparent, var(--gold) 50%, transparent);
+}
+.f-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.1fr;
+  gap: clamp(24px, 4vw, 56px);
+}
+.f-brand .logo img { height: 40px; }
+.f-brand .logo strong { font-size: 22px; }
+.f-brand > p { margin-top: 14px; max-width: 320px; color: var(--muted); font-size: 12px; line-height: 2; }
+
+.f-social { display: flex; gap: 8px; margin-top: 16px; }
+.f-social a {
+  display: grid; place-items: center; width: 32px; height: 32px;
+  color: var(--muted); border: 1px solid var(--border); border-radius: 50%;
+  transition: color .3s, border-color .3s, transform .4s var(--ease);
+}
+.f-social a:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-3px); }
+
+.f-col h4 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13.5px; font-weight: 700; margin-bottom: 14px;
+}
+.f-col h4::after { content: ""; width: 18px; height: 1px; background: var(--gold); }
+.f-col ul { list-style: none; display: grid; gap: 9px; }
+.f-col li a, .f-contact li {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 12px; transition: color .2s, transform .3s var(--ease);
+}
+.f-col li a:hover { color: var(--gold); transform: translateX(-4px); }
+.f-contact li svg.i { color: var(--gold); width: 14px; height: 14px; }
+
+/* جای نماد اعتماد */
+.f-enamad { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+.f-enamad .slot {
+  display: grid; place-items: center; width: 84px; height: 96px;
+  border: 1px dashed color-mix(in srgb, var(--gold) 55%, var(--border)); border-radius: 12px;
+  color: var(--muted); font-size: 10px; text-align: center; line-height: 1.6;
+}
+.f-enamad .slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.f-bottom {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  margin-top: clamp(28px, 5vh, 44px); padding: 16px 0 20px;
+  border-top: 1px solid var(--border); color: var(--muted); font-size: 11px;
+}
+.f-bottom b { color: var(--gold); font-weight: 700; }
+.f-top {
+  display: inline-flex; align-items: center; gap: 6px; color: var(--muted);
+  transition: color .2s;
+}
+.f-top svg.i { width: 13px; height: 13px; transform: rotate(90deg); }
+.f-top:hover { color: var(--gold); }
+
+@media (max-width: 900px) {
+  .f-grid { grid-template-columns: 1fr 1fr; }
+  .f-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .f-grid { grid-template-columns: 1fr; }
+  .f-bottom { justify-content: center; text-align: center; }
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- آیکون‌ها -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+    <symbol id="i-exam" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M9 16l2 2 4-4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+    <symbol id="i-head" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+
+    <!-- آیکون‌های بخش اطلاعیه‌ها و آزمون‌ها -->
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 12l3-3 3 2 4-4"/></symbol>
+    <!-- آیکون‌های مخصوص صفحه مقاله -->
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 24 24"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><rect x="6" y="14" width="12" height="8"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M7 10v12M15 5.9 14 10h5.8a2 2 0 0 1 1.9 2.5l-2 8a2 2 0 0 1-1.9 1.5H7V10l4.3-8.1a2 2 0 0 1 3.7 1.2z"/></symbol>
+    <symbol id="i-top" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3L7 14.2 2 9.3l6.9-1z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5a6 6 0 0 0-12 0c0 1 .2 2.3 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l1.9-5.6A8.4 8.4 0 1 1 21 11.5z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-grad" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+  </svg>
+
+  <div class="page">
+
+    <div class="pbar" aria-hidden="true"></div>
+
+    <header class="hdr">
+      <div class="hdr-in hdr-main">
+        <a href="../../" class="logo" aria-label="مدار">
+          <!-- ★ لوگوی هدر -->
+          <img class="only-light" src="../../عکس ها/هدر.png" alt="" onerror="this.remove()">
+          <img class="only-dark" src="../../عکس ها/هدر.png" alt="" onerror="this.remove()">
+          <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
+        </a>
+
+        <nav class="hdr-nav" aria-label="منوی اصلی">
+          <a href="../../"><svg class="i"><use href="#i-home"/></svg>صفحه اصلی</a>
+          <a href="../../index.html#announcements"><svg class="i"><use href="#i-mega"/></svg>اطلاعیه‌ها</a>
+          <a href="../../index.html#exams"><svg class="i"><use href="#i-exam"/></svg>آزمون‌ها</a>
+          <a href="../../#articles" class="active" aria-current="page"><svg class="i"><use href="#i-book"/></svg>مقالات</a>
+          <a href="#"><svg class="i"><use href="#i-users"/></svg>معلمان</a>
+          <a href="#"><svg class="i"><use href="#i-head"/></svg>مشاوره تحصیلی</a>
+          <a href="#"><svg class="i"><use href="#i-cal"/></svg>برنامه‌ها</a>
+          <a href="#"><svg class="i"><use href="#i-info"/></svg>درباره ما</a>
+          <a href="#"><svg class="i"><use href="#i-send"/></svg>ارتباط با ما</a>
+        </nav>
+
+        <div class="actions">
+          <button class="icon-btn" id="themeBtn" aria-label="تغییر تم روشن و تیره">
+            <svg class="i sun"><use href="#i-sun"/></svg>
+            <svg class="i moon"><use href="#i-moon"/></svg>
+          </button>
+          <a href="#" class="icon-btn" aria-label="علاقه‌مندی‌ها"><svg class="i"><use href="#i-heart"/></svg></a>
+          <a href="#" class="icon-btn" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></a>
+          <a href="../../لاگین و ثبت نام/لاگین.html" class="btn-dark"><svg class="i"><use href="#i-lock"/></svg><span class="txt-hide">ورود به سامانه</span></a>
+        </div>
+      </div>
+
+      <div class="hdr-sub">
+        <div class="hdr-in">
+          <span class="lbl"><svg class="i duo"><use href="#i-book"/></svg>مجله مدار</span>
+          <a href="#" class="cat on"><svg class="i"><use href="#i-grad"/></svg>مقالات آموزشی</a>
+          <a href="#" class="cat"><svg class="i"><use href="#i-head"/></svg>مشاوره تحصیلی</a>
+          <a href="#" class="cat"><svg class="i"><use href="#i-cal"/></svg>آزمون و برنامه‌ریزی</a>
+          <a href="#" class="cat"><svg class="i"><use href="#i-book"/></svg>معرفی منابع</a>
+          <a href="#" class="cat"><svg class="i"><use href="#i-star"/></svg>مطالب انگیزشی</a>
+          <label class="search"><svg class="i"><use href="#i-search"/></svg><input type="search" placeholder="جستجو در مقالات..."></label>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+
+      <!-- مسیر صفحه -->
+      <nav class="crumbs" aria-label="مسیر">
+        <a href="../../"><svg class="i"><use href="#i-home"/></svg>صفحه اصلی</a>
+        <span>/</span>
+        <span>مقالات یازدهم</span>
+      </nav>
+
+      <div class="layout">
+
+        <!-- ================= مقاله (ستون راست) ================= -->
+        <div>
+          <article class="box article">
+
+            <!-- ★★★ عکس بنر بالای مقاله (کتاب‌ها + انتگرال) — آدرس src رو عوض کن ★★★ -->
+            <div class="cover">
+              <img src="../../عکس ها/مقاله-بنر.png" alt="" onerror="this.remove()">
+            </div>
+
+            <header class="a-head">
+              <span class="tag"><svg class="i"><use href="#i-grad"/></svg><span id="aCat">دستیار هوشمند</span></span>
+              <h1 class="a-title">دستیار هوشمند مدار چگونه به دانش‌آموزان کمک می‌کند؟</h1>
+              <p class="a-sub">چطور سؤال دقیق‌تری بپرسیم، پاسخ را ارزیابی کنیم و از گفت‌وگوی هوشمند به‌عنوان ابزار کمکی یادگیری استفاده کنیم؟</p>
+
+              <div class="meta a-meta">
+                <span class="author">
+                  <!-- ★ عکس نویسنده (دایره‌ای کوچک) -->
+                  <span class="av"><img src="../../عکس ها/نویسنده.png" alt="" onerror="this.remove()"></span>
+                  نویسنده: <span id="aAuthor">تیم تحریریه مدار</span>
+                </span>
+                <span class="vsep"></span>
+                <span class="dt"><svg class="i"><use href="#i-eye"/></svg><span id="aViews">۰</span> بازدید</span>
+                <span class="vsep"></span>
+                <span class="dt"><svg class="i"><use href="#i-clock"/></svg><span id="aMin">6</span> دقیقه مطالعه</span>
+                <span class="vsep"></span>
+                <span class="dt"><svg class="i"><use href="#i-cal"/></svg><span id="aDate">۱۴۰۵/۰۸/۲۴</span></span>
+                <div class="tools">
+                  <button class="tbtn" id="bm" type="button"><svg class="i"><use href="#i-mark"/></svg>ذخیره</button>
+                  <button class="tbtn" id="pr" type="button"><svg class="i"><use href="#i-print"/></svg>چاپ</button>
+                  <button class="tbtn" type="button" data-fs="-1" aria-label="کوچک‌کردن متن">A−</button>
+                  <button class="tbtn" type="button" data-fs="1" aria-label="بزرگ‌کردن متن">A+</button>
+                </div>
+              </div>
+            </header>
+
+            <!-- فهرست مطالب (با هایلایت بخش جاری هنگام اسکرول) -->
+            <details class="toc" open><summary><svg class="i"><use href="#i-list"/></svg>فهرست مطالب این نوشته</summary><ol><li><a href="#s1">سؤال خود را دقیق و زمینه‌دار بنویسید</a></li><li><a href="#s2">از دستیار بخواهید مسیر حل را توضیح دهد</a></li><li><a href="#s3">برای برنامه مطالعه گفت‌وگو کنید</a></li><li><a href="#s4">پاسخ هوش مصنوعی را راستی‌آزمایی کنید</a></li><li><a href="#s5">از گفت‌وگو برای یادگیری فعال استفاده کنید</a></li></ol></details><div class="a-body"><p>دستیار هوشمند زمانی بیشترین فایده را دارد که به‌جای دریافت جواب آماده، از آن برای روشن‌کردن ابهام‌ها و بررسی مسیر یادگیری استفاده کنید. چت‌بات مدار محیطی برای گفت‌وگو و طرح پرسش‌های آموزشی فراهم می‌کند؛ نتیجه بهتر با سؤال دقیق و بررسی انتقادی پاسخ به دست می‌آید.</p><section class="step" id="s1"><h2><b>۱</b>سؤال خود را دقیق و زمینه‌دار بنویسید</h2><p>به‌جای پرسش کوتاه «این مبحث را توضیح بده»، نام درس، پایه، موضوع و سطح توضیح موردنیاز را مشخص کنید. مثلاً بگویید «مفهوم مشتق را در سطح حسابان یازدهم، با یک مثال مرحله‌به‌مرحله توضیح بده».</p></section><section class="step" id="s2"><h2><b>۲</b>از دستیار بخواهید مسیر حل را توضیح دهد</h2><p>در حل تمرین، فقط نتیجه نهایی را نخواهید. بخواهید مراحل استدلال، دلیل انتخاب فرمول و راه بررسی جواب را توضیح دهد. سپس یک سؤال مشابه را خودتان حل کنید.</p></section><section class="step" id="s3"><h2><b>۳</b>برای برنامه مطالعه گفت‌وگو کنید</h2><p>می‌توانید درباره اولویت‌بندی درس‌ها، تقسیم زمان و راه‌های جبران عقب‌ماندگی سؤال بپرسید. اگر اطلاعات برنامه‌ریزی شما در سامانه ثبت شده و قابلیت دسترسی در گفت‌وگو فعال باشد، درخواست بررسی برنامه را روشن بیان کنید؛ در غیر این صورت اطلاعات لازم را خودتان در پیام توضیح دهید.</p></section><section class="step" id="s4"><h2><b>۴</b>پاسخ هوش مصنوعی را راستی‌آزمایی کنید</h2><p>ممکن است پاسخ ابزارهای هوش مصنوعی ناقص یا اشتباه باشد. فرمول‌ها، تاریخ‌ها و نکته‌های علمی را با کتاب درسی یا منبع معتبر تطبیق دهید.</p></section><section class="step" id="s5"><h2><b>۵</b>از گفت‌وگو برای یادگیری فعال استفاده کنید</h2><p>پس از دریافت توضیح، از دستیار بخواهید چند پرسش تمرینی بسازد یا از شما آزمون کوتاهی بگیرد. ابتدا خودتان پاسخ دهید و بعد بازخورد بگیرید؛ این روش از خواندن منفعلانه پاسخ‌ها مفیدتر است.</p></section><div class="note"><div><strong>نکته مهم:</strong><p>دستیار هوشمند جایگزین کتاب، معلم یا قضاوت خود شما نیست؛ از آن برای پرسیدن، تمرین‌کردن و روشن‌کردن ابهام‌ها کمک بگیرید.</p></div><svg class="i duo"><use href="#i-bulb"/></svg></div></div>
+<div class="tags"><span>برچسب‌ها:</span><a href="#">هوش مصنوعی آموزشی</a><a href="#">چت‌بات مدار</a><a href="#">یادگیری</a><a href="#">مطالعه</a></div>
+
+            <div class="a-foot">
+              <div class="fb">
+                <span>آیا این مقاله مفید بود؟</span>
+                <button class="tbtn" type="button"><svg class="i"><use href="#i-up"/></svg>بله</button>
+                <button class="tbtn dn" type="button"><svg class="i"><use href="#i-up"/></svg>خیر</button>
+              </div>
+              <div class="share">
+                <span>اشتراک‌گذاری:</span>
+                <a class="tbtn" data-share="tg"><svg class="i"><use href="#i-send"/></svg>تلگرام</a>
+                <a class="tbtn" data-share="wa"><svg class="i"><use href="#i-chat"/></svg>واتساپ</a>
+                <button class="tbtn" id="cp" type="button"><svg class="i"><use href="#i-link"/></svg>کپی لینک</button>
+              </div>
+            </div>
+
+            
+          </article>
+
+<section class="box comments"><div class="c-head"><h3>دیدگاه‌ها</h3><svg class="i duo"><use href="#i-chat"/></svg></div><p>اگر درباره این راهنما پرسشی دارید، آن را یادداشت کنید.</p><form class="c-form" id="cForm"><textarea rows="1" placeholder="متن دیدگاه شما..." aria-label="متن دیدگاه"></textarea><button type="submit" class="btn-dark"><svg class="i"><use href="#i-send"/></svg>ثبت دیدگاه</button></form><ul class="cl"></ul></section>
+                    <!-- مقالات پیشنهادی -->
+          <section class="related">
+            <h3><svg class="i duo"><use href="#i-star"/></svg>مطالعه بیشتر درباره مدار</h3>
+            <div class="r-grid">
+              <a href="../madar-platform-guide/" class="box rcard lift"><div class="thumb"><img src="../../عکس ها/2.png" alt="سایت مدار چیست؟ راهنمای امکانات آموزشی و تحصیلی" loading="lazy"></div><div class="rbody"><h4>سایت مدار چیست؟ راهنمای امکانات آموزشی و تحصیلی</h4><span class="abtn"><svg class="i"><use href="#i-back"/></svg></span></div></a>
+              <a href="../study-planning-with-madar/" class="box rcard lift"><div class="thumb"><img src="../../عکس ها/2.png" alt="چگونه با برنامه‌ریزی درسی در مدار مطالعه منظم‌تری داشته باشیم؟" loading="lazy"></div><div class="rbody"><h4>چگونه با برنامه‌ریزی درسی در مدار مطالعه منظم‌تری داشته باشیم؟</h4><span class="abtn"><svg class="i"><use href="#i-back"/></svg></span></div></a>
+            </div>
+          </section>
+        </div>
+
+        <!-- ================= سایدبار (ستون چپ) ================= -->
+        <aside class="side">
+
+          <section class="box widget">
+            <h3 class="w-title"><svg class="i duo"><use href="#i-grid"/></svg>دسته‌بندی‌ها</h3>
+            <ul class="w-list">
+              <li><a href="#"><span class="ibox gold"><svg class="i"><use href="#i-grad"/></svg></span>مقالات آموزشی<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#"><span class="ibox gold"><svg class="i"><use href="#i-head"/></svg></span>مشاوره تحصیلی<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#"><span class="ibox gold"><svg class="i"><use href="#i-cal"/></svg></span>آزمون و برنامه‌ریزی<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#"><span class="ibox gold"><svg class="i"><use href="#i-book"/></svg></span>معرفی منابع<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#"><span class="ibox gold"><svg class="i"><use href="#i-star"/></svg></span>مطالب انگیزشی<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+            </ul>
+          </section>
+
+          <section class="box widget">
+            <h3 class="w-title"><svg class="i duo"><use href="#i-star"/></svg>پیشنهاد می‌گردد</h3>
+            <ul class="w-list">
+              <li><a href="#">
+                <!-- ★ عکس سایدبار «پیشنهاد» ۱ -->
+                <span class="w-thumb thumb"><img src="../../عکس ها/سایدبار-پیشنهاد-۱.png" alt="" onerror="this.remove()"></span>
+                ۱۰ نکته مهم برای موفقیت در امتحانات نهایی<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#">
+                <!-- ★ عکس سایدبار «پیشنهاد» ۲ -->
+                <span class="w-thumb thumb"><img src="../../عکس ها/سایدبار-پیشنهاد-۲.png" alt="" onerror="this.remove()"></span>
+                بهترین روش مطالعه در تابستان<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#">
+                <!-- ★ عکس سایدبار «پیشنهاد» ۳ -->
+                <span class="w-thumb thumb"><img src="../../عکس ها/سایدبار-پیشنهاد-۳.png" alt="" onerror="this.remove()"></span>
+                چگونه استرس امتحان را کاهش دهیم؟<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+            </ul>
+          </section>
+
+          <section class="box widget">
+            <h3 class="w-title"><svg class="i duo"><use href="#i-bolt"/></svg>جدیدترین مقالات</h3>
+            <ul class="w-list sm">
+              <li><a href="#">
+                <!-- ★ عکس سایدبار «جدیدترین» ۱ -->
+                <span class="w-thumb thumb"><img src="../../عکس ها/جدیدترین-۱.png" alt="" onerror="this.remove()"></span>
+                روش مطالعه شیمی دهم<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#">
+                <!-- ★ عکس سایدبار «جدیدترین» ۲ -->
+                <span class="w-thumb thumb"><img src="../../عکس ها/جدیدترین-۲.png" alt="" onerror="this.remove()"></span>
+                روش مطالعه فیزیک<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+              <li><a href="#">
+                <!-- ★ عکس سایدبار «جدیدترین» ۳ -->
+                <span class="w-thumb thumb"><img src="../../عکس ها/جدیدترین-۳.png" alt="" onerror="this.remove()"></span>
+                نکات کلیدی هندسه<svg class="i chev"><use href="#i-chev"/></svg></a></li>
+            </ul>
+            <a href="../../#articles" class="w-all">مشاهده همه مقالات<svg class="i"><use href="#i-back"/></svg></a>
+          </section>
+
+        </aside>
+      </div>
+
+<!-- ====================== فوتر ====================== -->
+<footer class="footer">
+
+  <div class="f-grid">
+
+    <!-- لوگو و درباره -->
+    <div class="f-brand">
+      <a href="../../" class="logo" aria-label="مدار">
+        <!-- ★ لوگوی فوتر -->
+        <img class="only-light" src="../../عکس ها/هدر.png" alt="" onerror="this.remove()">
+        <img class="only-dark" src="../../عکس ها/هدر.png" alt="" onerror="this.remove()">
+        <span>
+          <strong>مدار</strong>
+          <small>دبیرستان دوره دوم</small>
+        </span>
+      </a>
+      <p>آموزش، برنامه‌ریزی و پشتیبانی تحصیلی برای ساختن آینده‌ای روشن؛ مدار همراه شما در مسیر موفقیت.</p>
+      <div class="f-social">
+        <a href="#" aria-label="تلگرام"><svg class="i"><use href="#i-send"/></svg></a>
+        <a href="#" aria-label="ارتباط با ما"><svg class="i"><use href="#i-mail"/></svg></a>
+        <a href="#" aria-label="تماس"><svg class="i"><use href="#i-phone"/></svg></a>
+      </div>
+    </div>
+
+    <!-- دسترسی سریع -->
+    <nav class="f-col" aria-label="دسترسی سریع">
+      <h4>دسترسی سریع</h4>
+      <ul>
+        <li><a href="#">صفحه اصلی</a></li>
+        <li><a href="../../index.html#announcements">اطلاعیه‌ها</a></li>
+        <li><a href="../../index.html#exams">آزمون‌ها</a></li>
+        <li><a href="../../#articles">مقالات</a></li>
+        <li><a href="#">معلمان</a></li>
+        <li><a href="#">مشاوره تحصیلی</a></li>
+      </ul>
+    </nav>
+
+    <!-- پیوندهای مفید -->
+    <nav class="f-col" aria-label="پیوندهای مفید">
+      <h4>پیوندهای مفید</h4>
+      <ul>
+        <li><a href="#">برنامه‌ها</a></li>
+        <li><a href="#">درباره ما</a></li>
+        <li><a href="#">ارتباط با ما</a></li>
+        <li><a href="#">قوانین و مقررات</a></li>
+        <li><a href="../../لاگین و ثبت نام/لاگین.html">ورود به سامانه</a></li>
+      </ul>
+    </nav>
+
+    <!-- تماس و نماد اعتماد -->
+    <div class="f-col">
+      <h4>ارتباط با ما</h4>
+      <ul class="f-contact">
+        <li><svg class="i"><use href="#i-pin"/></svg>آدرس مدرسه را اینجا بنویسید</li>
+        <li><svg class="i"><use href="#i-phone"/></svg>۰۲۱-۰۰۰۰۰۰۰۰</li>
+        <li><svg class="i"><use href="#i-mail"/></svg>info@madar.ir</li>
+      </ul>
+
+      <div class="f-enamad">
+        <!-- ★★★ نماد اعتماد الکترونیکی: کد اینماد رو (به‌جای این div) اینجا بذار ★★★ -->
+        <div class="slot">نماد اعتماد<br>الکترونیکی</div>
+        <!-- اگه جای دیگه‌ای هم نماد داری (ساماندهی و...) یه slot دیگه کپی کن -->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="f-bottom">
+    <span>© ۱۴۰۴ تمامی حقوق برای دبیرستان <b>مدار</b> محفوظ است.</span>
+    <a href="#" class="f-top">بازگشت به بالا<svg class="i"><use href="#i-back"/></svg></a>
+  </div>
+
+</footer>
+
+    </main>
+  </div>
+
+  <button class="totop" type="button" aria-label="بازگشت به بالا"><svg class="i"><use href="#i-top"/></svg></button>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const root = document.documentElement;
+    let timer;
+
+    themeBtn.onclick = () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+
+      root.classList.add('theming');
+      root.dataset.theme = next;
+      clearTimeout(timer);
+      timer = setTimeout(() => root.classList.remove('theming'), 700);
+
+      try {
+        localStorage.setItem('theme', next);
+      } catch (e) {}
+    };
+  </script>
+  <script>
+    /* ===== خواندن مقاله از پنل مدیریت: article.html?id=...  (بدون id همین نمونه ثابت نمایش داده می‌شود) ===== */
+    (function () {
+      const q = new URLSearchParams(location.search), id = q.get('id'), preview = q.get('preview');
+      if (!id) return;
+      let all = []; try { all = JSON.parse(localStorage.getItem('madar_articles')) || []; } catch (e) {}
+      const a = all.find(x => x.id === id), box = document.querySelector('.article');
+      if (!a || (a.status !== 'published' && !preview)) {
+        [...box.children].forEach(e => e.hidden = true);
+        const m = document.createElement('p'); m.style.cssText = 'padding:40px 12px;text-align:center;color:var(--muted)';
+        m.textContent = 'این مقاله پیدا نشد یا هنوز منتشر نشده است.'; box.append(m);
+        document.querySelectorAll('.comments, .related').forEach(e => e.hidden = true);
+        return;
+      }
+      const nf = n => (+n || 0).toLocaleString('fa'), el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+      document.title = a.title + ' | مجله مدار';
+      document.querySelector('meta[name=description]').content = a.sub || a.intro.slice(0, 150);
+      document.querySelector('meta[property="og:title"]').content = a.title;
+      document.querySelector('.a-title').textContent = a.title;
+      document.querySelector('.a-sub').textContent = a.sub; document.querySelector('.a-sub').hidden = !a.sub;
+      aCat.textContent = a.cat; aAuthor.textContent = a.author; aDate.textContent = a.date; aMin.textContent = nf(a.mins);
+
+      if (a.status === 'published' && !preview) { a.views = (a.views || 0) + 1; try { localStorage.setItem('madar_articles', JSON.stringify(all)); } catch (e) {} }
+      aViews.textContent = nf(a.views);
+      if (a.status !== 'published') document.querySelector('.a-head').prepend(el('span', 'tag', 'پیش‌نمایش پیش‌نویس — هنوز منتشر نشده'));
+
+      const cv = document.querySelector('.cover'); cv.textContent = '';
+      if (a.cover) { const im = new Image(); im.src = a.cover; im.alt = a.title; cv.append(im); } else cv.hidden = true;
+
+      const body = document.querySelector('.a-body'), toc = document.querySelector('.toc ol'); body.textContent = ''; toc.textContent = '';
+      if (a.intro) body.append(el('p', '', a.intro));
+      a.steps.forEach((s, i) => {
+        const sec = el('section', 'step'), h = el('h2'), b = el('b', '', nf(i + 1));
+        sec.id = 's' + (i + 1); h.append(b, s.h); sec.append(h, el('p', '', s.p)); body.append(sec);
+        const li = el('li'), l = el('a', '', s.h); l.href = '#s' + (i + 1); li.append(l); toc.append(li);
+      });
+      if (a.note) {
+        const n = el('div', 'note'), d = el('div'); d.append(el('strong', '', 'نکته مهم:'), el('p', '', a.note)); n.append(d);
+        n.insertAdjacentHTML('beforeend', '<svg class="i duo"><use href="#i-bulb"/></svg>'); body.append(n);
+      }
+      const tg = document.querySelector('.tags'); tg.textContent = '';
+      if (a.tags && a.tags.length) { tg.append(el('span', '', 'برچسب‌ها:')); a.tags.forEach(t => { const l = el('a', '', t); l.href = '#'; tg.append(l); }); } else tg.hidden = true;
+      document.querySelector('.toc').hidden = a.steps.length < 2;
+    })();
+  </script>
+
+  <script>
+    const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+    const toast = $('.toast'), say = m => { toast.textContent = m; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1800); };
+
+    // نوار پیشرفت مطالعه + دکمه بازگشت به بالا
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      $('.pbar').style.transform = `scaleX(${h.scrollTop / ((h.scrollHeight - h.clientHeight) || 1)})`;
+      $('.totop').classList.toggle('show', h.scrollTop > 400);
+    }, { passive: true });
+    $('.totop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
+
+    // اندازه متن، ذخیره، چاپ، کپی لینک، اشتراک‌گذاری
+    let fs = 0;
+    $$('[data-fs]').forEach(b => b.onclick = () => { fs = Math.max(-2, Math.min(3, fs + +b.dataset.fs)); $('.a-body').style.setProperty('--fs', (12.5 + fs) + 'px'); });
+    $('#bm').onclick = e => { const on = e.currentTarget.classList.toggle('on'); say(on ? 'به ذخیره‌شده‌ها اضافه شد' : 'از ذخیره‌شده‌ها حذف شد'); };
+    $('#pr').onclick = () => print();
+    $('#cp').onclick = async () => { try { await navigator.clipboard.writeText(location.href); say('لینک کپی شد'); } catch (e) { say('کپی نشد'); } };
+    $$('[data-share]').forEach(a => {
+      const u = encodeURIComponent(location.href), t = encodeURIComponent(document.title);
+      a.href = a.dataset.share === 'tg' ? `https://t.me/share/url?url=${u}&text=${t}` : `https://wa.me/?text=${t}%20${u}`;
+      a.target = '_blank'; a.rel = 'noopener';
+    });
+    $$('.fb button').forEach(b => b.onclick = () => { $$('.fb button').forEach(x => x.classList.remove('on')); b.classList.add('on'); say('ممنون از بازخورد شما'); });
+
+    // هایلایت بخش جاری در فهرست مطالب
+    const links = $$('.toc a');
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(l => l.classList.toggle('on', l.hash === '#' + e.target.id)); }), { rootMargin: '-20% 0px -70% 0px' });
+    $$('.step').forEach(s => io.observe(s));
+
+    // ثبت دیدگاه (نمایشی) — اینجا به سرور وصلش کن
+    $('#cForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const ta = e.target.querySelector('textarea'), v = ta.value.trim();
+      if (!v) return ta.focus();
+      const li = document.createElement('li');
+      li.innerHTML = '<span class="av">ش</span><div><b>شما</b><small>همین الان</small><p></p></div>';
+      li.querySelector('p').textContent = v;
+      $('.cl').prepend(li);
+      $('#cc').textContent = $$('.cl li').length.toLocaleString('fa');
+      ta.value = ''; say('دیدگاه شما ثبت شد');
+    });
+  </script>
+
+</body>
+</html>
