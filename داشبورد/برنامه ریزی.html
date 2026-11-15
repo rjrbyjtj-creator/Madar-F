@@ -330,12 +330,12 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 
-  /* هماهنگی هدر با صفحه اصلی مدار و حذف حاشیه‌های کناری */
+  /* عرض متعادل محتوا؛ جلوگیری از کشیدگی و چسبیدن به لبه‌های صفحه */
   .wrap {
     width: 100%;
-    max-width: none;
-    margin: 0;
-    padding-inline: 0;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: clamp(18px, 3vw, 36px);
   }
   .site-header {
     position: relative;
