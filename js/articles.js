@@ -67,11 +67,16 @@
     }
 
     var ordered = articles.slice(0, 4);
-    var slots = ["a-big", "a-tall", "a-sm", "a-sm"];
     grid.classList.toggle("art-grid--single", ordered.length === 1);
-    grid.innerHTML = ordered.map(function (article, index) {
-      return card(article, slots[index], index);
-    }).join("");
+
+    // ترتیب DOM دقیقاً مانند طرح اولیه حفظ می‌شود تا جای‌گذاری CSS کارت‌ها تغییر نکند:
+    // کارت بلند، دو کارت کوچک، سپس کارت شاخص بزرگ.
+    var markup = [];
+    if (ordered[1]) markup.push(card(ordered[1], "a-tall", 1));
+    if (ordered[2]) markup.push(card(ordered[2], "a-sm", 2));
+    if (ordered[3]) markup.push(card(ordered[3], "a-sm", 3));
+    markup.push(card(ordered[0], "a-big", 0));
+    grid.innerHTML = markup.join("");
   }
 
   var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
