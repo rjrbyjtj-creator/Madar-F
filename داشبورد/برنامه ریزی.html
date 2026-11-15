@@ -329,6 +329,90 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
+
+  /* هماهنگی هدر با صفحه اصلی مدار و حذف حاشیه‌های کناری */
+  .wrap {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-inline: 0;
+  }
+  .site-header {
+    position: relative;
+    top: auto;
+    padding: 14px 0 12px;
+    background: var(--bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+    animation: none;
+  }
+  .site-header::after { display: none; }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 42px;
+    margin-bottom: 12px;
+  }
+  .brand { width: auto; height: 38px; }
+  .brand img { width: auto; max-width: 190px; height: 38px; object-fit: contain; }
+  .main-nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 38px;
+    height: auto;
+    margin: 0;
+    padding: 0 18px;
+    gap: clamp(14px, 2.2vw, 34px);
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 3px 12px rgba(20,35,79,.045);
+  }
+  .main-nav::-webkit-scrollbar { display: none; }
+  .main-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0;
+    border-radius: 0;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--navy-soft);
+    transition: color .2s;
+  }
+  .main-nav a:hover { color: var(--gold); }
+  .main-nav a[aria-current="page"] { color: var(--navy); font-weight: 700; }
+  .main-nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: auto;
+    inset-inline: -7px;
+    width: auto;
+    height: 2px;
+    margin: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--gold);
+  }
+  .nav-ind { display: none; }
+  @media (max-width: 900px) {
+    .site-header { position: relative; padding: 12px 0; }
+    .site-header .wrap { display: block; }
+    .header-inner { margin-bottom: 10px; }
+    .main-nav { width: 100%; }
+  }
+  @media (max-width: 560px) {
+    .main-nav { gap: 16px; padding: 0 12px; }
+    .main-nav a { font-size: 11.5px; }
+  }
+
 </style>
 </head>
 <body>
@@ -356,29 +440,19 @@
 
 <!-- ═════════════ هدر ═════════════ -->
 <header class="site-header" id="siteHeader">
-  <div class="wrap">
-
-    <nav class="main-nav" id="mainNav" aria-label="منوی اصلی">
-      <span class="nav-ind" aria-hidden="true"></span>
-      <a href="#">خانه</a>
-      <a href="#" aria-current="page">برنامه‌ریزی تحصیلی</a>
-      <a href="#">خدمات آموزشی</a>
-      <a href="#">دانش‌آموزان</a>
-      <a href="#">برنامه‌ها</a>
-      <a href="#">درباره ما</a>
-    </nav>
-
-    <!--
-      👉 جای لوگوی سایت (بالا سمت چپ)
-      کل لوگو (نشان + نوشته) رو به‌صورت یک عکس بذار توی: ../عکس ها/هدر.png
-      پیشنهاد: PNG یا SVG با پس‌زمینه شفاف، حدود ۲۵۰×۱۱۰ پیکسل
-      (اندازه نمایش رو از .brand توی CSS می‌تونی تغییر بدی)
-    -->
-    <a class="brand" id="brand" href="#" aria-label="مدار دبیرستان" data-label="لوگوی مدار">
-      <img src="../عکس ها/هدر.png" alt="مدار دبیرستان" onerror="document.getElementById('brand').classList.add('is-empty')">
+  <div class="header-inner">
+    <a class="brand" id="brand" href="../" aria-label="مدار دبیرستان">
+      <img src="../عکس ها/هدر.png" alt="مدار دبیرستان">
     </a>
-
   </div>
+  <nav class="main-nav" id="mainNav" aria-label="منوی اصلی">
+    <a href="../">صفحه اصلی</a>
+    <a href="#" aria-current="page">برنامه‌ریزی تحصیلی</a>
+    <a href="../#exams">آزمون‌ها</a>
+    <a href="../#announcements">اطلاعیه‌ها</a>
+    <a href="../">خدمات آموزشی</a>
+    <a href="../">درباره ما</a>
+  </nav>
 </header>
 
 <main>
@@ -598,30 +672,7 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // ── منو: نشانگر سفید که زیر آیتم‌ها می‌لغزد ──
-  var nav = document.getElementById('mainNav');
-  var ind = nav.querySelector('.nav-ind');
-  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
-  var current = nav.querySelector('[aria-current="page"]') || links[0];
-
-  function moveTo(el, instant) {
-    if (instant) ind.style.transition = 'none';
-    ind.style.width = el.offsetWidth + 'px';
-    ind.style.height = el.offsetHeight + 'px';
-    ind.style.transform = 'translate(' + el.offsetLeft + 'px,' + el.offsetTop + 'px)';
-    if (instant) { void ind.offsetWidth; ind.style.transition = ''; }
-  }
-  function place() { moveTo(current, true); ind.classList.add('is-ready'); }
-  place();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
-  window.addEventListener('resize', place);
-
-  links.forEach(function (a) {
-    a.addEventListener('mouseenter', function () { moveTo(a); });
-    a.addEventListener('focus', function () { moveTo(a); });
-  });
-  nav.addEventListener('mouseleave', function () { moveTo(current); });
-  nav.addEventListener('focusout', function () { moveTo(current); });
+  // منوی اصلی با حالت فعال ثابت؛ بدون نشانگر شناور اضافی
 
   // ── تب‌ها ──
   var tabs = document.querySelectorAll('#tabs .tab');
