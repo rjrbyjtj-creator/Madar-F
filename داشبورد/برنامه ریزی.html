@@ -330,7 +330,7 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 
-  /* عرض متعادل محتوا؛ جلوگیری از کشیدگی و چسبیدن به لبه‌های صفحه */
+  /* هدر هماهنگ با فضای کار داشبورد */
   .wrap {
     width: 100%;
     max-width: 1280px;
@@ -340,51 +340,65 @@
   .site-header {
     position: relative;
     top: auto;
-    padding: 14px 0 12px;
-    background: var(--bg);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    box-shadow: none;
+    z-index: 50;
+    padding: 13px 0 10px;
+    background: rgba(246,247,252,.78);
+    -webkit-backdrop-filter: saturate(1.35) blur(14px);
+    backdrop-filter: saturate(1.35) blur(14px);
+    box-shadow: 0 5px 22px rgba(20,35,79,.035);
     animation: none;
   }
   .site-header::after { display: none; }
-  .header-inner {
+  .header-top {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 42px;
-    margin-bottom: 12px;
+    justify-content: space-between;
+    gap: 28px;
+    min-height: 44px;
   }
-  .brand { width: auto; height: 38px; }
-  .brand img { width: auto; max-width: 190px; height: 38px; object-fit: contain; }
+  .brand {
+    display: flex;
+    align-items: center;
+    flex: none;
+    width: 112px;
+    height: 42px;
+  }
+  .brand img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: right center;
+  }
   .main-nav {
     position: relative;
     display: flex;
     align-items: center;
-    width: fit-content;
+    gap: clamp(18px, 2.6vw, 38px);
+    width: auto;
     max-width: 100%;
-    min-height: 38px;
-    height: auto;
+    min-height: 42px;
     margin: 0;
-    padding: 0 18px;
-    gap: clamp(14px, 2.2vw, 34px);
+    padding: 0;
     overflow-x: auto;
     scrollbar-width: none;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    box-shadow: 0 3px 12px rgba(20,35,79,.045);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
   .main-nav::-webkit-scrollbar { display: none; }
   .main-nav a {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    min-height: 36px;
-    padding: 0;
+    min-height: 42px;
+    padding: 0 1px;
     border-radius: 0;
     font-size: 12.5px;
     font-weight: 500;
     color: var(--navy-soft);
+    white-space: nowrap;
     transition: color .2s;
   }
   .main-nav a:hover { color: var(--gold); }
@@ -392,25 +406,38 @@
   .main-nav a[aria-current="page"]::after {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: auto;
-    inset-inline: -7px;
-    width: auto;
+    bottom: 1px;
+    inset-inline: 0;
     height: 2px;
-    margin: 0;
-    border-radius: 3px 3px 0 0;
+    border-radius: 2px;
     background: var(--gold);
   }
   .nav-ind { display: none; }
+  .page-crumb {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-top: 13px;
+    padding-bottom: 7px;
+    color: var(--muted);
+    font-size: 11.5px;
+  }
+  .page-crumb a { transition: color .2s; }
+  .page-crumb a:hover { color: var(--gold); }
+  .page-crumb .sep { color: var(--gold); opacity: .8; }
+  .page-crumb strong { color: var(--navy); font-weight: 600; }
   @media (max-width: 900px) {
-    .site-header { position: relative; padding: 12px 0; }
-    .site-header .wrap { display: block; }
-    .header-inner { margin-bottom: 10px; }
-    .main-nav { width: 100%; }
+    .site-header { position: relative; padding: 11px 0 8px; }
+    .header-top { align-items: flex-start; flex-direction: column; gap: 7px; }
+    .brand { width: 100px; height: 38px; }
+    .main-nav { width: 100%; min-height: 38px; gap: 22px; }
+    .main-nav a { min-height: 38px; }
   }
   @media (max-width: 560px) {
-    .main-nav { gap: 16px; padding: 0 12px; }
+    .wrap { padding-inline: 16px; }
+    .main-nav { gap: 18px; }
     .main-nav a { font-size: 11.5px; }
+    .page-crumb { font-size: 10.5px; }
   }
 
 </style>
@@ -440,20 +467,26 @@
 
 <!-- ═════════════ هدر ═════════════ -->
 <header class="site-header" id="siteHeader">
-  <div class="header-inner">
-    <a class="brand" id="brand" href="../" aria-label="مدار دبیرستان">
-      <img src="../عکس ها/هدر.png" alt="مدار دبیرستان">
+  <div class="header-top wrap">
+    <a class="brand" id="brand" href="./رستا _ فضای کار (1).html" aria-label="بازگشت به داشبورد">
+      <img src="../عکس ها/هدر.png" alt="مدار">
     </a>
+    <nav class="main-nav" id="mainNav" aria-label="منوی داشبورد">
+      <a href="./رستا _ فضای کار (1).html">داشبورد</a>
+      <a href="#" aria-current="page">برنامه‌ریزی</a>
+      <a href="../#exams">آزمون‌ها</a>
+      <a href="../#announcements">اطلاعیه‌ها</a>
+      <a href="./رستا _ فضای کار (1).html">خدمات آموزشی</a>
+    </nav>
   </div>
-  <nav class="main-nav" id="mainNav" aria-label="منوی اصلی">
-    <a href="../">صفحه اصلی</a>
-    <a href="#" aria-current="page">برنامه‌ریزی تحصیلی</a>
-    <a href="../#exams">آزمون‌ها</a>
-    <a href="../#announcements">اطلاعیه‌ها</a>
-    <a href="../">خدمات آموزشی</a>
-    <a href="../">درباره ما</a>
-  </nav>
 </header>
+<div class="page-crumb wrap" aria-label="مسیر صفحه">
+  <a href="./رستا _ فضای کار (1).html">داشبورد</a>
+  <span class="sep">/</span>
+  <a href="./رستا _ فضای کار (1).html">برنامه‌ها</a>
+  <span class="sep">/</span>
+  <strong>برنامه‌ریزی تحصیلی</strong>
+</div>
 
 <main>
 
