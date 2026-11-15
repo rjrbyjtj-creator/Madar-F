@@ -22,9 +22,18 @@
   };
   var DARK = { bg: "#0f172a", surface: "#172238", line: "#2a3850", text: "#e7edf6", muted: "#9aa7bc" };
   function setVar(name, value) { if (value) { root.style.setProperty(name, value); if (document.body) document.body.style.setProperty(name, value); } }
+  function preferredMode() {
+    try {
+      var saved = localStorage.getItem("madar-theme");
+      if (saved === "dark" || saved === "light") return saved;
+    } catch (e) {}
+    return null;
+  }
   function apply(theme) {
     if (!theme || !theme.colors) return;
-    currentTheme = Object.assign({}, theme);
+    var savedMode = preferredMode();
+    currentTheme = Object.assign({}, theme, savedMode ? { mode: savedMode } : {});
+    theme = currentTheme;
     var c = theme.colors, dark = theme.mode === "dark";
     Object.keys(MAP).forEach(function (key) {
       var value = c[key];
@@ -60,7 +69,17 @@
     },
     refresh: function () { return this.getActive(); },
     setMode: function (mode) {
-      if (currentTheme && (mode === "light" || mode === "dark")) apply(Object.assign({}, currentTheme, { mode: mode }));
+      if (mode !== "light" && mode !== "dark") return;
+      try { localStorage.setItem("madar-theme", mode); } catch (e) {}
+      if (currentTheme) apply(Object.assign({}, currentTheme, { mode: mode }));
+      else {
+        root.dataset.theme = mode;
+        root.classList.toggle("dark", mode === "dark");
+        if (document.body) {
+          document.body.classList.toggle("dark", mode === "dark");
+          document.body.classList.toggle("dark-mode", mode === "dark");
+        }
+      }
     }
   };
   try { var cached = localStorage.getItem(CACHE); if (cached) apply(JSON.parse(cached)); } catch (e) {}
