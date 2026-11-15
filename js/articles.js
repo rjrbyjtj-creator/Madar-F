@@ -52,6 +52,14 @@
   }
 ];
 
+  // تصاویر اختصاصی و یکپارچه مقالات؛ مستقل از coverImage دریافتی از API
+  var articleCovers = {
+    "hesaban-11": "./عکس ها/articles/hesaban.svg",
+    "madar-platform-guide": "./عکس ها/articles/madar-platform.svg",
+    "study-planning-with-madar": "./عکس ها/articles/study-planning.svg",
+    "madar-ai-study-assistant": "./عکس ها/articles/ai-assistant.svg"
+  };
+
   function escapeHtml(value) {
     return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
       return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
@@ -101,6 +109,9 @@
     }
 
     var ordered = articles.slice(0, 4);
+    ordered.forEach(function (article) {
+      if (article && articleCovers[article.slug]) article.coverImage = articleCovers[article.slug];
+    });
     grid.classList.toggle("art-grid--single", ordered.length === 1);
 
     // ترتیب DOM دقیقاً مانند طرح اولیه حفظ می‌شود تا جای‌گذاری CSS کارت‌ها تغییر نکند:
