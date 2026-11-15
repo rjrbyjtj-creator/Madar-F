@@ -97,8 +97,7 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .acts{display:flex;gap:2px;margin-top:8px;opacity:0;transition:opacity .3s}.acts.show{opacity:1}
 .acts button{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);padding:5px 9px;border-radius:8px}.acts button:hover{background:var(--hv);color:var(--tx)}
 .acts svg{width:15px;height:15px}
-.dots{display:flex;gap:5px;padding:14px 0}.dots i{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:bn 1.2s infinite ease-in-out both}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
-@keyframes bn{0%,80%,100%{opacity:.25;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
+.dots{display:flex;align-items:center;padding:10px 0;min-height:28px;width:28px;overflow:visible}.dots .loader-scale{width:53px;height:53px;transform:scale(.30);transform-origin:top right;overflow:visible}.dots .flat-grid-loader{--sq:24px;--gap:5px;--step:29px;--out:36px;position:relative;direction:ltr;width:53px;height:53px;transform:translateX(-9px)}.dots .flat-grid-loader span{position:absolute;top:0;left:0;width:24px;height:24px;border:3.5px solid var(--ac);border-radius:6px;will-change:transform;backface-visibility:hidden}.dots .flat-grid-loader span:nth-child(1){transform:translate3d(29px,29px,0)}.dots .flat-grid-loader span:nth-child(2){transform:translate3d(29px,0,0)}.dots .flat-grid-loader span:nth-child(4){transform:translate3d(0,29px,0)}
 @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 #dock{display:none;padding:6px 22px 14px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
 #dock .col{padding:0}
@@ -612,6 +611,24 @@ async function confirmPlanProposal(proposal,button){
  }
 }
 
+function createGridLoader(root,{jelly=1.6,duration=1.7}={}){
+ const SQ=24,STEP=SQ+5,OUT=36,WIND=10,BASE=2.2,N=264,W=13,dt=BASE/N;
+ const els=[...root.children],start=[[STEP,STEP],[STEP,0],[0,0],[0,STEP]];
+ const moves=[[0,0,OUT,.02],[1,1,STEP,.09],[2,0,STEP,.17],[3,1,-STEP,.25],[0,0,WIND,.45,11,.9],[0,0,-(OUT+WIND),.54,20,.98],[1,0,-STEP,.554,22,.7]];
+ function build(j){
+  const z=Math.max(.5,.95-.27*j);
+  const spring=(s,w,zz)=>{if(s<=0)return 0;const wd=w*Math.sqrt(1-zz*zz);return 1-Math.exp(-zz*w*s)*(Math.cos(wd*s)+(zz*w/wd)*Math.sin(wd*s))};
+  const k=1-Math.exp(-dt/.035);
+  return els.map((_,e)=>{
+   const P=[0,1].map(a=>Array.from({length:N+1},(_,i)=>{let v=start[e][a];for(const [m,ax,d,s,w=W,zz=z] of moves)if(m===e&&ax===a)v+=d*spring((i/N-s)*BASE,w,zz);return v}));
+   const D=P.map(p=>{const at=i=>p[Math.min(Math.max(i,0),N)];const sp=p.map((_,i)=>Math.abs(at(i+1)-at(i-1))/(2*dt)/(.5*W*STEP));let lp=0;return sp.map((v,i)=>{const n=sp[Math.min(i+1,N)]-sp[Math.max(i-1,0)];const dec=Math.max(0,-n/(2*dt))/(.7*W);lp+=(j*(.17*v-.10*dec)-lp)*k;return .3*Math.tanh(lp/.3)})});
+   return P[0].map((x,i)=>{const dx=D[0][i],dy=D[1][i];return{transform:`translate3d(${x.toFixed(2)}px,${P[1][i].toFixed(2)}px,0) scale(${(1+dx-.8*dy).toFixed(4)},${(1+dy-.8*dx).toFixed(4)})`}});
+  });
+ }
+ const frames=build(jelly),anims=els.map((el,i)=>el.animate(frames[i],{duration:BASE*1000,iterations:Infinity,easing:'linear'}));
+ const t0=document.timeline.currentTime;anims.forEach(a=>{a.startTime=t0;a.updatePlaybackRate(BASE/duration)});
+ return{destroy:()=>anims.forEach(a=>a.cancel())};
+}
 async function send(text){
  if(liveCallActive){toast('پیش از ارسال پیام متنی، تماس صوتی را پایان بده.');return}
  if(chatBusy)return;
@@ -629,7 +646,7 @@ async function send(text){
  layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
  if(!active)$('ttl').textContent=t.length>40?t.slice(0,40)+'…':t;
  conversation.push({role:'user',content:t});
- const d=document.createElement('div');d.className='dots';d.innerHTML='<i></i><i></i><i></i>';$('chat').appendChild(d);scrollDown();
+ const d=document.createElement('div');d.className='dots';d.innerHTML='<div class="loader-scale"><div class="flat-grid-loader" role="status" aria-label="مدار در حال پاسخ‌گویی"><span></span><span></span><span></span><span></span></div></div>';createGridLoader(d.querySelector('.flat-grid-loader'),matchMedia('(prefers-reduced-motion: reduce)').matches?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});$('chat').appendChild(d);scrollDown();
  chatBusy=true;$('sb').disabled=true;
  const controller=new AbortController();
  const timeoutId=setTimeout(()=>controller.abort(),75000);
