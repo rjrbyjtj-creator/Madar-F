@@ -97,7 +97,7 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .acts{display:flex;gap:2px;margin-top:8px;opacity:0;transition:opacity .3s}.acts.show{opacity:1}
 .acts button{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);padding:5px 9px;border-radius:8px}.acts button:hover{background:var(--hv);color:var(--tx)}
 .acts svg{width:15px;height:15px}
-.dots{display:flex;align-items:center;padding:10px 0;min-height:28px;width:28px;overflow:visible}.dots .loader-scale{width:53px;height:53px;transform:scale(.30);transform-origin:top right;overflow:visible}.dots .flat-grid-loader{--sq:24px;--gap:5px;--step:29px;--out:36px;position:relative;direction:ltr;width:53px;height:53px;transform:translateX(-9px)}.dots .flat-grid-loader span{position:absolute;top:0;left:0;width:24px;height:24px;border:3.5px solid var(--ac);border-radius:6px;will-change:transform;backface-visibility:hidden}.dots .flat-grid-loader span:nth-child(1){transform:translate3d(29px,29px,0)}.dots .flat-grid-loader span:nth-child(2){transform:translate3d(29px,0,0)}.dots .flat-grid-loader span:nth-child(4){transform:translate3d(0,29px,0)}
+.dots{display:flex;align-items:center;gap:9px;padding:8px 0;min-height:42px;width:100%;overflow:visible}.dots .loader-scale{width:42px;height:42px;flex:0 0 42px;transform:scale(.42);transform-origin:top right;overflow:visible}.dots .flat-grid-loader{position:relative;direction:ltr;width:53px;height:53px;transform:translateX(-9px)}.dots .flat-grid-loader span{position:absolute;top:0;left:0;width:24px;height:24px;border:3.5px solid #3987ff;border-radius:6px;will-change:transform;backface-visibility:hidden;filter:drop-shadow(0 0 3px rgba(57,135,255,.35))}.dots .flat-grid-loader span:nth-child(1){transform:translate3d(29px,29px,0)}.dots .flat-grid-loader span:nth-child(2){transform:translate3d(29px,0,0)}.dots .flat-grid-loader span:nth-child(4){transform:translate3d(0,29px,0)}.thinking-copy{display:flex;align-items:center;gap:8px;min-width:0;font-size:12px;color:var(--mu);line-height:1.6}.thinking-stage{color:#3987ff;font-weight:700;white-space:nowrap}.thinking-time{font-variant-numeric:tabular-nums;direction:ltr;color:var(--mu);opacity:.9}.thinking-sep{opacity:.45}
 @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 #dock{display:none;padding:6px 22px 14px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
 #dock .col{padding:0}
@@ -646,7 +646,7 @@ async function send(text){
  layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
  if(!active)$('ttl').textContent=t.length>40?t.slice(0,40)+'…':t;
  conversation.push({role:'user',content:t});
- const d=document.createElement('div');d.className='dots';d.innerHTML='<div class="loader-scale"><div class="flat-grid-loader" role="status" aria-label="مدار در حال پاسخ‌گویی"><span></span><span></span><span></span><span></span></div></div>';createGridLoader(d.querySelector('.flat-grid-loader'),matchMedia('(prefers-reduced-motion: reduce)').matches?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});$('chat').appendChild(d);scrollDown();
+ const d=document.createElement('div');d.className='dots';d.innerHTML='<div class="loader-scale"><div class="flat-grid-loader" role="status" aria-label="مدار در حال پاسخ‌گویی"><span></span><span></span><span></span><span></span></div></div><div class="thinking-copy"><span class="thinking-stage">در حال تحلیل درخواست</span><span class="thinking-sep">·</span><span class="thinking-time">00:00</span></div>';createGridLoader(d.querySelector('.flat-grid-loader'),matchMedia('(prefers-reduced-motion: reduce)').matches?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});const stageEl=d.querySelector('.thinking-stage'),timeEl=d.querySelector('.thinking-time'),startedAt=Date.now(),stages=['در حال تحلیل درخواست','در حال بررسی اطلاعات','در حال پردازش پرسش','در حال آماده‌سازی پاسخ'];let stageIndex=0;const updateThinking=()=>{const elapsed=Math.floor((Date.now()-startedAt)/1000);timeEl.textContent=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');const next=Math.floor(elapsed/4)%stages.length;if(next!==stageIndex){stageIndex=next;stageEl.textContent=stages[stageIndex]}};updateThinking();const thinkingTimer=setInterval(updateThinking,1000);$('chat').appendChild(d);scrollDown();
  chatBusy=true;$('sb').disabled=true;
  const controller=new AbortController();
  const timeoutId=setTimeout(()=>controller.abort(),75000);
@@ -673,7 +673,7 @@ async function send(text){
   const msg=document.createElement('div');msg.className='t2';
   msg.textContent=error.name==='AbortError'?'پاسخ‌گویی بیش از حد طول کشید. اتصال را بررسی کن و دوباره تلاش کن.':(error.message||'ارتباط با دستیار برقرار نشد.');
   row.appendChild(msg);$('chat').appendChild(row);scrollDown();
- }finally{clearTimeout(timeoutId);d.remove();chatBusy=false;$('sb').disabled=false;sync()}
+ }finally{clearTimeout(timeoutId);clearInterval(thinkingTimer);d.remove();chatBusy=false;$('sb').disabled=false;sync()}
 }
 function quick(k){send(Q[k])}
 function resetChat(){
