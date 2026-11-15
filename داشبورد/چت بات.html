@@ -877,8 +877,16 @@ function initPersona(){
 let live=true,spd=5;
 function setLive(el){live=!live;el.classList.toggle('on',live)}
 function setTheme(m,note=true){
- document.documentElement.classList.toggle('dark',m==='dark');
+ if(m!=='dark'&&m!=='light')return;
  try{localStorage.setItem('madar-theme',m)}catch(e){}
+ if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function'){
+  window.MadarTheme.setMode(m);
+ }else{
+  document.documentElement.dataset.theme=m;
+  document.documentElement.classList.toggle('dark',m==='dark');
+  document.body.classList.toggle('dark',m==='dark');
+  document.body.classList.toggle('dark-mode',m==='dark');
+ }
  $('th-light').classList.toggle('on',m!=='dark');$('th-dark').classList.toggle('on',m==='dark');
  if(note)toast(m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
 }
