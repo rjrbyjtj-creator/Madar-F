@@ -718,15 +718,16 @@
       tableBody.innerHTML='<tr><th scope="row" colspan="8">بارگذاری برنامه‌ها انجام نشد. اتصال را بررسی و صفحه را دوباره بارگذاری کن.</th></tr>';
     }
   }
-  async function saveDay(date,tasks,note){
-    const response=await fetch(API.plans+'/'+encodeURIComponent(date),{
-      method:'PUT',headers:{'Content-Type':'application/json',...Auth.headers()},
-      body:JSON.stringify({tasks,note:note||''})
+  async function sendPlanRequest(date,path,method,body){
+    const response=await fetch(API.plans+'/'+encodeURIComponent(date)+path,{
+      method,headers:{'Content-Type':'application/json',...Auth.headers()},
+      ...(body===undefined?{}:{body:JSON.stringify(body)})
     });
     const data=await response.json().catch(()=>({}));
     if(!response.ok||!data.ok)throw new Error(data.message||'ذخیره برنامه انجام نشد.');
-    plansByDate[date]=data.plan||{date,tasks,note:note||''};
+    plansByDate[date]=data.plan||{date,tasks:[],note:''};
     renderWeek();
+    return data.plan;
   }
   function openDialog(date){
     form.reset();
@@ -751,7 +752,7 @@
       const old=plansByDate[date]||{tasks:[],note:''};
       const task={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'task-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),title,type,start,end,done:false};
       const previousWeekISO=toISO(startOfWeek(currentWeek()));
-      await saveDay(date,[...(old.tasks||[]),task],note||old.note||'');
+      await sendPlanRequest(date,'/tasks','POST',{task,note:note||old.note||''});
       const targetWeek=startOfWeek(fromISO(date));
       weekOffset=Math.round((targetWeek-startOfWeek(new Date()))/604800000);
       if(toISO(targetWeek)!==previousWeekISO)await loadWeek();
@@ -765,12 +766,15 @@
     const plan=plansByDate[date];if(!plan||!taskId)return;
     const tasks=[...(plan.tasks||[])],index=tasks.findIndex(task=>task.id===taskId);if(index<0)return;
     const action=button.dataset.action;
-    if(action==='toggle')tasks[index]={...tasks[index],done:!tasks[index].done};
-    else if(action==='remove'&&!window.confirm('این فعالیت از برنامه حذف شود؟'))return;
-    else if(action==='remove')tasks.splice(index,1);
     button.disabled=true;setStatus('در حال ذخیره تغییرات…');
-    try{await saveDay(date,tasks,plan.note||'');setStatus('تغییرات ذخیره شد.')}
-    catch(error){setStatus(error.message||'ذخیره تغییرات ناموفق بود.',true)}
+    try{
+      if(action==='toggle')await sendPlanRequest(date,'/tasks/'+encodeURIComponent(taskId),'PATCH',{done:!tasks[index].done});
+      else if(action==='remove'){
+        if(!window.confirm('این فعالیت از برنامه حذف شود؟'))return;
+        await sendPlanRequest(date,'/tasks/'+encodeURIComponent(taskId),'DELETE');
+      }
+      setStatus('تغییرات ذخیره شد.');
+    }catch(error){setStatus(error.message||'ذخیره تغییرات ناموفق بود.',true)}
     finally{button.disabled=false}
   });
   const filterButton=$('filterBtn'),filterMenu=$('filterMenu'),filterLabel=$('filterLabel');
