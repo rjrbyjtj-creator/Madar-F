@@ -209,7 +209,8 @@
   /* ───────── Upcoming exams & tasks ───────── */
   @keyframes twinkle { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 50% { transform: scale(1.25) rotate(20deg); opacity: .65; } }
 
-  .js .reveal-scroll:not(.is-in) { opacity: 0; }
+  /* محتوای بخش روزهای آینده نباید به observer وابسته بماند؛ همیشه قابل مشاهده باشد. */
+  .js .reveal-scroll:not(.is-in) { opacity: 1; }
   .reveal-scroll.is-in { animation: rise .8s var(--ease) backwards; animation-delay: var(--d, 0s); }
 
   .upcoming { display: grid; grid-template-columns: minmax(0, 1fr) 250px; column-gap: 24px; align-items: start; margin-bottom: 64px; }
@@ -393,7 +394,7 @@
   .slot{gap:2px;min-height:48px;height:auto;overflow-wrap:anywhere}
   .slot small{direction:ltr;font-variant-numeric:tabular-nums}
   .empty-cell{font-size:11px;color:var(--muted);opacity:.65}
-  .day-grid{grid-template-columns:repeat(3,minmax(0,200px))}
+  .day-grid{grid-template-columns:minmax(0,1fr)}
   .day.is-today{outline:1px solid var(--gold-soft);outline-offset:2px}
   .day-head time{direction:rtl}
   .task{gap:7px}
