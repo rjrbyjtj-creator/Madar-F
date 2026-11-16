@@ -212,7 +212,8 @@
   .js .reveal-scroll:not(.is-in) { opacity: 0; }
   .reveal-scroll.is-in { animation: rise .8s var(--ease) backwards; animation-delay: var(--d, 0s); }
 
-  .upcoming { display: grid; grid-template-columns: minmax(0, 1fr) 250px; column-gap: 24px; margin-bottom: 64px; }
+  .upcoming { display: grid; grid-template-columns: minmax(0, 1fr) 250px; column-gap: 24px; align-items: start; margin-bottom: 64px; }
+  .upcoming-main { min-width: 0; }
 
   .upcoming-head { position: relative; z-index: 5; }
   .upcoming-head h2 { margin: 0; font-size: 20px; font-weight: 800; line-height: 1.5; color: var(--navy); }
@@ -252,38 +253,35 @@
   .filter-menu button[aria-selected="true"]::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
 
   .day-grid {
-    display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 22px 36px;
-    justify-content: start; margin-top: 40px;
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px;
+    justify-content: stretch; margin-top: 22px;
   }
   .day {
-    --y: 0px; translate: 0 var(--y);
-    padding: 14px 16px 10px; background: var(--card); border-radius: 12px;
-    box-shadow: 0 6px 22px rgba(20, 35, 79, .055);
-    transition: transform .3s var(--ease), box-shadow .3s, opacity .3s;
+    display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr); align-items: center; gap: 16px;
+    min-width: 0; padding: 11px 15px; background: var(--card); border: 1px solid var(--line); border-radius: 11px;
+    box-shadow: 0 3px 12px rgba(20, 35, 79, .035); cursor: pointer;
+    transition: border-color .25s, box-shadow .25s, background .25s;
   }
-  .day:nth-child(3n+2) { --y: -16px; }
-  .day:nth-child(3n)   { --y: -28px; }
-  .day:nth-child(n+4)  { translate: -118px var(--y); }
-  .day:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(20, 35, 79, .09); }
+  .day:hover { border-color: var(--gold-soft); box-shadow: 0 8px 20px rgba(20, 35, 79, .07); }
+  .day:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .day.is-today { border-inline-start: 3px solid var(--gold); }
   .day.is-faded { opacity: .4; }
 
-  .day-head { position: relative; padding-bottom: 9px; border-bottom: 1px solid var(--line); }
+  .day-head { position: relative; min-width: 0; padding: 0 0 0 12px; border: 0; }
   .day-head h3 { margin: 0; font-size: 13px; font-weight: 700; line-height: 1.5; color: var(--gold); }
   .day-head time { display: block; font-size: 12px; font-weight: 600; line-height: 1.5; color: var(--gold); }
   .day-head::before { content: ""; position: absolute; left: 0; top: 3px; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
-  .day-head::after {
-    content: ""; position: absolute; left: 2px; top: 11px; width: 1px; height: 22px;
-    background: linear-gradient(var(--gold-soft), transparent); transition: height .4s var(--ease);
-  }
-  .day:hover .day-head::after { height: 32px; }
+  .day-head::after { display: none; }
 
-  .tasks { list-style: none; margin: 6px 0 0; padding: 0; }
+  .tasks { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 16px; min-width: 0; list-style: none; margin: 0; padding: 0; }
   .task {
-    display: flex; align-items: center; gap: 8px; padding: 6px 0;
+    display: flex; align-items: center; gap: 6px; padding: 3px 0;
     font-size: 11.5px; font-weight: 500; color: var(--navy);
     transition: opacity .3s, filter .3s;
   }
-  .task span { flex: 1; min-width: 0; }
+  .task span { flex: 0 1 auto; min-width: 0; }
+  .task span small { display: none !important; }
+  .empty-day { color: var(--muted); font-size: 11px; }
   .task .icon { width: 15px; height: 15px; color: var(--navy-soft); }
   .task .icon.ic-gold { color: var(--gold); }
   .task .icon-fill { fill: currentColor; stroke: none; }
@@ -297,8 +295,6 @@
 
   @media (max-width: 1120px) {
     .upcoming { grid-template-columns: minmax(0, 1fr) 190px; column-gap: 20px; }
-    .day-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-    .day:nth-child(n+4) { translate: 0 var(--y); }
   }
   @media (max-width: 860px) {
     .upcoming { grid-template-columns: 1fr; }
@@ -306,11 +302,8 @@
   }
   @media (max-width: 700px) {
     .sparkle { display: none; }
-    .day-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 24px; }
-    .day:nth-child(n) { --y: 0px; }
-  }
-  @media (max-width: 460px) {
-    .day-grid { grid-template-columns: 1fr; }
+    .day-grid { grid-template-columns: 1fr; margin-top: 18px; }
+    .day { grid-template-columns: 1fr; gap: 7px; padding: 11px 13px; }
   }
 
   /* ───────── Responsive ───────── */
@@ -428,6 +421,16 @@
   .plan-cancel{border:1px solid var(--line);color:var(--muted)}
   .plan-save{background:var(--navy);color:#fff}
   .plan-save:disabled{opacity:.55;cursor:wait}
+  .day-detail-dialog{width:min(520px,calc(100vw - 28px));max-width:none;max-height:min(78vh,720px);overflow:visible;margin:auto;padding:0;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--navy);box-shadow:0 24px 80px rgba(0,0,0,.2)}
+  .day-detail-dialog::backdrop{background:rgba(9,17,38,.5);backdrop-filter:blur(3px)}
+  .day-detail-content{position:relative;max-height:min(78vh,720px);overflow:auto;padding:24px;display:grid;gap:15px}
+  .day-detail-close{position:absolute;top:14px;left:15px;width:30px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:21px;line-height:1;cursor:pointer;color:var(--muted)}
+  .day-detail-head{padding-inline-end:34px}.day-detail-kicker{font-size:10px;color:var(--gold);font-weight:700}.day-detail-head h3{margin:3px 0;font-size:19px}.day-detail-head p{margin:0;color:var(--muted);font-size:12px}
+  .day-detail-tasks{display:grid;gap:9px}.day-detail-task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+  .day-detail-task strong{font-size:13px;font-weight:650}.day-detail-task time{grid-column:1/-1;direction:ltr;text-align:right;color:var(--gold);font-size:12px;font-weight:600}.day-detail-task small{grid-column:1/-1;color:var(--muted);font-size:11px}.day-detail-task.is-done strong{text-decoration:line-through;opacity:.6}
+  .day-detail-empty{padding:18px;border:1px dashed var(--line);border-radius:10px;text-align:center;color:var(--muted);font-size:12px}
+  .day-detail-note{padding:11px 13px;border-radius:9px;background:rgba(185,138,46,.08);font-size:12px;line-height:1.9}.day-detail-add{min-height:39px;border:0;border-radius:9px;background:var(--navy);color:#fff;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+  html[data-theme="dark"] .day-detail-dialog{background:#172238;color:#e7edf6;border-color:#34445f}html[data-theme="dark"] .day-detail-task{background:#101a2d;border-color:#34445f}html[data-theme="dark"] .day-detail-close{background:#101a2d;border-color:#34445f;color:#e7edf6}
   .today-badge{display:inline-block;margin-inline-start:5px;padding:1px 6px;border-radius:5px;background:rgba(185,138,46,.12);color:var(--gold);font-size:9px}
   @media(max-width:700px){.schedule-head{align-items:flex-start}.schedule-actions{width:100%;justify-content:space-between}.day-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.day:nth-child(n){translate:0 0;--y:0px}}
   @media(max-width:460px){.day-grid{grid-template-columns:1fr}.plan-fields-row{grid-template-columns:1fr 1fr}.add-plan-btn{padding:0 10px}}
@@ -577,6 +580,7 @@
         </div>
 
         <div class="day-grid" id="dayGrid" aria-live="polite"></div>
+      </div>
 
       <!--
         👉 جای تصویر این بخش (تقویم تیک‌دار + ساعت + کتاب‌ها + گلدان + خودکار)
@@ -603,6 +607,15 @@
     <label class="plan-field">یادداشت روز (اختیاری)<textarea id="planNote" name="note" maxlength="4000" placeholder="نکته‌ای برای این روز…"></textarea></label>
     <div class="plan-form-actions"><button class="plan-cancel" id="cancelPlan" type="button">انصراف</button><button class="plan-save" id="savePlan" type="submit">ذخیره برنامه</button></div>
   </form>
+</dialog>
+<dialog class="day-detail-dialog" id="dayDetailDialog" aria-labelledby="dayDetailTitle">
+  <div class="day-detail-content">
+    <button class="day-detail-close" id="closeDayDetail" type="button" aria-label="بستن">×</button>
+    <header class="day-detail-head"><span class="day-detail-kicker">جزئیات برنامه روز</span><h3 id="dayDetailTitle">برنامه روز</h3><p id="dayDetailDate"></p></header>
+    <div id="dayDetailTasks" class="day-detail-tasks"></div>
+    <div id="dayDetailNote" class="day-detail-note" hidden></div>
+    <button class="day-detail-add" id="addFromDayDetail" type="button">+ افزودن برنامه برای این روز</button>
+  </div>
 </dialog>
 <div class="plan-status" id="planStatus" role="status" aria-live="polite"></div>
 </main>
@@ -691,13 +704,29 @@
         const category=taskCategory(task.type);
         const visible=activeFilter==='all'||activeFilter===category;
         return '<li class="task '+(task.done?'is-done':'')+'" data-type="'+category+'" data-task-id="'+escapeHTML(task.id)+'" style="'+(visible?'':'display:none')+'">'+
-          '<button class="task-toggle" type="button" data-action="toggle" aria-label="تغییر وضعیت '+escapeHTML(task.title)+'" aria-pressed="'+(task.done?'true':'false')+'"><svg class="icon"><use href="'+(task.done?'#i-check':'#i-clock')+'"/></svg></button>'+
-          '<span>'+escapeHTML(task.title)+'<small style="display:block;color:var(--muted);font-size:10px;direction:ltr;text-align:right">'+escapeHTML(task.start)+' – '+escapeHTML(task.end)+'</small></span>'+
-          '<button class="task-remove" type="button" data-action="remove" aria-label="حذف '+escapeHTML(task.title)+'">×</button></li>';
+          '<span>'+escapeHTML(task.title)+'</span></li>';
       }).join('');
-      return '<article class="day reveal-scroll '+(today?'is-today':'')+'" data-date="'+iso+'"><header class="day-head"><h3>'+weekdayFmt.format(date)+(today?'<span class="today-badge">امروز</span>':'')+'</h3><time datetime="'+iso+'">'+persian.format(date)+'</time></header><ul class="tasks">'+(rows||'<li class="empty-day">برنامه‌ای ثبت نشده</li>')+'</ul>'+(plan.note?'<p style="margin-top:7px;color:var(--muted);font-size:10px">'+escapeHTML(plan.note)+'</p>':'')+'</article>';
+      const visibleCount=tasks.filter(task=>activeFilter==='all'||activeFilter===taskCategory(task.type)).length;
+      return '<article class="day reveal-scroll '+(today?'is-today':'')+'" data-date="'+iso+'" role="button" tabindex="0" aria-label="نمایش جزئیات '+weekdayFmt.format(date)+'، '+persian.format(date)+'"><header class="day-head"><h3>'+weekdayFmt.format(date)+(today?'<span class="today-badge">امروز</span>':'')+'</h3><time datetime="'+iso+'">'+persian.format(date)+'</time></header><ul class="tasks">'+(rows||'<li class="empty-day">برنامه‌ای ثبت نشده</li>')+'</ul><span class="day-more" style="color:var(--muted);font-size:10px;white-space:nowrap">'+(visibleCount?new Intl.NumberFormat('fa-IR').format(visibleCount)+' فعالیت · مشاهده جزئیات':'مشاهده جزئیات روز')+'</span></article>';
     }).join('');
   }
+  const dayDetailDialog=$('dayDetailDialog');
+  let selectedDetailDate=null;
+  function openDayDetails(date){
+    const plan=plansByDate[date]||{tasks:[],note:''};
+    const day=fromISO(date),tasks=[...(plan.tasks||[])].sort((a,b)=>a.start.localeCompare(b.start));
+    selectedDetailDate=date;
+    $('dayDetailTitle').textContent=weekdayFmt.format(day);
+    $('dayDetailDate').textContent=persian.format(day);
+    $('dayDetailTasks').innerHTML=tasks.length?tasks.map(task=>'<article class="day-detail-task '+(task.done?'is-done':'')+'"><strong>'+escapeHTML(task.title)+'</strong><span style="font-size:10px;color:var(--muted)">'+(task.done?'انجام‌شده':'در انتظار')+'</span><time>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</time><small>'+escapeHTML(({study:'مطالعه و مرور',test:'امتحان و آزمون',video:'آموزش و ویدیو',note:'تحویل و یادداشت'})[task.type]||'فعالیت')+'</small></article>').join(''):'<div class="day-detail-empty">برای این روز هنوز برنامه‌ای ثبت نشده است.</div>';
+    $('dayDetailNote').hidden=!plan.note;
+    $('dayDetailNote').textContent=plan.note||'';
+    dayDetailDialog.showModal();
+  }
+  $('closeDayDetail').addEventListener('click',()=>dayDetailDialog.close());
+  dayDetailDialog.addEventListener('click',event=>{if(event.target===dayDetailDialog)dayDetailDialog.close()});
+  $('addFromDayDetail').addEventListener('click',()=>{const date=selectedDetailDate;dayDetailDialog.close();openDialog(date)});
+
   async function fetchPlans(from,to){
     const url=API.plans+'?from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
     const response=await fetch(url,{headers:Auth.headers(),cache:'no-store'});
@@ -761,6 +790,8 @@
     finally{saving=false;$('savePlan').disabled=false;$('savePlan').textContent='ذخیره برنامه'}
   });
   dayGrid.addEventListener('click',async event=>{
+    const card=event.target.closest('.day');
+    if(card&&!event.target.closest('button')){openDayDetails(card.dataset.date);return;}
     const button=event.target.closest('button[data-action]');if(!button)return;
     const card=button.closest('.day'),date=card?.dataset.date,taskId=button.closest('.task')?.dataset.taskId;
     const plan=plansByDate[date];if(!plan||!taskId)return;
@@ -777,6 +808,7 @@
     }catch(error){setStatus(error.message||'ذخیره تغییرات ناموفق بود.',true)}
     finally{button.disabled=false}
   });
+  dayGrid.addEventListener('keydown',event=>{const card=event.target.closest('.day');if(card&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openDayDetails(card.dataset.date)}});
   const filterButton=$('filterBtn'),filterMenu=$('filterMenu'),filterLabel=$('filterLabel');
   if(filterButton&&filterMenu){
     const options=[...filterMenu.querySelectorAll('[role="option"]')];
