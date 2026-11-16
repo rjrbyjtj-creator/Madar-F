@@ -299,6 +299,23 @@ select.fld{cursor:pointer}
 .dev.head{color:var(--mu);font-size:12px}
 .sbody .themes{margin-top:8px}
 .sbody ul{margin-top:10px}
+.ai-catalog-intro{font-size:12.5px;line-height:1.9;color:var(--mu);margin:8px 0 18px}
+.ai-provider-list{display:grid;gap:14px}
+.ai-provider-card{border:1px solid var(--ln);border-radius:13px;padding:14px 15px;background:var(--bg)}
+.ai-provider-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--ln)}
+.ai-provider-title{display:flex;align-items:center;gap:10px;min-width:0}
+.ai-provider-mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--ln);border-radius:10px;background:var(--hv);font-size:15px;font-weight:700;color:var(--tx);flex-shrink:0}
+.ai-provider-title b{display:block;font-size:13.5px}
+.ai-provider-title small{display:block;color:var(--mu);font-size:11px;margin-top:2px}
+.ai-provider-tag{font-size:10.5px;color:var(--mu);background:var(--hv);padding:5px 8px;border-radius:7px;white-space:nowrap}
+.ai-model-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:11px}
+.ai-model-item{padding:10px 11px;border:1px solid var(--ln);border-radius:10px;min-width:0}
+.ai-model-item b{display:block;font-size:12px;font-weight:650;line-height:1.7;overflow-wrap:anywhere}
+.ai-model-item p{font-size:11.5px;color:var(--mu);line-height:1.85;margin-top:3px}
+.ai-model-item code{display:block;color:var(--mu);font-size:9.5px;direction:ltr;text-align:left;overflow-wrap:anywhere;margin-top:5px}
+.ai-catalog-note{font-size:11px;color:var(--mu);line-height:1.9;margin-top:14px;padding:10px 12px;border-right:2px solid var(--ac);background:var(--hv);border-radius:8px}
+@media(max-width:700px){.ai-model-list{grid-template-columns:1fr}.ai-provider-card{padding:12px}}
+
 @media(max-width:700px){
  .sb2{flex-direction:column}
  .snav{width:auto;flex-direction:row;border-left:0;border-bottom:1px solid var(--ln);overflow-x:auto;padding:8px}
@@ -536,6 +553,7 @@ body.shared-view #dock{display:none!important}
       <button data-t="profile" onclick="tab('profile')"><svg class="i"><use href="#us"/></svg>حساب کاربری</button>
       <button data-t="look" onclick="tab('look')"><svg class="i"><use href="#gr"/></svg>ظاهر</button>
       <button data-t="bot" onclick="tab('bot')"><svg class="i"><use href="#ck"/></svg>دستیار مدار</button>
+      <button data-t="models" onclick="tab('models')"><svg class="i"><use href="#ck"/></svg>مدل‌های هوش مصنوعی</button>
       <button data-t="help" onclick="tab('help')"><svg class="i"><use href="#hp"/></svg>راهنما</button>
     </nav>
     <div class="sbody">
@@ -577,6 +595,52 @@ body.shared-view #dock{display:none!important}
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
         <div class="srow"><div><b>سرعت تایپ</b><small>فقط وقتی تایپ زنده روشن است</small></div><select class="fld" onchange="spd=+this.value"><option value="2">آرام</option><option value="5" selected>معمولی</option><option value="12">سریع</option></select></div>
         <div class="srow"><div><b>اندازهٔ متن پاسخ‌ها</b></div><select class="fld" onchange="document.documentElement.style.setProperty('--fs',this.value+'px')"><option value="13.5">کوچک</option><option value="14.5" selected>متوسط</option><option value="16">بزرگ</option></select></div>
+      </div>
+
+      <div class="pane" id="p-models">
+        <h3>مدل‌های هوش مصنوعی</h3>
+        <div class="ai-catalog-intro">در مدار می‌توانی از چهار سرویس هوش مصنوعی استفاده کنی. این راهنما تفاوت مدل‌های فعال در چت‌بات و کاربرد پیشنهادی هرکدام را به‌صورت خلاصه نشان می‌دهد.</div>
+        <div class="ai-provider-list">
+          <section class="ai-provider-card">
+            <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">G</span><span><b>Google Gemini</b><small>مدل‌های عمومی و سریع برای گفتگو و یادگیری</small></span></div><span class="ai-provider-tag">۳ مدل</span></div>
+            <div class="ai-model-list">
+              <article class="ai-model-item"><b>Gemini 3.8 Flash</b><p>مدل سریع و همه‌منظوره برای گفتگوهای روزمره، توضیح مفاهیم، خلاصه‌سازی و حل مسائل چندمرحله‌ای.</p><code>gemini-3.8-flash</code></article>
+              <article class="ai-model-item"><b>Gemini 3.6 Flash</b><p>گزینه‌ای متعادل برای پاسخ‌گویی عمومی، تحلیل متن و کمک آموزشی با تمرکز بر سرعت مناسب.</p><code>gemini-3.6-flash</code></article>
+              <article class="ai-model-item"><b>Gemini 3.5 Flash-Lite</b><p>نسخه سبک‌تر برای پرسش‌های کوتاه، کارهای ساده و پاسخ‌گویی سریع با مصرف کمتر منابع.</p><code>gemini-3.5-flash-lite</code></article>
+            </div>
+          </section>
+          <section class="ai-provider-card">
+            <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">G</span><span><b>Groq</b><small>اجرای سریع مدل‌های زبانی مختلف</small></span></div><span class="ai-provider-tag">۴ مدل</span></div>
+            <div class="ai-model-list">
+              <article class="ai-model-item"><b>Llama 3.3 70B Versatile</b><p>مدل بزرگ و چندمنظوره؛ مناسب نوشتن، تحلیل، توضیح مفاهیم و گفتگوهای نسبتاً پیچیده.</p><code>llama-3.3-70b-versatile</code></article>
+              <article class="ai-model-item"><b>Llama 3.1 8B Instant</b><p>مدل کوچک و کم‌تأخیر برای سؤال‌های ساده، پاسخ‌های کوتاه و کارهایی که سرعت مهم‌تر است.</p><code>llama-3.1-8b-instant</code></article>
+              <article class="ai-model-item"><b>OpenAI GPT-OSS 120B</b><p>مدل بزرگ‌تر برای استدلال، تحلیل عمیق‌تر، دنبال‌کردن دستورها و مسائل چندمرحله‌ای.</p><code>openai/gpt-oss-120b</code></article>
+              <article class="ai-model-item"><b>OpenAI GPT-OSS 20B</b><p>نسخه سبک‌تر خانواده GPT-OSS؛ مناسب کارهای عمومی و کدنویسی یا تحلیل در زمان پاسخ کوتاه‌تر.</p><code>openai/gpt-oss-20b</code></article>
+            </div>
+          </section>
+          <section class="ai-provider-card">
+            <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">O</span><span><b>OpenRouter</b><small>دسترسی به مدل‌های متنوع از یک سرویس</small></span></div><span class="ai-provider-tag">۶ گزینه</span></div>
+            <div class="ai-model-list">
+              <article class="ai-model-item"><b>NVIDIA Nemotron 3 Ultra</b><p>مدل بزرگ برای تحلیل، استدلال و کارهای پیچیده‌تر؛ مناسب وقتی عمق پاسخ اولویت دارد.</p><code>nvidia/nemotron-3-ultra-550b-a55b:free</code></article>
+              <article class="ai-model-item"><b>NVIDIA Nemotron 3.5 Lightning</b><p>گزینه‌ای با تمرکز بر پاسخ‌گویی سریع‌تر برای گفتگوهای عمومی و انجام کارهای روزمره.</p><code>nvidia/nemotron-3.5-lightning:free</code></article>
+              <article class="ai-model-item"><b>ERNIE 5.5 Flash Preview</b><p>مدل سریع و عمومی برای درک درخواست‌ها، تولید متن و پاسخ به پرسش‌های متنوع.</p><code>baidu/ernie-5.5-flash-preview:free</code></article>
+              <article class="ai-model-item"><b>Cohere North Mini Code</b><p>گزینه تخصصی‌تر برای برنامه‌نویسی، تولید و توضیح کد و کمک در کارهای توسعه نرم‌افزار.</p><code>cohere/north-mini-code:free</code></article>
+              <article class="ai-model-item"><b>Google Gemma 4 31B</b><p>مدل عمومی با اندازه متوسط رو به بزرگ برای گفتگو، تولید متن و کمک در مسائل آموزشی.</p><code>google/gemma-4-31b-it:free</code></article>
+              <article class="ai-model-item"><b>OpenRouter Free</b><p>مسیریاب خودکار برای انتخاب یکی از مدل‌های رایگان در دسترس؛ مدل پاسخ‌دهنده ممکن است تغییر کند.</p><code>openrouter/free</code></article>
+            </div>
+          </section>
+          <section class="ai-provider-card">
+            <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">C</span><span><b>Cloudflare Workers AI</b><small>مجموعه‌ای از مدل‌های سبک و عمومی</small></span></div><span class="ai-provider-tag">۵ مدل</span></div>
+            <div class="ai-model-list">
+              <article class="ai-model-item"><b>GLM 4.7 Flash</b><p>مدل سریع و عمومی برای گفتگو، استدلال و کمک در انجام کارهای متنی و برنامه‌نویسی.</p><code>@cf/zai-org/glm-4.7-flash</code></article>
+              <article class="ai-model-item"><b>Granite 4.0 H Micro</b><p>مدل کوچک و کم‌حجم برای وظایف سبک، استخراج اطلاعات و پردازش متن‌های ساختاریافته.</p><code>@cf/ibm/granite-4.0-h-micro</code></article>
+              <article class="ai-model-item"><b>Gemma 4 26B IT</b><p>مدل عمومی دستورپذیر برای گفتگو، تولید محتوا و پاسخ به درخواست‌های متنوع.</p><code>@cf/google/gemma-4-26b-a4b-it</code></article>
+              <article class="ai-model-item"><b>Llama 3.3 70B Fast</b><p>مدل بزرگ چندمنظوره برای نوشتن، تحلیل، توضیح و دنبال‌کردن دستورهای پیچیده‌تر.</p><code>@cf/meta/llama-3.3-70b-instruct-fp8-fast</code></article>
+              <article class="ai-model-item"><b>Mistral Small 3.1 24B</b><p>مدل متعادل برای گفتگو، خلاصه‌سازی، تولید متن و کارهای عمومی با پیچیدگی متوسط.</p><code>@cf/mistralai/mistral-small-3.1-24b-instruct</code></article>
+            </div>
+          </section>
+        </div>
+        <div class="ai-catalog-note">نکته: توضیحات بالا راهنمای تقریبی انتخاب مدل بر اساس خانواده و اندازه آن‌هاست؛ کیفیت و سرعت واقعی می‌تواند با توجه به شلوغی سرویس، محدودیت پلن و به‌روزرسانی ارائه‌دهنده تغییر کند. گفتگوی صوتی زنده در مدار همچنان از Gemini استفاده می‌کند و انتخاب مدل متنی آن را تغییر نمی‌دهد.</div>
       </div>
       <div class="pane" id="p-help">
         <h3>راهنما</h3>
