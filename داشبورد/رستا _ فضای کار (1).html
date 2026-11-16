@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="./عکس ها/تب.png">
-<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<script>try{var savedMadarMode=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(savedMadarMode==='dark'||savedMadarMode==='light')document.documentElement.dataset.theme=savedMadarMode;}catch(e){}</script></script>
 <style>
 :root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
 :root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
@@ -452,12 +452,12 @@ const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const root=document.documentElement;let timer;
 $('themeBtn').onclick=()=>{
   const next=root.dataset.theme==='dark'?'light':'dark';
-  root.classList.add('theming');root.dataset.theme=next;
+  root.classList.add('theming');
+  if(window.MadarTheme) window.MadarTheme.setMode(next);
+  else {root.dataset.theme=next;try{['madar-theme','theme','answer-sheet-theme'].forEach(k=>localStorage.setItem(k,next))}catch(e){}}
   clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('theming'),700);
-  try{localStorage.setItem('theme',next)}catch(e){}
 };
-addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
-
+};
 /* پنل پروفایل */
 const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
 const setPanel=open=>{
