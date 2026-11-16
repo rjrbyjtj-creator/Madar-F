@@ -538,7 +538,7 @@
     <section class="schedule reveal" style="--d:.6s" aria-labelledby="weekTitle">
       <div class="schedule-head">
         <h2 id="weekTitle">برنامه هفتگی</h2>
-        <div class="schedule-actions"><button class="add-plan-btn" id="openPlanDialog" type="button"><svg class="icon"><use href="#i-plus"/></svg>افزودن برنامه</button><div class="week-nav"><button id="prevWeek" type="button" aria-label="هفته قبل">‹</button><button id="todayWeek" type="button" aria-label="رفتن به هفته جاری">امروز</button><button id="nextWeek" type="button" aria-label="هفته بعد">›</button></div><div class="week-range">
+        <div class="schedule-actions"><button class="add-plan-btn" id="openPlanDialog" type="button"><span aria-hidden="true" style="font-size:19px;line-height:1">+</span>افزودن برنامه</button><div class="week-nav"><button id="prevWeek" type="button" aria-label="هفته قبل">‹</button><button id="todayWeek" type="button" aria-label="رفتن به هفته جاری">امروز</button><button id="nextWeek" type="button" aria-label="هفته بعد">›</button></div><div class="week-range">
           <svg class="icon"><use href="#i-calendar"/></svg>
           <strong id="weekRangeText">در حال دریافت تاریخ هفته…</strong>
         </div></div>
@@ -750,10 +750,11 @@
       if(!plansByDate[date])await fetchPlans(date,date);
       const old=plansByDate[date]||{tasks:[],note:''};
       const task={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'task-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),title,type,start,end,done:false};
+      const previousWeekISO=toISO(startOfWeek(currentWeek()));
       await saveDay(date,[...(old.tasks||[]),task],note||old.note||'');
-      const targetWeek=startOfWeek(fromISO(date)),thisWeek=startOfWeek(currentWeek());
-      weekOffset=Math.round((targetWeek-thisWeek)/604800000);
-      if(toISO(currentWeek())!==toISO(targetWeek))await loadWeek();
+      const targetWeek=startOfWeek(fromISO(date));
+      weekOffset=Math.round((targetWeek-startOfWeek(new Date()))/604800000);
+      if(toISO(targetWeek)!==previousWeekISO)await loadWeek();
       dialog.close();setStatus('برنامه با موفقیت ذخیره شد.');
     }catch(error){setStatus(error.message||'ذخیره برنامه ناموفق بود.',true)}
     finally{saving=false;$('savePlan').disabled=false;$('savePlan').textContent='ذخیره برنامه'}
