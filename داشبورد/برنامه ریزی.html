@@ -202,6 +202,18 @@
   .slot:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(20, 35, 79, .08); }
   .slot b { font-size: 13px; font-weight: 600; }
   .slot small { font-size: 11px; opacity: .75; color: var(--navy-soft); }
+  .slot { position: relative; padding-left: 30px; }
+  .task-remove {
+    display: inline-grid; place-items: center; flex: none;
+    width: 22px; height: 22px; border: 1px solid rgba(190,65,65,.18);
+    border-radius: 6px; background: rgba(190,65,65,.06); color: #b83d45;
+    font-size: 16px; line-height: 1; cursor: pointer; transition: .2s;
+  }
+  .task-remove:hover { background: rgba(190,65,65,.13); border-color: rgba(190,65,65,.35); }
+  .task-remove:disabled { opacity: .45; cursor: wait; }
+  .slot .task-remove { position: absolute; top: 4px; left: 4px; }
+  .task .task-remove { width: 19px; height: 19px; font-size: 14px; }
+
   .slot.blue  { background: var(--blue-bg);  color: var(--blue-ink); }
   .slot.peach { background: var(--peach-bg); color: var(--peach-ink); }
   .slot.green { background: var(--green-bg); color: var(--green-ink); }
@@ -661,7 +673,10 @@
     }
     tableBody.innerHTML=slots.map(slot=>{
       const time=clockFmt.format(fromISO('2000-01-01').setHours(Number(slot.start.slice(0,2)),Number(slot.start.slice(3,5)),0,0))+' - '+clockFmt.format(fromISO('2000-01-01').setHours(Number(slot.end.slice(0,2)),Number(slot.end.slice(3,5)),0,0));
-      const cells=slot.days.map(items=>'<td>'+ (items.length?items.map(task=>'<div class="slot '+taskColor(task.type)+'"><b>'+escapeHTML(task.title)+'</b><small>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</small></div>').join(''):'')+'</td>').join('');
+      const cells=slot.days.map((items,dayIndex)=>{
+        const date=toISO(weekDates[dayIndex]);
+        return '<td>'+ (items.length?items.map(task=>'<div class="slot '+taskColor(task.type)+'" data-date="'+date+'" data-task-id="'+escapeHTML(task.id)+'"><b>'+escapeHTML(task.title)+'</b><small>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</small><button class="task-remove" type="button" data-date="'+date+'" data-task-id="'+escapeHTML(task.id)+'" aria-label="حذف '+escapeHTML(task.title)+'" title="حذف فعالیت">×</button></div>').join(''):'')+'</td>';
+      }).join('');
       return '<tr><th scope="row">'+time+'</th>'+cells+'</tr>';
     }).join('');
   }
@@ -678,7 +693,8 @@
         const dot=category==='exam'?'dot-navy':category==='deliver'?'dot-gold':'';
         return '<li class="task '+dot+(task.done?' is-done':'')+'" data-type="'+category+'">'+
           '<svg class="icon '+(category==='deliver'?'ic-gold':'')+'"><use href="'+icon+'"/></svg>'+
-          '<span>'+escapeHTML(task.title)+'</span></li>';
+          '<span>'+escapeHTML(task.title)+'</span>'+
+          '<button class="task-remove" type="button" data-date="'+iso+'" data-task-id="'+escapeHTML(task.id)+'" aria-label="حذف '+escapeHTML(task.title)+'" title="حذف فعالیت">×</button></li>';
       }).join('');
       return '<article class="day reveal-scroll"><header class="day-head"><h3>'+weekdayFmt.format(date)+'</h3><time datetime="'+iso+'">'+persian.format(date)+'</time></header><ul class="tasks">'+(rows||'<li class="empty-day">برای این روز برنامه‌ای ثبت نشده است.</li>')+'</ul></article>';
     }).join('');
@@ -719,6 +735,32 @@
       tableBody.innerHTML='<tr><th scope="row" colspan="8">بارگذاری برنامه‌ها انجام نشد. اتصال را بررسی و صفحه را دوباره بارگذاری کن.</th></tr>';
     }
   }
+  async function removePlanTask(date,taskId,button){
+    if(!date||!taskId||!window.confirm('این فعالیت از برنامه‌ات حذف شود؟'))return;
+    if(button){button.disabled=true;button.textContent='…'}
+    try{
+      const response=await fetch(API.plans+'/'+encodeURIComponent(date)+'/tasks/'+encodeURIComponent(taskId),{
+        method:'DELETE',headers:Auth.headers()
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||!data.ok)throw new Error(data.message||'حذف فعالیت انجام نشد.');
+      plansByDate[date]=data.plan||{date,tasks:[],note:''};
+      renderWeek();
+      setStatus('فعالیت با موفقیت حذف شد.');
+    }catch(error){
+      if(button){button.disabled=false;button.textContent='×'}
+      setStatus(error.message||'حذف فعالیت ناموفق بود.',true);
+    }
+  }
+  dayGrid.addEventListener('click',event=>{
+    const button=event.target.closest('.task-remove');
+    if(button)removePlanTask(button.dataset.date,button.dataset.taskId,button);
+  });
+  tableBody.addEventListener('click',event=>{
+    const button=event.target.closest('.task-remove');
+    if(button)removePlanTask(button.dataset.date,button.dataset.taskId,button);
+  });
+
   async function sendPlanRequest(date,path,method,body){
     const response=await fetch(API.plans+'/'+encodeURIComponent(date)+path,{
       method,headers:{'Content-Type':'application/json',...Auth.headers()},
