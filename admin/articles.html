@@ -136,7 +136,7 @@ if(!response.ok||!result.draft)throw new Error(result.message||'تولید پی�
 var d=result.draft;
 $('title').value=d.title||'';$('slug').value=d.slug||'';$('category').value=d.category||'مقالات آموزشی';$('excerpt').value=d.excerpt||'';$('content').value=d.content||'';
 $('readTime').value=Math.max(1,Math.ceil((d.content||'').trim().split(/\s+/).length/200));
-$('url').value='../articles/read.html?slug='+encodeURIComponent(d.slug||'');
+$('url').value='https://rjrbyjtj-creator.github.io/Madar-F/articles/read.html?slug='+encodeURIComponent(d.slug||'');
 $('isPublished').checked=false;$('isFeatured').checked=false;
 $('aiStatus').textContent='پیش‌نویس آماده شد. همه فیلدها را بررسی و در صورت نیاز ویرایش کن؛ هنوز ذخیره یا منتشر نشده است.';
 notify('پیش‌نویس مقاله آماده شد؛ هنوز منتشر نشده است.');
