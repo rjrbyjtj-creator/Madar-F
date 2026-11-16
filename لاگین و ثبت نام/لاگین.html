@@ -232,14 +232,16 @@ su.pass.addEventListener('input',()=>{
 
 function check(form){
   let ok=true;
-  (form.id==='signupForm'?form.querySelector('.p'+form.dataset.step).querySelectorAll('.f'):form.querySelectorAll('.f')).forEach(f=>{
+  const fields=form.id==='signupForm'?form.querySelector('.p'+form.dataset.step).querySelectorAll('.f'):form.querySelectorAll('.f');
+  fields.forEach(f=>{
+    if(f.hidden)return;
     const i=f.querySelector('input');if(!i)return;
     const v=i.value.trim();let bad=!v;
-    if(!bad&&i.type==='email')bad=!/^\S+@\S+\.\S+$/.test(v);
+    if(!bad&&i.type==='email')bad=!/^\\S+@\\S+\\.\\S+$/.test(v);
     if(!bad&&i.minLength>0)bad=i.value.length<i.minLength;
     if(!bad&&i.name==='pass2')bad=i.value!==form.pass.value;
-    if(!bad&&(i.name==='phone'||i.dataset.kind==='phone'))bad=!PHONE.test(norm(v));
-    if(!bad&&i.name==='chat')bad=!/^(@[A-Za-z][A-Za-z0-9_]{3,31}|\d{5,14})$/.test(en(v));
+    if(!bad&&i.name==='phone')bad=!PHONE.test(norm(v));
+    if(!bad&&i.name==='chat'&&$('#deliveryChoice').dataset.channel==='telegram')bad=!/^(@[A-Za-z][A-Za-z0-9_]{3,31}|\\d{5,14})$/.test(en(v));
     f.classList.toggle('bad',bad);if(bad)ok=false;
   });
   return ok;
@@ -314,16 +316,15 @@ const otp=$$('#otp input');
 function step(n){su.dataset.step=n;if(n===3)setTimeout(()=>otp[0].focus(),200)}
 
 async function sendCode(){
-  const chat=en((su.elements.chat?.value||'').trim()),phone=norm(su.elements.phone.value),channel=$('#deliveryChoice').dataset.channel;
-  if(API.sendCode){
-    const d=await apiPost(API.sendCode,{channel,chat,phone,email:su.elements.email.value.trim(),name:su.elements.name.value.trim(),pass:su.pass.value,schoolName:su.elements.schoolName.value.trim(),officialSchoolName:su.elements.officialSchoolName.value.trim(),grade:su.elements.grade.value.trim(),fieldOfStudy:su.elements.fieldOfStudy.value.trim()});
-    if(d.resendAfter)resendSec=d.resendAfter;
-  }else{
-    demoCode=String(Math.floor(100000+Math.random()*900000));
-    await wait(900);
-    toast(`<small>پیام نمایشی در چت ${chat}</small>کد تأیید مدار: <b>${fa(demoCode)}</b><small>(حالت آزمایشی)</small>`);
-  }
-  $('#chatShow').textContent=channel==='email'?su.elements.email.value.trim():chat;
+  const channel=$('#deliveryChoice').dataset.channel;
+  const chat=en((su.elements.chat?.value||'').trim()),phone=norm(su.elements.phone.value);
+  const payload={channel,chat,phone,email:su.elements.email.value.trim(),name:su.elements.name.value.trim(),pass:su.pass.value,
+    schoolName:su.elements.schoolName.value.trim(),officialSchoolName:su.elements.officialSchoolName.value.trim(),
+    grade:su.elements.grade.value.trim(),fieldOfStudy:su.elements.fieldOfStudy.value.trim()};
+  if(!API.sendCode)throw new Error('سرویس ثبت‌نام در دسترس نیست.');
+  const d=await apiPost(API.sendCode,payload);
+  if(d.resendAfter)resendSec=d.resendAfter;
+  $('#chatShow').textContent=channel==='email'?payload.email:chat;
   countdown();
 }
 function countdown(){
@@ -340,8 +341,15 @@ $('#rbtn').onclick=async()=>{
   try{await sendCode();m.style.color='';m.textContent='کد جدید ارسال شد.'}
   catch(e){m.style.color='var(--bad)';m.textContent=why(e,'ارسال نشد، دوباره تلاش کن.')}
 };
-$('#editBtn').onclick=()=>{clearInterval(cd);step(2)};\n$('#backToPersonal').onclick=()=>step(1);\n$('#deliveryChoice').querySelectorAll('button').forEach(b=>b.onclick=()=>{const ch=b.dataset.channel;$('#deliveryChoice').dataset.channel=ch;$('#deliveryChoice').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#telegramField').hidden=ch!=='telegram';if(ch!=='telegram')su.elements.chat.value=''});
-
+$('#editBtn').onclick=()=>{clearInterval(cd);step(2)};
+$('#backToPersonal').onclick=()=>step(1);
+$('#deliveryChoice').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  const ch=b.dataset.channel;
+  $('#deliveryChoice').dataset.channel=ch;
+  $('#deliveryChoice').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  $('#telegramField').hidden=ch!=='telegram';
+  if(ch!=='telegram')su.elements.chat.value='';
+});
 const submitOtp=()=>{const v=$('#verBtn');if(!v.disabled)v.click()};
 otp.forEach((el,i)=>{
   el.addEventListener('input',()=>{
@@ -368,47 +376,46 @@ otp.forEach((el,i)=>{
 su.addEventListener('submit',async e=>{
   e.preventDefault();
   const st=su.dataset.step;
-
   if(st==='1'){
     const msg=su.querySelector('.p1 .msg'),b=su.querySelector('.p1 .submit');
     if(!check(su)){msg.textContent='';return shake(su)}
-    busy(b,true);msg.style.color='';
-    try{
-      step(2);
-    }catch(e){
-      msg.style.color='var(--bad)';msg.textContent=why(e,'اطلاعات رو بررسی کن و دوباره تلاش کن.');shake(su);
-    }
-    busy(b,false);
-
+    busy(b,true);msg.textContent='';msg.style.color='';
+    step(2);busy(b,false);
   }else if(st==='2'){
+    const msg=su.querySelector('.p2 .msg'),b=su.querySelector('.p2 .submit');
+    if(!check(su)){msg.textContent='';return shake(su)}
+    busy(b,true);msg.textContent='';msg.style.color='';
+    try{
+      await sendCode();
+      otp.forEach(o=>{o.value='';o.classList.remove('fill')});
+      $('#otpMsg').textContent='';
+      step(3);
+    }catch(err){msg.style.color='var(--bad)';msg.textContent=why(err,'ارسال کد انجام نشد. اطلاعات و تنظیمات ارسال را بررسی کن.');shake(su)}
+    busy(b,false);
+  }else if(st==='3'){
     const code=otp.map(o=>o.value).join(''),bx=$('#otp'),m=$('#otpMsg'),b=$('#verBtn');
     const bad=txt=>{m.style.color='var(--bad)';m.textContent=txt;bx.classList.remove('bad');bx.offsetWidth;bx.classList.add('bad')};
     if(code.length<6)return bad('هر شش رقم رو وارد کن.');
     busy(b,true);m.textContent='';
-    let ok=false,vmsg='';
     try{
-      if(API.verify){
-        const d=await apiPost(API.verify,{chat:en(su.chat.value.trim()),phone:norm(su.elements.phone.value),code,
-          name:su.elements.name.value.trim(),email:su.elements.email.value.trim(),pass:su.pass.value});
-        ok=true;token=d.token||'';
-        if(token)Auth.save(token,true);
-      }else{await wait(800);ok=code===demoCode}
-    }catch(e){ok=false;vmsg=why(e,'')}
-    busy(b,false);
-    if(ok){
+      const d=await apiPost(API.verify,{channel:$('#deliveryChoice').dataset.channel,phone:norm(su.elements.phone.value),email:su.elements.email.value.trim(),code});
+      token=d.token||'';
+      if(token)Auth.save(token,true);
       bx.classList.remove('bad');bx.classList.add('good');
       clearInterval(cd);$('#toast').classList.remove('on');
       await wait(450);step(4);buildProg();runSteps();
-    }else{
-      bad(vmsg||'کد اشتباه است. دوباره امتحان کن.');
-      otp.forEach(o=>{o.value='';o.classList.remove('fill')});
-      otp[0].focus();
+    }catch(err){
+      bad(why(err,'کد اشتباه است یا منقضی شده. دوباره امتحان کن.'));
+      otp.forEach(o=>{o.value='';o.classList.remove('fill')});otp[0].focus();
     }
+    busy(b,false);
   }
 });
 
-const userData=()=>({chat:en(su.chat.value.trim()),phone:norm(su.elements.phone.value),
-  name:su.elements.name.value.trim(),email:su.elements.email.value.trim()});
+const userData=()=>({phone:norm(su.elements.phone.value),name:su.elements.name.value.trim(),
+  email:su.elements.email.value.trim(),schoolName:su.elements.schoolName.value.trim(),
+  officialSchoolName:su.elements.officialSchoolName.value.trim(),grade:su.elements.grade.value.trim(),
+  fieldOfStudy:su.elements.fieldOfStudy.value.trim()});
 
 async function call(url,data){
   if(!url){await wait(500+Math.random()*500);return}
