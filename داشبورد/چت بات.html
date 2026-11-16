@@ -223,6 +223,10 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .model-provider-row{position:relative}
 .model-provider-row>.provider-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:9px 10px;border-radius:9px;text-align:right}
 .model-provider-row>.provider-entry:hover,.model-provider-row>.provider-entry[aria-expanded=true]{background:var(--hv)}
+.model-provider-row.is-disabled>.provider-entry{opacity:.58;cursor:not-allowed}
+.model-provider-row.is-disabled>.provider-entry:hover{background:transparent}
+.provider-lock{font-size:13px;opacity:.8;flex:none}
+#huggingFaceModels{display:none!important}
 .provider-entry b{font-size:11.5px;font-weight:600;display:block}
 .provider-entry small{font-size:9.5px;color:var(--mu);display:block;margin-top:2px}
 .provider-entry .provider-arrow{font-size:15px;color:var(--mu);transition:transform .16s}
@@ -526,9 +530,9 @@ body.shared-view #dock{display:none!important}
                 <button type="button" role="radio" data-cloudflare-model="@cf/mistralai/mistral-small-3.1-24b-instruct" aria-checked="false" onclick="selectCloudflareModel('@cf/mistralai/mistral-small-3.1-24b-instruct')"><span><b>Mistral Small 3.1 24B</b><small>@cf/mistralai/mistral-small-3.1-24b-instruct</small></span><span class="model-check"></span></button>
               </div>
             </div>
-            <div class="model-provider-row" id="huggingFaceProvider" onmouseenter="showHuggingFaceModels(true)" onmouseleave="showHuggingFaceModels(false)">
-              <button type="button" class="provider-entry" id="huggingFaceEntry" aria-expanded="false" aria-controls="huggingFaceModels" onclick="toggleHuggingFaceModels()">
-                <span><b>Hugging Face</b><small>۶ مدل متنی و تصویری</small></span><span class="provider-arrow">‹</span>
+            <div class="model-provider-row is-disabled" id="huggingFaceProvider">
+              <button type="button" class="provider-entry" id="huggingFaceEntry" aria-expanded="false" aria-controls="huggingFaceModels" disabled aria-disabled="true" title="فعلاً غیرفعال است">
+                <span><b>Hugging Face</b><small>غیرفعال</small></span><span class="provider-lock" aria-label="قفل">🔒</span>
               </button>
               <div class="model-submenu" id="huggingFaceModels" role="radiogroup" aria-label="مدل‌های Hugging Face">
                 <div class="submenu-title">مدل‌های Hugging Face Inference</div>
@@ -654,7 +658,7 @@ body.shared-view #dock{display:none!important}
             </div>
           </section>
           <section class="ai-provider-card">
-            <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">H</span><span><b>Hugging Face Inference Providers</b><small>دسترسی یکپارچه به مدل‌های متن‌باز</small></span></div><span class="ai-provider-tag">۶ مدل</span></div>
+            <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">H</span><span><b>Hugging Face Inference Providers</b><small>فعلاً غیرفعال</small></span></div><span class="ai-provider-tag">🔒 غیرفعال</span></div>
             <div class="ai-model-list">
               <article class="ai-model-item"><b>Llama 3.3 70B Instruct</b><p>مدل عمومی بزرگ برای نگارش، تحلیل متن، پاسخ‌های فارسی و دنبال‌کردن دستورهای چندمرحله‌ای.</p><code>meta-llama/Llama-3.3-70B-Instruct</code></article>
               <article class="ai-model-item"><b>DeepSeek R1</b><p>مدل استدلالی؛ مناسب حل مسئله‌های دشوار، منطق، ریاضی و برنامه‌نویسی. پاسخ‌گویی آن ممکن است طولانی‌تر باشد.</p><code>deepseek-ai/DeepSeek-R1</code></article>
@@ -742,7 +746,8 @@ const HUGGINGFACE_MODELS=[
 let selectedHuggingFaceModel=HUGGINGFACE_MODELS[0].id;
 try{
  const savedProvider=localStorage.getItem('madar-ai-model');
- if(['groq','gemini','openrouter','cloudflare','huggingface'].includes(savedProvider))selectedAIModel=savedProvider;
+ if(['groq','gemini','openrouter','cloudflare','huggingface'].includes(savedProvider))selectedAIModel=savedProvider==='huggingface'?'gemini':savedProvider;
+ if(savedProvider==='huggingface')localStorage.setItem('madar-ai-model','gemini');
  const savedGemini=localStorage.getItem('madar-gemini-model');
  if(GEMINI_MODELS.some(item=>item.id===savedGemini))selectedGeminiModel=savedGemini;
  const savedGroq=localStorage.getItem('madar-groq-model');
@@ -832,6 +837,7 @@ function selectOpenRouterModel(modelId){
  toast('مدل '+(OPENROUTER_MODELS.find(item=>item.id===modelId)?.name||'OpenRouter')+' انتخاب شد.');
 }
 function selectHuggingFaceModel(modelId){
+ return; // Hugging Face موقتاً غیرفعال است.
  if(!HUGGINGFACE_MODELS.some(item=>item.id===modelId))return;
  selectedHuggingFaceModel=modelId;selectedAIModel='huggingface';
  try{localStorage.setItem('madar-ai-model','huggingface');localStorage.setItem('madar-huggingface-model',modelId)}catch(error){}
