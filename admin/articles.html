@@ -67,6 +67,15 @@ nav{display:flex;gap:10px;flex-wrap:wrap;padding:14px 0}nav a{padding:7px 13px;b
 <section id="editView" hidden>
 <div class="editor">
 <div class="section-head"><div><div class="eyebrow" id="mode">مقاله جدید</div><h2>اطلاعات مقاله</h2></div><span class="status">ذخیره امن از طریق API مدیریت</span></div>
+<div class="panel ai-writer" id="aiWriter">
+<div class="ai-writer-head"><span class="ai-mark">✦</span><div><h3>دستیار نویسنده هوشمند</h3><p>موضوع را وارد کن تا پیش‌نویس کامل مقاله و فیلدهای فرم آماده شوند.</p></div></div>
+<div class="ai-writer-row">
+<label class="field"><span>موضوع مقاله</span><input class="control" id="aiTopic" maxlength="500" placeholder="مثلاً روش‌های مؤثر برای افزایش تمرکز هنگام مطالعه"></label>
+<label class="field"><span>مدل هوش مصنوعی</span><select class="control" id="aiProvider"><option value="gemini">Gemini</option><option value="groq">Groq</option><option value="openrouter">OpenRouter</option><option value="cloudflare">Cloudflare</option><option value="huggingface">Hugging Face</option></select></label>
+<button class="btn gold" id="generateArticle" type="button">✦ تولید پیش‌نویس</button>
+</div>
+<p class="ai-hint" id="aiStatus">پیش‌نویس فقط در فرم قرار می‌گیرد و تا زمانی که خودت ذخیره و منتشر نکنی، عمومی نخواهد شد.</p>
+</div>
 <div class="panel">
 <h3>اطلاعات اصلی</h3>
 <label class="field"><span>عنوان مقاله</span><input class="control" id="title" maxlength="180" placeholder="عنوان مقاله"></label>
@@ -75,6 +84,7 @@ nav{display:flex;gap:10px;flex-wrap:wrap;padding:14px 0}nav a{padding:7px 13px;b
 <label class="field"><span>دسته‌بندی</span><input class="control" id="category" maxlength="80" value="مقالات آموزشی"></label>
 </div>
 <label class="field"><span>توضیح کوتاه / خلاصه مقاله</span><textarea class="control" id="excerpt" rows="3" maxlength="500" placeholder="خلاصه‌ای که در کارت مقاله سایت نمایش داده می‌شود"></textarea></label>
+<label class="field"><span>متن کامل مقاله (Markdown)</span><textarea class="control" id="content" rows="18" maxlength="40000" placeholder="متن کامل مقاله اینجا قرار می‌گیرد؛ می‌توانی آن را ویرایش کنی."></textarea></label>
 <div class="form-grid">
 <label class="field"><span>مدت مطالعه (دقیقه)</span><input class="control" id="readTime" type="number" min="1" max="120" value="5"></label>
 <label class="field"><span>ترتیب نمایش</span><input class="control" id="order" type="number" min="-1000" max="1000" value="0"></label>
