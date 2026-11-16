@@ -92,25 +92,69 @@ svg.i{width:1.2rem;height:1.2rem;flex:none;fill:none;stroke:currentColor;stroke-
 <script src="../js/config.js"></script><script src="../js/auth.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const fa=n=>String(n).replace(/\\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const root=document.documentElement;
 $('themeBtn').onclick=()=>{const next=root.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else root.dataset.theme=next;try{localStorage.setItem('theme',next)}catch(e){}};
-const S={all:['همه دروس','s-all'],bio:['زیست‌شناسی','s-bio','#2f9e6b'],en:['زبان انگلیسی','s-en','#3b82c4'],lit:['ادبیات','s-lit','#d9763a'],chem:['شیمی','s-chem','#c9963a'],phy:['فیزیک','s-phy','#7a5cd6'],math:['ریاضی','s-math','#4a7ad6']};
-const X={PDF:'#e5484d',DOCX:'#3b82f6',DOC:'#3b82f6',PPTX:'#f08a24',PPT:'#f08a24'};
-const F=[
-['math','ارائه - کاربرد مشتق در هندسه','PPTX','۱۴۰۵/۰۸/۱۰','۳.۷ مگابایت'],['math','جمع‌بندی معادلات و نامعادلات','DOCX','۱۴۰۵/۰۸/۱۲','۱.۸ مگابایت'],['math','فصل ۱ - ماتریس‌ها و عملیات روی آن‌ها','PDF','۱۴۰۵/۰۸/۱۵','۲.۴ مگابایت'],['math','نکات مهم و فرمول‌های کلیدی','PPTX','۱۴۰۵/۰۸/۰۱','۱.۵ مگابایت'],['math','تمرینات پیشنهادی - بخش توابع','DOCX','۱۴۰۵/۰۸/۰۵','۹۸۰ کیلوبایت'],['math','سوالات امتحانی فصل ۱ تا ۳','PDF','۱۴۰۵/۰۸/۰۸','۱.۲ مگابایت'],['phy','جمع‌بندی قوانین نیوتن','DOCX','۱۴۰۵/۰۸/۱۳','۱.۱ مگابایت'],['phy','حل تمرین‌های کار و انرژی','PDF','۱۴۰۵/۰۸/۰۷','۲.۰ مگابایت'],['phy','ارائه - حرکت‌شناسی','PPTX','۱۴۰۵/۰۸/۰۲','۴.۱ مگابایت'],['chem','مفاهیم پایه شیمی آلی','PPTX','۱۴۰۵/۰۸/۱۴','۳.۲ مگابایت'],['chem','نمونه سوال شیمی ۲','PDF','۱۴۰۵/۰۸/۰۹','۱.۴ مگابایت'],['chem','جدول تناوبی و روندها','PDF','۱۴۰۵/۰۸/۰۳','۷۶۰ کیلوبایت'],['lit','آرایه‌های ادبی و کاربرد آن‌ها','PDF','۱۴۰۵/۰۸/۱۳','۱.۳ مگابایت'],['lit','جزوه قرابت معنایی','DOCX','۱۴۰۵/۰۸/۰۶','۸۴۰ کیلوبایت'],['en','واژگان مهم درس سوم','PDF','۱۴۰۵/۰۸/۱۱','۹۰۰ کیلوبایت'],['en','نکات گرامر - زمان‌ها','DOCX','۱۴۰۵/۰۸/۰۴','۱.۰ مگابایت'],['bio','خلاصه فصل ژنتیک','PPTX','۱۴۰۵/۰۸/۱۰','۲.۸ مگابایت'],['bio','سوالات تستی گوارش','PDF','۱۴۰۵/۰۸/۰۵','۱.۶ مگابایت']];
-const R=[['math','فصل ۲ - حد و پیوستگی','PDF','۲ ساعت پیش'],['phy','جمع‌بندی قوانین نیوتن','DOCX','۵ ساعت پیش'],['chem','مفاهیم پایه شیمی آلی','PPTX','۱ روز پیش'],['lit','آرایه‌های ادبی و کاربرد آن‌ها','PDF','۲ روز پیش']];
-let cur='math';const col=x=>X[x]||'#6b7280';
-const card=(f,i)=>'<article class="fc" style="--i:'+i+'"><div class="fi"><span class="ext" style="--c:'+col(f[2])+'">'+f[2]+'</span><div><b>'+f[1]+'</b><small>'+f[3]+' • '+f[4]+'</small></div></div><div class="btns"><a href="#" class="btn p" data-file-action="download"><svg class="i"><use href="#i-dl"/></svg>دانلود</a><a href="#" class="btn o" data-file-action="view"><svg class="i"><use href="#i-eye"/></svg>مشاهده</a></div></article>';
-function draw(){const q=$('fq').value.trim();const L=F.filter(f=>(cur==='all'||f[0]===cur)&&f[1].includes(q));$('ft').textContent=cur==='all'?'همه فایل‌های درسی':'فایل‌های درس '+S[cur][0];$('fn').textContent=fa(L.length)+' فایل';$('fg').innerHTML=L.length?L.map(card).join(''):'<p class="empty">فایلی پیدا نشد. عبارت دیگری را جستجو کنید یا درس دیگری را انتخاب کنید.</p>';document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===cur));}
-$('chips').innerHTML=Object.entries(S).map(([k,v])=>'<button class="chip" type="button" data-k="'+k+'" style="--c:'+(v[2]||'var(--gold)')+'"><svg class="i"><use href="#'+v[1]+'"/></svg>'+v[0]+'</button>').join('');
-$('chips').onclick=e=>{const c=e.target.closest('.chip');if(c){cur=c.dataset.k;draw()}};$('fq').oninput=draw;
-$('rl').innerHTML=R.map(r=>'<li class="ri"><span class="ext" style="--c:'+col(r[2])+'">'+r[2]+'</span><div><b>'+r[1]+'</b><small><span class="tag" style="--c:'+S[r[0]][2]+'">'+S[r[0]][0]+'</span>'+r[3]+'</small></div></li>').join('');
-$('allFiles').onclick=e=>{e.preventDefault();cur='all';$('fq').value='';draw();$('fg').scrollIntoView({behavior:'smooth',block:'start'})};
-$('upBtn').onclick=()=>$('upIn').click();
-$('upIn').onchange=e=>{[...e.target.files].forEach(f=>{const ext=(f.name.split('.').pop()||'').toUpperCase();if(!X[ext])return;const mb=f.size/1048576;F.unshift([cur==='all'?'math':cur,f.name.replace(/\.[^.]+$/,''),ext,new Date().toLocaleDateString('fa-IR'),fa(mb>=1?mb.toFixed(1)+' مگابایت':Math.max(1,Math.round(f.size/1024))+' کیلوبایت')]);});e.target.value='';draw();};
-$('fg').addEventListener('click',e=>{const a=e.target.closest('[data-file-action]');if(!a)return;e.preventDefault();alert('این فایل نمونه است. برای دانلود و مشاهده واقعی باید فایل در فضای ذخیره‌سازی مدار ثبت شده باشد.')});
-(async()=>{try{if(typeof Auth!=='undefined'&&Auth.requireAuth)await Auth.requireAuth()}catch(e){}})();
-draw();
+const SUBJECTS=['همه','ریاضی','فیزیک','شیمی','زیست‌شناسی','ادبیات','زبان انگلیسی','عربی','دینی','عمومی'];
+const COLORS={PDF:'#e5484d'};
+let files=[],activeSubject='همه',searchTerm='',loading=false;
+const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const formatSize=size=>{const n=Number(size)||0;return n>=1048576?fa((n/1048576).toFixed(1))+' مگابایت':fa(Math.max(1,Math.round(n/1024)))+' کیلوبایت'};
+const formatDate=value=>{try{return new Date(value).toLocaleDateString('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'})}catch(e){return '—'}};
+const tokenHeaders=()=>typeof Auth!=='undefined'&&Auth.headers?Auth.headers():{};
+function filtered(){return files.filter(f=>(activeSubject==='همه'||(f.subject||'عمومی')===activeSubject)&&(!searchTerm||[f.name,f.caption,f.subject].join(' ').toLowerCase().includes(searchTerm.toLowerCase())))}
+function renderChips(){
+ const dynamic=[...new Set(files.map(f=>f.subject||'عمومی'))];
+ const subjects=[...new Set([...SUBJECTS,...dynamic])];
+ $('chips').innerHTML=subjects.map(s=>'<button class="chip" type="button" data-subject="'+escapeHtml(s)+'" aria-pressed="'+(s===activeSubject)+'"><svg class="i"><use href="#'+(s==='همه'?'s-all':'s-lit')+'"/></svg>'+escapeHtml(s==='همه'?'همه دروس':s)+'</button>').join('');
+}
+function fileCard(f,i){
+ const name=escapeHtml(f.name||'فایل PDF'),subject=escapeHtml(f.subject||'عمومی');
+ return '<article class="fc" style="--i:'+i+'"><div class="fi"><span class="ext" style="--c:#e5484d">PDF</span><div><b>'+name+'</b><small>'+formatDate(f.createdAt)+' • '+formatSize(f.size)+'</small><small>'+subject+'</small></div></div><div class="btns"><button type="button" class="btn p" data-file-action="download" data-id="'+escapeHtml(f.id)+'"><svg class="i"><use href="#i-dl"/></svg>دانلود</button><button type="button" class="btn o" data-file-action="view" data-id="'+escapeHtml(f.id)+'"><svg class="i"><use href="#i-eye"/></svg>مشاهده</button></div></article>';
+}
+function render(){
+ const list=filtered();
+ $('ft').textContent=activeSubject==='همه'?'همه فایل‌های درسی':'فایل‌های درس '+activeSubject;
+ $('fn').textContent=fa(list.length)+' فایل';
+ $('fg').innerHTML=loading?'<p class="empty">در حال دریافت فایل‌های ثبت‌شده...</p>':list.length?list.map(fileCard).join(''):'<p class="empty">هنوز فایلی برای این بخش ثبت نشده است. فایل PDF را از طریق ربات تلگرام مدار ارسال کن تا اینجا نمایش داده شود.</p>';
+ const recent=[...files].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,4);
+ $('rl').innerHTML=recent.length?recent.map(f=>'<li class="ri"><span class="ext" style="--c:#e5484d">PDF</span><div><b>'+escapeHtml(f.name||'فایل PDF')+'</b><small><span class="tag" style="--c:var(--gold)">'+escapeHtml(f.subject||'عمومی')+'</span>'+formatDate(f.createdAt)+'</small></div></li>').join(''):'<li class="empty">هنوز فایلی ثبت نشده است.</li>';
+ renderChips();
+}
+async function loadFiles(){
+ loading=true;render();
+ try{
+  const response=await fetch(API_BASE_URL+'/study-files',{headers:tokenHeaders(),cache:'no-store'});
+  if(response.status===401){if(typeof Auth!=='undefined')Auth.logout();return}
+  if(!response.ok)throw new Error('خطا در دریافت فایل‌ها ('+response.status+')');
+  const data=await response.json();files=Array.isArray(data.files)?data.files:[];
+  loading=false;render();
+ }catch(error){
+  loading=false;render();$('fg').innerHTML='<p class="empty">'+escapeHtml(error.message||'ارتباط با سرور برقرار نشد.')+'<br><button type="button" class="btn o" id="retryFiles" style="max-width:9rem;margin:1rem auto">تلاش دوباره</button></p>';
+  const retry=$('retryFiles');if(retry)retry.onclick=loadFiles;
+ }
+}
+async function openFile(id,download){
+ const file=files.find(f=>f.id===id);if(!file)return;
+ const buttons=document.querySelectorAll('[data-id="'+CSS.escape(id)+'"]');buttons.forEach(b=>b.disabled=true);
+ try{
+  const response=await fetch(API_BASE_URL+'/study-files/'+encodeURIComponent(id)+'/content'+(download?'?download=1':''),{headers:tokenHeaders(),cache:'no-store'});
+  if(!response.ok)throw new Error(response.status===404?'فایل پیدا نشد.':'دریافت فایل ناموفق بود.');
+  const blob=await response.blob(),url=URL.createObjectURL(blob);
+  if(download){const a=document.createElement('a');a.href=url;a.download=file.name||'study-file.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
+  else{const win=window.open(url,'_blank','noopener');if(!win){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.click()}setTimeout(()=>URL.revokeObjectURL(url),120000)}
+ }catch(error){alert(error.message||'خطا در دریافت فایل')}
+ finally{buttons.forEach(b=>b.disabled=false)}
+}
+$('chips').onclick=e=>{const chip=e.target.closest('[data-subject]');if(chip){activeSubject=chip.dataset.subject;render()}};
+$('fq').oninput=e=>{searchTerm=e.target.value.trim();render()};
+$('allFiles').onclick=e=>{e.preventDefault();activeSubject='همه';$('fq').value='';searchTerm='';render();$('fg').scrollIntoView({behavior:'smooth',block:'start'})};
+$('upBtn').onclick=()=>alert('برای افزودن فایل، PDF را در گفت‌وگوی خصوصی ربات فایل‌های مدار به‌صورت Document ارسال کن. پس از ثبت موفق، فایل به‌صورت خودکار در همین صفحه نمایش داده می‌شود.');
+$('fg').addEventListener('click',e=>{const button=e.target.closest('[data-file-action]');if(button)openFile(button.dataset.id,button.dataset.fileAction==='download')});
+(async()=>{
+ try{if(typeof Auth!=='undefined'&&Auth.requireAuth){const user=await Auth.requireAuth();if(!user)return}}
+ catch(e){}
+ loadFiles();
+})();
 </script>
 </body></html>
