@@ -604,12 +604,12 @@ body.shared-view #dock{display:none!important}
         <h3>دستیار مدار</h3>
         <div class="persona-intro">لحن و شخصیت دستیار مدار را انتخاب کن. این تنظیم روی پاسخ‌های متنی و گفتگوی صوتی اثر می‌گذارد.</div>
         <div class="persona-options" role="radiogroup" aria-label="لحن دستیار">
-          <button type="button" class="persona-option" data-persona="balanced" onclick="setPersona('balanced')"><span class="persona-icon">🎓</span><span><b>متعادل و آموزشی</b><small>محترمانه، دقیق و روشن؛ حالت پیش‌فرض</small></span><span class="persona-check">✓</span></button>
+          <button type="button" class="persona-option" data-persona="balanced" onclick="setPersona('balanced')"><span class="persona-icon">🎓</span><span><b>متعادل و آموزشی</b><small>لحن رسمی‌تر و ساختارمندتر</small></span><span class="persona-check">✓</span></button>
           <button type="button" class="persona-option" data-persona="friendly" onclick="setPersona('friendly')"><span class="persona-icon">😊</span><span><b>صمیمی و خودمانی</b><small>لحن گرم و محاوره‌ای، بدون رسمی‌گویی زیاد</small></span><span class="persona-check">✓</span></button>
-          <button type="button" class="persona-option" data-persona="buddy" onclick="setPersona('buddy')"><span class="persona-icon">🤝</span><span><b>رفیق و همراه</b><small>مثل یک دوست حمایتگر و راحت صحبت می‌کند</small></span><span class="persona-check">✓</span></button>
+          <button type="button" class="persona-option" data-persona="buddy" onclick="setPersona('buddy')"><span class="persona-icon">🤝</span><span><b>رفیق و همراه</b><small>خودمانی، گرم و با شوخی‌های به‌جا؛ حالت پیش‌فرض</small></span><span class="persona-check">✓</span></button>
           <button type="button" class="persona-option" data-persona="witty" onclick="setPersona('witty')"><span class="persona-icon">😄</span><span><b>شوخ‌طبع و بانمک</b><small>گاهی شوخی ملایم و به‌جا؛ بدون حواس‌پرتی از درس</small></span><span class="persona-check">✓</span></button>
         </div>
-        <div class="persona-note" id="persona-note">حالت متعادل و آموزشی فعاله.</div>
+        <div class="persona-note" id="persona-note">حالت رفیق و همراه فعاله؛ راحت و خودمونی گپ می‌زنیم. 😄</div>
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
         <div class="srow"><div><b>سرعت تایپ</b><small>فقط وقتی تایپ زنده روشن است</small></div><select class="fld" onchange="spd=+this.value"><option value="2">آرام</option><option value="5" selected>معمولی</option><option value="12">سریع</option></select></div>
         <div class="srow"><div><b>اندازهٔ متن پاسخ‌ها</b></div><select class="fld" onchange="document.documentElement.style.setProperty('--fs',this.value+'px')"><option value="13.5">کوچک</option><option value="14.5" selected>متوسط</option><option value="16">بزرگ</option></select></div>
@@ -1299,11 +1299,11 @@ function navFilter(v){document.querySelectorAll('.snav button').forEach(b=>b.sty
 const PERSONAS={
  balanced:{label:'متعادل و آموزشی',note:'حالت متعادل و آموزشی فعاله.'},
  friendly:{label:'صمیمی و خودمانی',note:'با لحنی گرم، راحت و محاوره‌ای پاسخ می‌دم.'},
- buddy:{label:'رفیق و همراه',note:'مثل یک رفیق حمایتگر و قابل اعتماد کنارت هستم.'},
+ buddy:{label:'رفیق و همراه',note:'خودمونی و باحوصله کنارت هستم؛ هرجا هم جا داشت یه شوخی کوچولو می‌کنیم. 😄'},
  witty:{label:'شوخ‌طبع و بانمک',note:'گاهی چاشنی شوخی ملایم هم اضافه می‌کنم؛ ولی جواب درست همچنان اولویته.'}
 };
-let assistantPersona='balanced';
-try{const saved=localStorage.getItem('madar-ai-persona');if(PERSONAS[saved])assistantPersona=saved}catch(e){}
+let assistantPersona='buddy';
+try{const saved=localStorage.getItem('madar-ai-persona');if(PERSONAS[saved])assistantPersona=saved==='balanced'?'buddy':saved}catch(e){}
 function setPersona(value){
  if(!PERSONAS[value])return;
  assistantPersona=value;
