@@ -432,7 +432,7 @@
   .day-detail-note{padding:11px 13px;border-radius:9px;background:rgba(185,138,46,.08);font-size:12px;line-height:1.9}.day-detail-add{min-height:39px;border:0;border-radius:9px;background:var(--navy);color:#fff;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
   html[data-theme="dark"] .day-detail-dialog{background:#172238;color:#e7edf6;border-color:#34445f}html[data-theme="dark"] .day-detail-task{background:#101a2d;border-color:#34445f}html[data-theme="dark"] .day-detail-close{background:#101a2d;border-color:#34445f;color:#e7edf6}
   .today-badge{display:inline-block;margin-inline-start:5px;padding:1px 6px;border-radius:5px;background:rgba(185,138,46,.12);color:var(--gold);font-size:9px}
-  @media(max-width:700px){.schedule-head{align-items:flex-start}.schedule-actions{width:100%;justify-content:space-between}.day-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.day:nth-child(n){translate:0 0;--y:0px}}
+  @media(max-width:700px){.schedule-head{align-items:flex-start}.schedule-actions{width:100%;justify-content:space-between}.day-grid{grid-template-columns:1fr;gap:10px}.day{grid-template-columns:1fr;gap:7px}.day:nth-child(n){translate:0 0;--y:0px}}
   @media(max-width:460px){.day-grid{grid-template-columns:1fr}.plan-fields-row{grid-template-columns:1fr 1fr}.add-plan-btn{padding:0 10px}}
   html[data-theme="dark"] .plan-dialog{background:#172238;color:#e7edf6;border-color:#34445f}
   html[data-theme="dark"] .plan-field input,html[data-theme="dark"] .plan-field select,html[data-theme="dark"] .plan-field textarea{background:#101a2d;color:#e7edf6;border-color:#34445f}
@@ -790,8 +790,8 @@
     finally{saving=false;$('savePlan').disabled=false;$('savePlan').textContent='ذخیره برنامه'}
   });
   dayGrid.addEventListener('click',async event=>{
-    const card=event.target.closest('.day');
-    if(card&&!event.target.closest('button')){openDayDetails(card.dataset.date);return;}
+    const clickedCard=event.target.closest('.day');
+    if(clickedCard&&!event.target.closest('button')){openDayDetails(clickedCard.dataset.date);return;}
     const button=event.target.closest('button[data-action]');if(!button)return;
     const card=button.closest('.day'),date=card?.dataset.date,taskId=button.closest('.task')?.dataset.taskId;
     const plan=plansByDate[date];if(!plan||!taskId)return;
