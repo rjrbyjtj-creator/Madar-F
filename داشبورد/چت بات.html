@@ -475,6 +475,19 @@ body.shared-view #dock{display:none!important}
               <button type="button" role="radio" data-openrouter-model="google/gemma-4-31b-it:free" aria-checked="false" onclick="selectOpenRouterModel('google/gemma-4-31b-it:free')"><span><b>Gemma 4 31B</b><small>google/gemma-4-31b-it:free</small></span><span class="model-check"></span></button>
               <button type="button" role="radio" data-openrouter-model="openrouter/free" aria-checked="false" onclick="selectOpenRouterModel('openrouter/free')"><span><b>Free Router</b><small>openrouter/free</small></span><span class="model-check"></span></button>
             </div>
+            <div class="model-provider-row" id="cloudflareProvider" onmouseenter="showCloudflareModels(true)" onmouseleave="showCloudflareModels(false)">
+              <button type="button" class="provider-entry" id="cloudflareEntry" aria-expanded="false" aria-controls="cloudflareModels" onclick="toggleCloudflareModels()">
+                <span><b>Cloudflare</b><small>۵ مدل Workers AI</small></span><span class="provider-arrow">‹</span>
+              </button>
+              <div class="model-submenu" id="cloudflareModels" role="radiogroup" aria-label="مدل‌های Cloudflare">
+                <div class="submenu-title">مدل‌های Cloudflare Workers AI</div>
+                <button type="button" role="radio" data-cloudflare-model="@cf/zai-org/glm-4.7-flash" aria-checked="false" onclick="selectCloudflareModel('@cf/zai-org/glm-4.7-flash')"><span><b>GLM 4.7 Flash</b><small>@cf/zai-org/glm-4.7-flash</small></span><span class="model-check"></span></button>
+                <button type="button" role="radio" data-cloudflare-model="@cf/ibm/granite-4.0-h-micro" aria-checked="false" onclick="selectCloudflareModel('@cf/ibm/granite-4.0-h-micro')"><span><b>Granite 4.0 H Micro</b><small>@cf/ibm/granite-4.0-h-micro</small></span><span class="model-check"></span></button>
+                <button type="button" role="radio" data-cloudflare-model="@cf/google/gemma-4-26b-a4b-it" aria-checked="false" onclick="selectCloudflareModel('@cf/google/gemma-4-26b-a4b-it')"><span><b>Gemma 4 26B IT</b><small>@cf/google/gemma-4-26b-a4b-it</small></span><span class="model-check"></span></button>
+                <button type="button" role="radio" data-cloudflare-model="@cf/meta/llama-3.3-70b-instruct-fp8-fast" aria-checked="false" onclick="selectCloudflareModel('@cf/meta/llama-3.3-70b-instruct-fp8-fast')"><span><b>Llama 3.3 70B Fast</b><small>@cf/meta/llama-3.3-70b-instruct-fp8-fast</small></span><span class="model-check"></span></button>
+                <button type="button" role="radio" data-cloudflare-model="@cf/mistralai/mistral-small-3.1-24b-instruct" aria-checked="false" onclick="selectCloudflareModel('@cf/mistralai/mistral-small-3.1-24b-instruct')"><span><b>Mistral Small 3.1 24B</b><small>@cf/mistralai/mistral-small-3.1-24b-instruct</small></span><span class="model-check"></span></button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -587,18 +600,34 @@ const OPENROUTER_MODELS=[
  {id:'openrouter/free',name:'Free Router'}
 ];
 let selectedOpenRouterModel=OPENROUTER_MODELS[0].id;
+const CLOUDFLARE_MODELS=[
+ {id:'@cf/zai-org/glm-4.7-flash',name:'GLM 4.7 Flash'},
+ {id:'@cf/ibm/granite-4.0-h-micro',name:'Granite 4.0 H Micro'},
+ {id:'@cf/google/gemma-4-26b-a4b-it',name:'Gemma 4 26B IT'},
+ {id:'@cf/meta/llama-3.3-70b-instruct-fp8-fast',name:'Llama 3.3 70B Fast'},
+ {id:'@cf/mistralai/mistral-small-3.1-24b-instruct',name:'Mistral Small 3.1 24B'}
+];
+let selectedCloudflareModel=CLOUDFLARE_MODELS[0].id;
 try{
  const savedProvider=localStorage.getItem('madar-ai-model');
- if(['groq','gemini','openrouter'].includes(savedProvider))selectedAIModel=savedProvider;
+ if(['groq','gemini','openrouter','cloudflare'].includes(savedProvider))selectedAIModel=savedProvider;
+ const savedCloudflare=localStorage.getItem('madar-cloudflare-model');
+ if(CLOUDFLARE_MODELS.some(item=>item.id===savedCloudflare))selectedCloudflareModel=savedCloudflare;
  const savedOpenRouter=localStorage.getItem('madar-openrouter-model');
  if(OPENROUTER_MODELS.some(item=>item.id===savedOpenRouter))selectedOpenRouterModel=savedOpenRouter;
 }catch(error){}
 function updateModelMenu(){
  const current=OPENROUTER_MODELS.find(item=>item.id===selectedOpenRouterModel);
- const names={gemini:'Gemini',groq:'Groq',openrouter:'OpenRouter · '+(current?.name||'مدل رایگان')};
+ const cfCurrent=CLOUDFLARE_MODELS.find(item=>item.id===selectedCloudflareModel);
+ const names={gemini:'Gemini',groq:'Groq',openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI')};
  $('modelTriggerLabel').textContent=names[selectedAIModel];
  document.querySelectorAll('#modelMenu [data-model]').forEach(button=>{
   const active=button.dataset.model===selectedAIModel;
+  button.setAttribute('aria-checked',String(active));
+  button.querySelector('.model-check').textContent=active?'✓':'';
+ });
+ document.querySelectorAll('#cloudflareModels [data-cloudflare-model]').forEach(button=>{
+  const active=button.dataset.cloudflareModel===selectedCloudflareModel;
   button.setAttribute('aria-checked',String(active));
   button.querySelector('.model-check').textContent=active?'✓':'';
  });
@@ -611,7 +640,7 @@ function updateModelMenu(){
 function toggleModelMenu(force){
  const menu=$('modelMenu'),open=typeof force==='boolean'?force:!menu.classList.contains('open');
  menu.classList.toggle('open',open);$('modelTrigger').setAttribute('aria-expanded',String(open));
- if(!open)showOpenRouterModels(false);
+ if(!open){showOpenRouterModels(false);showCloudflareModels(false);}
  if(open)closeComposerTools();
 }
 function showOpenRouterModels(open){
@@ -621,11 +650,20 @@ function showOpenRouterModels(open){
  $('openRouterEntry').setAttribute('aria-expanded',String(!!open));
 }
 function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
+function showCloudflareModels(open){const submenu=$('cloudflareModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('cloudflareEntry').setAttribute('aria-expanded',String(!!open))}
+function toggleCloudflareModels(){showCloudflareModels(!$('cloudflareModels').classList.contains('open'))}
 function selectAIModel(model){
  if(!['gemini','groq'].includes(model))return;
  selectedAIModel=model;try{localStorage.setItem('madar-ai-model',model)}catch(error){}
  updateModelMenu();toggleModelMenu(false);
  toast(model==='groq'?'Groq انتخاب شد.':'Gemini انتخاب شد.');
+}
+function selectCloudflareModel(modelId){
+ if(!CLOUDFLARE_MODELS.some(item=>item.id===modelId))return;
+ selectedCloudflareModel=modelId;selectedAIModel='cloudflare';
+ try{localStorage.setItem('madar-ai-model','cloudflare');localStorage.setItem('madar-cloudflare-model',modelId)}catch(error){}
+ updateModelMenu();toggleModelMenu(false);
+ toast('مدل '+(CLOUDFLARE_MODELS.find(item=>item.id===modelId)?.name||'Cloudflare')+' انتخاب شد.');
 }
 function selectOpenRouterModel(modelId){
  if(!OPENROUTER_MODELS.some(item=>item.id===modelId))return;
