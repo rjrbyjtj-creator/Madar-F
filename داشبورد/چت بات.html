@@ -460,7 +460,17 @@ body.shared-view #dock{display:none!important}
       <div class="model-wrap">
         <button class="model-trigger" id="modelTrigger" type="button" onclick="toggleModelMenu()" aria-expanded="false" aria-controls="modelMenu"><span id="modelTriggerLabel">Gemini</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
         <div class="model-menu" id="modelMenu" role="radiogroup" aria-label="انتخاب سرویس هوش مصنوعی">
-          <button type="button" role="radio" aria-checked="false" data-model="gemini" onclick="selectAIModel('gemini')"><span><b>Gemini</b><small>دستیار فعلی مدار</small></span><span class="model-check"></span></button>
+          <div class="model-provider-row" id="geminiProvider" onmouseenter="showGeminiModels(true)" onmouseleave="showGeminiModels(false)">
+            <button type="button" class="provider-entry" id="geminiEntry" aria-expanded="false" aria-controls="geminiModels" onclick="toggleGeminiModels()">
+              <span><b>Gemini</b><small>۳ مدل متنی · گفتگوی صوتی Live</small></span><span class="provider-arrow">‹</span>
+            </button>
+            <div class="model-submenu" id="geminiModels" role="radiogroup" aria-label="مدل‌های Gemini">
+              <div class="submenu-title">مدل‌های متنی Gemini</div>
+              <button type="button" role="radio" data-gemini-model="gemini-3.8-flash" aria-checked="false" onclick="selectGeminiModel('gemini-3.8-flash')"><span><b>Gemini 3.8 Flash</b><small>gemini-3.8-flash</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-gemini-model="gemini-3.6-flash" aria-checked="false" onclick="selectGeminiModel('gemini-3.6-flash')"><span><b>Gemini 3.6 Flash</b><small>gemini-3.6-flash</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-gemini-model="gemini-3.5-flash-lite" aria-checked="false" onclick="selectGeminiModel('gemini-3.5-flash-lite')"><span><b>Gemini 3.5 Flash-Lite</b><small>gemini-3.5-flash-lite</small></span><span class="model-check"></span></button>
+            </div>
+          </div>
           <div class="model-provider-row" id="groqProvider" onmouseenter="showGroqModels(true)" onmouseleave="showGroqModels(false)">
             <button type="button" class="provider-entry" id="groqEntry" aria-expanded="false" aria-controls="groqModels" onclick="toggleGroqModels()">
               <span><b>Groq</b><small>۴ مدل برای انتخاب</small></span><span class="provider-arrow">‹</span>
@@ -602,6 +612,12 @@ let pendingPlanDeletionProposal=null;
 const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
 const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 let selectedAIModel='gemini';
+const GEMINI_MODELS=[
+ {id:'gemini-3.8-flash',name:'Gemini 3.8 Flash'},
+ {id:'gemini-3.6-flash',name:'Gemini 3.6 Flash'},
+ {id:'gemini-3.5-flash-lite',name:'Gemini 3.5 Flash-Lite'}
+];
+let selectedGeminiModel=GEMINI_MODELS[0].id;
 const GROQ_MODELS=[
  {id:'llama-3.3-70b-versatile',name:'Llama 3.3 70B Versatile'},
  {id:'llama-3.1-8b-instant',name:'Llama 3.1 8B Instant'},
@@ -629,6 +645,8 @@ let selectedCloudflareModel=CLOUDFLARE_MODELS[0].id;
 try{
  const savedProvider=localStorage.getItem('madar-ai-model');
  if(['groq','gemini','openrouter','cloudflare'].includes(savedProvider))selectedAIModel=savedProvider;
+ const savedGemini=localStorage.getItem('madar-gemini-model');
+ if(GEMINI_MODELS.some(item=>item.id===savedGemini))selectedGeminiModel=savedGemini;
  const savedGroq=localStorage.getItem('madar-groq-model');
  if(GROQ_MODELS.some(item=>item.id===savedGroq))selectedGroqModel=savedGroq;
  const savedCloudflare=localStorage.getItem('madar-cloudflare-model');
@@ -637,13 +655,19 @@ try{
  if(OPENROUTER_MODELS.some(item=>item.id===savedOpenRouter))selectedOpenRouterModel=savedOpenRouter;
 }catch(error){}
 function updateModelMenu(){
+ const geminiCurrent=GEMINI_MODELS.find(item=>item.id===selectedGeminiModel);
  const current=OPENROUTER_MODELS.find(item=>item.id===selectedOpenRouterModel);
  const cfCurrent=CLOUDFLARE_MODELS.find(item=>item.id===selectedCloudflareModel);
  const groqCurrent=GROQ_MODELS.find(item=>item.id===selectedGroqModel);
- const names={gemini:'Gemini',groq:'Groq',openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI'),groq:'Groq · '+(groqCurrent?.name||'مدل')};
+ const names={gemini:'Gemini · '+(geminiCurrent?.name||'مدل'),groq:'Groq · '+(groqCurrent?.name||'مدل'),openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI'),};
  $('modelTriggerLabel').textContent=names[selectedAIModel];
  document.querySelectorAll('#modelMenu [data-model]').forEach(button=>{
   const active=button.dataset.model===selectedAIModel;
+  button.setAttribute('aria-checked',String(active));
+  button.querySelector('.model-check').textContent=active?'✓':'';
+ });
+ document.querySelectorAll('#geminiModels [data-gemini-model]').forEach(button=>{
+  const active=button.dataset.geminiModel===selectedGeminiModel;
   button.setAttribute('aria-checked',String(active));
   button.querySelector('.model-check').textContent=active?'✓':'';
  });
@@ -666,7 +690,7 @@ function updateModelMenu(){
 function toggleModelMenu(force){
  const menu=$('modelMenu'),open=typeof force==='boolean'?force:!menu.classList.contains('open');
  menu.classList.toggle('open',open);$('modelTrigger').setAttribute('aria-expanded',String(open));
- if(!open){showOpenRouterModels(false);showCloudflareModels(false);showGroqModels(false);}
+ if(!open){showOpenRouterModels(false);showCloudflareModels(false);showGroqModels(false);showGeminiModels(false);}
  if(open)closeComposerTools();
 }
 function showOpenRouterModels(open){
@@ -676,17 +700,15 @@ function showOpenRouterModels(open){
  $('openRouterEntry').setAttribute('aria-expanded',String(!!open));
 }
 function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
+function showGeminiModels(open){const submenu=$('geminiModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('geminiEntry').setAttribute('aria-expanded',String(!!open))}
+function toggleGeminiModels(){showGeminiModels(!$('geminiModels').classList.contains('open'))}
+function selectGeminiModel(modelId){if(!GEMINI_MODELS.some(item=>item.id===modelId))return;selectedGeminiModel=modelId;selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini');localStorage.setItem('madar-gemini-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast((GEMINI_MODELS.find(item=>item.id===modelId)?.name||'Gemini')+' انتخاب شد.')}
 function showGroqModels(open){const submenu=$('groqModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('groqEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleGroqModels(){showGroqModels(!$('groqModels').classList.contains('open'))}
 function selectGroqModel(modelId){if(!GROQ_MODELS.some(item=>item.id===modelId))return;selectedGroqModel=modelId;selectedAIModel='groq';try{localStorage.setItem('madar-ai-model','groq');localStorage.setItem('madar-groq-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast('مدل '+(GROQ_MODELS.find(item=>item.id===modelId)?.name||'Groq')+' انتخاب شد.')}
 function showCloudflareModels(open){const submenu=$('cloudflareModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('cloudflareEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleCloudflareModels(){showCloudflareModels(!$('cloudflareModels').classList.contains('open'))}
-function selectAIModel(model){
- if(!['gemini','groq'].includes(model))return;
- selectedAIModel=model;try{localStorage.setItem('madar-ai-model',model)}catch(error){}
- updateModelMenu();toggleModelMenu(false);
- toast(model==='groq'?'Groq انتخاب شد.':'Gemini انتخاب شد.');
-}
+function selectAIModel(model){if(model!=='gemini')return;selectGeminiModel(selectedGeminiModel)}
 function selectCloudflareModel(modelId){
  if(!CLOUDFLARE_MODELS.some(item=>item.id===modelId))return;
  selectedCloudflareModel=modelId;selectedAIModel='cloudflare';
@@ -946,7 +968,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0')}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0')}),
    signal:controller.signal,
   });
   const data=await response.json().catch(()=>({}));
