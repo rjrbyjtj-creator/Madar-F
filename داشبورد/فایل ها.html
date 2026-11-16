@@ -145,8 +145,8 @@ async function openFile(id,download){
   if(!response.ok)throw new Error(response.status===404?'فایل پیدا نشد.':'دریافت فایل ناموفق بود.');
   const blob=await response.blob(),url=URL.createObjectURL(blob);
   if(download){const a=document.createElement('a');a.href=url;a.download=file.name||'study-file.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
-  else if(previewTab&&!previewTab.closed){previewTab.location.href=url;setTimeout(()=>URL.revokeObjectURL(url),10*60*1000)}
-  else{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.click();setTimeout(()=>URL.revokeObjectURL(url),10*60*1000)}
+  else if(previewTab&&!previewTab.closed){previewTab.location.replace(url);previewTab.focus();setTimeout(()=>URL.revokeObjectURL(url),10*60*1000)}
+  else{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.textContent='باز کردن فایل';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10*60*1000)}
  }catch(error){if(previewTab&&!previewTab.closed)previewTab.close();alert(error.message||'خطا در دریافت فایل')}
  finally{buttons.forEach(b=>b.disabled=false)}
 }
