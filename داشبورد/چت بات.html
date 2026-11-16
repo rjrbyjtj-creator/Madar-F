@@ -629,7 +629,7 @@ async function confirmPlanDeletionProposal(proposal,button){
  }catch(error){
   if(button){button.disabled=false;button.textContent='تلاش دوباره برای حذف'}
   if(removed.length){
-   if(pendingPlanDeletionProposal===proposal)pendingPlanDeletionProposal=null;
+   if(pendingPlanDeletionProposal===proposal)pendingPlanDeletionProposal={items:proposal.items.filter(item=>!removed.some(done=>done.date===item.date&&done.taskId===item.taskId))};
    toast(removed.length+' فعالیت حذف شد؛ مورد بعدی حذف نشد: '+(error.message||'خطا'));
   }else toast(error.message||'حذف فعالیت‌ها ناموفق بود.');
  }
@@ -695,6 +695,7 @@ async function send(text){
   pendingPlanProposal=null;layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();addAI('باشه، هیچ برنامه‌ای ثبت نشد. هر زمان خواستی می‌توانیم پیشنهاد تازه‌ای بسازیم.',false);return;
  }
  if(pendingPlanProposal)pendingPlanProposal=null;
+ if(pendingPlanDeletionProposal)pendingPlanDeletionProposal=null;
  layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
  if(!active)$('ttl').textContent=t.length>40?t.slice(0,40)+'…':t;
  conversation.push({role:'user',content:t});
