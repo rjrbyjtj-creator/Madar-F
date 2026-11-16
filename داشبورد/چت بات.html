@@ -1333,6 +1333,10 @@ function scheduleLiveTurnSave(){
 }
 async function openLiveCall(){
  if(liveCallActive){stopLiveCall();return}
+ if(selectedAIModel!=='gemini'){
+  toast('این مدل قابلیت گفتگوی صوتی ندارد. برای استفاده از گفتگوی صوتی، Gemini را انتخاب کن.');
+  return;
+ }
  if(chatBusy){toast('اول صبر کن پاسخ فعلی کامل شود.');return}
  if(!Auth.get()){toast('برای تماس صوتی ابتدا وارد حساب کاربری شو.');return}
  if(att){toast('برای شروع تماس صوتی، ابتدا پیوست انتخاب‌شده را حذف کن.');return}
