@@ -461,7 +461,18 @@ body.shared-view #dock{display:none!important}
         <button class="model-trigger" id="modelTrigger" type="button" onclick="toggleModelMenu()" aria-expanded="false" aria-controls="modelMenu"><span id="modelTriggerLabel">Gemini</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
         <div class="model-menu" id="modelMenu" role="radiogroup" aria-label="انتخاب سرویس هوش مصنوعی">
           <button type="button" role="radio" aria-checked="false" data-model="gemini" onclick="selectAIModel('gemini')"><span><b>Gemini</b><small>دستیار فعلی مدار</small></span><span class="model-check"></span></button>
-          <button type="button" role="radio" aria-checked="false" data-model="groq" onclick="selectAIModel('groq')"><span><b>Groq</b><small>پاسخ‌گویی سریع</small></span><span class="model-check"></span></button>
+          <div class="model-provider-row" id="groqProvider" onmouseenter="showGroqModels(true)" onmouseleave="showGroqModels(false)">
+            <button type="button" class="provider-entry" id="groqEntry" aria-expanded="false" aria-controls="groqModels" onclick="toggleGroqModels()">
+              <span><b>Groq</b><small>۴ مدل برای انتخاب</small></span><span class="provider-arrow">‹</span>
+            </button>
+            <div class="model-submenu" id="groqModels" role="radiogroup" aria-label="مدل‌های Groq">
+              <div class="submenu-title">مدل‌های Groq</div>
+              <button type="button" role="radio" data-groq-model="llama-3.3-70b-versatile" aria-checked="false" onclick="selectGroqModel('llama-3.3-70b-versatile')"><span><b>Llama 3.3 70B Versatile</b><small>llama-3.3-70b-versatile</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-groq-model="llama-3.1-8b-instant" aria-checked="false" onclick="selectGroqModel('llama-3.1-8b-instant')"><span><b>Llama 3.1 8B Instant</b><small>llama-3.1-8b-instant</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-groq-model="openai/gpt-oss-120b" aria-checked="false" onclick="selectGroqModel('openai/gpt-oss-120b')"><span><b>OpenAI GPT-OSS 120B</b><small>openai/gpt-oss-120b</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-groq-model="openai/gpt-oss-20b" aria-checked="false" onclick="selectGroqModel('openai/gpt-oss-20b')"><span><b>OpenAI GPT-OSS 20B</b><small>openai/gpt-oss-20b</small></span><span class="model-check"></span></button>
+            </div>
+          </div>
           <div class="model-provider-row" id="openRouterProvider" onmouseenter="showOpenRouterModels(true)" onmouseleave="showOpenRouterModels(false)">
             <button type="button" class="provider-entry" id="openRouterEntry" aria-expanded="false" aria-controls="openRouterModels" onclick="toggleOpenRouterModels()">
               <span><b>OpenRouter</b><small>۶ مدل رایگان برای انتخاب</small></span><span class="provider-arrow">‹</span>
@@ -591,6 +602,13 @@ let pendingPlanDeletionProposal=null;
 const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
 const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 let selectedAIModel='gemini';
+const GROQ_MODELS=[
+ {id:'llama-3.3-70b-versatile',name:'Llama 3.3 70B Versatile'},
+ {id:'llama-3.1-8b-instant',name:'Llama 3.1 8B Instant'},
+ {id:'openai/gpt-oss-120b',name:'OpenAI GPT-OSS 120B'},
+ {id:'openai/gpt-oss-20b',name:'OpenAI GPT-OSS 20B'}
+];
+let selectedGroqModel=GROQ_MODELS[2].id;
 const OPENROUTER_MODELS=[
  {id:'nvidia/nemotron-3-ultra-550b-a55b:free',name:'Nemotron 3 Ultra'},
  {id:'nvidia/nemotron-3.5-lightning:free',name:'Nemotron 3.5 Lightning'},
@@ -611,6 +629,8 @@ let selectedCloudflareModel=CLOUDFLARE_MODELS[0].id;
 try{
  const savedProvider=localStorage.getItem('madar-ai-model');
  if(['groq','gemini','openrouter','cloudflare'].includes(savedProvider))selectedAIModel=savedProvider;
+ const savedGroq=localStorage.getItem('madar-groq-model');
+ if(GROQ_MODELS.some(item=>item.id===savedGroq))selectedGroqModel=savedGroq;
  const savedCloudflare=localStorage.getItem('madar-cloudflare-model');
  if(CLOUDFLARE_MODELS.some(item=>item.id===savedCloudflare))selectedCloudflareModel=savedCloudflare;
  const savedOpenRouter=localStorage.getItem('madar-openrouter-model');
@@ -619,10 +639,16 @@ try{
 function updateModelMenu(){
  const current=OPENROUTER_MODELS.find(item=>item.id===selectedOpenRouterModel);
  const cfCurrent=CLOUDFLARE_MODELS.find(item=>item.id===selectedCloudflareModel);
- const names={gemini:'Gemini',groq:'Groq',openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI')};
+ const groqCurrent=GROQ_MODELS.find(item=>item.id===selectedGroqModel);
+ const names={gemini:'Gemini',groq:'Groq',openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI'),groq:'Groq · '+(groqCurrent?.name||'مدل')};
  $('modelTriggerLabel').textContent=names[selectedAIModel];
  document.querySelectorAll('#modelMenu [data-model]').forEach(button=>{
   const active=button.dataset.model===selectedAIModel;
+  button.setAttribute('aria-checked',String(active));
+  button.querySelector('.model-check').textContent=active?'✓':'';
+ });
+ document.querySelectorAll('#groqModels [data-groq-model]').forEach(button=>{
+  const active=button.dataset.groqModel===selectedGroqModel;
   button.setAttribute('aria-checked',String(active));
   button.querySelector('.model-check').textContent=active?'✓':'';
  });
@@ -640,7 +666,7 @@ function updateModelMenu(){
 function toggleModelMenu(force){
  const menu=$('modelMenu'),open=typeof force==='boolean'?force:!menu.classList.contains('open');
  menu.classList.toggle('open',open);$('modelTrigger').setAttribute('aria-expanded',String(open));
- if(!open){showOpenRouterModels(false);showCloudflareModels(false);}
+ if(!open){showOpenRouterModels(false);showCloudflareModels(false);showGroqModels(false);}
  if(open)closeComposerTools();
 }
 function showOpenRouterModels(open){
@@ -650,6 +676,9 @@ function showOpenRouterModels(open){
  $('openRouterEntry').setAttribute('aria-expanded',String(!!open));
 }
 function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
+function showGroqModels(open){const submenu=$('groqModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('groqEntry').setAttribute('aria-expanded',String(!!open))}
+function toggleGroqModels(){showGroqModels(!$('groqModels').classList.contains('open'))}
+function selectGroqModel(modelId){if(!GROQ_MODELS.some(item=>item.id===modelId))return;selectedGroqModel=modelId;selectedAIModel='groq';try{localStorage.setItem('madar-ai-model','groq');localStorage.setItem('madar-groq-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast('مدل '+(GROQ_MODELS.find(item=>item.id===modelId)?.name||'Groq')+' انتخاب شد.')}
 function showCloudflareModels(open){const submenu=$('cloudflareModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('cloudflareEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleCloudflareModels(){showCloudflareModels(!$('cloudflareModels').classList.contains('open'))}
 function selectAIModel(model){
