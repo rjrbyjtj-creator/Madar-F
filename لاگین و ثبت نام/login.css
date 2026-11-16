@@ -43,7 +43,7 @@ main{position:relative;z-index:1;display:grid;grid-template-columns:1fr;min-heig
 .card::-webkit-scrollbar{display:none}
 .card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold),var(--primary))}
 .card::after{content:"";position:absolute;top:-90px;left:-90px;width:190px;height:190px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);box-shadow:0 0 0 22px color-mix(in srgb,var(--gold) 6%,transparent),0 0 0 44px color-mix(in srgb,var(--gold) 4%,transparent);pointer-events:none;z-index:-1}
-.card[data-m=signup]{width:min(560px,100%)}
+.card[data-m=signup]{width:min(600px,100%)}
 @keyframes in{from{opacity:0;transform:translateY(18px) scale(.97)}}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}}
 @keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
@@ -114,9 +114,10 @@ main{position:relative;z-index:1;display:grid;grid-template-columns:1fr;min-heig
 .bar i::after{content:"";position:absolute;inset:0;background:var(--primary);transform:scaleX(0);transform-origin:right;transition:transform .6s}
 #signupForm[data-step="1"] .bar i:nth-child(-n+1)::after,
 #signupForm[data-step="2"] .bar i:nth-child(-n+2)::after,
-#signupForm[data-step="3"] .bar i::after{transform:none}
+#signupForm[data-step="3"] .bar i:nth-child(-n+3)::after,
+#signupForm[data-step="4"] .bar i::after{transform:none}
 .pane{display:none}
-#signupForm[data-step="1"] .p1,#signupForm[data-step="2"] .p2,#signupForm[data-step="3"] .p3{display:block;animation:fade .45s both}
+#signupForm[data-step="1"] .p1,#signupForm[data-step="2"] .p2,#signupForm[data-step="3"] .p3,#signupForm[data-step="4"] .p4{display:block;animation:fade .45s both}
 
 .otp{--ob:48px;display:flex;gap:8px;justify-content:center;direction:ltr;margin:14px 0 6px}
 .otp input{width:var(--ob);height:var(--ob);text-align:center;border-radius:10px;border:1.5px solid var(--line);background:var(--field);font-size:20px;font-weight:800;outline:0;caret-color:var(--gold);transition:.2s}
