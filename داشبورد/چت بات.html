@@ -443,7 +443,7 @@ body.shared-view #dock{display:none!important}
         <button class="model-trigger" id="modelTrigger" type="button" onclick="toggleModelMenu()" aria-expanded="false" aria-controls="modelMenu"><span id="modelTriggerLabel">Gemini</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
         <div class="model-menu" id="modelMenu" role="radiogroup" aria-label="انتخاب مدل هوش مصنوعی">
           <button type="button" role="radio" aria-checked="true" data-model="gemini" onclick="selectAIModel('gemini')"><span><b>Gemini</b><small>دستیار فعلی مدار</small></span><span class="model-check">✓</span></button>
-          <button type="button" role="radio" aria-checked="false" data-model="grok" onclick="selectAIModel('grok')"><span><b>Grok</b><small>مدل هوش مصنوعی xAI</small></span><span class="model-check"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-model="groq" onclick="selectAIModel('groq')"><span><b>Groq</b><small>مدل هوش مصنوعی Groq</small></span><span class="model-check"></span></button>
         </div>
       </div>
       <button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button>
@@ -546,9 +546,9 @@ let pendingPlanDeletionProposal=null;
 const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
 const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 let selectedAIModel='gemini';
-try{const savedModel=localStorage.getItem('madar-ai-model');if(savedModel==='grok'||savedModel==='gemini')selectedAIModel=savedModel}catch(error){}
+try{const savedModel=localStorage.getItem('madar-ai-model');if(savedModel==='groq'||savedModel==='gemini')selectedAIModel=savedModel}catch(error){}
 function updateModelMenu(){
- const names={gemini:'Gemini',grok:'Grok'};
+ const names={gemini:'Gemini',groq:'Groq'};
  $('modelTriggerLabel').textContent=names[selectedAIModel];
  document.querySelectorAll('#modelMenu [data-model]').forEach(button=>{
   const active=button.dataset.model===selectedAIModel;
@@ -562,10 +562,10 @@ function toggleModelMenu(force){
  if(open)closeComposerTools();
 }
 function selectAIModel(model){
- if(!['gemini','grok'].includes(model))return;
+ if(!['gemini','groq'].includes(model))return;
  selectedAIModel=model;try{localStorage.setItem('madar-ai-model',model)}catch(error){}
  updateModelMenu();toggleModelMenu(false);
- toast(model==='grok'?'Grok انتخاب شد؛ اتصال پردازش آن در مرحله بک‌اند انجام می‌شود.':'Gemini انتخاب شد.');
+ toast(model==='groq'?'Groq انتخاب شد.':'Gemini انتخاب شد.');
 }
 function toggleComposerTools(force){
  const panel=$('composerTools'),open=typeof force==='boolean'?force:!panel.classList.contains('open');
