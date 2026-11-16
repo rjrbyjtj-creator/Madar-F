@@ -86,7 +86,7 @@
   </form>
 
   <form class="form" id="signupForm" data-step="1" novalidate>
-    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="bar"><i></i><i></i><i></i><i></i></div>
 
     <div class="pane p1">
       <p class="sub">اطلاعاتت رو وارد کن تا حسابت رو بسازیم.</p>
@@ -100,9 +100,6 @@
         <label class="f"><span>شماره‌ی موبایل</span>
           <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#p"/></svg><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required class="ltr"></div>
           <div class="err">شماره‌ی موبایل معتبر وارد کن.</div></label>
-        <label class="f"><span>آیدی چت (دریافت کد)</span>
-          <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#s"/></svg><input name="chat" placeholder="@madar_user" required class="ltr" autocomplete="off"></div>
-          <div class="err">آیدی (مثل @username) یا شناسه‌ی عددی رو درست وارد کن.</div></label>
         <label class="f"><span>رمز عبور</span>
           <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#k"/></svg><input name="pass" type="password" autocomplete="new-password" required minlength="6" class="ltr">
             <button type="button" class="eye" aria-label="نمایش رمز"><svg class="i" viewBox="0 0 24 24"><use href="#e"/></svg></button></div>
@@ -112,7 +109,7 @@
           <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#c"/></svg><input name="pass2" type="password" autocomplete="new-password" required class="ltr"></div>
           <div class="err">دو رمز یکسان نیستن.</div></label>
       </div>
-      <button class="submit" type="submit"><span class="sp"></span><span>ادامه و دریافت کد</span></button>
+      <button class="submit" type="submit"><span class="sp"></span><span>ادامه</span></button>
       <div class="msg" role="status"></div>
       <p class="sw">قبلاً ثبت‌نام کردی؟ <button type="button" data-go="login">وارد شو</button></p>
     </div>
@@ -127,7 +124,7 @@
         <input inputmode="numeric" maxlength="1" aria-label="رقم ۵">
         <input inputmode="numeric" maxlength="1" aria-label="رقم ۶">
       </div>
-      <div class="sent">کد به چت <b id="chatShow">—</b> ارسال شد.</div>
+      <div class="sent">کد برای <b id="chatShow">—</b> ارسال شد.</div>
       <div class="msg" id="otpMsg" role="status"></div>
       <div class="twin">
         <button type="button" class="submit ghost" id="editBtn">ویرایش</button>
@@ -226,7 +223,7 @@ su.pass.addEventListener('input',()=>{
 
 function check(form){
   let ok=true;
-  form.querySelectorAll('.f').forEach(f=>{
+  (form.id==='signupForm'?form.querySelector('.p'+form.dataset.step).querySelectorAll('.f'):form.querySelectorAll('.f')).forEach(f=>{
     const i=f.querySelector('input');if(!i)return;
     const v=i.value.trim();let bad=!v;
     if(!bad&&i.type==='email')bad=!/^\S+@\S+\.\S+$/.test(v);
@@ -305,19 +302,19 @@ lf.addEventListener('submit',async e=>{
 
 let demoCode='',cd,token='',from=0,resendSec=60;
 const otp=$$('#otp input');
-function step(n){su.dataset.step=n;if(n===2)setTimeout(()=>otp[0].focus(),200)}
+function step(n){su.dataset.step=n;if(n===3)setTimeout(()=>otp[0].focus(),200)}
 
 async function sendCode(){
-  const chat=en(su.chat.value.trim()),phone=norm(su.elements.phone.value);
+  const chat=en((su.elements.chat?.value||'').trim()),phone=norm(su.elements.phone.value),channel=$('#deliveryChoice').dataset.channel;
   if(API.sendCode){
-    const d=await apiPost(API.sendCode,{chat,phone,email:su.elements.email.value.trim()});
+    const d=await apiPost(API.sendCode,{channel,chat,phone,email:su.elements.email.value.trim(),name:su.elements.name.value.trim(),pass:su.pass.value,schoolName:su.elements.schoolName.value.trim(),officialSchoolName:su.elements.officialSchoolName.value.trim(),grade:su.elements.grade.value.trim(),fieldOfStudy:su.elements.fieldOfStudy.value.trim()});
     if(d.resendAfter)resendSec=d.resendAfter;
   }else{
     demoCode=String(Math.floor(100000+Math.random()*900000));
     await wait(900);
     toast(`<small>پیام نمایشی در چت ${chat}</small>کد تأیید مدار: <b>${fa(demoCode)}</b><small>(حالت آزمایشی)</small>`);
   }
-  $('#chatShow').textContent=chat;
+  $('#chatShow').textContent=channel==='email'?su.elements.email.value.trim():chat;
   countdown();
 }
 function countdown(){
@@ -334,7 +331,7 @@ $('#rbtn').onclick=async()=>{
   try{await sendCode();m.style.color='';m.textContent='کد جدید ارسال شد.'}
   catch(e){m.style.color='var(--bad)';m.textContent=why(e,'ارسال نشد، دوباره تلاش کن.')}
 };
-$('#editBtn').onclick=()=>{clearInterval(cd);step(1)};
+$('#editBtn').onclick=()=>{clearInterval(cd);step(2)};\n$('#backToPersonal').onclick=()=>step(1);\n$('#deliveryChoice').querySelectorAll('button').forEach(b=>b.onclick=()=>{const ch=b.dataset.channel;$('#deliveryChoice').dataset.channel=ch;$('#deliveryChoice').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#telegramField').hidden=ch!=='telegram';if(ch!=='telegram')su.elements.chat.value=''});
 
 const submitOtp=()=>{const v=$('#verBtn');if(!v.disabled)v.click()};
 otp.forEach((el,i)=>{
@@ -368,12 +365,9 @@ su.addEventListener('submit',async e=>{
     if(!check(su)){msg.textContent='';return shake(su)}
     busy(b,true);msg.style.color='';
     try{
-      await sendCode();
-      otp.forEach(o=>{o.value='';o.classList.remove('fill')});
-      $('#otpMsg').textContent='';
       step(2);
     }catch(e){
-      msg.style.color='var(--bad)';msg.textContent=why(e,'ارسال کد انجام نشد. آیدی چت رو بررسی کن.');shake(su);
+      msg.style.color='var(--bad)';msg.textContent=why(e,'اطلاعات رو بررسی کن و دوباره تلاش کن.');shake(su);
     }
     busy(b,false);
 
@@ -395,7 +389,7 @@ su.addEventListener('submit',async e=>{
     if(ok){
       bx.classList.remove('bad');bx.classList.add('good');
       clearInterval(cd);$('#toast').classList.remove('on');
-      await wait(450);step(3);buildProg();runSteps();
+      await wait(450);step(4);buildProg();runSteps();
     }else{
       bad(vmsg||'کد اشتباه است. دوباره امتحان کن.');
       otp.forEach(o=>{o.value='';o.classList.remove('fill')});
