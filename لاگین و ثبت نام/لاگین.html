@@ -6,13 +6,13 @@
 <link id="madar-page-loader-css" rel="stylesheet" href="../css/page-loader.css">
 <script src="../js/page-loader.js"></script>
 <script src="../js/madar-connect.js?v=connect-20261114"></script>
-<script defer src="../js/theme.js?v=global-theme-20261114"></script>
+<script defer src="../js/theme.js?v=global-theme-20261116"></script>
 <title>ورود | مدار</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./login.css?v=login-card-fix-20261114">
-<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<script>try{var savedMode=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(savedMode==='dark'||savedMode==='light')document.documentElement.dataset.theme=savedMode}catch(e){}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
