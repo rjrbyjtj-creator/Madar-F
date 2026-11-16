@@ -114,33 +114,42 @@
       <p class="sw">قبلاً ثبت‌نام کردی؟ <button type="button" data-go="login">وارد شو</button></p>
     </div>
 
+
     <div class="pane p2">
+      <p class="sub">اطلاعات تحصیلی‌ات رو وارد کن.</p>
+      <div class="grid two">
+        <label class="f"><span>نام مدرسه</span><div class="in"><input name="schoolName" required maxlength="160" placeholder="مثلاً دبیرستان نمونه"></div><div class="err">نام مدرسه رو وارد کن.</div></label>
+        <label class="f"><span>نام رسمی مدرسه</span><div class="in"><input name="officialSchoolName" required maxlength="200" placeholder="نام کامل و رسمی مدرسه"></div><div class="err">نام رسمی مدرسه رو وارد کن.</div></label>
+        <label class="f"><span>پایه تحصیلی</span><div class="in"><input name="grade" required placeholder="مثلاً دهم، یازدهم یا دوازدهم"></div><div class="err">پایه تحصیلی رو مشخص کن.</div></label>
+        <label class="f"><span>رشته تحصیلی</span><div class="in"><input name="fieldOfStudy" required placeholder="مثلاً تجربی، ریاضی، انسانی"></div><div class="err">رشته تحصیلی رو وارد کن.</div></label>
+      </div>
+      <div class="f" style="margin-top:12px"><span>روش دریافت کد تأیید</span>
+        <div class="seg" id="deliveryChoice" data-channel="email">
+          <button type="button" class="on" data-channel="email">ایمیل</button>
+          <button type="button" data-channel="telegram">تلگرام</button>
+        </div>
+      </div>
+      <label class="f" id="telegramField" hidden><span>آیدی یا شناسه عددی تلگرام</span>
+        <div class="in"><input name="chat" placeholder="@username یا شناسه عددی" class="ltr" autocomplete="off"></div>
+        <div class="err">آیدی معتبر تلگرام یا شناسه عددی رو وارد کن.</div>
+      </label>
+      <button class="submit" type="submit"><span class="sp"></span><span>ارسال کد تأیید</span></button>
+      <div class="msg" role="status"></div>
+      <div class="sw"><button type="button" id="backToPersonal">بازگشت به اطلاعات قبلی</button></div>
+    </div>
+    <div class="pane p3">
       <p class="sub">کد شش‌رقمی ارسال‌شده رو وارد کن.</p>
       <div class="otp" id="otp">
-        <input inputmode="numeric" maxlength="1" aria-label="رقم ۱" autocomplete="one-time-code">
-        <input inputmode="numeric" maxlength="1" aria-label="رقم ۲">
-        <input inputmode="numeric" maxlength="1" aria-label="رقم ۳">
-        <input inputmode="numeric" maxlength="1" aria-label="رقم ۴">
-        <input inputmode="numeric" maxlength="1" aria-label="رقم ۵">
-        <input inputmode="numeric" maxlength="1" aria-label="رقم ۶">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۱" autocomplete="one-time-code"><input inputmode="numeric" maxlength="1" aria-label="رقم ۲"><input inputmode="numeric" maxlength="1" aria-label="رقم ۳"><input inputmode="numeric" maxlength="1" aria-label="رقم ۴"><input inputmode="numeric" maxlength="1" aria-label="رقم ۵"><input inputmode="numeric" maxlength="1" aria-label="رقم ۶">
       </div>
       <div class="sent">کد برای <b id="chatShow">—</b> ارسال شد.</div>
       <div class="msg" id="otpMsg" role="status"></div>
-      <div class="twin">
-        <button type="button" class="submit ghost" id="editBtn">ویرایش</button>
-        <button class="submit" type="submit" id="verBtn"><span class="sp"></span><span>تأیید و ساخت حساب</span></button>
-      </div>
-      <p class="resend">
-        <span id="rtxt">ارسال دوباره تا <b id="rsec">۶۰</b> ثانیه‌ی دیگر</span>
-        <button type="button" id="rbtn" hidden>ارسال دوباره‌ی کد</button>
-      </p>
+      <div class="twin"><button type="button" class="submit ghost" id="editBtn">ویرایش</button><button class="submit" type="submit" id="verBtn"><span class="sp"></span><span>تأیید و ساخت حساب</span></button></div>
+      <p class="resend"><span id="rtxt">ارسال دوباره تا <b id="rsec">۶۰</b> ثانیه‌ی دیگر</span><button type="button" id="rbtn" hidden>ارسال دوباره‌ی کد</button></p>
     </div>
-
-    <div class="pane p3">
+    <div class="pane p4">
       <p class="sub">چند لحظه صبر کن، حسابت داره آماده می‌شه.</p>
-      <ul class="prog" id="prog" aria-live="polite"></ul>
-      <div class="msg" id="progMsg" role="status"></div>
-      <button type="button" class="submit ghost" id="retry" hidden>تلاش دوباره</button>
+      <ul class="prog" id="prog" aria-live="polite"></ul><div class="msg" id="progMsg" role="status"></div><button type="button" class="submit ghost" id="retry" hidden>تلاش دوباره</button>
     </div>
   </form>
 
