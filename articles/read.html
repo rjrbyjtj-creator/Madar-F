@@ -656,6 +656,9 @@
 }
   </style>
 <script defer src="../../js/theme.js?v=global-theme-20261116"></script>
+  <style>
+    .article{visibility:hidden}
+  </style>
 </head>
 
 <body>
@@ -1098,10 +1101,10 @@ close();out.push('<p>'+inline(t)+'</p>');
 });
 close();return out.join('');
 }
-function fail(message){if(article){article.innerHTML='<p style="padding:42px 16px;text-align:center;color:var(--muted)">'+esc(message)+'</p>'}document.querySelectorAll('.comments,.related').forEach(function(x){x.hidden=true})}
+function fail(message){if(article){article.style.visibility='visible';article.innerHTML='<p style="padding:42px 16px;text-align:center;color:var(--muted)">'+esc(message)+'</p>'}document.querySelectorAll('.comments,.related').forEach(function(x){x.hidden=true})}
 if(!slug||!/^[a-z0-9-]{2,100}$/.test(slug)){fail('شناسه مقاله معتبر نیست.');return}
 fetch(API+'/'+encodeURIComponent(slug),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('این مقاله پیدا نشد یا هنوز منتشر نشده است.');return r.json()}).then(function(data){
-var a=data.article;if(!a)throw new Error('مقاله پیدا نشد.');
+var a=data.article;if(!a)throw new Error('مقاله پیدا نشد.');if(article)article.style.visibility='visible';
 document.title=a.title+' | مجله مدار';
 var desc=document.querySelector('meta[name="description"]');if(desc)desc.content=a.excerpt||'مقاله‌ای از مجله آموزشی مدار';
 var canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.append(canonical)}canonical.href=location.href;
