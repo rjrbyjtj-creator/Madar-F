@@ -219,6 +219,23 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .model-menu b{font-size:11.5px;font-weight:600;display:block}
 .model-menu small{font-size:9.5px;color:var(--mu);display:block;margin-top:2px}
 .model-menu .model-check{font-size:13px;color:var(--ac)}
+.model-provider-row{position:relative}
+.model-provider-row>.provider-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:9px 10px;border-radius:9px;text-align:right}
+.model-provider-row>.provider-entry:hover,.model-provider-row>.provider-entry[aria-expanded=true]{background:var(--hv)}
+.provider-entry b{font-size:11.5px;font-weight:600;display:block}
+.provider-entry small{font-size:9.5px;color:var(--mu);display:block;margin-top:2px}
+.provider-entry .provider-arrow{font-size:15px;color:var(--mu);transition:transform .16s}
+.provider-entry[aria-expanded=true] .provider-arrow{transform:translateX(-2px)}
+.model-submenu{position:absolute;z-index:18;right:calc(100% + 8px);bottom:0;width:244px;max-height:min(330px,65vh);overflow-y:auto;padding:6px;border:1px solid var(--ln);border-radius:13px;background:var(--sf);box-shadow:var(--sh);opacity:0;visibility:hidden;transform:translateX(7px) scale(.98);transform-origin:bottom right;transition:opacity .16s,transform .16s,visibility .16s}
+.model-submenu.open{opacity:1;visibility:visible;transform:translateX(0) scale(1)}
+.model-submenu .submenu-title{padding:7px 9px 8px;font-size:10px;color:var(--mu);border-bottom:1px solid var(--ln);margin-bottom:4px}
+.model-submenu button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:8px 9px;border-radius:8px;text-align:right}
+.model-submenu button:hover{background:var(--hv)}
+.model-submenu button[aria-checked=true]{background:color-mix(in srgb,var(--ac) 10%,var(--sf))}
+.model-submenu button b{display:block;font-size:10.5px;font-weight:600}
+.model-submenu button small{display:block;margin-top:2px;font-size:9px;color:var(--mu);direction:ltr;text-align:right;overflow-wrap:anywhere}
+.model-submenu .model-check{color:var(--ac);font-size:12px}
+@media(max-width:640px){.model-submenu{width:220px;right:calc(100% + 5px);max-height:55vh}}
 .model-caption{font-size:9px;color:var(--mu);padding:5px 9px 3px;border-top:1px solid var(--ln);margin-top:4px}
 @media(max-width:640px){
  .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
@@ -441,9 +458,23 @@ body.shared-view #dock{display:none!important}
     <span class="r">
       <div class="model-wrap">
         <button class="model-trigger" id="modelTrigger" type="button" onclick="toggleModelMenu()" aria-expanded="false" aria-controls="modelMenu"><span id="modelTriggerLabel">Gemini</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
-        <div class="model-menu" id="modelMenu" role="radiogroup" aria-label="انتخاب مدل هوش مصنوعی">
-          <button type="button" role="radio" aria-checked="true" data-model="gemini" onclick="selectAIModel('gemini')"><span><b>Gemini</b><small>دستیار فعلی مدار</small></span><span class="model-check">✓</span></button>
-          <button type="button" role="radio" aria-checked="false" data-model="groq" onclick="selectAIModel('groq')"><span><b>Groq</b><small>مدل هوش مصنوعی Groq</small></span><span class="model-check"></span></button>
+        <div class="model-menu" id="modelMenu" role="radiogroup" aria-label="انتخاب سرویس هوش مصنوعی">
+          <button type="button" role="radio" aria-checked="false" data-model="gemini" onclick="selectAIModel('gemini')"><span><b>Gemini</b><small>دستیار فعلی مدار</small></span><span class="model-check"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-model="groq" onclick="selectAIModel('groq')"><span><b>Groq</b><small>پاسخ‌گویی سریع</small></span><span class="model-check"></span></button>
+          <div class="model-provider-row" id="openRouterProvider" onmouseenter="showOpenRouterModels(true)" onmouseleave="showOpenRouterModels(false)">
+            <button type="button" class="provider-entry" id="openRouterEntry" aria-expanded="false" aria-controls="openRouterModels" onclick="toggleOpenRouterModels()">
+              <span><b>OpenRouter</b><small>۶ مدل رایگان برای انتخاب</small></span><span class="provider-arrow">‹</span>
+            </button>
+            <div class="model-submenu" id="openRouterModels" role="radiogroup" aria-label="مدل‌های OpenRouter">
+              <div class="submenu-title">مدل‌های رایگان OpenRouter</div>
+              <button type="button" role="radio" data-openrouter-model="nvidia/nemotron-3-ultra-550b-a55b:free" aria-checked="false" onclick="selectOpenRouterModel('nvidia/nemotron-3-ultra-550b-a55b:free')"><span><b>Nemotron 3 Ultra</b><small>nvidia/nemotron-3-ultra-550b-a55b:free</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-openrouter-model="nvidia/nemotron-3.5-lightning:free" aria-checked="false" onclick="selectOpenRouterModel('nvidia/nemotron-3.5-lightning:free')"><span><b>Nemotron 3.5 Lightning</b><small>nvidia/nemotron-3.5-lightning:free</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-openrouter-model="baidu/ernie-5.5-flash-preview:free" aria-checked="false" onclick="selectOpenRouterModel('baidu/ernie-5.5-flash-preview:free')"><span><b>ERNIE 5.5 Flash</b><small>baidu/ernie-5.5-flash-preview:free</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-openrouter-model="cohere/north-mini-code:free" aria-checked="false" onclick="selectOpenRouterModel('cohere/north-mini-code:free')"><span><b>North Mini Code</b><small>cohere/north-mini-code:free</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-openrouter-model="google/gemma-4-31b-it:free" aria-checked="false" onclick="selectOpenRouterModel('google/gemma-4-31b-it:free')"><span><b>Gemma 4 31B</b><small>google/gemma-4-31b-it:free</small></span><span class="model-check"></span></button>
+              <button type="button" role="radio" data-openrouter-model="openrouter/free" aria-checked="false" onclick="selectOpenRouterModel('openrouter/free')"><span><b>Free Router</b><small>openrouter/free</small></span><span class="model-check"></span></button>
+            </div>
+          </div>
         </div>
       </div>
       <button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button>
@@ -546,12 +577,32 @@ let pendingPlanDeletionProposal=null;
 const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
 const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 let selectedAIModel='gemini';
-try{const savedModel=localStorage.getItem('madar-ai-model');if(savedModel==='groq'||savedModel==='gemini')selectedAIModel=savedModel}catch(error){}
+const OPENROUTER_MODELS=[
+ {id:'nvidia/nemotron-3-ultra-550b-a55b:free',name:'Nemotron 3 Ultra'},
+ {id:'nvidia/nemotron-3.5-lightning:free',name:'Nemotron 3.5 Lightning'},
+ {id:'baidu/ernie-5.5-flash-preview:free',name:'ERNIE 5.5 Flash'},
+ {id:'cohere/north-mini-code:free',name:'North Mini Code'},
+ {id:'google/gemma-4-31b-it:free',name:'Gemma 4 31B'},
+ {id:'openrouter/free',name:'Free Router'}
+];
+let selectedOpenRouterModel=OPENROUTER_MODELS[0].id;
+try{
+ const savedProvider=localStorage.getItem('madar-ai-model');
+ if(['groq','gemini','openrouter'].includes(savedProvider))selectedAIModel=savedProvider;
+ const savedOpenRouter=localStorage.getItem('madar-openrouter-model');
+ if(OPENROUTER_MODELS.some(item=>item.id===savedOpenRouter))selectedOpenRouterModel=savedOpenRouter;
+}catch(error){}
 function updateModelMenu(){
- const names={gemini:'Gemini',groq:'Groq'};
+ const current=OPENROUTER_MODELS.find(item=>item.id===selectedOpenRouterModel);
+ const names={gemini:'Gemini',groq:'Groq',openrouter:'OpenRouter · '+(current?.name||'مدل رایگان')};
  $('modelTriggerLabel').textContent=names[selectedAIModel];
  document.querySelectorAll('#modelMenu [data-model]').forEach(button=>{
   const active=button.dataset.model===selectedAIModel;
+  button.setAttribute('aria-checked',String(active));
+  button.querySelector('.model-check').textContent=active?'✓':'';
+ });
+ document.querySelectorAll('#openRouterModels [data-openrouter-model]').forEach(button=>{
+  const active=button.dataset.openrouterModel===selectedOpenRouterModel;
   button.setAttribute('aria-checked',String(active));
   button.querySelector('.model-check').textContent=active?'✓':'';
  });
@@ -559,13 +610,28 @@ function updateModelMenu(){
 function toggleModelMenu(force){
  const menu=$('modelMenu'),open=typeof force==='boolean'?force:!menu.classList.contains('open');
  menu.classList.toggle('open',open);$('modelTrigger').setAttribute('aria-expanded',String(open));
+ if(!open)showOpenRouterModels(false);
  if(open)closeComposerTools();
 }
+function showOpenRouterModels(open){
+ const submenu=$('openRouterModels');
+ if(!submenu)return;
+ submenu.classList.toggle('open',!!open);
+ $('openRouterEntry').setAttribute('aria-expanded',String(!!open));
+}
+function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
 function selectAIModel(model){
  if(!['gemini','groq'].includes(model))return;
  selectedAIModel=model;try{localStorage.setItem('madar-ai-model',model)}catch(error){}
  updateModelMenu();toggleModelMenu(false);
  toast(model==='groq'?'Groq انتخاب شد.':'Gemini انتخاب شد.');
+}
+function selectOpenRouterModel(modelId){
+ if(!OPENROUTER_MODELS.some(item=>item.id===modelId))return;
+ selectedOpenRouterModel=modelId;selectedAIModel='openrouter';
+ try{localStorage.setItem('madar-ai-model','openrouter');localStorage.setItem('madar-openrouter-model',modelId)}catch(error){}
+ updateModelMenu();toggleModelMenu(false);
+ toast('مدل '+(OPENROUTER_MODELS.find(item=>item.id===modelId)?.name||'OpenRouter')+' انتخاب شد.');
 }
 function toggleComposerTools(force){
  const panel=$('composerTools'),open=typeof force==='boolean'?force:!panel.classList.contains('open');
@@ -812,7 +878,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0')}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0')}),
    signal:controller.signal,
   });
   const data=await response.json().catch(()=>({}));
