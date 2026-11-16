@@ -383,6 +383,57 @@
     -webkit-text-fill-color: #e6c27c;
   }
 
+
+  /* برنامه‌ریزی پویا و فرم ثبت فعالیت */
+  .schedule-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .week-nav{display:flex;align-items:center;gap:6px}
+  .week-nav button{display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--line);border-radius:8px;color:var(--navy);background:var(--card);font-size:18px}
+  .week-nav button:hover{border-color:var(--gold);color:var(--gold)}
+  .add-plan-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border-radius:9px;background:var(--navy);color:#fff;font:inherit;font-size:12px;font-weight:600;transition:transform .2s,background .2s}
+  .add-plan-btn:hover{background:var(--navy-soft);transform:translateY(-1px)}
+  .add-plan-btn .icon{width:16px;height:16px;color:var(--gold-soft)}
+  .week-range{gap:8px}
+  .week-range strong{font-weight:600;color:var(--navy)}
+  .weekday-head{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:46px;justify-content:center}
+  .weekday-head small{font-size:10px;font-weight:500;color:var(--muted)}
+  .weekday-head.is-today{color:var(--gold)}
+  .slot{gap:2px;min-height:48px;height:auto;overflow-wrap:anywhere}
+  .slot small{direction:ltr;font-variant-numeric:tabular-nums}
+  .empty-cell{font-size:11px;color:var(--muted);opacity:.65}
+  .day-grid{grid-template-columns:repeat(3,minmax(0,200px))}
+  .day.is-today{outline:1px solid var(--gold-soft);outline-offset:2px}
+  .day-head time{direction:rtl}
+  .task{gap:7px}
+  .task.is-done span{text-decoration:line-through;opacity:.55}
+  .task-toggle{display:grid;place-items:center;flex:none;width:20px;height:20px;border:0;background:transparent;color:var(--muted);padding:0}
+  .task-toggle svg{width:15px;height:15px}
+  .task-toggle[aria-pressed="true"]{color:#31845a}
+  .task-remove{flex:none;width:19px;height:19px;border-radius:5px;color:var(--muted);font-size:15px;line-height:1}
+  .task-remove:hover{background:rgba(190,55,55,.09);color:#c54b4b}
+  .empty-day{padding:12px 0 5px;font-size:11px;color:var(--muted)}
+  .plan-status{min-height:20px;margin-top:8px;font-size:12px;color:var(--muted)}
+  .plan-status.error{color:#c44d4d}
+  .plan-dialog{width:min(480px,calc(100vw - 28px));max-width:none;margin:auto;padding:0;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--navy);box-shadow:0 24px 80px rgba(0,0,0,.2)}
+  .plan-dialog::backdrop{background:rgba(9,17,38,.48);backdrop-filter:blur(3px)}
+  .plan-form{padding:22px;display:grid;gap:13px}
+  .plan-form h3{font-size:17px;margin:0 0 2px}
+  .plan-form p{font-size:12px;color:var(--muted);margin:0}
+  .plan-field{display:grid;gap:5px;font-size:12px;font-weight:600}
+  .plan-field input,.plan-field select,.plan-field textarea{width:100%;min-height:40px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--navy);font:inherit;font-size:13px;outline:none}
+  .plan-field textarea{min-height:68px;resize:vertical}
+  .plan-field input:focus,.plan-field select:focus,.plan-field textarea:focus{border-color:var(--gold)}
+  .plan-fields-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .plan-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}
+  .plan-form-actions button{min-height:36px;padding:0 14px;border-radius:8px;font:inherit;font-size:12px;font-weight:600}
+  .plan-cancel{border:1px solid var(--line);color:var(--muted)}
+  .plan-save{background:var(--navy);color:#fff}
+  .plan-save:disabled{opacity:.55;cursor:wait}
+  .today-badge{display:inline-block;margin-inline-start:5px;padding:1px 6px;border-radius:5px;background:rgba(185,138,46,.12);color:var(--gold);font-size:9px}
+  @media(max-width:700px){.schedule-head{align-items:flex-start}.schedule-actions{width:100%;justify-content:space-between}.day-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.day:nth-child(n){translate:0 0;--y:0px}}
+  @media(max-width:460px){.day-grid{grid-template-columns:1fr}.plan-fields-row{grid-template-columns:1fr 1fr}.add-plan-btn{padding:0 10px}}
+  html[data-theme="dark"] .plan-dialog{background:#172238;color:#e7edf6;border-color:#34445f}
+  html[data-theme="dark"] .plan-field input,html[data-theme="dark"] .plan-field select,html[data-theme="dark"] .plan-field textarea{background:#101a2d;color:#e7edf6;border-color:#34445f}
+  html[data-theme="dark"] .weekday-head,html[data-theme="dark"] .week-nav button{color:#e7edf6}
 </style>
 <script defer src="../js/theme.js?v=planning-theme-sync-20261116"></script>
 </head>
@@ -463,7 +514,7 @@
 
         <div class="goal reveal" style="--d:.35s">
           <i></i>
-          <span>هدف این ترم: کسب معدل ۱۹ و قبولی در رشته دلخواه</span>
+          <span>برنامه‌های ثبت‌شده این هفته</span>
           <svg class="icon"><use href="#i-target"/></svg>
         </div>
       </div>
@@ -483,81 +534,20 @@
 
   <div class="wrap">
 
-    <!-- ═════════════ فیلترها ═════════════ -->
-    <ul class="tabs reveal" id="tabs" style="--d:.5s">
-      <li><button class="tab is-active" type="button" aria-pressed="true">
-        <svg class="icon icon-fill"><use href="#i-grid"/></svg>همه برنامه‌ها
-      </button></li>
-      <li><button class="tab" type="button" aria-pressed="false">
-        <svg class="icon"><use href="#i-calendar"/></svg>ترم جاری
-      </button></li>
-      <li><button class="tab" type="button" aria-pressed="false">
-        <svg class="icon"><use href="#i-book"/></svg>رشته‌ها
-      </button></li>
-      <li><button class="tab" type="button" aria-pressed="false">
-        <svg class="icon"><use href="#i-book"/></svg>درس‌ها
-      </button></li>
-      <li><button class="tab" type="button" aria-pressed="false">
-        <svg class="icon"><use href="#i-star"/></svg>اولویت‌های من
-      </button></li>
-      <li><button class="tab" type="button" aria-pressed="false">
-        بیشتر<svg class="icon"><use href="#i-chevron"/></svg>
-      </button></li>
-    </ul>
-
     <!-- ═════════════ برنامه هفتگی ═════════════ -->
     <section class="schedule reveal" style="--d:.6s" aria-labelledby="weekTitle">
       <div class="schedule-head">
         <h2 id="weekTitle">برنامه هفتگی</h2>
-        <div class="week-range">
+        <div class="schedule-actions"><button class="add-plan-btn" id="openPlanDialog" type="button"><svg class="icon"><use href="#i-plus"/></svg>افزودن برنامه</button><div class="week-nav"><button id="prevWeek" type="button" aria-label="هفته قبل">‹</button><button id="todayWeek" type="button" aria-label="رفتن به هفته جاری">امروز</button><button id="nextWeek" type="button" aria-label="هفته بعد">›</button></div><div class="week-range">
           <svg class="icon"><use href="#i-calendar"/></svg>
-          <span>هفته جاری • ۲۶ اردیبهشت تا ۱ خرداد ۱۴۰۳</span>
-        </div>
+          <strong id="weekRangeText">در حال دریافت تاریخ هفته…</strong>
+        </div></div>
       </div>
 
       <div class="table-scroll">
         <table>
-          <thead>
-            <tr>
-              <th scope="col">ساعت</th>
-              <th scope="col">شنبه</th>
-              <th scope="col">یکشنبه</th>
-              <th scope="col">دوشنبه</th>
-              <th scope="col">سه‌شنبه</th>
-              <th scope="col">چهارشنبه</th>
-              <th scope="col">پنجشنبه</th>
-              <th scope="col">جمعه</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">۸:۰۰ - ۹:۳۰</th>
-              <td></td>
-              <td><div class="slot blue"><b>ریاضی (۱)</b><small>کلاس ۲۰۲</small></div></td>
-              <td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-              <th scope="row">۹:۴۵ - ۱۱:۱۵</th>
-              <td></td>
-              <td><div class="slot peach"><b>فیزیک (۱)</b><small>کلاس ۲۰۴</small></div></td>
-              <td><div class="slot blue"><b>ادبیات فارسی</b><small>کلاس ۲۰۱</small></div></td>
-              <td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-              <th scope="row">۱۱:۳۰ - ۱۳:۰۰</th>
-              <td></td><td></td><td></td>
-              <td><div class="slot green"><b>زیست‌شناسی</b><small>آزمایشگاه</small></div></td>
-              <td></td><td></td><td></td>
-            </tr>
-            <tr>
-              <th scope="row">۱۵:۴۵ - ۱۷:۱۵</th>
-              <td></td><td></td>
-              <td><div class="slot peach"><b>جلسات مشاوره</b><small>برنامه‌ریزی درسی</small></div></td>
-              <td></td>
-              <td><div class="slot blue"><b>انگلیسی</b><small>کلاس ۲۰۳</small></div></td>
-              <td></td><td></td>
-            </tr>
-          </tbody>
+          <thead><tr><th scope="col">ساعت</th><th scope="col" data-weekday="0"></th><th scope="col" data-weekday="1"></th><th scope="col" data-weekday="2"></th><th scope="col" data-weekday="3"></th><th scope="col" data-weekday="4"></th><th scope="col" data-weekday="5"></th><th scope="col" data-weekday="6"></th></tr></thead>
+          <tbody id="weeklyTableBody"><tr><th scope="row" colspan="8">در حال بارگذاری برنامه‌ها…</th></tr></tbody>
         </table>
       </div>
     </section>
@@ -586,64 +576,7 @@
           </div>
         </div>
 
-        <div class="day-grid">
-
-          <article class="day reveal-scroll">
-            <header class="day-head"><h3>شنبه</h3><time datetime="2025-06-14">۲۴ خرداد ۱۴۰۴</time></header>
-            <ul class="tasks">
-              <li class="task dot-navy" data-type="exam"><svg class="icon"><use href="#i-book"/></svg><span>امتحان ریاضی (۲)</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-check"/></svg><span>تست فصل ۴ و ۵</span></li>
-              <li class="task dot-gold" data-type="deliver"><svg class="icon ic-gold"><use href="#i-clipboard"/></svg><span>تحویل تمرین هندسه</span></li>
-            </ul>
-          </article>
-
-          <article class="day reveal-scroll">
-            <header class="day-head"><h3>یکشنبه</h3><time datetime="2025-06-15">۲۵ خرداد ۱۴۰۴</time></header>
-            <ul class="tasks">
-              <li class="task dot-navy" data-type="exam"><svg class="icon"><use href="#i-book"/></svg><span>امتحان ادبیات فارسی (۲)</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-check"/></svg><span>مطالعه تاریخ ادبیات</span></li>
-              <li class="task dot-gold" data-type="study"><svg class="icon"><use href="#i-pen"/></svg><span>خلاصه‌نویسی درس جدید</span></li>
-            </ul>
-          </article>
-
-          <article class="day reveal-scroll">
-            <header class="day-head"><h3>دوشنبه</h3><time datetime="2025-06-16">۲۶ خرداد ۱۴۰۴</time></header>
-            <ul class="tasks">
-              <li class="task dot-navy" data-type="exam"><svg class="icon"><use href="#i-flask"/></svg><span>امتحان علوم تجربی (۲)</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-check"/></svg><span>نمودارها و آزمایش‌ها</span></li>
-              <li class="task dot-gold" data-type="deliver"><svg class="icon ic-gold"><use href="#i-clipboard"/></svg><span>تحویل گزارش آزمایش</span></li>
-            </ul>
-          </article>
-
-          <article class="day reveal-scroll">
-            <header class="day-head"><h3>سه‌شنبه</h3><time datetime="2025-06-17">۲۷ خرداد ۱۴۰۴</time></header>
-            <ul class="tasks">
-              <li class="task dot-navy" data-type="exam"><svg class="icon"><use href="#i-translate"/></svg><span>امتحان زبان انگلیسی (۲)</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-check"/></svg><span>گرامر و واژگان درس ۶</span></li>
-              <li class="task dot-gold" data-type="study"><svg class="icon"><use href="#i-pen"/></svg><span>نوشتن پارگراف</span></li>
-            </ul>
-          </article>
-
-          <article class="day reveal-scroll">
-            <header class="day-head"><h3>چهارشنبه</h3><time datetime="2025-06-18">۲۸ خرداد ۱۴۰۴</time></header>
-            <ul class="tasks">
-              <li class="task dot-navy" data-type="deliver"><svg class="icon icon-fill ic-gold"><use href="#i-star"/></svg><span>تحویل پروژه ریاضی</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-check"/></svg><span>مطالعه فصل ۶ فیزیک</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-clock"/></svg><span>آماده‌سازی برای امتحان</span></li>
-            </ul>
-          </article>
-
-          <article class="day reveal-scroll">
-            <header class="day-head"><h3>پنجشنبه</h3><time datetime="2025-06-19">۲۹ خرداد ۱۴۰۴</time></header>
-            <ul class="tasks">
-              <li class="task dot-navy" data-type="exam"><svg class="icon"><use href="#i-book"/></svg><span>امتحان جامع ریاضی</span></li>
-              <li class="task" data-type="study"><svg class="icon ic-gold"><use href="#i-check"/></svg><span>مرور کل مباحث</span></li>
-              <li class="task dot-gold" data-type="study"><svg class="icon ic-gold"><use href="#i-leaf"/></svg><span>استراحت و مرور نهایی</span></li>
-            </ul>
-          </article>
-
-        </div>
-      </div>
+        <div class="day-grid" id="dayGrid" aria-live="polite"></div>
 
       <!--
         👉 جای تصویر این بخش (تقویم تیک‌دار + ساعت + کتاب‌ها + گلدان + خودکار)
@@ -656,90 +589,217 @@
     </section>
 
   </div>
+
+<dialog class="plan-dialog" id="planDialog" aria-labelledby="planDialogTitle">
+  <form class="plan-form" id="planForm">
+    <div><h3 id="planDialogTitle">افزودن به برنامه هفتگی</h3><p>فعالیتت را ثبت کن تا در جدول و باکس همان روز نمایش داده شود.</p></div>
+    <label class="plan-field">عنوان فعالیت<input id="planTitle" name="title" maxlength="120" required placeholder="مثلاً مطالعه فصل دوم ریاضی"></label>
+    <label class="plan-field">تاریخ<input id="planDate" name="date" type="date" required><small id="planDatePersian" style="color:var(--muted);font-weight:400"></small></label>
+    <div class="plan-fields-row">
+      <label class="plan-field">ساعت شروع<input id="planStart" name="start" type="time" value="08:00" required></label>
+      <label class="plan-field">ساعت پایان<input id="planEnd" name="end" type="time" value="09:00" required></label>
+    </div>
+    <label class="plan-field">نوع فعالیت<select id="planType" name="type"><option value="study">مطالعه و مرور</option><option value="test">امتحان و آزمون</option><option value="video">آموزش و ویدیو</option><option value="note">تحویل و یادداشت</option></select></label>
+    <label class="plan-field">یادداشت روز (اختیاری)<textarea id="planNote" name="note" maxlength="4000" placeholder="نکته‌ای برای این روز…"></textarea></label>
+    <div class="plan-form-actions"><button class="plan-cancel" id="cancelPlan" type="button">انصراف</button><button class="plan-save" id="savePlan" type="submit">ذخیره برنامه</button></div>
+  </form>
+</dialog>
+<div class="plan-status" id="planStatus" role="status" aria-live="polite"></div>
 </main>
 
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/madar-connect.js?v=planning-api-20261116"></script>
 <script>
 (function () {
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const dayGrid = $('dayGrid');
+  const tableBody = $('weeklyTableBody');
+  const status = $('planStatus');
+  const dialog = $('planDialog');
+  const form = $('planForm');
+  const persian = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {day:'numeric',month:'long',year:'numeric'});
+  const persianShort = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {day:'numeric',month:'long'});
+  const weekdayFmt = new Intl.DateTimeFormat('fa-IR', {weekday:'long'});
+  const clockFmt = new Intl.DateTimeFormat('fa-IR', {hour:'2-digit',minute:'2-digit'});
+  let weekOffset = 0;
+  let weekDates = [];
+  let plansByDate = Object.create(null);
+  let activeFilter = 'all';
+  let saving = false;
 
-  // ── تب‌ها ──
-  var tabs = document.querySelectorAll('#tabs .tab');
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      tabs.forEach(function (t) { t.classList.remove('is-active'); t.setAttribute('aria-pressed', 'false'); });
-      tab.classList.add('is-active');
-      tab.setAttribute('aria-pressed', 'true');
+  const toISO = d => [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  const fromISO = value => { const [y,m,d]=value.split('-').map(Number); return new Date(y,m-1,d,12,0,0,0); };
+  const addDays = (date,n) => { const d=new Date(date); d.setDate(d.getDate()+n); return d; };
+  const startOfWeek = date => { const d=new Date(date); d.setHours(12,0,0,0); d.setDate(d.getDate()-((d.getDay()+1)%7)); return d; };
+  const escapeHTML = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const taskCategory = type => type==='test'?'exam':type==='note'?'deliver':'study';
+  const taskIcon = type => type==='test'?'#i-book':type==='note'?'#i-clipboard':type==='video'?'#i-play':'#i-check';
+  const taskColor = type => type==='test'||type==='note'?'peach':type==='video'?'green':'blue';
+  function setStatus(message,error=false){status.textContent=message||'';status.classList.toggle('error',!!error)}
+  function currentWeek(){
+    const base=startOfWeek(new Date());
+    return addDays(base,weekOffset*7);
+  }
+  function updateDateLabel(){
+    const value=$('planDate').value;
+    $('planDatePersian').textContent=value?persian.format(fromISO(value)):'';
+  }
+  function renderWeek(){
+    const start=currentWeek();
+    weekDates=Array.from({length:7},(_,i)=>addDays(start,i));
+    const end=weekDates[6];
+    $('weekRangeText').textContent=persianShort.format(start)+' تا '+persian.format(end);
+    document.querySelectorAll('[data-weekday]').forEach(th=>{
+      const i=Number(th.dataset.weekday),d=weekDates[i],iso=toISO(d);
+      th.innerHTML='<div class="weekday-head '+(iso===toISO(new Date())?'is-today':'')+'"><span>'+weekdayFmt.format(d)+'</span><small>'+persianShort.format(d)+'</small></div>';
     });
-  });
-
-  // ── کلاس‌های جدول: ورود پله‌ای ──
-  document.querySelectorAll('.slot').forEach(function (el, i) { el.style.setProperty('--i', i); });
-
-  // تصویر هیرو ثابت است و با حرکت ماوس جابه‌جا نمی‌شود.
-
-  // ── بخش «برنامه امتحانی»: ظاهر شدن کارت‌ها هنگام اسکرول ──
-  var days = Array.prototype.slice.call(document.querySelectorAll('.day'));
-  days.forEach(function (el, i) {
-    el.style.setProperty('--d', ((i % 3) * 0.1 + Math.floor(i / 3) * 0.12).toFixed(2) + 's');
-  });
-  var revealEls = document.querySelectorAll('.reveal-scroll');
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    renderTable();
+    renderDayCards();
+    const count=weekDates.reduce((sum,d)=>sum+((plansByDate[toISO(d)]?.tasks||[]).length),0);
+    const goal=document.querySelector('.goal span');
+    if(goal)goal.textContent=count?('این هفته '+new Intl.NumberFormat('fa-IR').format(count)+' فعالیت ثبت کرده‌ای'):'هنوز برنامه‌ای برای این هفته ثبت نکرده‌ای';
+  }
+  function renderTable(){
+    const slotMap=new Map();
+    weekDates.forEach((date,dayIndex)=>{
+      const plan=plansByDate[toISO(date)];
+      (plan?.tasks||[]).forEach(task=>{
+        const key=task.start+'|'+task.end;
+        if(!slotMap.has(key))slotMap.set(key,{start:task.start,end:task.end,days:Array.from({length:7},()=>[])});
+        slotMap.get(key).days[dayIndex].push(task);
       });
-    }, { threshold: 0.15 });
-    revealEls.forEach(function (el) { io.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add('is-in'); });
-  }
-
-  // ── فیلتر «همه موارد» ──
-  var fBtn = document.getElementById('filterBtn');
-  var fMenu = document.getElementById('filterMenu');
-  var fLabel = document.getElementById('filterLabel');
-  var opts = Array.prototype.slice.call(fMenu.querySelectorAll('[role="option"]'));
-
-  function setOpen(v) {
-    fMenu.classList.toggle('is-open', v);
-    fBtn.setAttribute('aria-expanded', v ? 'true' : 'false');
-  }
-  function applyFilter(f) {
-    days.forEach(function (d) {
-      var any = false;
-      d.querySelectorAll('.task').forEach(function (t) {
-        var match = f === 'all' || t.getAttribute('data-type') === f;
-        t.classList.toggle('is-dim', !match);
-        if (match) any = true;
-      });
-      d.classList.toggle('is-faded', f !== 'all' && !any);
     });
+    const slots=[...slotMap.values()].sort((a,b)=>a.start.localeCompare(b.start)||a.end.localeCompare(b.end));
+    if(!slots.length){
+      tableBody.innerHTML='<tr><th scope="row">—</th><td colspan="7" class="empty-cell">برای این هفته هنوز برنامه‌ای ثبت نشده است.</td></tr>';
+      return;
+    }
+    tableBody.innerHTML=slots.map(slot=>{
+      const time=clockFmt.format(fromISO('2000-01-01').setHours(Number(slot.start.slice(0,2)),Number(slot.start.slice(3,5)),0,0))+' - '+clockFmt.format(fromISO('2000-01-01').setHours(Number(slot.end.slice(0,2)),Number(slot.end.slice(3,5)),0,0));
+      const cells=slot.days.map(items=>'<td>'+ (items.length?items.map(task=>'<div class="slot '+taskColor(task.type)+'"><b>'+escapeHTML(task.title)+'</b><small>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</small></div>').join(''):'')+'</td>').join('');
+      return '<tr><th scope="row">'+time+'</th>'+cells+'</tr>';
+    }).join('');
   }
-  fBtn.addEventListener('click', function (e) { e.stopPropagation(); setOpen(!fMenu.classList.contains('is-open')); });
-  fMenu.addEventListener('click', function (e) { e.stopPropagation(); });
-  document.addEventListener('click', function () { setOpen(false); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && fMenu.classList.contains('is-open')) { setOpen(false); fBtn.focus(); }
-  });
-  opts.forEach(function (o) {
-    o.addEventListener('click', function () {
-      opts.forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
-      o.setAttribute('aria-selected', 'true');
-      fLabel.textContent = o.textContent.trim();
-      applyFilter(o.getAttribute('data-filter'));
-      setOpen(false);
-      fBtn.focus();
+  function renderDayCards(){
+    dayGrid.innerHTML=weekDates.map(date=>{
+      const iso=toISO(date),plan=plansByDate[iso]||{tasks:[],note:''};
+      const tasks=[...(plan.tasks||[])].sort((a,b)=>a.start.localeCompare(b.start));
+      const today=iso===toISO(new Date());
+      const rows=tasks.map(task=>{
+        const category=taskCategory(task.type);
+        const visible=activeFilter==='all'||activeFilter===category;
+        return '<li class="task '+(task.done?'is-done':'')+'" data-type="'+category+'" data-task-id="'+escapeHTML(task.id)+'" style="'+(visible?'':'display:none')+'">'+
+          '<button class="task-toggle" type="button" data-action="toggle" aria-label="تغییر وضعیت '+escapeHTML(task.title)+'" aria-pressed="'+(task.done?'true':'false')+'"><svg class="icon"><use href="'+(task.done?'#i-check':'#i-clock')+'"/></svg></button>'+
+          '<span>'+escapeHTML(task.title)+'<small style="display:block;color:var(--muted);font-size:10px;direction:ltr;text-align:right">'+escapeHTML(task.start)+' – '+escapeHTML(task.end)+'</small></span>'+
+          '<button class="task-remove" type="button" data-action="remove" aria-label="حذف '+escapeHTML(task.title)+'">×</button></li>';
+      }).join('');
+      return '<article class="day reveal-scroll '+(today?'is-today':'')+'" data-date="'+iso+'"><header class="day-head"><h3>'+weekdayFmt.format(date)+(today?'<span class="today-badge">امروز</span>':'')+'</h3><time datetime="'+iso+'">'+persian.format(date)+'</time></header><ul class="tasks">'+(rows||'<li class="empty-day">برنامه‌ای ثبت نشده</li>')+'</ul>'+(plan.note?'<p style="margin-top:7px;color:var(--muted);font-size:10px">'+escapeHTML(plan.note)+'</p>':'')+'</article>';
+    }).join('');
+  }
+  async function fetchPlans(from,to){
+    const url=API.plans+'?from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
+    const response=await fetch(url,{headers:Auth.headers(),cache:'no-store'});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok)throw new Error(data.message||'دریافت برنامه‌ها ناموفق بود.');
+    (data.plans||[]).forEach(plan=>{plansByDate[plan.date]=plan;});
+  }
+  async function loadWeek(){
+    const start=currentWeek(),end=addDays(start,6);
+    setStatus('در حال دریافت برنامه‌های ذخیره‌شده…');
+    tableBody.innerHTML='<tr><th scope="row" colspan="8">در حال بارگذاری…</th></tr>';
+    try{
+      await fetchPlans(toISO(start),toISO(end));
+      renderWeek();
+      setStatus('');
+    }catch(error){
+      setStatus(error.message||'ارتباط با سرور برقرار نشد.',true);
+      tableBody.innerHTML='<tr><th scope="row" colspan="8">بارگذاری برنامه‌ها انجام نشد. اتصال را بررسی و صفحه را دوباره بارگذاری کن.</th></tr>';
+    }
+  }
+  async function saveDay(date,tasks,note){
+    const response=await fetch(API.plans+'/'+encodeURIComponent(date),{
+      method:'PUT',headers:{'Content-Type':'application/json',...Auth.headers()},
+      body:JSON.stringify({tasks,note:note||''})
     });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok)throw new Error(data.message||'ذخیره برنامه انجام نشد.');
+    plansByDate[date]=data.plan||{date,tasks,note:note||''};
+    renderWeek();
+  }
+  function openDialog(date){
+    form.reset();
+    $('planDate').value=date||toISO(new Date());
+    $('planStart').value='08:00';$('planEnd').value='09:00';$('planType').value='study';
+    $('planNote').value=plansByDate[$('planDate').value]?.note||'';
+    updateDateLabel();dialog.showModal();$('planTitle').focus();
+  }
+  $('openPlanDialog').addEventListener('click',()=>openDialog(toISO(new Date())));
+  $('cancelPlan').addEventListener('click',()=>dialog.close());
+  $('planDate').addEventListener('change',updateDateLabel);
+  $('prevWeek').addEventListener('click',()=>{weekOffset--;loadWeek()});
+  $('nextWeek').addEventListener('click',()=>{weekOffset++;loadWeek()});
+  $('todayWeek').addEventListener('click',()=>{weekOffset=0;loadWeek()});
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();if(saving)return;
+    const date=$('planDate').value,title=$('planTitle').value.trim(),start=$('planStart').value,end=$('planEnd').value,type=$('planType').value,note=$('planNote').value.trim();
+    if(!date||!title||!start||!end||end<=start){setStatus('عنوان، تاریخ و بازه ساعت را درست وارد کن؛ ساعت پایان باید بعد از شروع باشد.',true);return}
+    saving=true;$('savePlan').disabled=true;$('savePlan').textContent='در حال ذخیره…';setStatus('در حال ذخیره در حساب کاربری…');
+    try{
+      if(!plansByDate[date])await fetchPlans(date,date);
+      const old=plansByDate[date]||{tasks:[],note:''};
+      const task={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'task-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),title,type,start,end,done:false};
+      await saveDay(date,[...(old.tasks||[]),task],note||old.note||'');
+      const targetWeek=startOfWeek(fromISO(date)),thisWeek=startOfWeek(currentWeek());
+      weekOffset=Math.round((targetWeek-thisWeek)/604800000);
+      if(toISO(currentWeek())!==toISO(targetWeek))await loadWeek();
+      dialog.close();setStatus('برنامه با موفقیت ذخیره شد.');
+    }catch(error){setStatus(error.message||'ذخیره برنامه ناموفق بود.',true)}
+    finally{saving=false;$('savePlan').disabled=false;$('savePlan').textContent='ذخیره برنامه'}
   });
-})();
+  dayGrid.addEventListener('click',async event=>{
+    const button=event.target.closest('button[data-action]');if(!button)return;
+    const card=button.closest('.day'),date=card?.dataset.date,taskId=button.closest('.task')?.dataset.taskId;
+    const plan=plansByDate[date];if(!plan||!taskId)return;
+    const tasks=[...(plan.tasks||[])],index=tasks.findIndex(task=>task.id===taskId);if(index<0)return;
+    const action=button.dataset.action;
+    if(action==='toggle')tasks[index]={...tasks[index],done:!tasks[index].done};
+    else if(action==='remove'&&!window.confirm('این فعالیت از برنامه حذف شود؟'))return;
+    else if(action==='remove')tasks.splice(index,1);
+    button.disabled=true;setStatus('در حال ذخیره تغییرات…');
+    try{await saveDay(date,tasks,plan.note||'');setStatus('تغییرات ذخیره شد.')}
+    catch(error){setStatus(error.message||'ذخیره تغییرات ناموفق بود.',true)}
+    finally{button.disabled=false}
+  });
+  const filterButton=$('filterBtn'),filterMenu=$('filterMenu'),filterLabel=$('filterLabel');
+  if(filterButton&&filterMenu){
+    const options=[...filterMenu.querySelectorAll('[role="option"]')];
+    const setOpen=value=>{filterMenu.classList.toggle('is-open',value);filterButton.setAttribute('aria-expanded',String(value))};
+    filterButton.addEventListener('click',event=>{event.stopPropagation();setOpen(!filterMenu.classList.contains('is-open'))});
+    filterMenu.addEventListener('click',event=>event.stopPropagation());
+    document.addEventListener('click',()=>setOpen(false));
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&filterMenu.classList.contains('is-open')){setOpen(false);filterButton.focus()}});
+    options.forEach(option=>option.addEventListener('click',()=>{
+      options.forEach(item=>item.setAttribute('aria-selected','false'));
+      option.setAttribute('aria-selected','true');activeFilter=option.dataset.filter;
+      filterLabel.textContent=option.textContent.trim();setOpen(false);renderDayCards();
+    }));
+  }
+  (async()=>{
+    if(typeof Auth==='undefined'||typeof API==='undefined'){setStatus('تنظیمات ورود و اتصال سرور بارگذاری نشد.',true);return}
+    const user=await Auth.requireAuth('../لاگین و ثبت نام/لاگین.html');
+    if(!user)return;
+    if(user.role!=='student'){setStatus('این صفحه برای حساب دانش‌آموزی در دسترس است.',true);return}
+    await loadWeek();
+  })();
 
-/* منوی کشویی هدر (موبایل با کلیک) */
-(()=>{
+  /* منوی کشویی هدر */
   const dds=[...document.querySelectorAll('.dd')];
-  const closeAll=ex=>dds.forEach(d=>d!==ex&&d.classList.remove('open'));
-  dds.forEach(d=>d.firstElementChild.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeAll(d);d.classList.toggle('open')}));
+  const closeAll=except=>dds.forEach(item=>item!==except&&item.classList.remove('open'));
+  dds.forEach(item=>item.firstElementChild.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();closeAll(item);item.classList.toggle('open')}));
   document.addEventListener('click',()=>closeAll());
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')closeAll()});
 })();
 </script>
 </body>
