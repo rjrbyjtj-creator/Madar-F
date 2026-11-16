@@ -23,11 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <!-- تم ذخیره‌شده، قبل از رسم صفحه اعمال می‌شود تا چشمک نزند -->
-  <script>
-    try {
-      if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
-    } catch (e) {}
-  </script>
+  <script>try{var savedMadarMode=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(savedMadarMode==='dark'||savedMadarMode==='light')document.documentElement.dataset.theme=savedMadarMode;}catch(e){}</script>  </script>
 
   <link rel="icon" href="./عکس ها/تب.png">
 
@@ -1424,16 +1420,12 @@
 
     themeBtn.onclick = () => {
       const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-
       root.classList.add('theming');
-      root.dataset.theme = next;
+      if (window.MadarTheme) window.MadarTheme.setMode(next);
+      else { root.dataset.theme = next; try { ['madar-theme','theme','answer-sheet-theme'].forEach(k=>localStorage.setItem(k,next)); } catch(e) {} }
       clearTimeout(timer);
       timer = setTimeout(() => root.classList.remove('theming'), 700);
-
-      try {
-        localStorage.setItem('theme', next);
-      } catch (e) {}
-    };
+    };    };
   </script>
 
   <script src="./js/articles.js?v=articles-20261114-v5"></script>
