@@ -989,6 +989,8 @@ function layoutChat(){
   $('slotD').appendChild($('box'));
  }
  $('box').classList.add('compact');
+ /* در موبایل، با شروع گفتگو سایدبار باید خودکار بسته شود */
+ if(window.matchMedia('(max-width: 899px)').matches)document.body.classList.remove('m-open');
 }
 async function confirmPlanDeletionProposal(proposal,button){
  if(!proposal||pendingPlanDeletionProposal!==proposal){toast('این درخواست حذف دیگر فعال نیست؛ دوباره از مدار بخواه.');return}
