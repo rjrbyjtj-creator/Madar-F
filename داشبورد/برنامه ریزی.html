@@ -427,7 +427,7 @@
   .day-detail-close{position:absolute;top:14px;left:15px;width:30px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:21px;line-height:1;cursor:pointer;color:var(--muted)}
   .day-detail-head{padding-inline-end:34px}.day-detail-kicker{font-size:10px;color:var(--gold);font-weight:700}.day-detail-head h3{margin:3px 0;font-size:19px}.day-detail-head p{margin:0;color:var(--muted);font-size:12px}
   .day-detail-tasks{display:grid;gap:9px}.day-detail-task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
-  .day-detail-task strong{font-size:13px;font-weight:650}.day-detail-task time{grid-column:1/-1;direction:ltr;text-align:right;color:var(--gold);font-size:12px;font-weight:600}.day-detail-task small{grid-column:1/-1;color:var(--muted);font-size:11px}.day-detail-task.is-done strong{text-decoration:line-through;opacity:.6}
+  .day-detail-task strong{font-size:13px;font-weight:650}.day-detail-task time{grid-column:1/-1;direction:ltr;text-align:right;color:var(--gold);font-size:12px;font-weight:600}.day-detail-task small{grid-column:1/-1;color:var(--muted);font-size:11px}.day-detail-task.is-done strong{text-decoration:line-through;opacity:.6}.day-detail-actions{grid-column:1/-1;display:flex;gap:7px;flex-wrap:wrap}.day-detail-actions button{border:1px solid var(--line);border-radius:7px;padding:5px 9px;background:var(--card);color:var(--navy);font:inherit;font-size:10px;cursor:pointer}.day-detail-actions button:last-child{color:#a44}
   .day-detail-empty{padding:18px;border:1px dashed var(--line);border-radius:10px;text-align:center;color:var(--muted);font-size:12px}
   .day-detail-note{padding:11px 13px;border-radius:9px;background:rgba(185,138,46,.08);font-size:12px;line-height:1.9}.day-detail-add{min-height:39px;border:0;border-radius:9px;background:var(--navy);color:#fff;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
   html[data-theme="dark"] .day-detail-dialog{background:#172238;color:#e7edf6;border-color:#34445f}html[data-theme="dark"] .day-detail-task{background:#101a2d;border-color:#34445f}html[data-theme="dark"] .day-detail-close{background:#101a2d;border-color:#34445f;color:#e7edf6}
@@ -718,11 +718,24 @@
     selectedDetailDate=date;
     $('dayDetailTitle').textContent=weekdayFmt.format(day);
     $('dayDetailDate').textContent=persian.format(day);
-    $('dayDetailTasks').innerHTML=tasks.length?tasks.map(task=>'<article class="day-detail-task '+(task.done?'is-done':'')+'"><strong>'+escapeHTML(task.title)+'</strong><span style="font-size:10px;color:var(--muted)">'+(task.done?'انجام‌شده':'در انتظار')+'</span><time>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</time><small>'+escapeHTML(({study:'مطالعه و مرور',test:'امتحان و آزمون',video:'آموزش و ویدیو',note:'تحویل و یادداشت'})[task.type]||'فعالیت')+'</small></article>').join(''):'<div class="day-detail-empty">برای این روز هنوز برنامه‌ای ثبت نشده است.</div>';
+    $('dayDetailTasks').innerHTML=tasks.length?tasks.map(task=>'<article class="day-detail-task '+(task.done?'is-done':'')+'" data-detail-task="'+escapeHTML(task.id)+'"><strong>'+escapeHTML(task.title)+'</strong><span style="font-size:10px;color:var(--muted)">'+(task.done?'انجام‌شده':'در انتظار')+'</span><time>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</time><small>'+escapeHTML(({study:'مطالعه و مرور',test:'امتحان و آزمون',video:'آموزش و ویدیو',note:'تحویل و یادداشت'})[task.type]||'فعالیت')+'</small><div class="day-detail-actions"><button type="button" data-detail-action="toggle">'+(task.done?'بازگرداندن به انجام‌نشده':'علامت‌گذاری به‌عنوان انجام‌شده')+'</button><button type="button" data-detail-action="remove">حذف</button></div></article>').join(''):'<div class="day-detail-empty">برای این روز هنوز برنامه‌ای ثبت نشده است.</div>';
     $('dayDetailNote').hidden=!plan.note;
     $('dayDetailNote').textContent=plan.note||'';
     dayDetailDialog.showModal();
   }
+  $('dayDetailTasks').addEventListener('click',async event=>{
+    const button=event.target.closest('button[data-detail-action]');if(!button||!selectedDetailDate)return;
+    const item=button.closest('[data-detail-task]'),taskId=item?.dataset.detailTask;
+    const plan=plansByDate[selectedDetailDate],task=(plan?.tasks||[]).find(entry=>entry.id===taskId);if(!task)return;
+    if(button.dataset.detailAction==='remove'&&!window.confirm('این فعالیت از برنامه حذف شود؟'))return;
+    button.disabled=true;
+    try{
+      const date=selectedDetailDate;
+      if(button.dataset.detailAction==='toggle')await sendPlanRequest(date,'/tasks/'+encodeURIComponent(taskId),'PATCH',{done:!task.done});
+      else await sendPlanRequest(date,'/tasks/'+encodeURIComponent(taskId),'DELETE');
+      openDayDetails(date);setStatus('تغییرات ذخیره شد.');
+    }catch(error){setStatus(error.message||'ذخیره تغییرات ناموفق بود.',true);button.disabled=false}
+  });
   $('closeDayDetail').addEventListener('click',()=>dayDetailDialog.close());
   dayDetailDialog.addEventListener('click',event=>{if(event.target===dayDetailDialog)dayDetailDialog.close()});
   $('addFromDayDetail').addEventListener('click',()=>{const date=selectedDetailDate;dayDetailDialog.close();openDialog(date)});
