@@ -199,9 +199,9 @@ const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const PHONE=/^(\+98|0098|98|0)?9\d{9}$/;
 const norm=v=>en(v).replace(/[\s-]/g,'');
 
-const applyTheme=()=>{let t=null;try{t=localStorage.getItem('theme')}catch(e){}root.dataset.theme=t==='dark'?'dark':'light'};
+const applyTheme=()=>{let t=null;try{t=localStorage.getItem('madar-theme')||localStorage.getItem('theme')}catch(e){}root.dataset.theme=t==='dark'?'dark':'light'};
 applyTheme();
-addEventListener('storage',e=>{if(e.key==='theme')applyTheme()});
+addEventListener('storage',e=>{if(['madar-theme','theme','answer-sheet-theme'].includes(e.key))applyTheme()});
 addEventListener('pageshow',e=>{if(e.persisted)applyTheme()});
 
 function mode(m){
