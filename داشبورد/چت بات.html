@@ -630,8 +630,9 @@ async function confirmPlanDeletionProposal(proposal,button){
  }catch(error){
   if(button){button.disabled=false;button.textContent='تلاش دوباره برای حذف'}
   if(removed.length){
-   if(pendingPlanDeletionProposal===proposal)pendingPlanDeletionProposal={items:proposal.items.filter(item=>!removed.some(done=>done.date===item.date&&done.taskId===item.taskId))};
-   toast(removed.length+' فعالیت حذف شد؛ مورد بعدی حذف نشد: '+(error.message||'خطا'));
+   if(pendingPlanDeletionProposal===proposal)pendingPlanDeletionProposal=null;
+   if(button){button.disabled=true;button.textContent='حذف ناقص'}
+   toast(removed.length+' فعالیت حذف شد؛ برای حذف موارد باقی‌مانده دوباره درخواست بده: '+(error.message||'خطا'));
   }else toast(error.message||'حذف فعالیت‌ها ناموفق بود.');
  }
 }
