@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#14264F">
+<title>مقاله | مجله مدار</title>
+<meta name="description" content="مقاله‌ای از مجله آموزشی مدار">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F7F9;--panel:#fff;--line:#E3E6EC;--ink:#1B2233;--muted:#6B7488;--navy:#14264F;--gold:#B8892D}
+:root[data-theme="dark"]{--bg:#0C1222;--panel:#131C32;--line:#243049;--ink:#E6EAF3;--muted:#8D98B0;--navy:#2B4C98;--gold:#D9AE55}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/2.15 Vazirmatn,Tahoma,sans-serif}
+.shell{max-width:900px;margin:auto;padding:24px 20px 70px}
+header{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.brand{font-size:19px;font-weight:800;color:var(--navy);text-decoration:none}.brand span{color:var(--gold)}
+.back{color:var(--ink);border:1px solid var(--line);border-radius:24px;padding:5px 14px;text-decoration:none;font-size:12px}
+article{margin-top:28px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,5vw,48px);box-shadow:0 10px 34px rgba(20,38,79,.06)}
+.category{color:var(--gold);font-weight:700;font-size:12px}.title{font-size:clamp(25px,4vw,38px);line-height:1.65;margin:8px 0 10px}.excerpt{font-size:15px;color:var(--muted);margin:0 0 18px}.meta{color:var(--muted);font-size:11px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.cover{width:100%;max-height:360px;object-fit:cover;border-radius:14px;margin:22px 0}
+.content{font-size:15px;line-height:2.2;overflow-wrap:anywhere}.content h2{font-size:22px;line-height:1.7;margin:30px 0 8px}.content h3{font-size:18px;margin:24px 0 6px}.content p{margin:10px 0}.content ul{padding-right:24px}.content li{padding-right:3px;margin:5px 0}.content strong{font-weight:800;color:var(--ink)}
+.notice{padding:30px;text-align:center;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}
+@media(max-width:560px){.shell{padding:14px 10px 40px}header{align-items:flex-start}article{padding:18px 14px}}
+</style>
+<script>
+try{var t=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}
+</script>
+</head>
+<body>
+<div class="shell">
+<header><a class="brand" href="../">مدار<span>.</span></a><a class="back" href="./">بازگشت به مجله</a></header>
+<main id="main"><div class="notice">در حال دریافت مقاله…</div></main>
+<footer>© مجله آموزشی مدار</footer>
+</div>
+<script>
+(function(){
+var main=document.getElementById('main');
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function inline(v){return esc(v).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>')}
+function markdown(value){
+var lines=String(value||'').replace(/\r/g,'').split('\n'),out=[],list=false;
+function close(){if(list){out.push('</ul>');list=false}}
+lines.forEach(function(line){
+var t=line.trim();
+if(!t){close();return}
+if(/^###\s+/.test(t)){close();out.push('<h3>'+inline(t.replace(/^###\s+/,''))+'</h3>');return}
+if(/^##\s+/.test(t)){close();out.push('<h2>'+inline(t.replace(/^##\s+/,''))+'</h2>');return}
+if(/^#\s+/.test(t)){close();out.push('<h2>'+inline(t.replace(/^#\s+/,''))+'</h2>');return}
+if(/^[-*]\s+/.test(t)){if(!list){out.push('<ul>');list=true}out.push('<li>'+inline(t.replace(/^[-*]\s+/,''))+'</li>');return}
+close();out.push('<p>'+inline(t)+'</p>');
+});
+close();return out.join('');
+}
+var slug=new URLSearchParams(location.search).get('slug');
+if(!slug||!/^[a-z0-9-]{2,100}$/.test(slug)){main.innerHTML='<div class="notice">شناسه مقاله معتبر نیست.</div>';return}
+fetch('https://madar-jmy5.onrender.com/api/articles/'+encodeURIComponent(slug),{cache:'no-store'})
+.then(function(r){if(!r.ok)throw new Error('مقاله پیدا نشد یا هنوز منتشر نشده است.');return r.json()})
+.then(function(data){
+var a=data.article;if(!a)throw new Error('مقاله پیدا نشد.');
+document.title=a.title+' | مجله مدار';
+var meta=document.querySelector('meta[name="description"]');if(meta)meta.content=a.excerpt||'مقاله‌ای از مجله آموزشی مدار';
+main.innerHTML='<article><div class="category">'+esc(a.category||'مقالات آموزشی')+'</div><h1 class="title">'+esc(a.title)+'</h1><p class="excerpt">'+esc(a.excerpt)+'</p><div class="meta">'+esc(a.readTime||5)+' دقیقه مطالعه · تیم تحریریه مدار</div>'+(a.coverImage?'<img class="cover" src="'+esc(a.coverImage)+'" alt="'+esc(a.title)+'">':'')+'<div class="content">'+markdown(a.content)+'</div></article>';
+})
+.catch(function(e){main.innerHTML='<div class="notice">'+esc(e.message)+'</div>'});
+})();
+</script>
+</body>
+</html>
