@@ -136,14 +136,18 @@ async function loadFiles(){
 }
 async function openFile(id,download){
  const file=files.find(f=>f.id===id);if(!file)return;
+ // Open the preview tab synchronously during the click so popup blockers do not stop it.
+ const previewTab=!download?window.open('about:blank','_blank'):null;
+ if(previewTab){try{previewTab.opener=null;previewTab.document.title='در حال دریافت فایل...';previewTab.document.body.innerHTML='<p style="font-family:sans-serif;text-align:center;margin:3rem">در حال دریافت فایل...</p>'}catch(e){}}
  const buttons=document.querySelectorAll('[data-id="'+CSS.escape(id)+'"]');buttons.forEach(b=>b.disabled=true);
  try{
   const response=await fetch(API_BASE_URL+'/study-files/'+encodeURIComponent(id)+'/content'+(download?'?download=1':''),{headers:tokenHeaders(),cache:'no-store'});
   if(!response.ok)throw new Error(response.status===404?'فایل پیدا نشد.':'دریافت فایل ناموفق بود.');
   const blob=await response.blob(),url=URL.createObjectURL(blob);
   if(download){const a=document.createElement('a');a.href=url;a.download=file.name||'study-file.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
-  else{const win=window.open(url,'_blank','noopener');if(!win){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.click()}setTimeout(()=>URL.revokeObjectURL(url),120000)}
- }catch(error){alert(error.message||'خطا در دریافت فایل')}
+  else if(previewTab&&!previewTab.closed){previewTab.location.href=url;setTimeout(()=>URL.revokeObjectURL(url),10*60*1000)}
+  else{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.click();setTimeout(()=>URL.revokeObjectURL(url),10*60*1000)}
+ }catch(error){if(previewTab&&!previewTab.closed)previewTab.close();alert(error.message||'خطا در دریافت فایل')}
  finally{buttons.forEach(b=>b.disabled=false)}
 }
 $('chips').onclick=e=>{const chip=e.target.closest('[data-subject]');if(chip){activeSubject=chip.dataset.subject;render()}};
