@@ -457,7 +457,6 @@ $('themeBtn').onclick=()=>{
   else {root.dataset.theme=next;try{['madar-theme','theme','answer-sheet-theme'].forEach(k=>localStorage.setItem(k,next))}catch(e){}}
   clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('theming'),700);
 };
-};
 /* پنل پروفایل */
 const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
 const setPanel=open=>{
