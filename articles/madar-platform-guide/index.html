@@ -27,7 +27,7 @@
   <!-- تم ذخیره‌شده، قبل از رسم صفحه اعمال می‌شود تا چشمک نزند -->
   <script>
     try {
-      if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+      var savedMode=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(savedMode==='dark'||savedMode==='light')document.documentElement.dataset.theme=savedMode;
     } catch (e) {}
   </script>
 
@@ -655,6 +655,7 @@
   .f-bottom { justify-content: center; text-align: center; }
 }
   </style>
+<script defer src="../../js/theme.js?v=global-theme-20261116"></script>
 </head>
 
 <body>
@@ -975,12 +976,12 @@
       const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
 
       root.classList.add('theming');
-      root.dataset.theme = next;
+      if (window.MadarTheme) window.MadarTheme.setMode(next); else root.dataset.theme = next;
       clearTimeout(timer);
       timer = setTimeout(() => root.classList.remove('theming'), 700);
 
       try {
-        localStorage.setItem('theme', next);
+        ['madar-theme','theme','answer-sheet-theme'].forEach(k=>localStorage.setItem(k,next));
       } catch (e) {}
     };
   </script>
