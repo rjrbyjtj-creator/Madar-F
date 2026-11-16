@@ -2,13 +2,16 @@
    MADAR - FRONTEND CONFIGURATION
 ================================= */
 
-/* آدرس بک‌اند روی سرور Render */
+/* آدرس بک‌اند عمومی سایت */
 const API_BASE_URL = "https://madar-jmy5.onrender.com/api";
+
+/* سرویس جدید ثبت‌نام و ارسال/تأیید کد ایمیل روی Railway */
+const AUTH_API_BASE_URL = "https://madar-railway-production.up.railway.app/api";
 
 const API = Object.freeze({
   // Authentication
-  sendCode: `${API_BASE_URL}/auth/register/send-code`,
-  verify: `${API_BASE_URL}/auth/register/verify`,
+  sendCode: `${AUTH_API_BASE_URL}/auth/register/send-code`,
+  verify: `${AUTH_API_BASE_URL}/auth/register/verify`,
   login: `${API_BASE_URL}/auth/login`,
 
   // Password recovery
