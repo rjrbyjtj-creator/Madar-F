@@ -33,10 +33,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; font-size: clamp(12px, .957vw, 22px); }
   body {
     margin: 0;
     font-family: var(--font);
+    font-size: 16px;
     color: var(--navy);
     background: var(--bg);
     line-height: 1.7;
@@ -46,12 +47,11 @@
   button { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+  .wrap { width: 100%; max-width: 1280px; margin-inline: auto; padding-inline: clamp(18px, 3vw, 36px); }
   .icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
   /* ───────── Animations ───────── */
   @keyframes rise  { from { opacity: 0; transform: translateY(14px); } }
-  @keyframes drop  { from { opacity: 0; transform: translateY(-16px); } }
   @keyframes pop   { from { opacity: 0; transform: translateY(8px) scale(.94); } }
   @keyframes grow  { from { transform: scaleX(0); } }
   @keyframes float { 50% { transform: translateY(-9px); } }
@@ -68,58 +68,64 @@
   .orb.gold { width: 340px; height: 340px; top: 30px; left: 3%; background: radial-gradient(circle, rgba(230, 205, 150, .75), transparent 70%); animation: drift-a 18s ease-in-out infinite alternate; }
   .orb.blue { width: 420px; height: 420px; top: 14%; right: -80px; background: radial-gradient(circle, rgba(160, 185, 240, .45), transparent 70%); animation: drift-b 22s ease-in-out infinite alternate; }
 
-  /* ───────── Header ───────── */
-  .site-header {
-    position: sticky; top: 0; z-index: 50;
-    padding: 12px 0;
-    background: rgba(246, 247, 252, .72);
-    -webkit-backdrop-filter: saturate(1.4) blur(14px);
-    backdrop-filter: saturate(1.4) blur(14px);
-    transition: box-shadow .35s;
-    animation: drop .7s var(--ease) backwards;
+  /* ───────── هدر (همان هدر داشبورد؛ بدون آیکون تم و پروفایل) ───────── */
+  :where(.dh *) { margin: 0; padding: 0; }
+  .dh {
+    --text: #11204f; --muted: #5b6382; --card: #fff; --cb: rgba(255,255,255,.9); --sh: rgba(30,40,90,.07);
+    --chip: #eef0f8; --panel: #fff; --line: rgba(20,40,89,.1); --gold: #c9963a; --bg2: var(--bg);
+    --ease: cubic-bezier(.22,1,.36,1);
+    position: relative; z-index: 50; padding: 1.1rem 4.75rem 0 4.4rem; color: var(--text); font-size: 1rem;
   }
-  .site-header::after {
-    content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-soft) 50%, transparent);
-    opacity: 0; transition: opacity .35s;
-  }
-  .site-header.is-scrolled { box-shadow: 0 8px 28px rgba(20, 35, 79, .05); }
-  .site-header.is-scrolled::after { opacity: 1; }
-  .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .dh svg.i { width: 1.25rem; height: 1.25rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .ph:empty { display: grid; place-items: center; border: 1.5px dashed color-mix(in srgb, var(--text) 30%, transparent); border-radius: .8rem; background: color-mix(in srgb, var(--text) 4%, transparent); }
+  .ph:empty::before { content: attr(data-ph); color: var(--muted); font-size: .8rem; }
+  .top { position: relative; z-index: 5; display: flex; align-items: center; height: 3.6rem; }
+  .logo { display: flex; align-items: center; gap: .75rem; }
+  .logo .ph { width: 3.3rem; height: 3.6rem; }
+  .logo img { height: 3.6rem; width: auto; }
+  .logo strong { display: block; font-size: 2rem; font-weight: 800; line-height: 1.1; }
+  .logo small { display: block; font-size: .7rem; font-weight: 700; line-height: 1.4; }
+  .search { flex: 0 0 35rem; margin-inline: 18.2rem auto; display: flex; align-items: center; gap: .75rem; height: 2.65rem; padding: 0 1.1rem; background: var(--card); border: 1px solid var(--cb); border-radius: 999px; box-shadow: 0 .25rem 1rem var(--sh); color: var(--muted); transition: box-shadow .3s, border-color .3s; }
+  .search:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 22%, transparent); }
+  .search svg.i { width: 1.3rem; height: 1.3rem; color: var(--text); }
+  .search input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; font: inherit; font-size: .9rem; color: var(--text); }
+  .search input::placeholder { color: var(--muted); }
+  .actions { display: flex; align-items: center; gap: 1.4rem; }
+  .ib { position: relative; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; color: var(--text); transition: background .2s, transform .3s var(--ease); }
+  .ib:hover { background: var(--chip); transform: translateY(-2px); }
+  .ib svg.i { width: 1.4rem; height: 1.4rem; }
+  .ib .dot { position: absolute; top: .25rem; right: .3rem; width: .55rem; height: .55rem; border-radius: 50%; background: var(--gold); border: 1.5px solid var(--bg2); }
 
-  /* منوی کپسولی با نشانگر متحرک */
-  .main-nav {
-    position: relative; display: flex; gap: 2px; padding: 4px;
-    background: rgba(20, 35, 79, .045);
-    border: 1px solid rgba(20, 35, 79, .05);
-    border-radius: 12px;
-  }
-  .main-nav a {
-    position: relative; z-index: 1;
-    padding: 7px 14px; border-radius: 8px;
-    font-size: 12.5px; font-weight: 500; color: var(--navy-soft);
-    white-space: nowrap; transition: color .25s;
-  }
-  .main-nav a:hover { color: var(--navy); }
-  .main-nav a[aria-current="page"] { color: var(--navy); font-weight: 600; }
-  .main-nav a[aria-current="page"]::after {
-    content: ""; position: absolute; bottom: 3px; left: 50%;
-    width: 14px; height: 2px; margin-left: -7px; border-radius: 2px;
-    background: var(--gold);
-  }
-  .nav-ind {
-    position: absolute; top: 0; left: 0; z-index: 0;
-    width: 0; height: 0; border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(20, 35, 79, .08), 0 0 0 1px rgba(20, 35, 79, .04);
-    opacity: 0; pointer-events: none;
-    transition: transform .45s cubic-bezier(.3, .8, .2, 1), width .45s cubic-bezier(.3, .8, .2, 1), height .45s cubic-bezier(.3, .8, .2, 1), opacity .3s;
-  }
-  .nav-ind.is-ready { opacity: 1; }
+  .nav { position: relative; z-index: 3; display: flex; gap: 3.6rem; margin-top: 1.1rem; padding-inline-start: 16.9rem; }
+  .nav a { position: relative; display: flex; align-items: center; gap: .45rem; padding-bottom: .55rem; font-size: .92rem; font-weight: 500; white-space: nowrap; transition: color .2s; }
+  .nav a:hover, .nav a.on { color: var(--gold); }
+  .nav a svg.i { width: .7rem; height: .7rem; stroke-width: 2; }
+  .nav a.on::after { content: ""; position: absolute; inset: auto 0 0 0; height: 2px; border-radius: 2px; background: var(--gold); }
+  .dd { position: relative; }
+  .dd > a svg.i { transition: transform .3s var(--ease); }
+  .dd:hover > a, .dd.open > a, .dd:has(:focus-visible) > a { color: var(--gold); }
+  .dd:hover > a svg.i, .dd.open > a svg.i { transform: rotate(180deg); }
+  .sub { position: absolute; top: calc(100% + .45rem); inset-inline-start: -.8rem; z-index: 40; min-width: 12.5rem; list-style: none; padding: .5rem; background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; box-shadow: 0 1rem 2.5rem var(--sh); opacity: 0; visibility: hidden; transform: translateY(-.4rem); transition: opacity .25s, transform .35s var(--ease), visibility .25s; }
+  .sub::before { content: ""; position: absolute; inset: -.6rem 0 auto; height: .6rem; }
+  .dd:hover .sub, .dd.open .sub, .dd:has(:focus-visible) .sub { opacity: 1; visibility: visible; transform: none; }
+  .nav .sub a { padding: .5rem .8rem; border-radius: .6rem; font-size: .85rem; }
+  .nav .sub a:hover { background: var(--chip); color: var(--gold); }
 
-  /* جای لوگو (فقط عکس، بدون نوشته) */
-  .brand { display: block; width: 88px; height: 40px; flex: none; }
-  .brand img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  @media (max-width: 1180px) {
+    html { font-size: 15px; }
+    .dh { padding-inline: 1.2rem; }
+    .top { height: auto; flex-wrap: wrap; gap: .8rem; }
+    .search { order: 3; flex-basis: 100%; margin: 0; }
+    .actions { margin-inline-start: auto; }
+    .nav { padding-inline-start: 0; gap: 1.8rem; overflow: visible; flex-wrap: wrap; row-gap: .4rem; }
+  }
+  @media (max-width: 900px) { html { font-size: 14px; } }
+
+  .page-crumb { display: flex; align-items: center; gap: 9px; padding-top: 13px; padding-bottom: 7px; color: var(--muted); font-size: 11.5px; }
+  .page-crumb a { transition: color .2s; }
+  .page-crumb a:hover { color: var(--gold); }
+  .page-crumb .sep { color: var(--gold); opacity: .8; }
+  .page-crumb strong { color: var(--navy); font-weight: 600; }
 
   /* ───────── Hero ───────── */
   .hero { padding: 14px 0 22px; }
@@ -313,134 +319,56 @@
 
   /* ───────── Responsive ───────── */
   @media (max-width: 900px) {
-    .wrap { padding: 0 24px; }
-    .site-header { position: static; }
-    .site-header .wrap { flex-wrap: wrap; row-gap: 12px; }
-    .brand { order: -1; }
-    .main-nav { order: 3; flex: 0 0 100%; overflow-x: auto; }
     .hero .wrap { grid-template-columns: 1fr; }
     .hero-art-wrap { max-width: 330px; margin: 0 auto; width: 100%; }
   }
   @media (max-width: 560px) {
-    .wrap { padding: 0 16px; }
+    .wrap { padding-inline: 16px; }
     .schedule { padding: 16px 14px 18px; }
     .tab { padding: 0 11px; height: 28px; }
+    .page-crumb { font-size: 10.5px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 
-  /* هدر هماهنگ با فضای کار داشبورد */
-  .wrap {
-    width: 100%;
-    max-width: 1280px;
-    margin-inline: auto;
-    padding-inline: clamp(18px, 3vw, 36px);
+  /* هماهنگ‌سازی خودکار با تم انتخاب‌شده در کل سایت */
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f172a !important;
+    --card: #172238 !important;
+    --navy: #e7edf6 !important;
+    --navy-soft: #b5c2d8 !important;
+    --muted: #9aa7bc !important;
+    --line: #2a3850 !important;
+    --gold: #d6ad62 !important;
+    --gold-soft: #725b35 !important;
+    --blue-bg: #1d3150 !important;
+    --blue-ink: #c5d8ff !important;
+    --peach-bg: #3b3022 !important;
+    --peach-ink: #f2d3a0 !important;
+    --green-bg: #1e3a30 !important;
+    --green-ink: #b9e7c6 !important;
   }
-  .site-header {
-    position: relative;
-    top: auto;
-    z-index: 50;
-    padding: 13px 0 10px;
-    background: rgba(246,247,252,.78);
-    -webkit-backdrop-filter: saturate(1.35) blur(14px);
-    backdrop-filter: saturate(1.35) blur(14px);
-    box-shadow: 0 5px 22px rgba(20,35,79,.035);
-    animation: none;
+  html[data-theme="dark"] body { background: var(--bg) !important; color: var(--navy) !important; }
+  html[data-theme="dark"] .dh {
+    --text: #e7edf6 !important;
+    --muted: #9aa7bc !important;
+    --card: #172238 !important;
+    --cb: rgba(148,163,184,.18) !important;
+    --sh: rgba(0,0,0,.22) !important;
+    --chip: #24334a !important;
+    --panel: #172238 !important;
+    --line: #2a3850 !important;
+    --gold: #d6ad62 !important;
+    --bg2: #0f172a !important;
   }
-  .site-header::after { display: none; }
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 28px;
-    min-height: 44px;
-  }
-  .brand {
-    display: flex;
-    align-items: center;
-    flex: none;
-    width: 112px;
-    height: 42px;
-  }
-  .brand img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: right center;
-  }
-  .main-nav {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: clamp(18px, 2.6vw, 38px);
-    width: auto;
-    max-width: 100%;
-    min-height: 42px;
-    margin: 0;
-    padding: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  .main-nav::-webkit-scrollbar { display: none; }
-  .main-nav a {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    min-height: 42px;
-    padding: 0 1px;
-    border-radius: 0;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--navy-soft);
-    white-space: nowrap;
-    transition: color .2s;
-  }
-  .main-nav a:hover { color: var(--gold); }
-  .main-nav a[aria-current="page"] { color: var(--navy); font-weight: 700; }
-  .main-nav a[aria-current="page"]::after {
-    content: "";
-    position: absolute;
-    bottom: 1px;
-    inset-inline: 0;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--gold);
-  }
-  .nav-ind { display: none; }
-  .page-crumb {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding-top: 13px;
-    padding-bottom: 7px;
-    color: var(--muted);
-    font-size: 11.5px;
-  }
-  .page-crumb a { transition: color .2s; }
-  .page-crumb a:hover { color: var(--gold); }
-  .page-crumb .sep { color: var(--gold); opacity: .8; }
-  .page-crumb strong { color: var(--navy); font-weight: 600; }
-  @media (max-width: 900px) {
-    .site-header { position: relative; padding: 11px 0 8px; }
-    .header-top { align-items: flex-start; flex-direction: column; gap: 7px; }
-    .brand { width: 100px; height: 38px; }
-    .main-nav { width: 100%; min-height: 38px; gap: 22px; }
-    .main-nav a { min-height: 38px; }
-  }
-  @media (max-width: 560px) {
-    .wrap { padding-inline: 16px; }
-    .main-nav { gap: 18px; }
-    .main-nav a { font-size: 11.5px; }
-    .page-crumb { font-size: 10.5px; }
-  }
+  html[data-theme="dark"] thead th,
+  html[data-theme="dark"] tbody th { background: #172238; color: var(--navy); }
+  html[data-theme="dark"] .filter-menu button:hover { background: rgba(148,163,184,.12); }
 
 </style>
+<script defer src="../js/theme.js?v=planning-theme-sync-20261116"></script>
 </head>
 <body>
 
@@ -463,22 +391,42 @@
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 4-13 14-14 0 9-4.5 14-12.5 14M5 19c2-4 5-7 9-9"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 1.5c.8 5.6 3.9 9.4 10.5 10.5-6.6 1.1-9.7 4.9-10.5 10.5C11.2 16.9 8.1 13.1 1.5 12 8.1 10.9 11.2 7.1 12 1.5z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
 </svg>
 
-<!-- ═════════════ هدر ═════════════ -->
-<header class="site-header" id="siteHeader">
-  <div class="header-top wrap">
-    <a class="brand" id="brand" href="./رستا _ فضای کار (1).html" aria-label="بازگشت به داشبورد">
-      <img src="../عکس ها/هدر.png" alt="مدار">
+<!-- ═════════════ هدر (از داشبورد؛ بدون آیکون تم و پروفایل) ═════════════ -->
+<header class="dh">
+  <div class="top">
+    <a href="./رستا _ فضای کار (1).html" class="logo" aria-label="مدار">
+      <span class="ph" data-ph="لوگو"><img src="../عکس ها/هدر.png" alt="" onerror="this.remove()"></span>
+      <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
     </a>
-    <nav class="main-nav" id="mainNav" aria-label="منوی داشبورد">
-      <a href="./رستا _ فضای کار (1).html">داشبورد</a>
-      <a href="#" aria-current="page">برنامه‌ریزی</a>
-      <a href="../#exams">آزمون‌ها</a>
-      <a href="../#announcements">اطلاعیه‌ها</a>
-      <a href="./رستا _ فضای کار (1).html">خدمات آموزشی</a>
-    </nav>
+    <label class="search">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input type="search" placeholder="جستجو در سامانه...">
+    </label>
+    <div class="actions">
+      <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
+    </div>
   </div>
+
+  <nav class="nav" aria-label="منوی اصلی">
+    <div class="dd"><a href="#" aria-haspopup="true">صفحه اصلی<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="./رستا _ فضای کار (1).html">داشبورد</a></li><li><a href="#">پروفایل من</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">اطلاعیه‌ها<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="../#announcements">اطلاعیه‌های جدید</a></li><li><a href="#">اخبار مدرسه</a></li><li><a href="#">بایگانی</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">آزمون‌ها<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="../#exams">آزمون‌های پیش‌رو</a></li><li><a href="#">آزمون آنلاین</a></li><li><a href="#">نتایج آزمون‌ها</a></li></ul></div>
+    <div class="dd"><a href="#" class="on" aria-haspopup="true">برنامه‌ها<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="#">برنامه روزانه</a></li><li><a href="#">برنامه هفتگی</a></li><li><a href="#">برنامه امتحانی</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">معلمان<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="#">لیست معلمان</a></li><li><a href="#">ارتباط با معلم</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">مشاوره تحصیلی<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="#">رزرو وقت مشاوره</a></li><li><a href="#">منابع مطالعاتی</a></li></ul></div>
+    <div class="dd"><a href="#" aria-haspopup="true">درباره ما<svg class="i"><use href="#i-chevron"/></svg></a>
+      <ul class="sub"><li><a href="#">معرفی مدرسه</a></li><li><a href="#">تماس با ما</a></li></ul></div>
+  </nav>
 </header>
 <div class="page-crumb wrap" aria-label="مسیر صفحه">
   <a href="./رستا _ فضای کار (1).html">داشبورد</a>
@@ -699,14 +647,6 @@
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ── هدر: سایه و خط طلایی هنگام اسکرول ──
-  var header = document.getElementById('siteHeader');
-  function onScroll() { header.classList.toggle('is-scrolled', window.scrollY > 8); }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // منوی اصلی با حالت فعال ثابت؛ بدون نشانگر شناور اضافی
-
   // ── تب‌ها ──
   var tabs = document.querySelectorAll('#tabs .tab');
   tabs.forEach(function (tab) {
@@ -791,6 +731,15 @@
       fBtn.focus();
     });
   });
+})();
+
+/* منوی کشویی هدر (موبایل با کلیک) */
+(()=>{
+  const dds=[...document.querySelectorAll('.dd')];
+  const closeAll=ex=>dds.forEach(d=>d!==ex&&d.classList.remove('open'));
+  dds.forEach(d=>d.firstElementChild.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeAll(d);d.classList.toggle('open')}));
+  document.addEventListener('click',()=>closeAll());
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 })();
 </script>
 </body>
