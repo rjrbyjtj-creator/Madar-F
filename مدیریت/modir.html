@@ -167,17 +167,67 @@
       border-radius: 50%;
     }
 
+    .profile-menu-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
     .user-profile-btn {
       display: flex;
       align-items: center;
       gap: 10px;
       background: none;
-      border: none;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 5px 7px;
       cursor: pointer;
       color: var(--text-main);
       font-size: 13.5px;
       font-weight: 500;
+      transition: background .2s ease, border-color .2s ease;
     }
+    .user-profile-btn:hover,
+    .user-profile-btn[aria-expanded="true"] {
+      background: rgba(148,163,184,.12);
+      border-color: var(--border-color);
+    }
+    .user-profile-btn .profile-chevron { transition: transform .2s ease; }
+    .user-profile-btn[aria-expanded="true"] .profile-chevron { transform: rotate(180deg); }
+
+    .profile-dropdown {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      z-index: 1000;
+      width: 224px;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      background: var(--bg-white);
+      box-shadow: 0 16px 40px rgba(15,23,42,.16), 0 3px 10px rgba(15,23,42,.07);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px);
+      transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+    }
+    .profile-dropdown.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .profile-dropdown-head { padding: 8px 10px 11px; }
+    .profile-dropdown-name { display:block; color:var(--text-main); font-size:13px; font-weight:800; }
+    .profile-dropdown-role { display:block; margin-top:4px; color:var(--text-muted); font-size:11px; }
+    .profile-dropdown-divider { height:1px; margin:2px 0 8px; background:var(--border-color); }
+    .profile-logout {
+      width:100%; display:flex; align-items:center; gap:10px;
+      padding:10px; border:0; border-radius:9px; cursor:pointer;
+      color:#dc4545; background:transparent; font:inherit; font-size:13px;
+      text-align:right; transition:background .18s ease;
+    }
+    .profile-logout:hover { background:rgba(220,69,69,.09); }
+    .profile-logout svg { width:17px; height:17px; flex:none; }
 
     .user-avatar {
       width: 38px;
@@ -677,18 +727,33 @@
           </svg>
         </button>
 
-        <!-- پروفایل مدیر ارشد -->
-        <button class="user-profile-btn">
-          <span>مدیر ارشد</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-          <div class="user-avatar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        <!-- پروفایل مدیر ارشد و منوی خروج -->
+        <div class="profile-menu-wrap" id="profileMenuWrap">
+          <button class="user-profile-btn" id="profileMenuToggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown">
+            <span>مدیر ارشد</span>
+            <svg class="profile-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
+            <span class="user-avatar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </span>
+          </button>
+          <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
+            <div class="profile-dropdown-head">
+              <span class="profile-dropdown-name">مدیر ارشد</span>
+              <span class="profile-dropdown-role">مدیریت سامانه مدار</span>
+            </div>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-logout" id="adminLogoutBtn" type="button" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>
+              </svg>
+              <span>خروج از حساب</span>
+            </button>
           </div>
-        </button>
+        </div>
       </div>
     </div>
 
@@ -1030,7 +1095,36 @@
     </div>
   </footer>
 
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
   <script>
+    // منوی پروفایل مدیر
+    const profileToggle = document.getElementById('profileMenuToggle');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileWrap = document.getElementById('profileMenuWrap');
+    function setProfileMenu(open) {
+      profileDropdown.classList.toggle('open', open);
+      profileToggle.setAttribute('aria-expanded', String(open));
+      profileDropdown.setAttribute('aria-hidden', String(!open));
+    }
+    profileToggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setProfileMenu(!profileDropdown.classList.contains('open'));
+    });
+    document.addEventListener('click', (event) => {
+      if (!profileWrap.contains(event.target)) setProfileMenu(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setProfileMenu(false);
+        profileToggle.focus();
+      }
+    });
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      if (window.Auth && typeof Auth.logout === 'function') Auth.logout();
+      else window.location.href = '../لاگین و ثبت نام/لاگین.html';
+    });
+
     // اسکریپت ساده برای تغییر تم روشن/تاریک با کلیک روی آیکون خورشید
     const themeToggleBtn = document.getElementById('themeToggle');
     themeToggleBtn.addEventListener('click', () => {
