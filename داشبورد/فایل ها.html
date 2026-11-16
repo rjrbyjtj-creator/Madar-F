@@ -7,136 +7,110 @@
 <script src="../js/page-loader.js"></script>
 <script src="../js/madar-connect.js?v=connect-20261114"></script>
 <script defer src="../js/theme.js?v=global-theme-20261116"></script>
-<title>مدار | فایل‌های آموزشی</title>
+<title>مدار | فایل‌های درسی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>try{var savedMode=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(savedMode==='dark'||savedMode==='light')document.documentElement.dataset.theme=savedMode}catch(e){}</script>
+<link rel="icon" href="../عکس ها/تب.png">
+<script>try{const t=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
-:root{--bg:#F6F7F9;--bg2:#FBFBFC;--card:#fff;--panel:#fff;--inner:#FBFBFC;--tile:#EDEFF4;--chip:#EDEFF4;--text:#1B2233;--muted:#6B7488;--primary:#14264F;--gold:#B8892D;--line:#E3E6EC;--sh:rgba(20,38,79,.08);--on:#fff
-:root[data-theme=dark]{--bg:#0C1222;--bg2:#0F1729;--card:#131C32;--panel:#131C32;--inner:#0F1729;--tile:#1A2440;--chip:#1A2440;--text:#E6EAF3;--muted:#8D98B0;--primary:#2B4C98;--gold:#D9AE55;--line:#243049;--sh:rgba(0,0,0,.45)
+:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
+:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);min-height:100vh;line-height:1.8;background:radial-gradient(38rem 30rem at 8% 25%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
-a{color:inherit;text-decoration:none}button,input{font:inherit;color:inherit}button{cursor:pointer}
+html{background:var(--bg);font-size:clamp(13px,.957vw,20px);scroll-behavior:smooth}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;background:radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
+a{color:inherit;text-decoration:none}button,input{font:inherit;color:inherit}button{border:0;cursor:pointer;background:none}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-svg.i{width:1.25rem;height:1.25rem;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.page{width:min(1320px,100% - 8rem);margin:auto;padding:1.5rem 0 3rem}
-.top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.brand{display:flex;align-items:center;gap:.8rem}.brand img{width:3rem;height:3.2rem;object-fit:contain}.brand b{display:block;font-size:1.55rem;font-weight:800;line-height:1.2}.brand small{font-size:.72rem;font-weight:600;color:var(--muted)}
-.actions{display:flex;align-items:center;gap:.7rem}
-.icon-btn{display:grid;place-items:center;width:2.65rem;height:2.65rem;border:1px solid var(--line);border-radius:50%;background:var(--card);transition:.2s}
-.icon-btn:hover{border-color:var(--gold);transform:translateY(-2px)}
-.back{display:inline-flex;align-items:center;gap:.55rem;padding:.65rem 1.1rem;border-radius:999px;background:var(--primary);color:var(--on);font-size:.86rem;font-weight:700;box-shadow:0 .4rem 1rem var(--sh)}
-.back:hover{filter:brightness(1.15)}
-.crumb{display:flex;align-items:center;gap:.5rem;margin-top:2.4rem;font-size:.82rem;color:var(--muted)}.crumb a:hover{color:var(--gold)}
-.hero{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;margin-top:1.2rem;padding:2.5rem 2.8rem;border:1px solid var(--line);border-radius:1.5rem;background:var(--card);box-shadow:0 .8rem 2.5rem var(--sh);overflow:hidden}
-.hero:after{content:"";position:absolute;width:20rem;height:20rem;left:-5rem;top:-10rem;border-radius:50%;background:color-mix(in srgb,var(--primary) 7%,transparent)}
-.pill{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem .9rem;border-radius:999px;background:var(--chip);font-size:.78rem;font-weight:700}
-.hero h1{margin-top:.8rem;font-size:clamp(1.7rem,3vw,2.5rem);font-weight:800;line-height:1.5}
-.hero p{max-width:42rem;margin-top:.4rem;color:var(--muted);font-size:.95rem}
-.hero-art{position:relative;z-index:1;display:grid;place-items:center;width:9rem;height:9rem;border-radius:2rem;background:var(--tile);color:var(--primary);transform:rotate(-7deg)}
-:root[data-theme=dark] .hero-art{color:#aab8ff}
-.hero-art svg{width:5rem;height:5rem;transform:rotate(7deg)}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin:2.5rem 0 1rem}
-.section-head h2{font-size:1.35rem;font-weight:800}.section-head p{font-size:.82rem;color:var(--muted)}
-.search{display:flex;align-items:center;gap:.7rem;width:min(100%,27rem);height:3rem;padding:0 1rem;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted)}
-.search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 18%,transparent)}
-.search input{width:100%;border:0;outline:0;background:transparent;font-size:.85rem}
-.search input::placeholder{color:var(--muted)}
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.category{display:flex;align-items:center;gap:1rem;padding:1.2rem;border:1px solid var(--line);border-radius:1.1rem;background:var(--card);text-align:right;transition:border-color .2s,transform .25s,box-shadow .2s}
-.category:hover,.category.active{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 .6rem 1.5rem var(--sh)}
-.cat-icon{display:grid;place-items:center;flex:none;width:3.3rem;height:3.3rem;border-radius:1rem;background:var(--tile);color:var(--primary)}
-:root[data-theme=dark] .cat-icon{color:#aab8ff}
-.cat-icon svg{width:1.7rem;height:1.7rem}
-.category b{display:block;font-size:.9rem;font-weight:800}.category small{display:block;margin-top:.1rem;font-size:.72rem;color:var(--muted)}
-.library{padding:1.5rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);box-shadow:0 .5rem 1.8rem var(--sh)}
-.library-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
-.library-top h3{font-size:1rem;font-weight:800}.library-top span{font-size:.78rem;color:var(--muted)}
-.empty{display:grid;justify-items:center;text-align:center;padding:3.8rem 1rem 3.3rem}
-.empty-icon{display:grid;place-items:center;width:5rem;height:5rem;border-radius:1.5rem;background:var(--tile);color:var(--muted)}
-.empty-icon svg{width:2.5rem;height:2.5rem}
-.empty h3{margin-top:1.1rem;font-size:1.1rem;font-weight:800}
-.empty p{max-width:32rem;margin-top:.35rem;font-size:.83rem;color:var(--muted)}
-.hint{display:flex;align-items:flex-start;gap:.8rem;margin-top:1.2rem;padding:1rem 1.2rem;border:1px solid var(--line);border-radius:1rem;background:var(--inner);font-size:.78rem;color:var(--muted)}
-.hint svg{color:var(--gold);margin-top:.15rem}
-.footer{display:flex;align-items:center;gap:.6rem;margin-top:2rem;color:var(--muted);font-size:.78rem}.footer i{display:block;width:3rem;height:2px;background:var(--gold);border-radius:9px}
-@media(max-width:900px){.page{width:calc(100% - 2.4rem)}.categories{grid-template-columns:repeat(2,1fr)}.hero{padding:2rem}.hero-art{width:7rem;height:7rem}.hero-art svg{width:4rem;height:4rem}}
-@media(max-width:600px){.page{width:calc(100% - 1.5rem);padding-top:1rem}.brand img{width:2.4rem;height:2.6rem}.brand b{font-size:1.25rem}.back{font-size:.75rem;padding:.55rem .8rem}.hero{grid-template-columns:1fr;padding:1.4rem}.hero-art{display:none}.section-head{align-items:stretch;flex-direction:column}.search{width:100%}.categories{grid-template-columns:1fr 1fr;gap:.65rem}.category{padding:.85rem;gap:.65rem}.cat-icon{width:2.7rem;height:2.7rem}.category b{font-size:.8rem}.category small{font-size:.66rem}.library{padding:1rem}.empty{padding:2.7rem .5rem}}
+svg.i{width:1.2rem;height:1.2rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.page{position:relative;min-height:100vh;padding:1.1rem 4.75rem 3rem 4.4rem}
+.top{position:relative;z-index:5;display:flex;align-items:center;gap:2rem;min-height:3.6rem}
+.logo{display:flex;align-items:center;gap:.7rem;flex:none}.logo img{width:3.3rem;height:3.6rem;object-fit:contain}.logo strong{display:block;font-size:1.7rem;font-weight:800;line-height:1.2}.logo small{display:block;font-size:.68rem;font-weight:700}
+.search{display:flex;align-items:center;gap:.7rem;height:2.65rem;padding:0 1rem;background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--muted);box-shadow:0 .25rem 1rem var(--sh)}
+.top-search{flex:0 1 29rem;margin-inline:auto}.search input{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;font-size:.85rem;color:var(--text)}.search input::placeholder{color:var(--muted)}
+.actions{display:flex;align-items:center;gap:1rem}.ib{display:grid;place-items:center;width:2.35rem;height:2.35rem;border-radius:50%;transition:background .2s}.ib:hover{background:var(--chip)}
+.back{display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border:1px solid var(--line);border-radius:.8rem;font-size:.8rem;color:var(--muted);transition:.2s}.back:hover{color:var(--gold);border-color:var(--gold)}
+.nav{position:relative;z-index:4;display:flex;gap:2.5rem;margin-top:1.15rem;padding-inline-start:15rem;flex-wrap:wrap}
+.nav a{font-size:.84rem;font-weight:500;padding-bottom:.5rem;white-space:nowrap;transition:color .2s}.nav a:hover,.nav a.active{color:var(--gold)}
+.deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}.deco i{position:absolute;border-radius:50%}.deco .a{top:-15rem;left:-13rem;width:35rem;height:35rem;background:color-mix(in srgb,var(--primary) 9%,transparent)}.deco .b{top:30rem;right:-12rem;width:34rem;height:34rem;border:2px solid color-mix(in srgb,var(--primary) 14%,transparent)}
+.main{position:relative;z-index:1;margin-top:3rem;padding-bottom:2rem}
+.intro{display:grid;grid-template-columns:1fr 22rem;align-items:center;gap:2rem}
+.intro h1{font-size:2.25rem;font-weight:800;line-height:1.4}.intro p{margin-top:.35rem;max-width:34rem;font-weight:500;color:var(--muted)}.gline{display:block;width:5rem;height:2px;margin-top:.8rem;border-radius:2px;background:var(--gold)}
+.art{position:relative;height:15rem;display:grid;place-items:center}.art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 1rem 1.2rem var(--sh))}
+.bar{display:flex;gap:.8rem;margin-top:1.7rem;max-width:39rem}.up{display:flex;align-items:center;gap:.5rem;height:2.65rem;padding:0 1.35rem;font-size:.86rem;font-weight:700;white-space:nowrap;color:var(--on);background:var(--primary);border-radius:999px;transition:filter .2s,transform .3s var(--ease)}.up:hover{filter:brightness(1.15);transform:translateY(-1px)}.bar .search{flex:1}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:1.1rem;box-shadow:0 .25rem 1.2rem var(--sh)}
+.pick{margin-top:2.7rem;padding:1.35rem 1.5rem 1.55rem}.pick h2,.fh h2{font-size:1rem;font-weight:700}.chips{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.chip{flex:1 1 7.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;height:3rem;padding:0 .9rem;font-size:.84rem;font-weight:500;background:var(--chip);border:1.5px solid transparent;border-radius:.85rem;transition:transform .3s var(--ease),border-color .25s,background .25s,box-shadow .3s}.chip svg{color:var(--c,var(--gold))}.chip:hover{transform:translateY(-2px)}.chip[aria-pressed=true]{background:var(--card);border-color:var(--gold);font-weight:700;box-shadow:0 .4rem 1.2rem color-mix(in srgb,var(--gold) 20%,transparent)}
+.cols{display:grid;grid-template-columns:1fr 19rem;gap:1.5rem;margin-top:1.8rem;align-items:start}.files,.rec{padding:1.45rem}.fh{display:flex;align-items:center;gap:.8rem}.fh h2{font-size:1.05rem;font-weight:800}.cnt{padding:0 .75rem;font-size:.75rem;font-weight:700;color:var(--gold);background:var(--chip);border-radius:999px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(14rem,1fr));gap:1rem;margin-top:1.2rem}.fc{display:flex;flex-direction:column;gap:1rem;padding:1rem;background:var(--inner);border:1px solid var(--line);border-radius:.9rem;animation:in .45s var(--ease) both;animation-delay:calc(var(--i)*35ms);transition:border-color .25s,transform .3s var(--ease)}.fc:hover{border-color:color-mix(in srgb,var(--gold) 55%,transparent);transform:translateY(-2px)}
+.fi{display:flex;align-items:center;gap:.75rem;min-width:0}.fi>div{min-width:0}.fi b{display:block;font-size:.83rem;font-weight:700;line-height:1.6}.fi small{font-size:.7rem;color:var(--muted)}.ext{display:grid;place-items:center;flex:none;width:2.55rem;height:3rem;font-size:.62rem;font-weight:800;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent);border-radius:.6rem}
+.btns{display:flex;gap:.5rem}.btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.35rem;height:2.1rem;font-size:.75rem;font-weight:700;border-radius:.6rem;transition:filter .2s,border-color .2s,color .2s}.btn svg{width:.95rem;height:.95rem}.btn.p{color:var(--on);background:var(--primary)}.btn.p:hover{filter:brightness(1.15)}.btn.o{font-weight:500;border:1px solid var(--line)}.btn.o:hover{border-color:var(--gold);color:var(--gold)}
+.empty{grid-column:1/-1;padding:2.5rem 1rem;text-align:center;color:var(--muted)}.rec ul{list-style:none;display:grid;gap:.75rem;margin-top:1.1rem}.ri{display:flex;align-items:center;gap:.7rem;padding:.75rem;background:var(--inner);border:1px solid var(--line);border-radius:.8rem}.ri .ext{width:2.1rem;height:2.4rem;font-size:.55rem}.ri div{min-width:0}.ri b{display:block;font-size:.75rem;font-weight:700;line-height:1.6}.ri small{display:flex;align-items:center;gap:.45rem;font-size:.68rem;color:var(--muted)}.tag{padding:0 .55rem;font-size:.65rem;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border-radius:999px}.all{display:inline-flex;align-items:center;gap:.4rem;margin-top:1.2rem;font-size:.78rem;color:var(--muted)}.all:hover{color:var(--gold)}
+.note{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:3rem;font-size:.8rem;color:var(--muted)}.note svg{color:var(--gold)}
+@keyframes in{from{opacity:0;transform:translateY(.5rem)}}
+@media(max-width:1100px){.page{padding-inline:1.5rem}.nav{padding-inline-start:0;gap:1.5rem}.intro{grid-template-columns:1fr 17rem}.cols{grid-template-columns:1fr 17rem}}
+@media(max-width:800px){.top{flex-wrap:wrap;gap:.8rem}.top-search{order:3;flex-basis:100%;margin:0}.actions{margin-inline-start:auto}.nav{gap:1rem}.intro,.cols{grid-template-columns:1fr}.art{height:12rem}.intro h1{font-size:1.8rem}.bar{flex-wrap:wrap}.bar .search{flex:1 1 100%}}
+@media(max-width:520px){.page{padding:1rem .9rem 2rem}.logo img{width:2.7rem;height:3rem}.logo strong{font-size:1.4rem}.nav{overflow-x:auto;flex-wrap:nowrap;padding-bottom:.4rem}.nav a{font-size:.75rem}.main{margin-top:2rem}.art{height:10rem}.pick,.files,.rec{padding:1rem}.chips{gap:.5rem}.chip{flex-basis:calc(50% - .5rem);font-size:.75rem}.grid{grid-template-columns:1fr 1fr;gap:.6rem}.fc{padding:.7rem;gap:.75rem}.fi{gap:.5rem}.fi b{font-size:.72rem}.fi small{font-size:.62rem}.ext{width:2.1rem;height:2.5rem}.btn{font-size:.66rem}.btn svg{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-<symbol id="folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
-<symbol id="file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></symbol>
-<symbol id="book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/></symbol>
-<symbol id="clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 4V2h6v2M8 10h8M8 14h8M8 18h5"/></symbol>
-<symbol id="flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3M8 15h8"/></symbol>
-<symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-<symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
-<symbol id="moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
-<symbol id="back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="s-all" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="s-bio" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.5 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.3-6"/></symbol>
+<symbol id="s-en" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+<symbol id="s-lit" viewBox="0 0 24 24"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2z"/><path d="M22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></symbol>
+<symbol id="s-chem" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3M7.5 15h9"/></symbol>
+<symbol id="s-phy" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></symbol>
+<symbol id="s-math" viewBox="0 0 24 24"><path d="M5 7h14M9 7v11M15 7c0 5 0 9 2.5 11"/></symbol>
 </svg>
-<div class="page">
+<div class="page"><div class="deco" aria-hidden="true"><i class="a"></i><i class="b"></i></div>
 <header class="top">
-<a class="brand" href="./رستا _ فضای کار (1).html"><img src="../عکس ها/هدر.png" alt="مدار"><span><b>مدار</b><small>دبیرستان دوره دوم</small></span></a>
-<div class="actions">
-<button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر حالت نمایش"><svg class="i"><use href="#moon"/></svg></button>
-<a class="back" href="./رستا _ فضای کار (1).html"><svg class="i"><use href="#back"/></svg>بازگشت به داشبورد</a>
-</div>
+<a href="./رستا _ فضای کار (1).html" class="logo" aria-label="مدار"><img src="../عکس ها/هدر.png" alt="لوگوی مدار"><span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span></a>
+<label class="search top-search"><svg class="i"><use href="#i-search"/></svg><input type="search" placeholder="جستجو در سامانه..." aria-label="جستجو در سامانه"></label>
+<div class="actions"><button class="ib" id="themeBtn" type="button" aria-label="تغییر تم"><svg class="i"><use href="#i-moon"/></svg></button><a href="./رستا _ فضای کار (1).html" class="back"><svg class="i"><use href="#i-back"/></svg>بازگشت به داشبورد</a></div>
 </header>
-<div class="crumb"><a href="./رستا _ فضای کار (1).html">داشبورد</a><span> / </span><b>فایل‌های آموزشی</b></div>
-<main>
-<section class="hero">
-<div><span class="pill"><svg class="i"><use href="#folder"/></svg>کتابخانه آموزشی مدار</span><h1>همه منابع درسی، یک‌جا و مرتب</h1><p>جزوه‌ها، نمونه‌سؤال‌ها، تمرین‌ها و منابع کمک‌آموزشی را در یک فضای منظم دنبال کنید.</p></div>
-<div class="hero-art"><svg class="i"><use href="#folder"/></svg></div>
-</section>
-<section>
-<div class="section-head"><div><h2>دسته‌بندی فایل‌ها</h2><p>برای مشاهده منابع هر گروه، دسته‌بندی موردنظر را انتخاب کنید.</p></div></div>
-<div class="categories" id="categories">
-<button class="category active" type="button" data-category="all"><span class="cat-icon"><svg class="i"><use href="#folder"/></svg></span><span><b>همه فایل‌ها</b><small>نمایش کل منابع</small></span></button>
-<button class="category" type="button" data-category="notes"><span class="cat-icon"><svg class="i"><use href="#book"/></svg></span><span><b>جزوه‌های درسی</b><small>درس‌نامه و خلاصه‌ها</small></span></button>
-<button class="category" type="button" data-category="exams"><span class="cat-icon"><svg class="i"><use href="#clipboard"/></svg></span><span><b>نمونه سؤال‌ها</b><small>آزمون و تمرین امتحانی</small></span></button>
-<button class="category" type="button" data-category="practice"><span class="cat-icon"><svg class="i"><use href="#flask"/></svg></span><span><b>تمرین‌ها</b><small>فعالیت و تکلیف درسی</small></span></button>
-</div>
-</section>
-<section>
-<div class="section-head"><div><h2>کتابخانه فایل‌ها</h2><p>جستجو و مرور منابع آموزشی</p></div>
-<label class="search"><svg class="i"><use href="#search"/></svg><input id="searchInput" type="search" placeholder="جستجوی نام فایل یا درس..." autocomplete="off"></label></div>
-<div class="library">
-<div class="library-top"><h3 id="libraryTitle">همه فایل‌ها</h3><span id="libraryCount">در انتظار انتشار منابع</span></div>
-<div class="empty"><span class="empty-icon"><svg class="i"><use href="#file"/></svg></span><h3 id="emptyTitle">هنوز فایلی منتشر نشده است</h3><p id="emptyText">به‌محض اینکه منابع آموزشی توسط مدرسه بارگذاری شوند، فایل‌ها در این قسمت نمایش داده می‌شوند.</p></div>
-</div>
-<div class="hint"><svg class="i"><use href="#file"/></svg><span>در حال حاضر بخش نمایش و دسته‌بندی صفحه آماده است؛ برای بارگذاری، ذخیره و دانلود واقعی فایل‌ها باید سرویس مدیریت فایل به بک‌اند متصل شود.</span></div>
-</section>
-<footer class="footer"><svg class="i"><use href="#folder"/></svg>کتابخانه آموزشی مدرسه مدار<i></i></footer>
-</main>
-</div>
-<script src="../js/config.js"></script>
-<script src="../js/auth.js"></script>
+<nav class="nav" aria-label="منوی اصلی">
+<a href="./رستا _ فضای کار (1).html">صفحه اصلی</a><a href="./رستا _ فضای کار (1).html">اطلاعیه‌ها</a><a href="./رستا _ فضای کار (1).html">آزمون‌ها</a><a href="./برنامه ریزی.html">برنامه‌ها</a><a href="./رستا _ فضای کار (1).html">معلمان</a><a href="./رستا _ فضای کار (1).html">مشاوره تحصیلی</a><a href="../index.html">درباره ما</a>
+</nav>
+<main class="main">
+<section class="intro"><div><h1>فایل‌های درسی</h1><p>فایل‌های درسی خود را مدیریت کنید، آپلود کنید و به‌راحتی به آن‌ها دسترسی داشته باشید.</p><i class="gline"></i>
+<div class="bar"><button class="up" id="upBtn" type="button"><svg class="i"><use href="#i-up"/></svg>آپلود فایل</button><input type="file" id="upIn" multiple hidden accept=".pdf,.doc,.docx,.ppt,.pptx"><label class="search"><svg class="i"><use href="#i-search"/></svg><input type="search" id="fq" placeholder="جستجو در فایل‌ها..." aria-label="جستجو در فایل‌ها"></label></div></div>
+<div class="art"><img src="../عکس ها/هور - فایل.png" alt="تصویر تزئینی کتابخانه فایل‌های درسی"></div></section>
+<section class="panel pick"><h2>انتخاب درس</h2><div class="chips" id="chips"></div></section>
+<div class="cols"><section class="panel files" aria-live="polite"><div class="fh"><h2 id="ft"></h2><span class="cnt" id="fn"></span></div><div class="grid" id="fg"></div></section>
+<aside class="panel rec"><div class="fh"><h2>فایل‌های اخیر</h2><svg class="i" style="color:var(--gold)"><use href="#i-clock"/></svg></div><ul id="rl"></ul><a href="#" class="all" id="allFiles">مشاهده همه فایل‌ها<svg class="i"><use href="#i-back"/></svg></a></aside></div>
+<p class="note">با درس بخوان، منظم‌تر باش و هدفمندتر پیش برو.</p>
+</main></div>
+<script src="../js/config.js"></script><script src="../js/auth.js"></script>
 <script>
+const $=id=>document.getElementById(id);
+const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const root=document.documentElement;
-document.getElementById('themeBtn').addEventListener('click',()=>{
- const next=root.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else root.dataset.theme=next;
-});
-const labels={all:'همه فایل‌ها',notes:'جزوه‌های درسی',exams:'نمونه سؤال‌ها',practice:'تمرین‌ها'};
-let active='all';
-document.querySelectorAll('[data-category]').forEach(button=>button.addEventListener('click',()=>{
- active=button.dataset.category;
- document.querySelectorAll('[data-category]').forEach(item=>item.classList.toggle('active',item===button));
- document.getElementById('libraryTitle').textContent=labels[active];
- updateEmpty();
-}));
-function updateEmpty(){
- const query=document.getElementById('searchInput').value.trim();
- document.getElementById('emptyTitle').textContent=query?'فایلی با این عبارت پیدا نشد':'هنوز فایلی منتشر نشده است';
- document.getElementById('emptyText').textContent=query?'با اضافه‌شدن منابع آموزشی، نتیجه جستجوی شما در این قسمت نمایش داده می‌شود.':'به‌محض اینکه منابع آموزشی توسط مدرسه بارگذاری شوند، فایل‌ها در این قسمت نمایش داده می‌شوند.';
- document.getElementById('libraryCount').textContent=query?'بدون نتیجه':'در انتظار انتشار منابع';
-}
-document.getElementById('searchInput').addEventListener('input',updateEmpty);
-(async()=>{
- try{if(typeof Auth!=='undefined'&&Auth.requireAuth)await Auth.requireAuth()}catch(error){}
-})();
+$('themeBtn').onclick=()=>{const next=root.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else root.dataset.theme=next;try{localStorage.setItem('theme',next)}catch(e){}};
+const S={all:['همه دروس','s-all'],bio:['زیست‌شناسی','s-bio','#2f9e6b'],en:['زبان انگلیسی','s-en','#3b82c4'],lit:['ادبیات','s-lit','#d9763a'],chem:['شیمی','s-chem','#c9963a'],phy:['فیزیک','s-phy','#7a5cd6'],math:['ریاضی','s-math','#4a7ad6']};
+const X={PDF:'#e5484d',DOCX:'#3b82f6',DOC:'#3b82f6',PPTX:'#f08a24',PPT:'#f08a24'};
+const F=[
+['math','ارائه - کاربرد مشتق در هندسه','PPTX','۱۴۰۵/۰۸/۱۰','۳.۷ مگابایت'],['math','جمع‌بندی معادلات و نامعادلات','DOCX','۱۴۰۵/۰۸/۱۲','۱.۸ مگابایت'],['math','فصل ۱ - ماتریس‌ها و عملیات روی آن‌ها','PDF','۱۴۰۵/۰۸/۱۵','۲.۴ مگابایت'],['math','نکات مهم و فرمول‌های کلیدی','PPTX','۱۴۰۵/۰۸/۰۱','۱.۵ مگابایت'],['math','تمرینات پیشنهادی - بخش توابع','DOCX','۱۴۰۵/۰۸/۰۵','۹۸۰ کیلوبایت'],['math','سوالات امتحانی فصل ۱ تا ۳','PDF','۱۴۰۵/۰۸/۰۸','۱.۲ مگابایت'],['phy','جمع‌بندی قوانین نیوتن','DOCX','۱۴۰۵/۰۸/۱۳','۱.۱ مگابایت'],['phy','حل تمرین‌های کار و انرژی','PDF','۱۴۰۵/۰۸/۰۷','۲.۰ مگابایت'],['phy','ارائه - حرکت‌شناسی','PPTX','۱۴۰۵/۰۸/۰۲','۴.۱ مگابایت'],['chem','مفاهیم پایه شیمی آلی','PPTX','۱۴۰۵/۰۸/۱۴','۳.۲ مگابایت'],['chem','نمونه سوال شیمی ۲','PDF','۱۴۰۵/۰۸/۰۹','۱.۴ مگابایت'],['chem','جدول تناوبی و روندها','PDF','۱۴۰۵/۰۸/۰۳','۷۶۰ کیلوبایت'],['lit','آرایه‌های ادبی و کاربرد آن‌ها','PDF','۱۴۰۵/۰۸/۱۳','۱.۳ مگابایت'],['lit','جزوه قرابت معنایی','DOCX','۱۴۰۵/۰۸/۰۶','۸۴۰ کیلوبایت'],['en','واژگان مهم درس سوم','PDF','۱۴۰۵/۰۸/۱۱','۹۰۰ کیلوبایت'],['en','نکات گرامر - زمان‌ها','DOCX','۱۴۰۵/۰۸/۰۴','۱.۰ مگابایت'],['bio','خلاصه فصل ژنتیک','PPTX','۱۴۰۵/۰۸/۱۰','۲.۸ مگابایت'],['bio','سوالات تستی گوارش','PDF','۱۴۰۵/۰۸/۰۵','۱.۶ مگابایت']];
+const R=[['math','فصل ۲ - حد و پیوستگی','PDF','۲ ساعت پیش'],['phy','جمع‌بندی قوانین نیوتن','DOCX','۵ ساعت پیش'],['chem','مفاهیم پایه شیمی آلی','PPTX','۱ روز پیش'],['lit','آرایه‌های ادبی و کاربرد آن‌ها','PDF','۲ روز پیش']];
+let cur='math';const col=x=>X[x]||'#6b7280';
+const card=(f,i)=>'<article class="fc" style="--i:'+i+'"><div class="fi"><span class="ext" style="--c:'+col(f[2])+'">'+f[2]+'</span><div><b>'+f[1]+'</b><small>'+f[3]+' • '+f[4]+'</small></div></div><div class="btns"><a href="#" class="btn p" data-file-action="download"><svg class="i"><use href="#i-dl"/></svg>دانلود</a><a href="#" class="btn o" data-file-action="view"><svg class="i"><use href="#i-eye"/></svg>مشاهده</a></div></article>';
+function draw(){const q=$('fq').value.trim();const L=F.filter(f=>(cur==='all'||f[0]===cur)&&f[1].includes(q));$('ft').textContent=cur==='all'?'همه فایل‌های درسی':'فایل‌های درس '+S[cur][0];$('fn').textContent=fa(L.length)+' فایل';$('fg').innerHTML=L.length?L.map(card).join(''):'<p class="empty">فایلی پیدا نشد. عبارت دیگری را جستجو کنید یا درس دیگری را انتخاب کنید.</p>';document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===cur));}
+$('chips').innerHTML=Object.entries(S).map(([k,v])=>'<button class="chip" type="button" data-k="'+k+'" style="--c:'+(v[2]||'var(--gold)')+'"><svg class="i"><use href="#'+v[1]+'"/></svg>'+v[0]+'</button>').join('');
+$('chips').onclick=e=>{const c=e.target.closest('.chip');if(c){cur=c.dataset.k;draw()}};$('fq').oninput=draw;
+$('rl').innerHTML=R.map(r=>'<li class="ri"><span class="ext" style="--c:'+col(r[2])+'">'+r[2]+'</span><div><b>'+r[1]+'</b><small><span class="tag" style="--c:'+S[r[0]][2]+'">'+S[r[0]][0]+'</span>'+r[3]+'</small></div></li>').join('');
+$('allFiles').onclick=e=>{e.preventDefault();cur='all';$('fq').value='';draw();$('fg').scrollIntoView({behavior:'smooth',block:'start'})};
+$('upBtn').onclick=()=>$('upIn').click();
+$('upIn').onchange=e=>{[...e.target.files].forEach(f=>{const ext=(f.name.split('.').pop()||'').toUpperCase();if(!X[ext])return;const mb=f.size/1048576;F.unshift([cur==='all'?'math':cur,f.name.replace(/\.[^.]+$/,''),ext,new Date().toLocaleDateString('fa-IR'),fa(mb>=1?mb.toFixed(1)+' مگابایت':Math.max(1,Math.round(f.size/1024))+' کیلوبایت')]);});e.target.value='';draw();};
+$('fg').addEventListener('click',e=>{const a=e.target.closest('[data-file-action]');if(!a)return;e.preventDefault();alert('این فایل نمونه است. برای دانلود و مشاهده واقعی باید فایل در فضای ذخیره‌سازی مدار ثبت شده باشد.')});
+(async()=>{try{if(typeof Auth!=='undefined'&&Auth.requireAuth)await Auth.requireAuth()}catch(e){}})();
+draw();
 </script>
-</body>
-</html>
+</body></html>
