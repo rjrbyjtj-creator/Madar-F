@@ -1034,7 +1034,9 @@
     // اسکریپت ساده برای تغییر تم روشن/تاریک با کلیک روی آیکون خورشید
     const themeToggleBtn = document.getElementById('themeToggle');
     themeToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
+      const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+      if(window.MadarTheme) window.MadarTheme.setMode(next);
+      else {document.documentElement.dataset.theme=next;document.body.classList.toggle('dark-mode',next==='dark');try{localStorage.setItem('madar-theme',next)}catch(e){}}
     });
   </script>
 </body>
