@@ -159,12 +159,13 @@ rb.addEventListener("click",()=>{
   }
 });
 
-const root=document.documentElement,TK="answer-sheet-theme";
-try{const t=localStorage.getItem(TK);if(t==="light"||t==="dark")root.dataset.theme=t}catch(e){}
+const root=document.documentElement;
+try{const t=localStorage.getItem("madar-theme")||localStorage.getItem("answer-sheet-theme");if(t==="light"||t==="dark")root.dataset.theme=t}catch(e){}
 $("themeBtn").addEventListener("click",()=>{
-  const t=root.dataset.theme==="light"?"dark":"light";root.dataset.theme=t;
-  try{localStorage.setItem(TK,t)}catch(e){}
+  const t=root.dataset.theme==="light"?"dark":"light";
+  if(window.MadarTheme) window.MadarTheme.setMode(t);
+  else {root.dataset.theme=t;try{["madar-theme","theme","answer-sheet-theme"].forEach(k=>localStorage.setItem(k,t))}catch(e){}}
 });
-</script>
+</script></script>
 </body>
 </html>
