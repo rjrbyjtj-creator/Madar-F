@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>پروفایل و سابقه تحصیلی | مدار</title>
+<link rel="icon" type="image/png" href="../عکس ها/تب.png">
+<link rel="apple-touch-icon" href="../عکس ها/تب.png">
+<meta name="description" content="پروفایل و سابقه تحصیلی مدار؛ نمرات، تراز آزمون‌ها، وضعیت روزانه و عملکرد هر درس.">
+<script>document.documentElement.classList.add('js');if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("embedded")</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f7fc;--card:#fff;--navy:#14234f;--navy-soft:#3b4a72;--muted:#6f778c;--line:#e9ecf4;--gold:#b98a2e;--gold-soft:#e6cd96;
+    --blue-bg:#e9f0fd;--blue-ink:#2a4a8d;--peach-bg:#fcf0db;--peach-ink:#8c5d17;--green-bg:#e6f3e9;--green-ink:#26683d;--red:#c44d4d;
+    --ease:cubic-bezier(.2,.7,.2,1);--font:"Vazirmatn","Vazir","IRANSans",Tahoma,system-ui,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:var(--font);font-size:12px;color:var(--navy);background:var(--bg);line-height:1.7;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+  .wrap{width:100%;max-width:1040px;margin-inline:auto;padding-inline:clamp(14px,3vw,28px)}
+  .icon{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}}
+  @keyframes ring{from{transform:scale(1);opacity:.55}to{transform:scale(3.4);opacity:0}}
+  .reveal{animation:rise .7s var(--ease) backwards;animation-delay:var(--d,0s)}
+  .ph:empty{display:grid;place-items:center;border:1.5px dashed var(--gold-soft);border-radius:6px;background:rgba(185,138,46,.04)}
+  .ph:empty::before{content:attr(data-ph);color:var(--gold);font-size:9px}
+
+  .page-crumb{display:flex;align-items:center;gap:8px;padding-top:18px;padding-bottom:4px;color:var(--muted);font-size:11px}
+  .page-crumb a:hover{color:var(--gold)}.page-crumb .sep{color:var(--gold);opacity:.8}
+  .page-crumb strong{color:var(--navy);font-weight:600}
+
+  /* ───────── هیرو ───────── */
+  .hero{padding:6px 0 14px}
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 210px;align-items:center;gap:16px}
+  .hero h1{margin:0;font-size:clamp(20px,2.4vw,24px);font-weight:800;line-height:1.35}
+  .hero p{margin:4px 0 0;max-width:300px;font-size:11.5px;line-height:1.9;color:var(--muted)}
+  .goal{margin-top:10px;display:inline-flex;align-items:center;gap:7px;padding:3px 10px;background:var(--card);border:1px solid var(--gold-soft);border-radius:7px;font-size:11px;font-weight:500}
+  .goal i{position:relative;width:5px;height:5px;border-radius:50%;background:var(--gold);flex:none}
+  .goal i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--gold);animation:ring 2.4s ease-out infinite}
+
+  /* جای تصاویر: وقتی فایل نبود کادر خط‌چین نشان داده می‌شود */
+  .art{display:grid;place-items:center}
+  .art img{width:100%;height:100%;object-fit:contain;display:block}
+  .is-empty{border:1.5px dashed var(--gold-soft);border-radius:10px;background:rgba(185,138,46,.04)}
+  .is-empty img{display:none}
+  .is-empty::after{content:attr(data-label);padding:4px;text-align:center;font-size:10.5px;line-height:1.5;color:var(--gold)}
+  .art-hero{aspect-ratio:3/2}.art-sm{width:96px;aspect-ratio:1}
+
+  /* ───────── کارت‌ها ───────── */
+  .card{background:var(--card);border-radius:14px;padding:14px 18px 16px;margin-bottom:12px;box-shadow:0 4px 20px rgba(20,35,79,.04)}
+  .sh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}
+  .sh h2{position:relative;margin:0;padding-bottom:5px;font-size:13.5px;font-weight:700}
+  .sh h2::after{content:"";position:absolute;inset-inline:0;bottom:0;height:2px;border-radius:2px;background:var(--gold)}
+  .lnk{display:inline-flex;align-items:center;gap:3px;height:24px;padding:0 9px;border:1px solid var(--gold-soft);border-radius:7px;background:var(--card);font-size:11px;font-weight:500;color:var(--gold);transition:background .2s}
+  .lnk:hover{background:rgba(185,138,46,.08)}.lnk .icon{width:11px;height:11px;stroke-width:2}
+  .tag{display:inline-flex;align-items:center;height:24px;padding:0 9px;border:1px solid var(--line);border-radius:7px;font-size:11px;color:var(--muted)}
+  .split{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:18px;align-items:center}
+
+  /* ───────── نمرات: ردیف‌به‌ردیف ───────── */
+  .gl{border:1px solid var(--line);border-radius:10px;padding:2px 10px 8px}
+  .gr{display:grid;grid-template-columns:minmax(0,1fr) 92px 64px 54px;align-items:center;gap:8px;padding:5px 2px;border-bottom:1px solid var(--line);font-size:12px;min-height:34px}
+  .gr.hd{min-height:26px;font-size:10.5px;color:var(--muted);font-weight:500}
+  .gr .nm{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gr .sc{font-weight:700;font-size:13px}
+  .gr .ac{display:flex;justify-content:flex-end;gap:4px}
+  .chip{display:inline-block;width:fit-content;padding:0 9px;border-radius:6px;font-size:10.5px;font-weight:600;line-height:1.8}
+  .blue{background:var(--blue-bg);color:var(--blue-ink)}.peach{background:var(--peach-bg);color:var(--peach-ink)}.green{background:var(--green-bg);color:var(--green-ink)}
+  .ib{display:grid;place-items:center;width:24px;height:24px;border:1px solid transparent;border-radius:7px;background:none;color:var(--muted);transition:.2s}
+  .gr .ib.del{opacity:0}.gr:hover .ib.del,.gr .ib.del:focus-visible{opacity:1}
+  @media(hover:none){.gr .ib.del{opacity:1}}
+  .ib.del:hover{color:var(--red);background:rgba(196,77,77,.08)}
+  .ib.ok{background:var(--navy);color:var(--gold-soft)}.ib.ok:hover{opacity:.88}
+  .ib.no{border-color:var(--line)}.ib.no:hover{color:var(--red);border-color:var(--red)}
+  .ed input,.ed select{width:100%;height:28px;min-width:0;padding:0 8px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--navy);font:inherit;font-size:12px;outline:none;transition:border-color .2s}
+  .ed input:focus,.ed select:focus{border-color:var(--gold)}.ed input::placeholder{color:var(--muted)}
+  .ed .bad{border-color:var(--red)}
+  .gr.ed{border-bottom-style:dashed}
+  .add{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:30px;margin-top:8px;border:1.5px dashed var(--gold-soft);border-radius:8px;background:none;font-size:11.5px;font-weight:500;color:var(--gold);transition:background .2s,border-color .2s}
+  .add:hover{background:rgba(185,138,46,.07);border-color:var(--gold)}
+  .emp{padding:12px;text-align:center;color:var(--muted);font-size:11px}
+
+  /* تراز */
+  .lv{display:grid;grid-template-columns:130px minmax(0,1fr) 96px;gap:18px;align-items:center}
+  .stats{display:grid;gap:8px}
+  .stat{padding:8px 12px;border:1px solid var(--line);border-radius:10px}
+  .stat small{display:block;font-size:10.5px;color:var(--muted);line-height:1.5}
+  .stat b{display:block;font-size:20px;font-weight:800;line-height:1.3}
+  .legend{display:flex;gap:12px;font-size:10.5px;color:var(--muted)}
+  .legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-inline-end:5px}
+  svg.chart{width:100%;height:auto;display:block;direction:ltr}
+  .chart .g{stroke:var(--line)}.chart .t{fill:var(--muted);font:9.5px var(--font)}
+
+  /* یادداشت‌ها */
+  .nt{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 96px;gap:14px;align-items:stretch}
+  .nl{display:grid;gap:6px;align-content:start;min-width:0}
+  .ni{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:9px;font-size:11.5px}
+  .ni .d{width:5px;height:5px;border-radius:50%;background:var(--gold);flex:none}
+  .ni time{color:var(--muted);font-size:10.5px;white-space:nowrap}
+  .ni p{margin:0;flex:1;min-width:0;color:var(--navy-soft)}
+  .cp{position:relative}
+  .cp textarea{width:100%;height:100%;min-height:92px;resize:none;padding:8px 10px 36px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--navy);font:inherit;font-size:11.5px;outline:none}
+  .cp textarea:focus{border-color:var(--gold)}.cp textarea::placeholder{color:var(--muted)}
+  .send{position:absolute;left:8px;bottom:8px;display:grid;place-items:center;width:24px;height:24px;border:0;border-radius:7px;background:var(--navy);color:var(--gold-soft)}
+  .send:hover{opacity:.88}
+
+  /* کاشی‌ها */
+  .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .tile{padding:8px 11px;border:1px solid var(--line);border-radius:10px;transition:border-color .25s}
+  .tile:hover{border-color:var(--gold-soft)}
+  .tile .r{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:12px;font-weight:600}
+  .tile .r span{font-size:10.5px;font-weight:500;color:var(--gold)}
+  .bar{height:3px;margin-top:7px;border-radius:3px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:3px;background:var(--gold)}
+  .sv{display:flex;align-items:center;gap:9px}
+  .sv .ic{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--bg);color:var(--navy-soft);flex:none}
+  .sv small{display:block;font-size:10.5px;color:var(--muted);line-height:1.5}
+  .sv b{display:block;font-size:16px;font-weight:800;line-height:1.4}
+
+  /* آزمون‌ها */
+  .ul{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .ei{display:flex;align-items:center;gap:10px;padding:6px 12px;font-size:12px;font-weight:500}
+  .ei+.ei{border-top:1px solid var(--line)}
+  .lg{width:32px;height:24px;flex:none}.lg img{width:100%;height:100%;object-fit:contain;display:block}.lg:empty::before{font-size:8px}
+  .pill{margin-inline-start:auto;padding:0 10px;border-radius:7px;background:var(--blue-bg);color:var(--blue-ink);font-size:11px;font-weight:600;white-space:nowrap}
+
+  @media(max-width:900px){.lv,.nt{grid-template-columns:1fr}.lv .art-sm,.nt .art-sm{display:none}.stats{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:700px){.hero .wrap{grid-template-columns:1fr}.art-hero{max-width:200px;margin-inline:auto;order:-1}.split{grid-template-columns:1fr}.split .art-sm{display:none}}
+  @media(max-width:480px){.card{padding:12px}.gr{grid-template-columns:minmax(0,1fr) 78px 52px 50px;gap:6px}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* هماهنگی با تم تیره سایت */
+  html[data-theme="dark"]{color-scheme:dark;--bg:#0f172a!important;--card:#172238!important;--navy:#e7edf6!important;--navy-soft:#b5c2d8!important;--muted:#9aa7bc!important;--line:#2a3850!important;--gold:#d6ad62!important;--gold-soft:#725b35!important;--blue-bg:#1d3150!important;--blue-ink:#c5d8ff!important;--peach-bg:#3b3022!important;--peach-ink:#f2d3a0!important;--green-bg:#1e3a30!important;--green-ink:#b9e7c6!important;--red:#e07a7a!important}
+  html[data-theme="dark"] body{background:var(--bg)!important;color:var(--navy)!important}
+
+  html.embedded,html.embedded body{background:transparent!important}
+  html.embedded .page-crumb,html.embedded .hero{display:none!important}
+  html.embedded body{padding-top:0}
+  html.embedded .wrap{max-width:1040px}
+</style>
+<script defer src="../js/theme.js?v=planning-theme-sync-20261116"></script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.4 4 4.4v14c3 0 6 .6 8 2.1 2-1.5 5-2.1 8-2.1v-14c-3 0-6 .6-8 2.1zM12 6.5v14"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4.5" width="14" height="16.5" rx="2.5"/><rect x="9" y="2.5" width="6" height="3.6" rx="1.3"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2l-5.4 2.9 1-6.1L3.2 9.7l6.1-.9z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+</svg>
+
+<div class="page-crumb wrap" aria-label="مسیر صفحه">
+  <a href="./رستا _ فضای کار (1).html">داشبورد</a><span class="sep">/</span><strong>پروفایل و سابقه تحصیلی</strong>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1 class="reveal" style="--d:.1s">پروفایل و سابقه تحصیلی من</h1>
+        <p class="reveal" style="--d:.2s">مدیریت کامل عملکرد و پیشرفت تحصیلی شما<br>نمرات، تراز و پیشرفت هر درس در یک نگاه.</p>
+        <div class="goal reveal" style="--d:.3s"><i></i><span id="avgGoal"></span></div>
+      </div>
+      <!-- 👉 تصویر هیرو (تقویم + کلیپ‌بورد + کتاب‌ها): ../عکس ها/پروفایل هیرو.png — PNG شفاف، حدود ۶۰۰×۴۰۰ -->
+      <div class="art art-hero reveal" style="--d:.25s" data-label="تصویر بالای صفحه">
+        <img src="../عکس ها/پروفایل هیرو.png" alt="" onerror="this.parentNode.classList.add('is-empty')">
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap" id="app"></div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 👉 آدرس تصاویر داخل کارت‌ها (PNG شفاف، حدود ۲۰۰×۲۰۰ پیکسل). فایل نبود = کادر خط‌چین. */
+  const ART = {
+    grades:   '../عکس ها/پروفایل نمرات.png',    // برگه امتحان با A+
+    trophy:   '../عکس ها/پروفایل جام.png',      // جام طلایی
+    notes:    '../عکس ها/پروفایل یادداشت.png',  // کلیپ‌بورد یادداشت
+    calendar: '../عکس ها/پروفایل تقویم.png'     // تقویم رومیزی و ساعت
+  };
+  /* 👉 لوگوی آزمون‌ها (۶۴×۴۸ پیکسل) */
+  const LOGO = { maz: '../عکس ها/ماز.png', school: '../عکس ها/مدرسه.png' };
+
+  /* نوع آزمون‌ها: کلید → [نام، رنگ] */
+  const TYPES = { maz: ['ماز', 'blue'], ghalamchi: ['قلمچی', 'green'], school: ['مدرسه', 'peach'] };
+
+  /* داده‌ها: نمرات ردیفی (نام درس، نوع آزمون، نمره). برای اتصال به API این بخش را با پاسخ سرور جایگزین کنید. */
+  const KEY = 'madar-profile-grades';
+  const DEFAULT_GRADES = [
+    { n: 'فارسی ۳', t: 'school', s: 84 }, { n: 'حسابان ۱', t: 'school', s: 79 }, { n: 'هندسه ۳', t: 'maz', s: 86 },
+    { n: 'شیمی ۳', t: 'ghalamchi', s: 82 }, { n: 'عربی ۳', t: 'school', s: 89 }
+  ];
+  let grades;
+  try { grades = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (!Array.isArray(grades)) grades = DEFAULT_GRADES.map(g => ({ ...g }));
+  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(grades)); } catch (e) {} };
+
+  const DATA = {
+    dates:  ['1404/02/01','1404/02/15','1404/02/29','1404/03/12','1404/03/19','1404/03/26'],
+    total:  [740,760,780,800,800,820],
+    region: [710,730,750,770,770,790],
+    notes: [['1404/05/09','ریاضی','blue','امروز چند تست سخت تست زدم و نکات مهم رو مرور کردم.'],
+            ['1404/05/08','فیزیک','green','تمرینات فیزیک رو کامل انجام دادم.'],
+            ['1404/05/07','شیمی','peach','روی مبحث اسید و باز مطالعه کردم.']],
+    perf: [['ریاضی',90],['فیزیک',85],['شیمی',86],['فارسی',88],['حسابان',86],['هندسه',88],['عربی',85],['دین و زندگی',78]],
+    solved: [['تست‌های آموزشی',287,'i-book'],['تست‌های سنجشی',145,'i-target'],['سوالات تشریحی',42,'i-clipboard'],['سوالات نهایی',63,'i-star']],
+    exams: [['آزمون ماز - جامع دوازدهم','1404/05/29','maz'],['آزمون مدرسه - نوبت اول','1404/06/10','school'],['آزمون ماز - شبیه ساز','1404/06/14','maz']]
+  };
+
+  const fa = v => String(v).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ic = (id, cls) => `<svg class="icon ${cls || ''}" aria-hidden="true"><use href="#${id}"/></svg>`;
+  const art = (key, label) => `<div class="art art-sm" data-label="${label}"><img src="${ART[key]}" alt="" onerror="this.parentNode.classList.add('is-empty')"></div>`;
+  const head = (title, extra) => `<div class="sh"><h2>${title}</h2>${extra || ''}</div>`;
+  const more = t => `<a class="lnk" href="#">${t}${ic('i-left')}</a>`;
+  const noteRow = (d, s, c, t) => `<div class="ni"><i class="d"></i><time>${d}</time><span class="chip ${c}">${s}</span><p>${esc(t)}</p></div>`;
+
+  /* ───── نمرات ───── */
+  const gradeRow = (g, i) => `<div class="gr"><span class="nm">${esc(g.n)}</span><span class="chip ${TYPES[g.t][1]}">${TYPES[g.t][0]}</span><span class="sc">${fa(g.s)}</span><span class="ac"><button class="ib del" type="button" data-a="del" data-i="${i}" aria-label="حذف ${esc(g.n)}">${ic('i-x')}</button></span></div>`;
+  const editRow = () => `<div class="gr ed" id="newRow">
+    <input id="gName" placeholder="نام درس" aria-label="نام درس" maxlength="40" autocomplete="off">
+    <select id="gType" aria-label="نوع آزمون">${Object.keys(TYPES).map(k => `<option value="${k}">${TYPES[k][0]}</option>`).join('')}</select>
+    <input id="gScore" placeholder="نمره" aria-label="نمره امتحان" inputmode="decimal" autocomplete="off">
+    <span class="ac"><button class="ib ok" type="button" data-a="ok" aria-label="ثبت نمره">${ic('i-ok')}</button><button class="ib no" type="button" data-a="cancel" aria-label="انصراف">${ic('i-x')}</button></span></div>`;
+  function renderGrades() {
+    document.getElementById('gl').innerHTML =
+      `<div class="gr hd"><span>نام درس</span><span>نوع آزمون</span><span>نمره</span><span></span></div>` +
+      (grades.length ? grades.map(gradeRow).join('') : '<div class="emp">هنوز نمره‌ای ثبت نشده است.</div>') +
+      `<button class="add" type="button" data-a="add">${ic('i-plus')}افزودن نمره</button>`;
+    const avg = grades.length ? Math.round(grades.reduce((s, g) => s + g.s, 0) / grades.length * 10) / 10 : null;
+    document.getElementById('avgGoal').textContent = 'میانگین نمرات: ' + (avg === null ? '—' : fa(avg));
+  }
+  const normNum = v => v.replace(/[۰-۹]/g, d => d.charCodeAt(0) - 1776).replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632).replace(/[٫,،]/g, '.').trim();
+  function openAdd() {
+    const box = document.getElementById('gl');
+    if (!document.getElementById('newRow')) box.querySelector('.add').insertAdjacentHTML('beforebegin', editRow());
+    document.getElementById('gName').focus();
+  }
+  function saveRow() {
+    const nameEl = document.getElementById('gName'), scEl = document.getElementById('gScore');
+    const n = nameEl.value.trim(), s = parseFloat(normNum(scEl.value));
+    nameEl.classList.toggle('bad', !n);
+    const badScore = !(s >= 0 && s <= 100) || !/^\d+(\.\d+)?$/.test(normNum(scEl.value));
+    scEl.classList.toggle('bad', badScore);
+    if (!n) return nameEl.focus();
+    if (badScore) return scEl.focus();
+    grades.push({ n, t: document.getElementById('gType').value, s });
+    persist(); renderGrades();
+  }
+
+  /* ───── نمودار تراز ───── */
+  function chart() {
+    const L = 40, R = 548, T = 10, B = 142, n = DATA.total.length;
+    const X = i => L + 24 + i * (R - L - 48) / (n - 1), Y = v => B - (v - 600) / 300 * (B - T);
+    let g = '';
+    for (let v = 600; v <= 900; v += 100) g += `<line class="g" x1="${L}" x2="${R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="t" x="${L - 8}" y="${Y(v) + 3}" text-anchor="end">${v}</text>`;
+    DATA.dates.forEach((d, i) => g += `<text class="t" x="${X(i)}" y="${B + 16}" text-anchor="middle">${fa(d.slice(5))}</text>`);
+    const line = (a, color, dy) => `<polyline fill="none" style="stroke:${color}" stroke-width="1.8" stroke-linejoin="round" points="${a.map((v, i) => X(i) + ',' + Y(v)).join(' ')}"/>` +
+      a.map((v, i) => `<circle cx="${X(i)}" cy="${Y(v)}" r="3" style="fill:${color}"/><text class="t" style="fill:${color};font-weight:600" x="${X(i)}" y="${Y(v) + dy}" text-anchor="middle">${v}</text>`).join('');
+    return `<svg class="chart" viewBox="0 0 560 164" role="img" aria-label="نمودار تراز آزمون‌ها">${g}${line(DATA.region, 'var(--blue-ink)', 14)}${line(DATA.total, 'var(--gold)', -8)}</svg>`;
+  }
+  const last = DATA.total[DATA.total.length - 1];
+  const avgT = Math.round(DATA.total.reduce((a, b) => a + b, 0) / DATA.total.length);
+
+  document.getElementById('app').innerHTML = `
+  <section class="card" aria-label="نمرات امتحانات">
+    ${head('نمرات امتحانات', more('مشاهده جزئیات'))}
+    <div class="split">
+      <div class="gl" id="gl" aria-live="polite"></div>
+      ${art('grades', 'تصویر نمرات')}
+    </div>
+  </section>
+
+  <section class="card" aria-label="تراز آزمون‌های جامع">
+    ${head('تراز آزمون‌های جامع ماز', '<span class="tag">آخرین ۶ آزمون</span>')}
+    <div class="lv">
+      <div class="stats">
+        <div class="stat"><small>آخرین تراز</small><b style="color:var(--gold)">${fa(last)}</b></div>
+        <div class="stat"><small>میانگین تراز</small><b>${fa(avgT)}</b></div>
+      </div>
+      <div>
+        <div class="legend"><span><i style="background:var(--gold)"></i>تراز کل</span><span><i style="background:var(--blue-ink)"></i>تراز ناحیه</span></div>
+        ${chart()}
+      </div>
+      ${art('trophy', 'تصویر جام')}
+    </div>
+  </section>
+
+  <section class="card" aria-label="وضعیت روزانه">
+    ${head('وضعیت روزانه و دیلی تسک')}
+    <div class="nt">
+      <div class="nl" id="noteList">${DATA.notes.map(n => noteRow(fa(n[0]), n[1], n[2], n[3])).join('')}</div>
+      <div class="cp">
+        <textarea id="noteText" placeholder="امروز چه اتفاقی در درس‌ها افتاده است؟" aria-label="یادداشت روزانه"></textarea>
+        <button class="send" id="sendNote" type="button" aria-label="ثبت یادداشت">${ic('i-send')}</button>
+      </div>
+      ${art('notes', 'تصویر یادداشت')}
+    </div>
+  </section>
+
+  <section class="card" aria-label="عملکرد هر درس">
+    ${head('عملکرد هر درس')}
+    <div class="g4">${DATA.perf.map(p => `<div class="tile"><div class="r">${p[0]}<span>تسلط ${fa(p[1])}٪</span></div><div class="bar"><i style="width:${p[1]}%"></i></div></div>`).join('')}</div>
+  </section>
+
+  <section class="card" aria-label="سوالات حل شده">
+    ${head('نمونه سوالات و تست‌های حل شده')}
+    <div class="g4">${DATA.solved.map(s => `<div class="tile sv"><span class="ic">${ic(s[2])}</span><div><small>${s[0]}</small><b>${fa(s[1])}</b></div></div>`).join('')}</div>
+  </section>
+
+  <section class="card" aria-label="آزمون‌های پیش رو">
+    ${head('آزمون‌های پیش رو', more('مشاهده همه'))}
+    <div class="split">
+      <div class="ul">${DATA.exams.map(e => `<div class="ei"><span class="ph lg" data-ph="لوگو"><img src="${LOGO[e[2]]}" alt="" onerror="this.remove()"></span><span>${e[0]}</span><span class="pill">${fa(e[1])}</span></div>`).join('')}</div>
+      ${art('calendar', 'تصویر تقویم')}
+    </div>
+  </section>`;
+
+  renderGrades();
+
+  /* رویدادهای نمرات */
+  const gl = document.getElementById('gl');
+  gl.addEventListener('click', e => {
+    const b = e.target.closest('[data-a]'); if (!b) return;
+    const a = b.dataset.a;
+    if (a === 'add') openAdd();
+    else if (a === 'ok') saveRow();
+    else if (a === 'cancel') renderGrades();
+    else if (a === 'del') { grades.splice(+b.dataset.i, 1); persist(); renderGrades(); }
+  });
+  gl.addEventListener('keydown', e => {
+    if (!e.target.closest('#newRow')) return;
+    if (e.key === 'Enter') { e.preventDefault(); saveRow(); }
+    if (e.key === 'Escape') renderGrades();
+  });
+  gl.addEventListener('input', e => e.target.classList.remove('bad'));
+
+  /* ثبت یادداشت جدید */
+  const ta = document.getElementById('noteText');
+  document.getElementById('sendNote').addEventListener('click', () => {
+    const t = ta.value.trim();
+    if (!t) return;
+    const d = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date());
+    document.getElementById('noteList').insertAdjacentHTML('afterbegin', noteRow(d, 'عمومی', 'blue', t));
+    ta.value = '';
+  });
+})();
+</script>
+
+<script>
+(function(){
+  if(!document.documentElement.classList.contains('embedded'))return;
+  const sendHeight=()=>parent.postMessage({type:'madar-profile-height',height:Math.ceil(document.documentElement.scrollHeight)},location.origin);
+  if('ResizeObserver' in window)new ResizeObserver(sendHeight).observe(document.body);
+  window.addEventListener('load',sendHeight);
+  window.addEventListener('resize',sendHeight);
+  sendHeight();
+  setTimeout(sendHeight,300);
+})();
+</script>
+</body>
+</html>
