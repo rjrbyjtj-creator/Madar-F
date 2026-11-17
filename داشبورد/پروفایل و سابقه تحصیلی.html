@@ -142,6 +142,56 @@
   html.embedded .page-crumb,html.embedded .hero{display:none!important}
   html.embedded body{padding-top:0}
   html.embedded .wrap{max-width:1040px}
+
+  /* Embedded profile: match the width, scale and rhythm of the planning sections */
+  html.embedded body { font-size: 14px; }
+  html.embedded .wrap { width: 100%; max-width: none; padding-inline: 0; }
+  html.embedded .card { padding: 20px 24px 22px; margin-bottom: 18px; border-radius: 16px; }
+  html.embedded .sh { gap: 14px; margin-bottom: 16px; }
+  html.embedded .sh h2 { font-size: 17px; padding-bottom: 7px; }
+  html.embedded .lnk, html.embedded .tag { height: 30px; font-size: 12px; padding-inline: 12px; }
+  html.embedded .split { grid-template-columns: minmax(0,1fr) 140px; gap: 24px; }
+  html.embedded .art-sm { width: 140px; }
+  html.embedded .gl { padding: 5px 14px 10px; }
+  html.embedded .gr { grid-template-columns: minmax(0,1fr) 110px 76px 60px; gap: 10px; min-height: 42px; padding: 7px 4px; font-size: 13px; }
+  html.embedded .gr.hd { min-height: 32px; font-size: 11.5px; }
+  html.embedded .gr .sc { font-size: 15px; }
+  html.embedded .chip { font-size: 11.5px; padding-inline: 10px; }
+  html.embedded .ib { width: 28px; height: 28px; }
+  html.embedded .add { height: 36px; font-size: 12.5px; }
+  html.embedded .lv { grid-template-columns: 150px minmax(0,1fr) 140px; gap: 22px; }
+  html.embedded .stat { padding: 10px 14px; }
+  html.embedded .stat small { font-size: 12px; }
+  html.embedded .stat b { font-size: 23px; }
+  html.embedded .legend { font-size: 12px; gap: 16px; }
+  html.embedded .nt { grid-template-columns: minmax(0,1.3fr) minmax(0,1fr) 140px; gap: 18px; }
+  html.embedded .ni { gap: 10px; padding: 8px 12px; font-size: 13px; }
+  html.embedded .ni time, html.embedded .tile .r span { font-size: 11.5px; }
+  html.embedded .cp textarea { min-height: 112px; font-size: 13px; }
+  html.embedded .g4 { gap: 12px; }
+  html.embedded .tile { padding: 11px 14px; }
+  html.embedded .tile .r { font-size: 13px; }
+  html.embedded .sv .ic { width: 32px; height: 32px; }
+  html.embedded .sv small { font-size: 12px; }
+  html.embedded .sv b { font-size: 18px; }
+  html.embedded .ei { gap: 12px; padding: 9px 14px; font-size: 13px; }
+  html.embedded .lg { width: 40px; height: 30px; }
+  html.embedded .pill { font-size: 12px; padding: 2px 12px; }
+  @media(max-width:900px) {
+    html.embedded .lv, html.embedded .nt { grid-template-columns: 1fr; }
+    html.embedded .lv .art-sm, html.embedded .nt .art-sm { display: none; }
+    html.embedded .stats { grid-template-columns: 1fr 1fr; }
+  }
+  @media(max-width:700px) {
+    html.embedded .card { padding: 16px; }
+    html.embedded .split { grid-template-columns: 1fr; }
+    html.embedded .split .art-sm { display: none; }
+    html.embedded .g4 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  }
+  @media(max-width:480px) {
+    html.embedded .gr { grid-template-columns: minmax(0,1fr) 78px 52px 50px; gap: 6px; }
+  }
+
 </style>
 <script defer src="../js/theme.js?v=planning-theme-sync-20261116"></script>
 </head>
