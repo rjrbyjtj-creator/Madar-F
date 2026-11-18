@@ -528,14 +528,14 @@ $('#tl').innerHTML='';
 
 /* ورود تدریجی هنگام دیده‌شدن */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');io.unobserve(e.target)}}),{threshold:.08});
-$('.rise').forEach((e,i)=>{e.style.setProperty('--i',i);io.observe(e)});
+$$('.rise').forEach((e,i)=>{e.style.setProperty('--i',i);io.observe(e)});
 const replay=e=>{e.style.animation='none';e.offsetWidth;e.style.animation=''};
 
 /* فیلتر و نما */
 let S=$$('.song');let fav=0;
 const flt=()=>{S.forEach(s=>s.hidden=!!fav&&!$('.hb.on',s));$('.empty').hidden=!(fav&&S.every(s=>s.hidden))};
 $$('.pill').forEach(b=>b.onclick=()=>{$$('.pill').forEach(x=>x.classList.toggle('on',x===b));fav=b.dataset.f?1:0;flt();S.forEach(replay)});
-$$('.cats button').forEach(b=>b.onclick=()=>$$('.cats button').forEach(x=>x.classList.toggle('on',x===b)));
+$$$('.cats button').forEach(b=>b.onclick=()=>$$$('.cats button').forEach(x=>x.classList.toggle('on',x===b)));
 $$('.vt button').forEach(b=>b.onclick=()=>{$$('.vt button').forEach(x=>x.classList.toggle('on',x===b));$('#songs').classList.toggle('list',b.dataset.v==='list');S.forEach(replay)});
 
 /* پخش‌کننده (نمایشی؛ بعداً به فایل صوتی وصل کن) */
@@ -557,7 +557,7 @@ $('#bar').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();t=Math.rou
 $('#songs').onclick=e=>{const s=e.target.closest('.song');if(!s)return;
   if(e.target.closest('.hb')){e.target.closest('.hb').classList.toggle('on');flt();stt();return}
   const i=+s.dataset.i;i===cur?set(!pl.classList.contains('playing')):load(i,1)};
-$$('#tl li').forEach(l=>l.onclick=()=>load(+l.dataset.i,1));
+$$$('#tl li').forEach(l=>l.onclick=()=>load(+l.dataset.i,1));
 /* ===== میله‌ها با ریتم و تن آهنگ ===== */
 const BPM=[96,84,72,108,64,100],RM=matchMedia('(prefers-reduced-motion:reduce)').matches,N=14;
 const EB=Array.from({length:N},()=>document.createElement('i'));$('.eq').append(...EB);
@@ -601,16 +601,16 @@ async function initMusic(){
       String(track.category||'عمومی')
     ]);
     $('#songs').innerHTML=SONGS.map(([title,duration,cover,url,id,artist],i)=>`<article class="song rise" data-i="${i}" data-id="${esc(id)}"><div class="cw"><span class="ph cv" data-ph="♪"></span><div class="eq2"><i></i><i></i><i></i><i></i><i></i></div></div><div class="tx"><h4>${esc(title)}</h4><small>${esc(artist)}</small></div><button class="pl" aria-label="پخش"><svg class="i f"><use href="#i-play"/></svg></button><div class="mt"><button class="hb" aria-label="پسندیدن"><svg class="i"><use href="#i-heart"/></svg></button><span>${esc(duration)}</span></div></article>`).join('')||'<p class="empty">هنوز آهنگی در کتابخانه مدار ثبت نشده است.</p>';
-    S=$('.song');
+    S=$$('.song');
     $('#tl').innerHTML=SONGS.slice(0,3).map((song,i)=>`<li data-i="${i}"><span class="rk${i%2?'':' g'}">${i+1}</span><span class="ph" data-ph="♪"></span><div><h5>${esc(song[0])}</h5><small>${esc(song[5])}</small></div></li>`).join('');
-    $('#tl li').forEach(li=>li.onclick=()=>load(+li.dataset.i,1));
+    $$('#tl li').forEach(li=>li.onclick=()=>load(+li.dataset.i,1));
     const total=SONGS.reduce((sum,song)=>sum+song[6],0);
     $('#sN').textContent=SONGS.length;
     $('#sT').textContent=fmt(total);
     const categories=[...new Set(SONGS.map(song=>song[7]).filter(Boolean))];
     $('.cats').innerHTML='<li><button class="on" data-category="">همه دسته‌ها</button></li>'+categories.map(cat=>'<li><button data-category="'+esc(cat)+'">'+esc(cat)+'</button></li>').join('');
-    $('.cats button').forEach(button=>button.onclick=()=>{
-      $('.cats button').forEach(item=>item.classList.toggle('on',item===button));
+    $$('.cats button').forEach(button=>button.onclick=()=>{
+      $$('.cats button').forEach(item=>item.classList.toggle('on',item===button));
       S.forEach((card,index)=>card.hidden=!!button.dataset.category&&SONGS[index][7]!==button.dataset.category);
     });
     const search=$('.search input');
