@@ -523,12 +523,12 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 /* ✏️ آهنگ‌ها: [نام، مدت، کاور، (اختیاری) آدرس فایل صوتی]؛ با فایل صوتی، میله‌ها از طیف واقعی صدا حرکت می‌کنند وگرنه ریتم نمایشی دارند */
 let SONGS=[];
 const IMG=f=>`<img src="../عکس ها/${f}" alt="" onerror="this.remove()">`;
-$('#songs').innerHTML=SONGS.map(([t,d,f],i)=>`<article class="song rise" data-i="${i}"><div class="cw"><span class="ph cv" data-ph="کاور ${i+1}">${IMG(f)}</span><div class="eq2"><i></i><i></i><i></i><i></i><i></i></div></div><div class="tx"><h4>${t}</h4><small>مدار</small></div><button class="pl" aria-label="پخش"><svg class="i f"><use href="#i-play"/></svg></button><div class="mt"><button class="hb" aria-label="پسندیدن"><svg class="i"><use href="#i-heart"/></svg></button><span>${d}</span></div></article>`).join('')+'<p class="empty" hidden>هنوز آهنگی را نپسندیده‌ای؛ با زدن قلب، اینجا جمع می‌شوند.</p>';
-$('#tl').innerHTML=[0,2,4].map((k,n)=>`<li data-i="${k}"><span class="rk${n%2?'':' g'}">${n+1}</span><span class="ph" data-ph="کاور">${IMG(SONGS[k][2])}</span><div><h5>${SONGS[k][0]}</h5><small>مدار</small></div></li>`).join('');
+$('#songs').innerHTML='<p class="empty">در حال دریافت آهنگ‌ها...</p>';
+$('#tl').innerHTML='';
 
 /* ورود تدریجی هنگام دیده‌شدن */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');io.unobserve(e.target)}}),{threshold:.08});
-$$('.rise').forEach((e,i)=>{e.style.setProperty('--i',i);io.observe(e)});
+$('.rise').forEach((e,i)=>{e.style.setProperty('--i',i);io.observe(e)});
 const replay=e=>{e.style.animation='none';e.offsetWidth;e.style.animation=''};
 
 /* فیلتر و نما */
