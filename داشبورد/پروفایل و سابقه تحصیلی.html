@@ -377,7 +377,7 @@
   function render(){
     const grades=history.grades||[],tests=[...(history.tests||[])].sort((a,b)=>a.date.localeCompare(b.date)),notes=[...(history.notes||[])].sort((a,b)=>b.date.localeCompare(a.date));
     const perf=history.performance||[],solved=history.solved||[],exams=[...(history.exams||[])].sort((a,b)=>a.date.localeCompare(b.date));
-    const avg=grades.length?(grades.reduce((sum,g)=>sum+g.score,0)/grades.length).toFixed(1):'—';
+    const avg=grades.length?(grades.reduce((sum,g)=>sum+(Number(g.score)/Math.max(Number(g.outOf)||100,0.0001))*20,0)/grades.length).toFixed(1):'—';
     $('avgGoal').textContent='میانگین نمرات: '+fa(avg);
     const last=tests.length?tests[tests.length-1]:null;
     const totalValues=tests.map(t=>t.totalScore).filter(Number.isFinite);
@@ -387,7 +387,7 @@
       ${head('نمرات امتحانات',more('میانگین '+fa(avg)))}
       <div class="split"><div class="gl" id="gl" aria-live="polite">
         <div class="gr hd"><span>نام درس</span><span>نوع آزمون</span><span>نمره</span><span></span></div>
-        ${grades.length?grades.map(g=>'<div class="gr"><span class="nm">'+esc(g.subject)+'</span><span class="chip '+TYPES[g.source][1]+'">'+TYPES[g.source][0]+'</span><span class="sc">'+fa(g.score)+'</span><span class="ac"><button class="ib del" type="button" data-del="grades" data-id="'+esc(g.id)+'" aria-label="حذف">'+ic('i-x')+'</button></span></div>').join(''):empty('هنوز نمره‌ای ثبت نکرده‌ای.')}
+        ${grades.length?grades.map(g=>'<div class="gr"><span class="nm">'+esc(g.subject)+'</span><span class="chip '+TYPES[g.source][1]+'">'+TYPES[g.source][0]+'</span><span class="sc">'+fa(g.score)+' / '+fa(g.outOf??100)+'</span><span class="ac"><button class="ib del" type="button" data-del="grades" data-id="'+esc(g.id)+'" aria-label="حذف">'+ic('i-x')+'</button></span></div>').join(''):empty('هنوز نمره‌ای ثبت نکرده‌ای.')}
         ${addButton('grades')}
       </div>${art('grades','تصویر نمرات')}</div>
     </section>
@@ -418,7 +418,7 @@
     </section>`;
   }
   const definitions={
-    grades:{title:'افزودن نمره',fields:[['subject','نام درس','text',true],['source','نوع آزمون','select',true,[['school','مدرسه'],['maz','ماز'],['ghalamchi','قلمچی']]],['score','نمره از ۱۰۰','number',true,null,0,100],['date','تاریخ (اختیاری)','date',false]]},
+    grades:{title:'افزودن نمره',fields:[['subject','نام درس','text',true],['source','نوع آزمون','select',true,[['school','مدرسه'],['maz','ماز'],['ghalamchi','قلمچی']]],['score','نمره کسب‌شده','number',true,null,0,10000],['outOf','نمره از چند؟','number',true,null,0.01,10000,20],['date','تاریخ (اختیاری)','date',false]]},
     tests:{title:'ثبت نتیجه آزمون',fields:[['title','عنوان آزمون','text',true],['provider','برگزارکننده','select',true,[['maz','ماز'],['ghalamchi','قلمچی'],['school','مدرسه'],['other','سایر']]],['date','تاریخ آزمون','date',true],['totalScore','تراز کل','number',false,null,0,10000],['regionScore','تراز ناحیه','number',false,null,0,10000]]},
     notes:{title:'ثبت یادداشت روزانه',fields:[['subject','درس / موضوع','text',true],['date','تاریخ','date',true],['color','رنگ یادداشت','select',true,[['blue','آبی'],['green','سبز'],['peach','طلایی']]],['text','متن یادداشت','textarea',true]]},
     performance:{title:'ثبت عملکرد یک درس',fields:[['subject','نام درس','text',true],['mastery','درصد تسلط','number',true,null,0,100]]},
@@ -435,12 +435,12 @@
     const editor=document.createElement('form');
     editor.id='historyForm';
     editor.className='inline-history-editor';
-    editor.innerHTML='<div class="inline-editor-head"><strong>'+esc(def.title)+'</strong><button type="button" class="inline-cancel" data-cancel-editor>بستن</button></div><div class="inline-editor-fields">'+def.fields.map(([name,label,kind,required,opts,min,max])=>{
+    editor.innerHTML='<div class="inline-editor-head"><strong>'+esc(def.title)+'</strong><button type="button" class="inline-cancel" data-cancel-editor>بستن</button></div><div class="inline-editor-fields">'+def.fields.map(([name,label,kind,required,opts,min,max,defaultValue])=>{
       let input='';
       if(kind==='select')input='<select name="'+name+'" '+(required?'required':'')+'>'+opts.map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('')+'</select>';
       else if(kind==='textarea')input='<textarea name="'+name+'" rows="2" maxlength="1500" '+(required?'required':'')+'></textarea>';
       else if(name==='date'){const today=todayISO();input='<div class="jalali-date"><input type="hidden" name="date" value="'+today+'"><button type="button" class="jalali-date-trigger" data-jalali-open>'+dateFa(today)+'</button><div class="jalali-picker" hidden></div></div>';}
-       else input='<input name="'+name+'" type="'+kind+'" '+(min!==undefined?'min="'+min+'"':'')+' '+(max!==undefined?'max="'+max+'"':'')+' '+(kind==='number'?(name==='count'?'step="1"':'step="any"'):'')+' '+(required?'required':'')+'>';
+       else input='<input name="'+name+'" type="'+kind+'" '+(min!==undefined?'min="'+min+'"':'')+' '+(max!==undefined?'max="'+max+'"':'')+' '+(kind==='number'?(name==='count'?'step="1"':'step="any"'):'')+' '+(defaultValue!==undefined?'value="'+defaultValue+'" ':'')+(required?'required':'')+'>';
       return '<label class="inline-field">'+label+input+'</label>';
     }).join('')+'</div><div class="inline-editor-actions"><button type="submit" class="inline-save">ذخیره سابقه</button><button type="button" class="inline-cancel" data-cancel-editor>انصراف</button></div>';
     parent.appendChild(editor);
@@ -494,7 +494,7 @@
     e.preventDefault();if(saving)return;
     const data=Object.fromEntries(new FormData(target).entries()),type=activeType;
     const item={id:crypto.randomUUID()};
-    for(const [k,v] of Object.entries(data))item[k]=['score','totalScore','regionScore','mastery','count'].includes(k)?(v===''?null:Number(v)):v;
+    for(const [k,v] of Object.entries(data))item[k]=['score','outOf','totalScore','regionScore','mastery','count'].includes(k)?(v===''?null:Number(v)):v;
     if(type==='grades'&&!item.date)item.date='';
     if(type==='notes'&&!item.subject)item.subject='عمومی';
     history[type].push(item);
