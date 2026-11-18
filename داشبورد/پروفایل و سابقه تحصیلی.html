@@ -349,19 +349,30 @@
     finally{saving=false;}
   }
   function chart(){
-    const tests=[...history.tests].filter(t=>Number.isFinite(t.totalScore)||Number.isFinite(t.regionScore)).sort((a,b)=>a.date.localeCompare(b.date)).slice(-6);
-    if(!tests.length)return empty('هنوز تراز آزمونی ثبت نکرده‌ای.');
-    const vals=tests.flatMap(t=>[t.totalScore,t.regionScore]).filter(Number.isFinite);
-    const min=Math.min(600,...vals),max=Math.max(900,...vals),range=Math.max(100,max-min);
-    const low=Math.floor((min-30)/100)*100,high=Math.ceil((max+30)/100)*100;
-    const L=42,R=548,T=12,B=142,n=tests.length;
-    const X=i=>n===1?(L+R)/2:L+24+i*(R-L-48)/(n-1);
-    const Y=v=>B-(v-low)/(high-low)*(B-T);
+    // نمودار روند تراز کل بر اساس تاریخ آزمون‌ها
+    const tests=[...(history.tests||[])]
+      .filter(t=>t.date&&t.totalScore!==null&&t.totalScore!==undefined&&Number.isFinite(Number(t.totalScore)))
+      .sort((a,b)=>a.date.localeCompare(b.date)).slice(-8);
+    if(!tests.length)return empty('برای نمایش نمودار، نتیجه آزمون را همراه با تراز کل ثبت کن.');
+    const values=tests.map(t=>Number(t.totalScore));
+    const min=Math.min(...values),max=Math.max(...values);
+    const low=Math.max(0,Math.floor((min-150)/100)*100);
+    const high=Math.ceil((max+150)/100)*100;
+    const bottom=Math.max(high,low+300);
+    const L=54,R=592,T=24,B=174,n=tests.length;
+    const X=i=>n===1?(L+R)/2:L+i*(R-L)/(n-1);
+    const Y=v=>B-(v-low)/(bottom-low)*(B-T);
+    const step=Math.max(100,Math.ceil((bottom-low)/4/100)*100);
     let grid='';
-    for(let v=low;v<=high;v+=Math.max(100,Math.ceil((high-low)/3/100)*100))grid+='<line class="g" x1="'+L+'" x2="'+R+'" y1="'+Y(v)+'" y2="'+Y(v)+'"/><text class="t" x="'+(L-8)+'" y="'+(Y(v)+3)+'" text-anchor="end">'+fa(v)+'</text>';
-    tests.forEach((t,i)=>grid+='<text class="t" x="'+X(i)+'" y="'+(B+16)+'" text-anchor="middle">'+esc(dateFa(t.date).replace(/۱۴۰\d/g,''))+'</text>');
-    const line=(key,color,dy)=>{const pts=tests.map((t,i)=>Number.isFinite(t[key])?X(i)+','+Y(t[key]):null).filter(Boolean);if(!pts.length)return '';return '<polyline fill="none" style="stroke:'+color+'" stroke-width="1.8" points="'+pts.join(' ')+'"/>'+tests.map((t,i)=>Number.isFinite(t[key])?'<circle cx="'+X(i)+'" cy="'+Y(t[key])+'" r="3" style="fill:'+color+'"/><text class="t" style="fill:'+color+'" x="'+X(i)+'" y="'+(Y(t[key])+dy)+'" text-anchor="middle">'+fa(t[key])+'</text>':'').join('');};
-    return '<svg class="chart" viewBox="0 0 560 164" role="img" aria-label="نمودار تراز آزمون‌ها">'+grid+line('regionScore','var(--blue-ink)',14)+line('totalScore','var(--gold)',-8)+'</svg>';
+    for(let v=Math.ceil(low/step)*step;v<=bottom;v+=step){
+      const y=Y(v);
+      grid+='<line class="g" x1="'+L+'" x2="'+R+'" y1="'+y+'" y2="'+y+'"/><text class="t" x="'+(L-10)+'" y="'+(y+4)+'" text-anchor="end">'+fa(v)+'</text>';
+    }
+    const coords=tests.map((t,i)=>({x:X(i),y:Y(Number(t.totalScore)),v:Number(t.totalScore),date:t.date}));
+    const pathData=coords.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');
+    const dots=coords.map((p,i)=>'<circle cx="'+p.x+'" cy="'+p.y+'" r="'+(i===coords.length-1?5:3.8)+'" style="fill:var(--gold);stroke:var(--card);stroke-width:2"/>'+(i===coords.length-1?'<text class="t" style="fill:var(--gold);font-weight:700;font-size:12px" x="'+(R-2)+'" y="'+Math.max(14,p.y-13)+'" text-anchor="end">'+fa(p.v)+'</text>':'')).join('');
+    const dates=coords.map(p=>'<text class="t" x="'+p.x+'" y="204" text-anchor="middle">'+esc(dateFa(p.date).split(' ').slice(0,2).join(' '))+'</text>').join('');
+    return '<svg class="chart" viewBox="0 0 640 220" role="img" aria-label="نمودار خطی روند تراز کل بر اساس تاریخ آزمون‌ها">'+grid+'<path d="'+pathData+'" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+dots+dates+'</svg>';
   }
   function render(){
     const grades=history.grades||[],tests=[...(history.tests||[])].sort((a,b)=>a.date.localeCompare(b.date)),notes=[...(history.notes||[])].sort((a,b)=>b.date.localeCompare(a.date));
@@ -385,7 +396,7 @@
       <div class="lv"><div class="stats">
         <div class="stat"><small>آخرین تراز کل</small><b style="color:var(--gold)">${last&&last.totalScore!=null?fa(last.totalScore):'—'}</b></div>
         <div class="stat"><small>میانگین تراز کل</small><b>${fa(avgT)}</b></div>
-      </div><div><div class="legend"><span><i style="background:var(--gold)"></i>تراز کل</span><span><i style="background:var(--blue-ink)"></i>تراز ناحیه</span></div>${chart()}${addButton('tests')}</div>${art('trophy','تصویر جام')}</div>
+      </div><div><div class="legend"><span><i style="background:var(--gold)"></i>روند تراز کل در آزمون‌ها</span><span style="margin-inline-start:auto">قدیمی‌تر ← جدیدتر</span></div>${chart()}${addButton('tests')}</div>${art('trophy','تصویر جام')}</div>
       <div class="ul" style="margin-top:12px">${tests.length?[...tests].reverse().map(t=>'<div class="ei"><span>'+esc(t.title)+' · '+dateFa(t.date)+'</span><span class="pill">'+(t.totalScore!=null?fa(t.totalScore):'بدون تراز')+'</span><button class="ib del" type="button" data-del="tests" data-id="'+esc(t.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز نتیجه آزمونی ثبت نشده است.')}</div>
     </section>
     <section class="card" aria-label="وضعیت روزانه">
