@@ -127,7 +127,6 @@
       sessionToken=result.token || result.accessToken || '';
       verifiedUser=result.user || null;
       if(!resetToken && !sessionToken) throw new Error('سرور کد را پذیرفت اما مجوز ادامهٔ بازیابی را برنگرداند.');
-      if(sessionToken) Auth.save(sessionToken,true);
       setMessage(2,'');
       setStep(3);
     }catch(error){setMessage(2,error.message || 'کد اشتباه است یا منقضی شده.',true);}
