@@ -173,3 +173,33 @@ main{position:relative;z-index:1;display:grid;grid-template-columns:1fr;min-heig
 @media(max-width:560px){
   .card{max-height:calc(100dvh - 20px)}
 }
+
+
+/* Password recovery flow — isolated from the existing login/signup styles. */
+.card[data-m="forgot"] .tabs{display:none}
+.card[data-m="forgot"] #forgotForm{display:block;animation:fade .4s both}
+.card[data-m="forgot"]{width:min(430px,100%)}
+.forgot-head{display:flex;align-items:center;gap:12px;margin:0 0 18px}
+.forgot-head strong{display:block;font-size:16px;font-weight:800}
+.forgot-head small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.forgot-back{width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--text);cursor:pointer;font-size:18px}
+.forgot-progress{display:flex;gap:5px;margin-bottom:18px}
+.forgot-progress i{height:3px;flex:1;border-radius:4px;background:var(--line);transition:background .25s}
+#forgotForm[data-step="1"] .forgot-progress i:nth-child(1),
+#forgotForm[data-step="2"] .forgot-progress i:nth-child(-n+2),
+#forgotForm[data-step="3"] .forgot-progress i{background:var(--gold)}
+.forgot-pane{display:none}
+#forgotForm[data-step="1"] .fstep-1,
+#forgotForm[data-step="2"] .fstep-2,
+#forgotForm[data-step="3"] .fstep-3{display:block;animation:fade .35s both}
+.forgot-channel-wrap{margin-top:14px}
+.forgot-otp{margin:16px 0 8px}
+.forgot-actions{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.forgot-actions button,.forgot-later{border:0;background:none;color:var(--muted);font-size:11px;cursor:pointer}
+.forgot-actions button:hover,.forgot-later:hover{color:var(--blue)}
+.forgot-later{display:block;margin:12px auto 0}
+#forgotSkip{color:var(--muted);font-size:11px;margin-top:12px}
+#forgotSkip:hover{text-decoration:underline;color:var(--blue)}
+#forgotForm .msg{min-height:20px}
+#forgotForm .f+.f{margin-top:12px}
+@media(max-width:560px){.forgot-head{margin-bottom:14px}.forgot-otp{gap:5px;--ob:40px}}
