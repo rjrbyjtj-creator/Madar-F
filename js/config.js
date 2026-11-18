@@ -137,12 +137,10 @@ const API_CONFIG = Object.freeze({
     }
 
     if (method === "POST" && path.endsWith("/auth/register/send-code")) {
-      if (payload.channel === "email") return RAILWAY;
-      if (payload.channel === "telegram") return RENDER;
+      return payload.channel === "telegram" ? RENDER : RAILWAY;
     }
     if (method === "POST" && path.endsWith("/auth/register/verify")) {
-      if (payload.channel === "email") return RAILWAY;
-      if (payload.channel === "telegram") return RENDER;
+      return payload.channel === "telegram" ? RENDER : RAILWAY;
     }
     if (path.endsWith("/auth/forgot-password/send-code") || path.endsWith("/auth/forgot-password/reset")) {
       return RENDER; // Password recovery uses the Telegram OTP service.
@@ -163,10 +161,10 @@ const API_CONFIG = Object.freeze({
       return nativeFetch(input, init);
     }
 
-    await refreshHealth();
     var pinned = specialRoute(url, init, input);
-    var target = pinned || primary;
     if (pinned) savePrimary(pinned);
+    else await refreshHealth();
+    var target = pinned || primary;
 
     var method = String((init && init.method) || (input && input.method) || "GET").toUpperCase();
     var safeToRetry = method === "GET" || method === "HEAD" || method === "OPTIONS";
