@@ -1441,6 +1441,509 @@
       }
     }
 
+  
+
+    /* بازطراحی جمع‌وجور هدر و فشرده‌سازی چیدمان موبایل */
+    @media (max-width: 900px) {
+      .page {
+        padding: 10px 16px 16px;
+      }
+
+      .top {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 9px 12px;
+      }
+
+      .logo {
+        gap: 7px;
+      }
+
+      .logo img {
+        width: 34px;
+        height: 34px;
+        max-height: 34px;
+        object-fit: contain;
+      }
+
+      .logo strong {
+        font-size: 17px;
+        line-height: 1.4;
+      }
+
+      .logo small {
+        font-size: 9px;
+      }
+
+      .actions {
+        gap: 5px;
+      }
+
+      .actions .icon-btn {
+        width: 32px;
+        height: 32px;
+      }
+
+      .actions .btn-dark {
+        width: auto;
+        min-width: 34px;
+        height: 34px;
+        min-height: 34px;
+        padding: 0 10px;
+        gap: 5px;
+        font-size: 11px;
+      }
+
+      .search {
+        height: 38px;
+        padding-inline: 11px;
+        border-radius: 13px;
+        box-shadow: 0 2px 8px var(--sh);
+      }
+
+      .nav {
+        height: 38px;
+        margin-top: 9px;
+        padding: 0 10px;
+        gap: 18px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px var(--sh);
+      }
+
+      .nav a {
+        min-height: 36px;
+        gap: 5px;
+        font-size: 11.5px;
+      }
+
+      .nav a svg.i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .hero {
+        min-height: 270px;
+        padding: 24px 0 20px;
+      }
+
+      .hero-text {
+        max-width: 560px;
+      }
+
+      h1 {
+        margin-top: 10px;
+        font-size: clamp(22px, 5vw, 28px);
+        line-height: 1.55;
+      }
+
+      .hero-text > p {
+        margin-top: 5px;
+        font-size: 12px;
+        line-height: 1.9;
+      }
+
+      .news {
+        margin-top: 17px;
+        padding: 9px 11px;
+        border-radius: 14px;
+      }
+
+      .news .btn-dark {
+        height: 34px;
+        min-height: 34px;
+        padding-inline: 11px;
+        font-size: 10.5px;
+      }
+
+      .cards {
+        gap: 8px;
+      }
+
+      .qcard {
+        min-height: 86px;
+        padding: 10px 11px;
+        border-radius: 12px;
+      }
+
+      .qcard h3 {
+        font-size: 12px;
+      }
+
+      .qcard p {
+        font-size: 9.5px;
+        line-height: 1.65;
+      }
+
+      .wrap {
+        padding-top: 4px;
+      }
+
+      .sec {
+        margin-top: 34px;
+      }
+
+      .sec-head {
+        gap: 9px;
+        margin-bottom: 12px;
+      }
+
+      .sec-head h2 {
+        font-size: clamp(18px, 3vw, 21px);
+      }
+
+      .sec-head p {
+        font-size: 10.5px;
+      }
+
+      .scard {
+        gap: 8px;
+        padding: 11px 12px;
+      }
+
+      .feat {
+        min-height: 0;
+        padding: 13px 14px;
+        gap: 10px;
+      }
+
+      .footer {
+        margin-top: 34px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 9px 12px 14px;
+      }
+
+      .top {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 7px;
+        row-gap: 8px;
+      }
+
+      .logo {
+        gap: 6px;
+      }
+
+      .logo img {
+        width: 29px;
+        height: 29px;
+        max-height: 29px;
+      }
+
+      .logo strong {
+        font-size: 15px;
+      }
+
+      .logo small {
+        display: none;
+      }
+
+      .actions {
+        gap: 2px;
+      }
+
+      .actions .icon-btn {
+        width: 29px;
+        height: 30px;
+      }
+
+      .actions .icon-btn svg.i {
+        width: 15px;
+        height: 15px;
+      }
+
+      .actions .btn-dark {
+        width: 31px;
+        min-width: 31px;
+        height: 31px;
+        min-height: 31px;
+        padding: 0;
+        border-radius: 10px;
+      }
+
+      .actions .btn-dark .txt-hide {
+        display: none;
+      }
+
+      .actions .btn-dark svg.i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .search {
+        height: 36px;
+        padding-inline: 10px;
+        border-radius: 11px;
+      }
+
+      .search input {
+        font-size: 11px;
+      }
+
+      .nav {
+        height: 35px;
+        margin-top: 8px;
+        padding-inline: 9px;
+        gap: 15px;
+        border-radius: 10px;
+      }
+
+      .nav a {
+        min-height: 33px;
+        gap: 4px;
+        font-size: 10.5px;
+      }
+
+      .nav a svg.i {
+        width: 13px;
+        height: 13px;
+      }
+
+      .hero {
+        min-height: 245px;
+        padding: 22px 0 17px;
+      }
+
+      .badge {
+        gap: 6px;
+        padding: 5px 9px;
+        font-size: 9.5px;
+      }
+
+      h1 {
+        margin-top: 9px;
+        font-size: clamp(21px, 6.3vw, 26px);
+        line-height: 1.5;
+      }
+
+      .hero-text > p {
+        font-size: 11px;
+        line-height: 1.85;
+      }
+
+      .news {
+        gap: 8px;
+        margin-top: 14px;
+        padding: 8px 9px;
+        border-radius: 12px;
+      }
+
+      .news-label {
+        gap: 6px;
+        font-size: 10px;
+      }
+
+      .news-label svg.i {
+        width: 15px;
+        height: 15px;
+      }
+
+      .news .btn-dark {
+        width: auto;
+        height: 31px;
+        min-height: 31px;
+        padding-inline: 9px;
+        font-size: 9.5px;
+        white-space: nowrap;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+      }
+
+      .qcard,
+      .qcard:last-child {
+        grid-column: auto;
+        min-height: 76px;
+        align-items: center;
+        gap: 6px;
+        padding: 9px;
+        border-radius: 11px;
+      }
+
+      .qcard > div {
+        min-width: 0;
+      }
+
+      .qcard svg.i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .qcard h3 {
+        margin-top: 3px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .qcard p {
+        margin-top: 1px;
+        font-size: 9px;
+        line-height: 1.55;
+      }
+
+      .qcard .go {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 20px;
+      }
+
+      .wrap {
+        padding: 3px 12px 22px;
+      }
+
+      .sec {
+        margin-top: 29px;
+      }
+
+      .sec:first-child {
+        margin-top: 23px;
+      }
+
+      .sec-head {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .sec-head h2 {
+        font-size: 17px;
+        line-height: 1.65;
+      }
+
+      .sec-head p {
+        font-size: 9.5px;
+        line-height: 1.8;
+      }
+
+      .sec-head .btn-line {
+        width: auto;
+        min-height: 32px;
+        padding: 5px 9px;
+        font-size: 10px;
+      }
+
+      .grid3 {
+        gap: 8px;
+      }
+
+      .scard {
+        gap: 7px;
+        padding: 10px;
+        border-radius: 12px;
+      }
+
+      .feat {
+        padding: 10px;
+        gap: 8px;
+        border-radius: 12px;
+      }
+
+      .feat-media {
+        width: calc(100% + 20px);
+        margin-inline: -10px;
+        height: 100px;
+      }
+
+      .feat-body h3,
+      .xbody h3 {
+        font-size: 12.5px;
+        line-height: 1.7;
+      }
+
+      .feat-body > p {
+        font-size: 10px;
+        line-height: 1.8;
+      }
+
+      .xfeat {
+        padding: 11px;
+        gap: 8px;
+      }
+
+      .art-grid {
+        gap: 8px;
+      }
+
+      .footer {
+        margin-top: 30px;
+        padding: 24px 12px 0;
+      }
+
+      .f-grid {
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .page {
+        padding-inline: 10px;
+      }
+
+      .top {
+        column-gap: 5px;
+      }
+
+      .logo img {
+        width: 26px;
+        height: 26px;
+      }
+
+      .logo strong {
+        font-size: 14px;
+      }
+
+      .actions .icon-btn {
+        width: 27px;
+      }
+
+      .actions .btn-dark {
+        width: 29px;
+        min-width: 29px;
+      }
+
+      .nav {
+        gap: 13px;
+        padding-inline: 8px;
+      }
+
+      .nav a {
+        font-size: 10px;
+      }
+
+      .hero {
+        min-height: 230px;
+      }
+
+      .cards {
+        gap: 6px;
+      }
+
+      .qcard,
+      .qcard:last-child {
+        min-height: 72px;
+        padding: 8px;
+      }
+
+      .qcard h3 {
+        font-size: 10.5px;
+      }
+
+      .qcard p {
+        font-size: 8.5px;
+      }
+
+      .wrap {
+        padding-inline: 10px;
+      }
+
+      .footer {
+        padding-inline: 10px;
+      }
+    }
+
   </style>
   <script src="./js/madar-connect.js?v=connect-20261114"></script>
 <script defer src="./js/theme.js?v=global-theme-20261116"></script>
