@@ -303,13 +303,13 @@
     return '<svg class="chart" viewBox="0 0 560 164" role="img" aria-label="نمودار تراز آزمون‌ها">'+grid+line('regionScore','var(--blue-ink)',14)+line('totalScore','var(--gold)',-8)+'</svg>';
   }
   function render(){
-    const grades=history.grades||[],tests=history.tests||[],notes=[...(history.notes||[])].sort((a,b)=>b.date.localeCompare(a.date));
+    const grades=history.grades||[],tests=[...(history.tests||[])].sort((a,b)=>a.date.localeCompare(b.date)),notes=[...(history.notes||[])].sort((a,b)=>b.date.localeCompare(a.date));
     const perf=history.performance||[],solved=history.solved||[],exams=[...(history.exams||[])].sort((a,b)=>a.date.localeCompare(b.date));
-    const avg=grades.length?(grades.reduce((s,g)=>s+g.score,0)/grades.length).toFixed(1):'—';
+    const avg=grades.length?(grades.reduce((sum,g)=>sum+g.score,0)/grades.length).toFixed(1):'—';
     $('avgGoal').textContent='میانگین نمرات: '+fa(avg);
     const last=tests.length?tests[tests.length-1]:null;
     const totalValues=tests.map(t=>t.totalScore).filter(Number.isFinite);
-    const avgT=totalValues.length?Math.round(totalValues.reduce((a,b)=>a+b,0)/totalValues.length):'—';
+    const avgT=totalValues.length?Math.round(totalValues.reduce((x,y)=>x+y,0)/totalValues.length):'—';
     app.innerHTML=`
     <section class="card" aria-label="نمرات امتحانات">
       ${head('نمرات امتحانات',more('میانگین '+fa(avg)))}
@@ -322,25 +322,28 @@
     <section class="card" aria-label="تراز آزمون‌های جامع">
       ${head('تراز آزمون‌های جامع',more('آخرین '+fa(tests.length)+' آزمون'))}
       <div class="lv"><div class="stats">
-        <div class="stat"><small>آخرین تراز کل</small><b style="color:var(--gold)">'+(last&&last.totalScore!=null?fa(last.totalScore):'—')+'</b></div>
-        <div class="stat"><small>میانگین تراز کل</small><b>'+fa(avgT)+'</b></div>
-      </div><div><div class="legend"><span><i style="background:var(--gold)"></i>تراز کل</span><span><i style="background:var(--blue-ink)"></i>تراز ناحیه</span></div>'+chart()+addButton('tests')+'</div>'+art('trophy','تصویر جام')+'</div>
-      <div class="ul" style="margin-top:12px">'+(tests.length?[...tests].sort((a,b)=>b.date.localeCompare(a.date)).map(t=>'<div class="ei"><span>'+esc(t.title)+' · '+dateFa(t.date)+'</span><span class="pill">'+(t.totalScore!=null?fa(t.totalScore):'بدون تراز')+'</span><button class="ib del" type="button" data-del="tests" data-id="'+esc(t.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز نتیجه آزمونی ثبت نشده است.'))+'</div>
+        <div class="stat"><small>آخرین تراز کل</small><b style="color:var(--gold)">${last&&last.totalScore!=null?fa(last.totalScore):'—'}</b></div>
+        <div class="stat"><small>میانگین تراز کل</small><b>${fa(avgT)}</b></div>
+      </div><div><div class="legend"><span><i style="background:var(--gold)"></i>تراز کل</span><span><i style="background:var(--blue-ink)"></i>تراز ناحیه</span></div>${chart()}${addButton('tests')}</div>${art('trophy','تصویر جام')}</div>
+      <div class="ul" style="margin-top:12px">${tests.length?[...tests].reverse().map(t=>'<div class="ei"><span>'+esc(t.title)+' · '+dateFa(t.date)+'</span><span class="pill">'+(t.totalScore!=null?fa(t.totalScore):'بدون تراز')+'</span><button class="ib del" type="button" data-del="tests" data-id="'+esc(t.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز نتیجه آزمونی ثبت نشده است.')}</div>
     </section>
     <section class="card" aria-label="وضعیت روزانه">
       ${head('وضعیت روزانه و دیلی تسک')}
-      <div class="nt"><div class="nl" id="noteList">'+(notes.length?notes.map(n=>'<div class="ni"><i class="d"></i><time>'+dateFa(n.date)+'</time><span class="chip '+n.color+'">'+esc(n.subject)+'</span><p>'+esc(n.text)+'</p><button class="ib del" type="button" data-del="notes" data-id="'+esc(n.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز یادداشت روزانه‌ای ثبت نکرده‌ای.'))+'</div>
-      <div class="cp"><textarea id="noteText" placeholder="امروز چه اتفاقی در درس‌ها افتاده است؟" aria-label="یادداشت روزانه"></textarea><button class="send" id="sendNote" type="button" aria-label="ثبت یادداشت">'+ic('i-send')+'</button></div>'+art('notes','تصویر یادداشت')+'</div>
+      <div class="nt"><div class="nl" id="noteList">${notes.length?notes.map(n=>'<div class="ni"><i class="d"></i><time>'+dateFa(n.date)+'</time><span class="chip '+n.color+'">'+esc(n.subject)+'</span><p>'+esc(n.text)+'</p><button class="ib del" type="button" data-del="notes" data-id="'+esc(n.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز یادداشت روزانه‌ای ثبت نکرده‌ای.')}</div>
+      <div class="cp"><textarea id="noteText" placeholder="امروز چه اتفاقی در درس‌ها افتاده است؟" aria-label="یادداشت روزانه"></textarea><button class="send" id="sendNote" type="button" aria-label="ثبت یادداشت">${ic('i-send')}</button></div>${art('notes','تصویر یادداشت')}</div>
     </section>
     <section class="card" aria-label="عملکرد هر درس">
       ${head('عملکرد هر درس')}
-      <div class="g4">'+(perf.length?perf.map(p=>'<div class="tile"><div class="r">'+esc(p.subject)+'<span>تسلط '+fa(p.mastery)+'٪</span></div><div class="bar"><i style="width:'+p.mastery+'%"></i></div><button class="ib del" type="button" data-del="performance" data-id="'+esc(p.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز عملکرد درسی ثبت نشده است.'))+'</div>'+addButton('performance')+'</section>
+      <div class="g4">${perf.length?perf.map(p=>'<div class="tile"><div class="r">'+esc(p.subject)+'<span>تسلط '+fa(p.mastery)+'٪</span></div><div class="bar"><i style="width:'+p.mastery+'%"></i></div><button class="ib del" type="button" data-del="performance" data-id="'+esc(p.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز عملکرد درسی ثبت نشده است.')}</div>${addButton('performance')}
+    </section>
     <section class="card" aria-label="سوالات حل شده">
       ${head('نمونه سوالات و تست‌های حل شده')}
-      <div class="g4">'+(solved.length?solved.map(s=>'<div class="tile sv"><span class="ic">'+ic('i-book')+'</span><div><small>'+esc(s.label)+'</small><b>'+fa(s.count)+'</b></div><button class="ib del" type="button" data-del="solved" data-id="'+esc(s.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز تعداد سوالات حل‌شده را وارد نکرده‌ای.'))+'</div>'+addButton('solved')+'</section>
+      <div class="g4">${solved.length?solved.map(item=>'<div class="tile sv"><span class="ic">'+ic('i-book')+'</span><div><small>'+esc(item.label)+'</small><b>'+fa(item.count)+'</b></div><button class="ib del" type="button" data-del="solved" data-id="'+esc(item.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز تعداد سوالات حل‌شده را وارد نکرده‌ای.')}</div>${addButton('solved')}
+    </section>
     <section class="card" aria-label="آزمون‌های پیش رو">
       ${head('آزمون‌های پیش رو')}
-      <div class="split"><div class="ul">'+(exams.length?exams.map(e=>'<div class="ei"><span class="ph lg" data-ph="لوگو">'+(LOGO[e.provider]?'<img src="'+LOGO[e.provider]+'" alt="" onerror="this.remove()">':'')+'</span><span>'+esc(e.title)+'</span><span class="pill">'+dateFa(e.date)+'</span><button class="ib del" type="button" data-del="exams" data-id="'+esc(e.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز آزمون آینده‌ای ثبت نشده است.'))+'</div>'+art('calendar','تصویر تقویم')+'</div>'+addButton('exams')+'</section>`;
+      <div class="split"><div class="ul">${exams.length?exams.map(item=>'<div class="ei"><span class="ph lg" data-ph="لوگو">'+(LOGO[item.provider]?'<img src="'+LOGO[item.provider]+'" alt="" onerror="this.remove()">':'')+'</span><span>'+esc(item.title)+'</span><span class="pill">'+dateFa(item.date)+'</span><button class="ib del" type="button" data-del="exams" data-id="'+esc(item.id)+'" aria-label="حذف">'+ic('i-x')+'</button></div>').join(''):empty('هنوز آزمون آینده‌ای ثبت نکرده‌ای.')}</div>${art('calendar','تصویر تقویم')}</div>${addButton('exams')}
+    </section>`;
   }
   const definitions={
     grades:{title:'افزودن نمره',fields:[['subject','نام درس','text',true],['source','نوع آزمون','select',true,[['school','مدرسه'],['maz','ماز'],['ghalamchi','قلمچی']]],['score','نمره از ۱۰۰','number',true,0,100],['date','تاریخ (اختیاری)','date',false]]},
