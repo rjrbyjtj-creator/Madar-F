@@ -1944,6 +1944,218 @@
       }
     }
 
+
+    /* بازچینی واقعی نسخه موبایل؛ استایل دسکتاپ بدون تغییر می‌ماند */
+    .mobile-menu-btn { display: none; }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 10px 14px 22px;
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 9px 10px;
+        flex-wrap: unset;
+      }
+
+      .logo { grid-column: 1; grid-row: 1; }
+      .logo img { width: 32px; height: 32px; max-height: 32px; }
+      .logo strong { font-size: 16px; }
+      .logo small { display: none; }
+
+      .actions {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0;
+        justify-self: end;
+        gap: 4px;
+      }
+
+      .actions .icon-btn {
+        width: 31px;
+        height: 31px;
+      }
+
+      .actions .btn-dark {
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+        min-height: 32px;
+        padding: 0;
+        border-radius: 10px;
+      }
+
+      .actions .btn-dark .txt-hide { display: none; }
+      .mobile-menu-btn { display: grid; }
+      .mobile-menu-btn .menu-close { display: none; }
+      .mobile-menu-btn[aria-expanded="true"] .menu-open { display: none; }
+      .mobile-menu-btn[aria-expanded="true"] .menu-close { display: block; }
+
+      .search {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        order: initial;
+        width: 100%;
+        height: 39px;
+        margin: 0;
+        border-radius: 12px;
+        padding-inline: 12px;
+      }
+
+      .search input { font-size: 11.5px; }
+
+      .nav {
+        display: none;
+        width: 100%;
+        max-width: none;
+        height: auto;
+        margin-top: 9px;
+        padding: 9px;
+        gap: 5px;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 14px;
+        overflow: visible;
+      }
+
+      .nav.is-open { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav a {
+        min-height: 39px;
+        padding: 0 9px;
+        gap: 7px;
+        font-size: 11px;
+        border-radius: 9px;
+        white-space: normal;
+      }
+      .nav a.active { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+      .nav a::after { display: none; }
+      .nav a svg.i { width: 15px; height: 15px; }
+
+      .art {
+        width: 100%;
+        opacity: .12;
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+        mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+      }
+
+      .hero {
+        min-height: 0;
+        flex: none;
+        padding: 24px 0 17px;
+      }
+      .hero-text { width: 100%; max-width: none; }
+      .badge { padding: 5px 10px; font-size: 10px; }
+      h1 { margin-top: 9px; font-size: clamp(22px, 6vw, 27px); line-height: 1.5; }
+      .hero-text > p { margin-top: 4px; font-size: 11px; line-height: 1.85; }
+
+      .news {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 8px;
+        margin-top: 14px;
+        padding: 7px 8px 7px 7px;
+        border-radius: 13px;
+      }
+      .news-label { min-width: 0; flex: 1; gap: 6px; font-size: 10px; }
+      .news-label svg.i { width: 15px; height: 15px; }
+      .news .btn-dark {
+        width: auto;
+        min-width: max-content;
+        height: 32px;
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 10px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .qcard, .qcard:last-child {
+        grid-column: auto;
+        min-width: 0;
+        min-height: 82px;
+        padding: 10px;
+        gap: 6px;
+        border-radius: 13px;
+      }
+      .qcard:last-child { grid-column: 1 / -1; }
+      .qcard h3 { font-size: 11.5px; }
+      .qcard p { font-size: 9px; line-height: 1.6; }
+      .qcard svg.i { width: 18px; height: 18px; }
+      .qcard .go { width: 22px; height: 22px; flex-basis: 22px; }
+
+      .wrap { padding: 2px 14px 22px; }
+      .sec, .sec:first-child { margin-top: 27px; }
+      .sec-head { align-items: flex-end; gap: 8px; margin-bottom: 11px; }
+      .sec-head h2 { margin-top: 5px; font-size: 17px; line-height: 1.55; }
+      .sec-head p { font-size: 10px; line-height: 1.7; }
+      .sec-head .btn-line {
+        width: auto;
+        min-height: 31px;
+        height: auto;
+        padding: 5px 9px;
+        font-size: 9.5px;
+        white-space: nowrap;
+      }
+
+      .grid3 { grid-template-columns: 1fr; gap: 8px; }
+      .scard { gap: 7px; padding: 11px 12px; border-radius: 13px; }
+      .feat {
+        min-height: 0;
+        padding: 12px;
+        gap: 9px;
+        border-radius: 14px;
+      }
+      .feat-media {
+        width: calc(100% + 24px);
+        height: 112px;
+        margin: 0 -12px;
+      }
+      .feat-body h3 { margin-top: 5px; font-size: 13px; }
+      .feat-body > p { font-size: 10px; line-height: 1.75; }
+      .feat-body .meta { margin-top: 8px; flex-wrap: wrap; }
+
+      .exam-top { gap: 9px; margin-bottom: 9px; }
+      .xfeat { padding: 12px; gap: 9px; border-radius: 13px; }
+      .xbody h3 { margin-top: 5px; font-size: 13px; }
+      .xfoot { margin-top: 9px; }
+
+      .art-grid { gap: 9px; }
+      .art-grid.art-grid--single .a-big {
+        min-height: 245px;
+        border-radius: 14px;
+      }
+      .a-big .abody { padding: 14px; }
+      .a-big h3 { width: 100%; font-size: 15px; line-height: 1.7; }
+      .a-big .thumb { opacity: .58; }
+      .a-big::before {
+        background: linear-gradient(to top, var(--card) 4%, color-mix(in srgb, var(--card) 88%, transparent) 58%, color-mix(in srgb, var(--card) 20%, transparent) 100%);
+      }
+      .a-big .abody > div:nth-child(2) { margin-block: auto 8px; }
+
+      .footer { margin-top: 28px; padding: 22px 12px 0; }
+      .f-grid { gap: 17px; }
+    }
+
+    @media (max-width: 380px) {
+      .page { padding-inline: 11px; }
+      .actions { gap: 2px; }
+      .actions .icon-btn { width: 29px; height: 30px; }
+      .actions .btn-dark { width: 30px; min-width: 30px; }
+      .logo img { width: 29px; height: 29px; }
+      .nav.is-open { grid-template-columns: 1fr 1fr; }
+      .wrap { padding-inline: 11px; }
+      .news-label { font-size: 9.5px; }
+      .news .btn-dark { padding-inline: 8px; font-size: 9.5px; }
+      .qcard, .qcard:last-child { min-height: 77px; padding: 8px; }
+    }
+
   </style>
   <script src="./js/madar-connect.js?v=connect-20261114"></script>
 <script defer src="./js/theme.js?v=global-theme-20261116"></script>
@@ -2021,13 +2233,17 @@
           <svg class="i"><use href="#i-lock"/></svg>
           <span class="txt-hide">ورود به سامانه</span>
         </a>
+        <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="باز کردن منو" aria-controls="mainNav" aria-expanded="false">
+          <svg class="i menu-open"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg class="i menu-close"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
       </div>
 
     </header>
 
 
     <!-- ================= منوی اصلی ================= -->
-    <nav class="nav" aria-label="منوی اصلی">
+    <nav class="nav" id="mainNav" aria-label="منوی اصلی">
       <a href="#" class="active"><svg class="i"><use href="#i-home"/></svg>صفحه اصلی</a>
       <a href="#announcements"><svg class="i"><use href="#i-mega"/></svg>اطلاعیه‌ها</a>
       <a href="#exams"><svg class="i"><use href="#i-exam"/></svg>آزمون‌ها</a>
@@ -2426,6 +2642,30 @@
       clearTimeout(timer);
       timer = setTimeout(() => root.classList.remove('theming'), 700);
     };
+  </script>
+
+
+  <script>
+    (() => {
+      const menuButton = document.getElementById('mobileMenuBtn');
+      const mainNav = document.getElementById('mainNav');
+      if (!menuButton || !mainNav) return;
+      const closeMenu = () => {
+        mainNav.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'باز کردن منو');
+      };
+      menuButton.addEventListener('click', () => {
+        const open = menuButton.getAttribute('aria-expanded') !== 'true';
+        mainNav.classList.toggle('is-open', open);
+        menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.setAttribute('aria-label', open ? 'بستن منو' : 'باز کردن منو');
+      });
+      mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 600) closeMenu();
+      });
+    })();
   </script>
 
   <script src="./js/articles.js?v=articles-20261114-v5"></script>
