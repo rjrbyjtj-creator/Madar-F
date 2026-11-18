@@ -76,13 +76,75 @@
 
     <div class="row">
       <label><input type="checkbox" name="remember"> مرا به خاطر بسپار</label>
-      <a href="#" onclick="event.preventDefault()">رمزم رو فراموش کردم</a>
+      <a href="#" id="forgotLink">رمزم رو فراموش کردم</a>
     </div>
 
     <button class="submit" type="submit"><span class="sp"></span><span>ورود به حساب</span></button>
     <div class="msg" role="status"></div>
     <p class="legal">با ورود، قوانین و حریم خصوصی مدار را می‌پذیری.</p>
     <p class="sw">حساب نداری؟ <button type="button" data-go="signup">ثبت‌نام کن</button></p>
+  </form>
+
+
+  <form class="form" id="forgotForm" data-step="1" novalidate>
+    <div class="forgot-head">
+      <button type="button" class="forgot-back" id="forgotBack" aria-label="بازگشت به ورود">←</button>
+      <div><strong>بازیابی رمز عبور</strong><small>دسترسی دوباره به حساب مدار</small></div>
+    </div>
+    <div class="forgot-progress" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <section class="forgot-pane fstep-1">
+      <p class="sub">ایمیل، شماره موبایل یا شناسه تلگرام متصل به حسابت را وارد کن.</p>
+      <label class="f">
+        <span>شناسه حساب</span>
+        <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#u"/></svg><input id="forgotIdentifier" type="text" autocomplete="username" class="ltr" placeholder="ایمیل، موبایل یا Chat ID" required></div>
+        <div class="err">شناسه حساب را وارد کن.</div>
+      </label>
+      <div class="f forgot-channel-wrap">
+        <span>روش دریافت کد</span>
+        <div class="seg" id="forgotChannel" data-channel="email">
+          <button type="button" class="on" data-channel="email">ایمیل</button>
+          <button type="button" data-channel="telegram">تلگرام</button>
+        </div>
+      </div>
+      <div class="msg" id="forgotMsg1" role="status"></div>
+      <button class="submit" type="submit" id="forgotSend"><span class="sp"></span><span>ارسال کد تأیید</span></button>
+      <button type="button" class="forgot-later" data-forgot-later>فعلاً نه، بازگشت به ورود</button>
+    </section>
+
+    <section class="forgot-pane fstep-2">
+      <p class="sub">کد شش‌رقمی ارسال‌شده را وارد کن.</p>
+      <div class="sent">کد برای <b id="forgotDestination">—</b> ارسال شد.</div>
+      <div class="otp forgot-otp" id="forgotOtp" dir="ltr">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۱" autocomplete="one-time-code">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۲">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۳">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۴">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۵">
+        <input inputmode="numeric" maxlength="1" aria-label="رقم ۶">
+      </div>
+      <div class="msg" id="forgotMsg2" role="status"></div>
+      <button class="submit" type="button" id="forgotVerify"><span class="sp"></span><span>تأیید کد</span></button>
+      <div class="forgot-actions"><button type="button" id="forgotEdit">ویرایش شناسه</button><button type="button" id="forgotResend">ارسال دوباره کد</button></div>
+      <button type="button" class="forgot-later" data-forgot-later>فعلاً نه، بازگشت به ورود</button>
+    </section>
+
+    <section class="forgot-pane fstep-3">
+      <p class="sub">کد تأیید شد. می‌توانی رمز تازه‌ای برای حسابت انتخاب کنی.</p>
+      <label class="f">
+        <span>رمز عبور جدید</span>
+        <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#k"/></svg><input id="forgotPassword" type="password" autocomplete="new-password" minlength="6" required class="ltr"><button type="button" class="eye" data-toggle-password="forgotPassword" aria-label="نمایش رمز"><svg class="i" viewBox="0 0 24 24"><use href="#e"/></svg></button></div>
+        <div class="err">رمز عبور باید حداقل ۶ کاراکتر باشد.</div>
+      </label>
+      <label class="f">
+        <span>تکرار رمز عبور جدید</span>
+        <div class="in"><svg class="i" viewBox="0 0 24 24"><use href="#c"/></svg><input id="forgotPassword2" type="password" autocomplete="new-password" minlength="6" required class="ltr"></div>
+        <div class="err">دو رمز عبور یکسان نیستند.</div>
+      </label>
+      <div class="msg" id="forgotMsg3" role="status"></div>
+      <button class="submit" type="button" id="forgotReset"><span class="sp"></span><span>ذخیره رمز جدید و ورود</span></button>
+      <button type="button" class="forgot-later" id="forgotSkip">بعداً؛ ورود به حساب</button>
+    </section>
   </form>
 
   <form class="form" id="signupForm" data-step="1" novalidate>
@@ -159,6 +221,7 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/auth.js?v=session-redirect-20261114"></script>
+<script src="../js/forgot-password.js?v=forgot-ui-20261118"></script>
 <script>
 /* اگر نشست قبلی معتبر است، بدون نمایش مجدد فرم ورود به مقصد مناسب برو. */
 (async function restoreExistingSession(){
