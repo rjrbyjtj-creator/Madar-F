@@ -140,7 +140,7 @@
 
   html.embedded,html.embedded body{background:transparent!important}
   html.embedded .page-crumb,html.embedded .hero{display:none!important}
-  html.embedded body{padding-top:0}
+  html.embedded body{padding-top:0;overflow-y:hidden}
   html.embedded .wrap{max-width:1040px}
 
   /* Embedded profile: match the width, scale and rhythm of the planning sections */
@@ -414,12 +414,28 @@
 <script>
 (function(){
   if(!document.documentElement.classList.contains('embedded'))return;
-  const sendHeight=()=>parent.postMessage({type:'madar-profile-height',height:Math.ceil(document.documentElement.scrollHeight)},location.origin);
-  if('ResizeObserver' in window)new ResizeObserver(sendHeight).observe(document.body);
+  const sendHeight=()=>{
+    const height=Math.max(
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight,
+      document.body.scrollHeight,
+      document.body.offsetHeight
+    );
+    parent.postMessage({type:'madar-profile-height',height:Math.ceil(height)},location.origin);
+  };
+  if('ResizeObserver' in window){
+    const observer=new ResizeObserver(sendHeight);
+    observer.observe(document.documentElement);
+    observer.observe(document.body);
+  }
+  if('MutationObserver' in window){
+    new MutationObserver(sendHeight).observe(document.getElementById('app'),{childList:true,subtree:true,attributes:true});
+  }
   window.addEventListener('load',sendHeight);
   window.addEventListener('resize',sendHeight);
   sendHeight();
-  setTimeout(sendHeight,300);
+  setTimeout(sendHeight,100);
+  setTimeout(sendHeight,500);
 })();
 </script>
 </body>
