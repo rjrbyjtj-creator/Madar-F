@@ -540,13 +540,15 @@ $$('.vt button').forEach(b=>b.onclick=()=>{$$('.vt button').forEach(x=>x.classLi
 
 /* پخش‌کننده (نمایشی؛ بعداً به فایل صوتی وصل کن) */
 const pl=$('.player'),fill=$('#fill');let cur=0,t=0,dur=225,timer,shuf=0,rep=0,tk=0,real=0;
-const AU=new Audio();let ctx,an,fq,wired=0;
-const wire=()=>{if(wired)return;wired=1;try{ctx=new(window.AudioContext||webkitAudioContext)();an=ctx.createAnalyser();an.fftSize=128;an.smoothingTimeConstant=.8;ctx.createMediaElementSource(AU).connect(an);an.connect(ctx.destination);fq=new Uint8Array(an.frequencyBinCount)}catch(e){an=0}};
-AU.onended=()=>rep?(AU.currentTime=0,AU.play()):next();
+const AU=new Audio();AU.preload='metadata';let ctx,an,fq,wired=0;
+/* صدای اصلی باید مستقیماً از عنصر Audio پخش شود؛ اتصال منبع بین‌دامنه‌ای به WebAudio
+   بدون هدر CORS می‌تواند صدا را کاملاً بی‌صدا کند. اکولایزر این صفحه نمایشی است. */
+AU.onended=()=>rep?(AU.currentTime=0,AU.play().catch(e=>console.error('Audio replay failed:',e))):next();
+AU.onerror=()=>{console.error('Audio stream error:',AU.error);set(false);const title=$('#pTitle');if(title)title.title='پخش فایل صوتی با خطا روبه‌رو شد؛ اتصال سرور یا فایل را بررسی کن.'};
 const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 const upd=()=>{fill.style.width=t/dur*100+'%';$('#tCur').textContent=fmt(t)};
 const next=()=>load(shuf?Math.random()*S.length|0:(cur+1)%S.length,1);
-const set=on=>{pl.classList.toggle('playing',on);document.body.classList.toggle('air',on);$('#bigPlay use').setAttribute('href',on?'#i-pause':'#i-play');$$('.pl use').forEach((u,k)=>u.setAttribute('href',on&&k===cur?'#i-pause':'#i-play'));clearInterval(timer);tk=performance.now();if(real){on?(wire(),ctx&&ctx.resume(),AU.play().catch(()=>{})):AU.pause()}if(on)timer=setInterval(()=>{tk=performance.now();if(real){t=AU.currentTime|0;AU.duration&&(dur=AU.duration|0)}else if(++t>=dur){rep?t=0:next()}upd()},1000)};
+const set=on=>{pl.classList.toggle('playing',on);document.body.classList.toggle('air',on);$('#bigPlay use').setAttribute('href',on?'#i-pause':'#i-play');$('.pl use').forEach((u,k)=>u.setAttribute('href',on&&k===cur?'#i-pause':'#i-play'));clearInterval(timer);tk=performance.now();if(real){if(on){AU.play().catch(error=>{console.error('Audio playback was rejected:',error);pl.classList.remove('playing');document.body.classList.remove('air');$('#bigPlay use').setAttribute('href','#i-play');$('.pl use').forEach(u=>u.setAttribute('href','#i-play'));clearInterval(timer);$('#pTitle').title='پخش شروع نشد؛ احتمالاً فایل صوتی یا اتصال سرور در دسترس نیست.'})}else AU.pause()}if(on)timer=setInterval(()=>{tk=performance.now();if(real){t=AU.currentTime|0;AU.duration&&(dur=AU.duration|0)}else if(++t>=dur){rep?t=0:next()}upd()},1000)};
 function load(i,play){cur=i;const[m,x]=SONGS[i][1].split(':').map(Number);dur=m*60+x;t=0;real=!!SONGS[i][3];if(real)AU.src=SONGS[i][3];else{AU.pause();AU.removeAttribute('src')}S.forEach((e,k)=>e.classList.toggle('cur',k===i));$('#pTitle').textContent=SONGS[i][0];$('#tTot').textContent=SONGS[i][1];$('.pc-art .ph').innerHTML=IMG(SONGS[i][2]);upd();set(play);stt()}
 $('#bigPlay').onclick=()=>set(!pl.classList.contains('playing'));
 $('#next').onclick=next;
