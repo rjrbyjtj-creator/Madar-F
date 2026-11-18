@@ -407,11 +407,11 @@
     </section>`;
   }
   const definitions={
-    grades:{title:'افزودن نمره',fields:[['subject','نام درس','text',true],['source','نوع آزمون','select',true,[['school','مدرسه'],['maz','ماز'],['ghalamchi','قلمچی']]],['score','نمره از ۱۰۰','number',true,0,100],['date','تاریخ (اختیاری)','date',false]]},
-    tests:{title:'ثبت نتیجه آزمون',fields:[['title','عنوان آزمون','text',true],['provider','برگزارکننده','select',true,[['maz','ماز'],['ghalamchi','قلمچی'],['school','مدرسه'],['other','سایر']]],['date','تاریخ آزمون','date',true],['totalScore','تراز کل','number',false,0,10000],['regionScore','تراز ناحیه','number',false,0,10000]]},
+    grades:{title:'افزودن نمره',fields:[['subject','نام درس','text',true],['source','نوع آزمون','select',true,[['school','مدرسه'],['maz','ماز'],['ghalamchi','قلمچی']]],['score','نمره از ۱۰۰','number',true,null,0,100],['date','تاریخ (اختیاری)','date',false]]},
+    tests:{title:'ثبت نتیجه آزمون',fields:[['title','عنوان آزمون','text',true],['provider','برگزارکننده','select',true,[['maz','ماز'],['ghalamchi','قلمچی'],['school','مدرسه'],['other','سایر']]],['date','تاریخ آزمون','date',true],['totalScore','تراز کل','number',false,null,0,10000],['regionScore','تراز ناحیه','number',false,null,0,10000]]},
     notes:{title:'ثبت یادداشت روزانه',fields:[['subject','درس / موضوع','text',true],['date','تاریخ','date',true],['color','رنگ یادداشت','select',true,[['blue','آبی'],['green','سبز'],['peach','طلایی']]],['text','متن یادداشت','textarea',true]]},
-    performance:{title:'ثبت عملکرد یک درس',fields:[['subject','نام درس','text',true],['mastery','درصد تسلط','number',true,0,100]]},
-    solved:{title:'ثبت تعداد سوالات حل‌شده',fields:[['label','عنوان دسته','text',true],['count','تعداد','number',true,0,10000000]]},
+    performance:{title:'ثبت عملکرد یک درس',fields:[['subject','نام درس','text',true],['mastery','درصد تسلط','number',true,null,0,100]]},
+    solved:{title:'ثبت تعداد سوالات حل‌شده',fields:[['label','عنوان دسته','text',true],['count','تعداد','number',true,null,0,10000000]]},
     exams:{title:'افزودن آزمون آینده',fields:[['title','عنوان آزمون','text',true],['date','تاریخ آزمون','date',true],['provider','برگزارکننده','select',true,[['maz','ماز'],['ghalamchi','قلمچی'],['school','مدرسه'],['other','سایر']]]]}
   };
   function openAdd(type,trigger){
@@ -429,7 +429,7 @@
       if(kind==='select')input='<select name="'+name+'" '+(required?'required':'')+'>'+opts.map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('')+'</select>';
       else if(kind==='textarea')input='<textarea name="'+name+'" rows="2" maxlength="1500" '+(required?'required':'')+'></textarea>';
       else if(name==='date'){const today=todayISO();input='<div class="jalali-date"><input type="hidden" name="date" value="'+today+'"><button type="button" class="jalali-date-trigger" data-jalali-open>'+dateFa(today)+'</button><div class="jalali-picker" hidden></div></div>';}
-       else input='<input name="'+name+'" type="'+kind+'" '+(min!==undefined?'min="'+min+'"':'')+' '+(max!==undefined?'max="'+max+'"':'')+' '+(kind==='number'?'step="any"':'')+' '+(required?'required':'')+'>';
+       else input='<input name="'+name+'" type="'+kind+'" '+(min!==undefined?'min="'+min+'"':'')+' '+(max!==undefined?'max="'+max+'"':'')+' '+(kind==='number'?(name==='count'?'step="1"':'step="any"'):'')+' '+(required?'required':'')+'>';
       return '<label class="inline-field">'+label+input+'</label>';
     }).join('')+'</div><div class="inline-editor-actions"><button type="submit" class="inline-save">ذخیره سابقه</button><button type="button" class="inline-cancel" data-cancel-editor>انصراف</button></div>';
     parent.appendChild(editor);
