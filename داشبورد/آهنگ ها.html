@@ -535,7 +535,7 @@ const replay=e=>{e.style.animation='none';e.offsetWidth;e.style.animation=''};
 let S=$$('.song');let fav=0;
 const flt=()=>{S.forEach(s=>s.hidden=!!fav&&!$('.hb.on',s));$('.empty').hidden=!(fav&&S.every(s=>s.hidden))};
 $$('.pill').forEach(b=>b.onclick=()=>{$$('.pill').forEach(x=>x.classList.toggle('on',x===b));fav=b.dataset.f?1:0;flt();S.forEach(replay)});
-$('.cats button').forEach(b=>b.onclick=()=>$('.cats button').forEach(x=>x.classList.toggle('on',x===b)));
+$$('.cats button').forEach(b=>b.onclick=()=>$$('.cats button').forEach(x=>x.classList.toggle('on',x===b)));
 $$('.vt button').forEach(b=>b.onclick=()=>{$$('.vt button').forEach(x=>x.classList.toggle('on',x===b));$('#songs').classList.toggle('list',b.dataset.v==='list');S.forEach(replay)});
 
 /* پخش‌کننده (نمایشی؛ بعداً به فایل صوتی وصل کن) */
@@ -557,7 +557,7 @@ $('#bar').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();t=Math.rou
 $('#songs').onclick=e=>{const s=e.target.closest('.song');if(!s)return;
   if(e.target.closest('.hb')){e.target.closest('.hb').classList.toggle('on');flt();stt();return}
   const i=+s.dataset.i;i===cur?set(!pl.classList.contains('playing')):load(i,1)};
-$('#tl li').forEach(l=>l.onclick=()=>load(+l.dataset.i,1));
+$$('#tl li').forEach(l=>l.onclick=()=>load(+l.dataset.i,1));
 /* ===== میله‌ها با ریتم و تن آهنگ ===== */
 const BPM=[96,84,72,108,64,100],RM=matchMedia('(prefers-reduced-motion:reduce)').matches,N=14;
 const EB=Array.from({length:N},()=>document.createElement('i'));$('.eq').append(...EB);
