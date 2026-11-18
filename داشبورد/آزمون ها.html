@@ -617,15 +617,6 @@ $('themeBtn').onclick=()=>{
 };
 addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
 
-/* احراز هویت صفحه آزمون‌ها
-   اعتبار توکن را خود API آزمون‌های Railway بررسی می‌کند؛
-   از این صفحه هیچ درخواست پروفایلی به Render ارسال نمی‌شود. */
-if(!Auth.get()){
-  location.replace('../لاگین و ثبت نام/لاگین.html');
-}else{
-  loadExams();
-}
-
 /* منوی کشویی (موبایل با کلیک) */
 (()=>{
   const dds=[...document.querySelectorAll('.dd')];
@@ -698,6 +689,13 @@ const loadExams=async()=>{
     console.error('[EXAMS]',error);
   }
 };
+
+/* احراز هویت و بارگذاری پس از تعریف loadExams؛ جلوگیری از خطای قبل از مقداردهی */
+if(!Auth.get()){
+  location.replace('../لاگین و ثبت نام/لاگین.html');
+}else{
+  loadExams();
+}
 
 /* ===== اسلایدر اطلاعیه‌ها ===== */
 (()=>{
