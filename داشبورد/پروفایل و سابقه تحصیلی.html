@@ -284,7 +284,7 @@
   async function persist(){
     if(saving)throw new Error('ذخیره قبلی هنوز تمام نشده است.');
     saving=true;setStatus('در حال ذخیره سوابق در حساب کاربری…');
-    try{history=await request('PUT',history);setStatus('سوابق تحصیلی با موفقیت ذخیره شد.');}
+    try{const payload={grades:history.grades||[],tests:history.tests||[],notes:history.notes||[],performance:history.performance||[],solved:history.solved||[],exams:history.exams||[]};history=await request('PUT',payload);setStatus('سوابق تحصیلی با موفقیت ذخیره شد.');}
     finally{saving=false;}
   }
   function chart(){
