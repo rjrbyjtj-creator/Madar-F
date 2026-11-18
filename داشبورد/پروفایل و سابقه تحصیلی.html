@@ -451,8 +451,6 @@
     }
     const prev=e.target.closest('[data-jalali-prev]'),next=e.target.closest('[data-jalali-next]');
     if(prev||next){const picker=e.target.closest('.jalali-picker');setPickerMonth(picker,Number(picker.dataset.jy),Number(picker.dataset.jm)+(prev?-1:1));return;}
-    const month=e.target.closest('[data-jalali-month]'),year=e.target.closest('[data-jalali-year]');
-    if(month||year){const picker=e.target.closest('.jalali-picker');setPickerMonth(picker,Number(picker.dataset.jy)+(year?0:0),month?Number(month.value):Number(picker.dataset.jm));if(year)setPickerMonth(picker,Number(year.value),Number(picker.dataset.jm));return;}
     const todayBtn=e.target.closest('[data-jalali-today]');
     if(todayBtn){const picker=todayBtn.closest('.jalali-picker'),wrap=picker.closest('.jalali-date'),iso=todayISO();wrap.querySelector('input[name="date"]').value=iso;wrap.querySelector('[data-jalali-open]').textContent=dateFa(iso);picker.hidden=true;return;}
     if(e.target.closest('[data-jalali-close]')){e.target.closest('.jalali-picker').hidden=true;return;}
@@ -471,6 +469,13 @@
       history.notes.unshift({id:crypto.randomUUID(),date:todayISO(),subject:'عمومی',color:'blue',text});
       try{await persist();render();}catch(err){setStatus(err.message,true);await load();}
     }
+  });
+  app.addEventListener('change',e=>{
+    const month=e.target.closest('[data-jalali-month]'),year=e.target.closest('[data-jalali-year]');
+    if(!month&&!year)return;
+    const picker=e.target.closest('.jalali-picker');
+    if(month)setPickerMonth(picker,Number(picker.dataset.jy),Number(month.value));
+    if(year)setPickerMonth(picker,Number(year.value),Number(picker.dataset.jm));
   });
   app.addEventListener('submit',async e=>{
     const target=e.target;
