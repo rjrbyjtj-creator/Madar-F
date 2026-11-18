@@ -433,7 +433,8 @@
   html[data-theme="dark"] .weekday-head,html[data-theme="dark"] .week-nav button{color:#e7edf6}
 
   .profile-history-embed{width:100%;max-width:1280px;margin:12px auto 0;padding:0 clamp(18px,3vw,36px)}
-  .profile-history-embed iframe{display:block;width:100%;height:1600px;border:0;background:transparent;overflow:hidden}
+  .profile-history-embed iframe{display:block;width:100%;height:1px;border:0;background:transparent;overflow:hidden;scrollbar-width:none}
+  .profile-history-embed iframe::-webkit-scrollbar{display:none}
   @media(max-width:700px){.profile-history-embed{padding-inline:10px}}
 </style>
 <script defer src="../js/theme.js?v=planning-theme-sync-20261116"></script>
@@ -595,7 +596,7 @@
 
   <!-- ادامه صفحه برنامه‌ریزی: پروفایل و سابقه تحصیلی، بدون هدر مستقل -->
   <section class="profile-history-embed" aria-label="پروفایل و سابقه تحصیلی">
-    <iframe id="profileHistoryFrame" src="./پروفایل و سابقه تحصیلی.html?embed=1" title="پروفایل و سابقه تحصیلی" loading="lazy"></iframe>
+    <iframe id="profileHistoryFrame" src="./پروفایل و سابقه تحصیلی.html?embed=1" title="پروفایل و سابقه تحصیلی" loading="lazy" scrolling="no"></iframe>
   </section>
 
 <dialog class="plan-dialog" id="planDialog" aria-labelledby="planDialogTitle">
@@ -854,7 +855,8 @@
   window.addEventListener('message',event=>{
     if(event.origin!==location.origin||event.source!==frame.contentWindow)return;
     if(event.data&&event.data.type==='madar-profile-height'&&Number.isFinite(event.data.height)){
-      frame.style.height=Math.max(900,Math.min(9000,event.data.height+8))+'px';
+      // ارتفاع واقعی محتوا؛ بدون حداقل ثابت که فضای خالی بسازد.
+      frame.style.height=Math.max(1,Math.ceil(event.data.height))+'px';
     }
   });
 })();
