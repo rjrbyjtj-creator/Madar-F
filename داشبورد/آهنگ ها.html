@@ -521,7 +521,7 @@ html{font-size:clamp(10.8px,.8613vw,19.8px)}
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 /* ✏️ آهنگ‌ها: [نام، مدت، کاور، (اختیاری) آدرس فایل صوتی]؛ با فایل صوتی، میله‌ها از طیف واقعی صدا حرکت می‌کنند وگرنه ریتم نمایشی دارند */
-const SONGS=[['دنیای بهتر','03:45','کاور-1.jpg'],['بارون','04:20','کاور-2.jpg'],['رویای دور','03:12','کاور-3.jpg'],['لبخند تو','03:50','کاور-4.jpg'],['آرامش','05:10','کاور-5.jpg'],['شهر رویاها','03:28','کاور-6.jpg']];
+let SONGS=[];
 const IMG=f=>`<img src="../عکس ها/${f}" alt="" onerror="this.remove()">`;
 $('#songs').innerHTML=SONGS.map(([t,d,f],i)=>`<article class="song rise" data-i="${i}"><div class="cw"><span class="ph cv" data-ph="کاور ${i+1}">${IMG(f)}</span><div class="eq2"><i></i><i></i><i></i><i></i><i></i></div></div><div class="tx"><h4>${t}</h4><small>مدار</small></div><button class="pl" aria-label="پخش"><svg class="i f"><use href="#i-play"/></svg></button><div class="mt"><button class="hb" aria-label="پسندیدن"><svg class="i"><use href="#i-heart"/></svg></button><span>${d}</span></div></article>`).join('')+'<p class="empty" hidden>هنوز آهنگی را نپسندیده‌ای؛ با زدن قلب، اینجا جمع می‌شوند.</p>';
 $('#tl').innerHTML=[0,2,4].map((k,n)=>`<li data-i="${k}"><span class="rk${n%2?'':' g'}">${n+1}</span><span class="ph" data-ph="کاور">${IMG(SONGS[k][2])}</span><div><h5>${SONGS[k][0]}</h5><small>مدار</small></div></li>`).join('');
@@ -532,7 +532,7 @@ $$('.rise').forEach((e,i)=>{e.style.setProperty('--i',i);io.observe(e)});
 const replay=e=>{e.style.animation='none';e.offsetWidth;e.style.animation=''};
 
 /* فیلتر و نما */
-const S=$$('.song');let fav=0;
+let S=$('.song');let fav=0;
 const flt=()=>{S.forEach(s=>s.hidden=!!fav&&!$('.hb.on',s));$('.empty').hidden=!(fav&&S.every(s=>s.hidden))};
 $$('.pill').forEach(b=>b.onclick=()=>{$$('.pill').forEach(x=>x.classList.toggle('on',x===b));fav=b.dataset.f?1:0;flt();S.forEach(replay)});
 $$('.cats button').forEach(b=>b.onclick=()=>$$('.cats button').forEach(x=>x.classList.toggle('on',x===b)));
@@ -580,9 +580,53 @@ function frame(){
 }
 requestAnimationFrame(frame);
 const stt=()=>{$('#sFav').textContent=$$('.hb.on').length;$('#sCur').textContent=SONGS[cur][0]};
-$('#sN').textContent=SONGS.length;
-$('#sT').textContent=fmt(SONGS.reduce((a,[,d])=>{const[m,s]=d.split(':').map(Number);return a+m*60+s},0));
-load(0,0);
+$('#sN').textContent=0;
+$('#sT').textContent='00:00';
+async function initMusic(){
+  const apiBase='https://madar-jmy5.onrender.com/api';
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  try{
+    const response=await fetch(apiBase+'/music',{cache:'no-store'});
+    if(!response.ok) throw new Error('MUSIC_API_'+response.status);
+    const payload=await response.json();
+    const tracks=Array.isArray(payload.tracks)?payload.tracks:[];
+    SONGS=tracks.map(track=>[
+      String(track.title||'آهنگ بدون نام'),
+      String(track.durationLabel||'00:00'),
+      '',
+      apiBase.replace('/api','')+String(track.streamUrl||''),
+      String(track.id||''),
+      String(track.artist||'نامشخص'),
+      Number(track.duration||0),
+      String(track.category||'عمومی')
+    ]);
+    $('#songs').innerHTML=SONGS.map(([title,duration,cover,url,id,artist],i)=>`<article class="song rise" data-i="${i}" data-id="${esc(id)}"><div class="cw"><span class="ph cv" data-ph="♪"></span><div class="eq2"><i></i><i></i><i></i><i></i><i></i></div></div><div class="tx"><h4>${esc(title)}</h4><small>${esc(artist)}</small></div><button class="pl" aria-label="پخش"><svg class="i f"><use href="#i-play"/></svg></button><div class="mt"><button class="hb" aria-label="پسندیدن"><svg class="i"><use href="#i-heart"/></svg></button><span>${esc(duration)}</span></div></article>`).join('')||'<p class="empty">هنوز آهنگی در کتابخانه مدار ثبت نشده است.</p>';
+    S=$('.song');
+    $('#tl').innerHTML=SONGS.slice(0,3).map((song,i)=>`<li data-i="${i}"><span class="rk${i%2?'':' g'}">${i+1}</span><span class="ph" data-ph="♪"></span><div><h5>${esc(song[0])}</h5><small>${esc(song[5])}</small></div></li>`).join('');
+    $('#tl li').forEach(li=>li.onclick=()=>load(+li.dataset.i,1));
+    const total=SONGS.reduce((sum,song)=>sum+song[6],0);
+    $('#sN').textContent=SONGS.length;
+    $('#sT').textContent=fmt(total);
+    const categories=[...new Set(SONGS.map(song=>song[7]).filter(Boolean))];
+    $('.cats').innerHTML='<li><button class="on" data-category="">همه دسته‌ها</button></li>'+categories.map(cat=>'<li><button data-category="'+esc(cat)+'">'+esc(cat)+'</button></li>').join('');
+    $('.cats button').forEach(button=>button.onclick=()=>{
+      $('.cats button').forEach(item=>item.classList.toggle('on',item===button));
+      S.forEach((card,index)=>card.hidden=!!button.dataset.category&&SONGS[index][7]!==button.dataset.category);
+    });
+    const search=$('.search input');
+    if(search) search.addEventListener('input',()=>{
+      const q=search.value.trim().toLocaleLowerCase();
+      S.forEach((card,index)=>card.hidden=!!q&&!SONGS[index].slice(0,1).join('').concat(' ',SONGS[index][5]).toLocaleLowerCase().includes(q));
+    });
+    if(SONGS.length){load(0,0);S.forEach(card=>{card.classList.add('rise');io.observe(card)});}
+    else{$('#pTitle').textContent='هنوز آهنگی ثبت نشده';$('#tTot').textContent='00:00';}
+  }catch(error){
+    console.error('Music library could not be loaded:',error);
+    $('#songs').innerHTML='<p class="empty">دریافت فهرست آهنگ‌ها ممکن نشد. لطفاً کمی بعد دوباره تلاش کن.</p>';
+    $('#pTitle').textContent='اتصال به کتابخانه موسیقی برقرار نشد';
+  }
+}
+initMusic();
 </script>
 <script src="../js/config.js"></script>
 <script src="../js/auth.js"></script>
