@@ -944,6 +944,503 @@
   .f-grid { grid-template-columns: 1fr; }
   .f-bottom { justify-content: center; text-align: center; }
 }
+  
+
+    /* ==========================================================================
+       بهینه‌سازی تکمیلی واکنش‌گرایی صفحه اصلی مدار
+       این لایه فقط در نمایشگرهای کوچک و متوسط فعال است؛ دسکتاپ دست‌نخورده می‌ماند.
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .page {
+        padding: 12px 18px 20px;
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo {
+        min-width: 0;
+      }
+
+      .logo img {
+        max-height: 32px;
+      }
+
+      .logo strong {
+        font-size: 18px;
+      }
+
+      .actions {
+        grid-column: 2;
+        justify-self: end;
+        min-width: 0;
+        gap: 8px;
+        margin: 0;
+      }
+
+      .actions .icon-btn {
+        width: 36px;
+        height: 36px;
+      }
+
+      .actions .btn-dark {
+        min-height: 36px;
+        padding-inline: 12px;
+        white-space: nowrap;
+      }
+
+      .search {
+        grid-column: 1 / -1;
+        order: 0;
+        width: 100%;
+        min-width: 0;
+        height: 42px;
+        flex-basis: auto;
+        margin: 0;
+      }
+
+      .nav {
+        width: 100%;
+        max-width: 100%;
+        height: 42px;
+        margin-top: 12px;
+        padding-inline: 14px;
+        gap: clamp(16px, 3vw, 24px);
+        justify-content: flex-start;
+        border-radius: 14px;
+        overscroll-behavior-inline: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .nav a {
+        min-height: 40px;
+        font-size: 12px;
+      }
+
+      .hero {
+        flex: 0 0 auto;
+        min-height: clamp(300px, 43svh, 430px);
+        padding: 34px 0;
+      }
+
+      .hero-text {
+        width: 100%;
+        max-width: 620px;
+        min-width: 0;
+      }
+
+      .hero-text > p {
+        max-width: 520px;
+        line-height: 2;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .qcard {
+        min-width: 0;
+        flex: initial;
+        padding: 12px 14px;
+      }
+
+      .qcard:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .qcard h3 {
+        font-size: 13px;
+      }
+
+      .wrap {
+        padding-inline: 18px;
+      }
+
+      .sec-head {
+        align-items: flex-start;
+      }
+
+      .sec-head > div {
+        min-width: 0;
+      }
+
+      .sec-head h2 {
+        overflow-wrap: anywhere;
+      }
+
+      .feat-body,
+      .xbody,
+      .stop > div,
+      .f-col {
+        min-width: 0;
+      }
+
+      .feat-body h3,
+      .stop h3,
+      .xbody h3 {
+        overflow-wrap: anywhere;
+      }
+
+      .footer {
+        padding-inline: 18px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 10px 14px 18px;
+      }
+
+      .top {
+        column-gap: 8px;
+        row-gap: 10px;
+      }
+
+      .logo {
+        gap: 6px;
+      }
+
+      .logo img {
+        max-width: 34px;
+        height: 30px;
+        object-fit: contain;
+      }
+
+      .logo strong {
+        font-size: 16px;
+      }
+
+      .logo small {
+        font-size: 9px;
+      }
+
+      .actions {
+        gap: 4px;
+      }
+
+      .actions .icon-btn {
+        width: 34px;
+        height: 34px;
+      }
+
+      .actions .btn-dark {
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        padding: 0;
+      }
+
+      .actions .btn-dark svg.i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .search {
+        height: 42px;
+        padding-inline: 12px;
+      }
+
+      .search input {
+        font-size: 12px;
+      }
+
+      .nav {
+        height: 40px;
+        margin-top: 10px;
+        padding-inline: 12px;
+        gap: 16px;
+        border-radius: 12px;
+      }
+
+      .nav a {
+        gap: 5px;
+        font-size: 11.5px;
+      }
+
+      .nav a svg.i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .art {
+        opacity: .12;
+      }
+
+      .art img {
+        object-position: left center;
+      }
+
+      .hero {
+        min-height: 300px;
+        padding: 30px 0 26px;
+      }
+
+      .badge {
+        max-width: 100%;
+        padding: 6px 11px;
+        font-size: 10.5px;
+        line-height: 1.8;
+      }
+
+      h1 {
+        margin-top: 13px;
+        font-size: clamp(23px, 7vw, 30px);
+        line-height: 1.65;
+      }
+
+      .hero-text > p {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 2;
+      }
+
+      .news {
+        display: flex;
+        align-items: stretch;
+        gap: 12px;
+        margin-top: 22px;
+        padding: 12px;
+        border-radius: 16px;
+      }
+
+      .news-label {
+        min-width: 0;
+        font-size: 11.5px;
+        line-height: 1.9;
+      }
+
+      .news .btn-dark {
+        min-height: 42px;
+        height: 42px;
+        border-radius: 12px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .qcard {
+        min-height: 104px;
+        align-items: flex-start;
+        padding: 11px;
+        border-radius: 13px;
+      }
+
+      .qcard > div {
+        min-width: 0;
+      }
+
+      .qcard svg.i {
+        width: 21px;
+        height: 21px;
+      }
+
+      .qcard h3 {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+
+      .qcard p {
+        margin-top: 2px;
+        font-size: 10px;
+        line-height: 1.8;
+      }
+
+      .qcard .go {
+        width: 23px;
+        height: 23px;
+      }
+
+      .wrap {
+        padding: 6px 14px 28px;
+      }
+
+      .sec {
+        margin-top: 42px;
+        scroll-margin-top: 12px;
+      }
+
+      .sec:first-child {
+        margin-top: 28px;
+      }
+
+      .sec-head {
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .sec-head h2 {
+        font-size: 20px;
+        line-height: 1.7;
+      }
+
+      .sec-head p {
+        font-size: 11px;
+        line-height: 1.9;
+      }
+
+      .sec-head .btn-line {
+        width: 100%;
+        min-height: 40px;
+        height: auto;
+        padding: 8px 12px;
+        line-height: 1.8;
+      }
+
+      .grid3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .scard {
+        padding: 13px;
+      }
+
+      .feat {
+        gap: 10px;
+        border-radius: 14px;
+      }
+
+      .feat-media {
+        width: calc(100% + 26px);
+        margin-inline: -13px;
+        height: 118px;
+      }
+
+      .feat-body h3,
+      .xbody h3 {
+        font-size: 14px;
+      }
+
+      .feat-body > p {
+        font-size: 11px;
+        line-height: 1.9;
+      }
+
+      .feat-body .meta {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .xfeat {
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .xfeat > .ibox.lg {
+        width: 38px;
+        height: 38px;
+      }
+
+      .xfoot {
+        align-items: flex-start;
+      }
+
+      .xfoot .meta {
+        flex-wrap: wrap;
+      }
+
+      .xfoot .btn-gold {
+        max-width: 100%;
+        white-space: normal;
+      }
+
+      .art-grid.art-grid--single .a-big {
+        min-height: 210px;
+      }
+
+      .a-big .abody {
+        padding: 14px;
+      }
+
+      .a-big h3 {
+        font-size: 16px;
+        line-height: 1.8;
+      }
+
+      .footer {
+        margin-top: 42px;
+        padding: 30px 14px 0;
+      }
+
+      .f-grid {
+        gap: 26px;
+      }
+
+      .f-brand > p {
+        max-width: none;
+      }
+
+      .f-bottom {
+        align-items: center;
+        gap: 12px;
+        line-height: 2;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .page {
+        padding-inline: 11px;
+      }
+
+      .logo small {
+        display: none;
+      }
+
+      .actions .icon-btn {
+        width: 31px;
+        height: 34px;
+      }
+
+      .actions .btn-dark {
+        width: 34px;
+        min-width: 34px;
+      }
+
+      .nav {
+        gap: 14px;
+        padding-inline: 10px;
+      }
+
+      .nav a {
+        font-size: 11px;
+      }
+
+      .hero {
+        min-height: 285px;
+      }
+
+      .cards {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .qcard,
+      .qcard:last-child {
+        grid-column: auto;
+        min-height: 82px;
+        align-items: center;
+      }
+
+      .qcard > div {
+        flex: 1;
+      }
+
+      .wrap {
+        padding-inline: 11px;
+      }
+
+      .footer {
+        padding-inline: 11px;
+      }
+    }
+
   </style>
   <script src="./js/madar-connect.js?v=connect-20261114"></script>
 <script defer src="./js/theme.js?v=global-theme-20261116"></script>
