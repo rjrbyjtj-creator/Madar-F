@@ -155,6 +155,20 @@ const API_CONFIG = Object.freeze({
     return nativeFetch(url, init);
   }
 
+  function hasAuthorization(input, init) {
+    var headers = (init && init.headers) || (input && input.headers);
+    if (!headers) return false;
+    if (typeof headers.get === "function") return Boolean(headers.get("Authorization"));
+    if (Array.isArray(headers)) {
+      return headers.some(function (entry) {
+        return String(entry[0]).toLowerCase() === "authorization" && Boolean(entry[1]);
+      });
+    }
+    return Object.keys(headers).some(function (key) {
+      return key.toLowerCase() === "authorization" && Boolean(headers[key]);
+    });
+  }
+
   window.fetch = async function (input, init) {
     var url = requestUrl(input);
     if (!url || (!url.startsWith(RENDER) && !url.startsWith(RAILWAY))) {
@@ -172,7 +186,9 @@ const API_CONFIG = Object.freeze({
 
     try {
       var response = await fetchAt(firstUrl, input, init);
-      if (pinned || !safeToRetry || ![502, 503, 504].includes(response.status)) return response;
+      var authFallback = response.status === 401 && hasAuthorization(input, init);
+      var serviceFallback = [502, 503, 504].includes(response.status);
+      if (pinned || !safeToRetry || (!authFallback && !serviceFallback)) return response;
       var alternate = target === RENDER ? RAILWAY : RENDER;
       var alternateHealthy = await health(alternate);
       if (!alternateHealthy) return response;
