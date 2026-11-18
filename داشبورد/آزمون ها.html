@@ -291,6 +291,93 @@ a.tr:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
   .rp{transition:none}
   .sl{transition:none}
 }
+
+/* ===== پالایش اندازه‌ها؛ حفظ کامل کارت دانش‌آموزی ===== */
+.main{gap:1.25rem;margin-top:.75rem;padding-bottom:3.5rem}
+.pn{border-radius:1.15rem;box-shadow:0 .3rem 1.1rem var(--sh)}
+.pn-h{font-size:.96rem}
+.more{height:1.7rem;padding-inline:.75rem;font-size:.7rem}
+
+/* بخش خوش‌آمدگویی و آمار؛ کارت دانش‌آموزی (.ha/.idc) عمداً دست‌نخورده است */
+.hp{gap:1.1rem;padding:1.35rem 1.65rem}
+.hp-r{gap:1.25rem}
+.greet h1{font-size:1.65rem}
+.greet p{font-size:.92rem}
+.tag{font-size:.76rem}
+.gline{margin-top:.85rem}
+.grade{gap:.8rem;padding:.8rem 1.1rem;border-radius:.95rem}
+.grade svg.i{width:2.1rem;height:2.1rem}
+.grade small{font-size:.72rem}
+.grade b{font-size:1rem}
+.stats3{gap:.7rem}
+.stat{padding:.72rem .9rem;border-radius:.95rem;column-gap:.55rem}
+.stat svg.i{width:1.15rem;height:1.15rem}
+.stat small{font-size:.72rem}
+.stat b{font-size:.98rem}
+
+/* آزمون جاری و دسترسی سریع */
+.row2,.row3{gap:1.25rem}
+.cur{min-height:21rem}
+.cur-h{padding:1.15rem 1.5rem 1rem}
+.cur-in{gap:1.5rem;padding:1.2rem 1.6rem}
+.rcol{gap:.55rem;width:10.5rem}
+.ring-w{width:7.2rem;height:7.2rem}
+.ring-w b{font-size:1.65rem}
+.rcol small{font-size:.75rem}
+.cd{gap:.45rem}
+.cd div{min-width:2.9rem;padding:.25rem}
+.cd b{font-size:1rem}
+.cd span{font-size:.62rem}
+.info{gap:1.1rem}
+.info h3{font-size:1.4rem}
+.meta{gap:.55rem 1.2rem;font-size:.76rem}
+.meta svg.i{width:1rem;height:1rem}
+.btn-o{height:2.5rem;padding-inline:1.25rem;font-size:.82rem}
+.qa{gap:.95rem;padding:1.25rem}
+.go{width:1.95rem;height:1.95rem}
+.qa-grid{gap:.7rem}
+.qt{min-height:7rem;gap:.55rem;font-size:.82rem;border-radius:.95rem}
+.qt svg.i{width:2.1rem;height:2.1rem}
+
+/* جدول آزمون‌ها و اطلاعیه‌ها */
+.tb,.an{padding:1.25rem 1.4rem}
+.box-h{margin-bottom:.9rem}
+.tbl{border-radius:.9rem}
+.tr{min-height:2.85rem;padding-inline:1rem;font-size:.78rem}
+.tr.th{min-height:2.5rem;font-size:.72rem}
+.tt{gap:.75rem}
+.th .tt{padding-inline-start:1.7rem}
+.badge{padding:.12rem .75rem;font-size:.68rem}
+.badge::before{width:.4rem;height:.4rem}
+.slides{min-height:9rem}
+.sl{gap:.8rem;padding-inline:1.2rem;border-radius:.9rem}
+.sl h4{font-size:.96rem}
+.sl time{font-size:.74rem}
+.sl-img{width:7.5rem;margin-left:-1.2rem}
+.dots{gap:.45rem;margin-top:.85rem}
+
+/* تناسب در تبلت و موبایل */
+@media(max-width:900px){
+  .hp{padding:1.25rem}
+  .cur{min-height:0}
+  .cur-in{padding:1.2rem}
+  .qa{padding:1.15rem}
+  .tb,.an{padding:1.15rem}
+}
+@media(max-width:700px){
+  .hp{gap:1rem}
+  .greet h1{font-size:1.45rem}
+  .grade{padding:.7rem .9rem}
+  .cur-in{gap:1rem}
+  .info{width:100%}
+  .info h3{font-size:1.2rem}
+  .qa-grid{gap:.6rem}
+  .qt{min-height:6rem}
+  .tr{min-height:2.7rem;padding-inline:.65rem;font-size:.72rem}
+  .tb,.an{padding:1rem}
+  .sl-img{width:6.2rem}
+}
+
 </style>
 </head>
 <body>
