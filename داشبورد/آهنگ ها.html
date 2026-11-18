@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مدار | آهنگ‌های من</title>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='light'?'light':'dark'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ---------- تم (دقیقاً از فایل رستا / فضای کار) ---------- */
+:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
+:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
+/* افزودنی‌های این صفحه (آیکن آبی، سبزِ «منتشر شده»، کارت دانش‌آموز) */
+:root{--ico:#2d55c8;--ok:#14935a;--okbg:rgba(20,147,90,.1);--idbg:linear-gradient(145deg,#ffffff,#d6ddf7)}
+:root[data-theme=dark]{--ico:#5f8bff;--ok:#4fdc98;--okbg:rgba(79,220,152,.14);--idbg:linear-gradient(145deg,#e9ecfc,#a7b3e8)}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);font-size:clamp(12px,.957vw,22px);scroll-behavior:smooth}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;
+  background:radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.only-light{display:block}.only-dark{display:none}
+:root[data-theme=dark] .only-light{display:none}:root[data-theme=dark] .only-dark{display:block}
+.ph:empty{display:grid;place-items:center;border:1.5px dashed color-mix(in srgb,var(--text) 30%,transparent);border-radius:.8rem;background:color-mix(in srgb,var(--text) 4%,transparent)}
+.ph:empty::before{content:attr(data-ph);color:var(--muted);font-size:.8rem;text-align:center;padding:0 .5rem}
+
+.page{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:1.1rem 2.2rem 0}
+
+/* ---------- هدر (از فایل رستا) ---------- */
+.top{position:relative;z-index:5;display:flex;align-items:center;height:3.6rem}
+.logo{display:flex;align-items:center;gap:.75rem}
+.logo .ph{width:3.3rem;height:3.6rem}
+.logo img{height:3.6rem;width:auto}
+.logo strong{display:block;font-size:2rem;font-weight:800;line-height:1.1}
+.logo small{display:block;font-size:.7rem;font-weight:700;line-height:1.4}
+.search{flex:0 0 35rem;margin-inline:18.2rem auto;display:flex;align-items:center;gap:.75rem;height:2.65rem;padding:0 1.1rem;background:var(--card);border:1px solid var(--cb);border-radius:999px;box-shadow:0 .25rem 1rem var(--sh);color:var(--muted);transition:box-shadow .3s,border-color .3s}
+.search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent)}
+.search svg.i{width:1.3rem;height:1.3rem;color:var(--text)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;font-size:.9rem;color:var(--text)}
+.search input::placeholder{color:var(--muted)}
+.actions{display:flex;align-items:center;gap:1.4rem}
+.ib{position:relative;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;color:var(--text);transition:background .2s,transform .3s var(--ease)}
+.ib:hover{background:var(--chip);transform:translateY(-2px)}
+.ib svg.i{width:1.4rem;height:1.4rem}
+.ib .dot{position:absolute;top:.25rem;right:.3rem;width:.55rem;height:.55rem;border-radius:50%;background:var(--gold);border:1.5px solid var(--bg2)}
+#themeBtn .sun,:root[data-theme=dark] #themeBtn .moon{display:none}
+:root[data-theme=dark] #themeBtn .sun{display:block}
+
+.profile{position:relative}
+.avatar{display:grid;place-items:center;width:2.65rem;height:2.65rem;border-radius:50%;color:var(--text);background:var(--tile);border:1.5px solid var(--line);transition:border-color .25s,transform .3s var(--ease)}
+.avatar:hover,.avatar[aria-expanded=true]{border-color:var(--gold);transform:translateY(-2px)}
+.avatar svg.i{width:1.4rem;height:1.4rem}
+.pp{position:absolute;top:calc(100% + .8rem);left:0;z-index:50;width:20rem;max-width:calc(100vw - 2rem);padding:1.1rem 1.2rem 1rem;background:var(--panel);border:1px solid var(--line);border-radius:1.1rem;box-shadow:0 1rem 2.5rem var(--sh);opacity:0;visibility:hidden;transform:translateY(-.5rem);transition:opacity .25s,transform .35s var(--ease),visibility .25s}
+.pp.open{opacity:1;visibility:visible;transform:none}
+.pp-head{display:flex;align-items:center;gap:.9rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.av-lg{display:grid;place-items:center;flex:none;width:3.6rem;height:3.6rem;border-radius:50%;background:var(--tile);border:1.5px solid var(--line)}
+.av-lg svg.i{width:1.9rem;height:1.9rem}
+.pp-head b{display:block;font-size:1rem;font-weight:700;line-height:1.5}
+.pp-head small{display:inline-block;margin-top:.15rem;padding:0 .75rem;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--chip);border-radius:999px}
+.pp-list{list-style:none;padding:.5rem 0}
+.pp-list li{display:flex;align-items:center;gap:.7rem;min-height:2.4rem;font-size:.85rem}
+.pp-list li svg.i{width:1.05rem;height:1.05rem;color:var(--muted)}
+.pp-list li span{color:var(--muted)}
+.pp-list li b{margin-inline-start:auto;max-width:11rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.pp-more{display:flex;align-items:center;justify-content:space-between;height:2.6rem;padding:0 1rem;font-size:.86rem;font-weight:700;color:var(--on);background:var(--primary);border-radius:.8rem;transition:filter .2s,transform .3s var(--ease)}
+.pp-more:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.pp-more svg.i{width:1rem;height:1rem}
+.pp-out{display:flex;align-items:center;gap:.5rem;width:100%;height:2.4rem;margin-top:.5rem;padding:0 .4rem;font-size:.82rem;color:var(--muted);transition:color .2s}
+.pp-out:hover{color:#d64545}
+.pp-out svg.i{width:1.05rem;height:1.05rem}
+
+/* منو */
+.nav{position:relative;z-index:3;display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
+.nav a{position:relative;display:flex;align-items:center;gap:.45rem;padding-bottom:.55rem;font-size:.92rem;font-weight:500;white-space:nowrap;transition:color .2s}
+.nav a:hover,.nav a.on{color:var(--gold)}
+.nav a svg.i{width:.7rem;height:.7rem;stroke-width:2}
+.nav a.on::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;border-radius:2px;background:var(--gold)}
+.dd{position:relative}
+.dd>a svg.i{transition:transform .3s var(--ease)}
+.dd:hover>a,.dd.open>a,.dd:has(:focus-visible)>a{color:var(--gold)}
+.dd:hover>a svg.i,.dd.open>a svg.i{transform:rotate(180deg)}
+.sub{position:absolute;top:calc(100% + .45rem);inset-inline-start:-.8rem;z-index:40;min-width:12.5rem;list-style:none;padding:.5rem;background:var(--panel);border:1px solid var(--line);border-radius:1rem;box-shadow:0 1rem 2.5rem var(--sh);opacity:0;visibility:hidden;transform:translateY(-.4rem);transition:opacity .25s,transform .35s var(--ease),visibility .25s}
+.sub::before{content:"";position:absolute;inset:-.6rem 0 auto;height:.6rem}
+.dd:hover .sub,.dd.open .sub,.dd:has(:focus-visible) .sub{opacity:1;visibility:visible;transform:none}
+.nav .sub a{padding:.5rem .8rem;border-radius:.6rem;font-size:.85rem}
+.nav .sub a:hover{background:var(--chip);color:var(--gold)}
+
+/* تزئینات + انتقال تم */
+.theming,.theming *{transition:background-color .5s,color .5s,border-color .5s!important}
+.deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.deco i{position:absolute;border-radius:50%}
+.deco .a{top:-15rem;left:-13rem;width:35rem;height:35rem;background:color-mix(in srgb,var(--primary) 9%,transparent)}
+.deco .b{top:30rem;right:-12rem;width:34rem;height:34rem;border:2px solid color-mix(in srgb,var(--primary) 14%,transparent)}
+/* منحنی‌های نرم گوشه‌ها (مثل اسکرین‌شات) */
+.deco svg{position:absolute;display:block}
+.deco .g{fill:none;stroke:var(--gold);stroke-width:1.4;opacity:.55}
+.deco .s{fill:color-mix(in srgb,var(--primary) 22%,transparent)}
+.dc-tr{top:0;right:0;width:42rem;height:15rem}
+.dc-bl{bottom:0;left:0;width:48rem;height:15rem}
+.dc-br{bottom:0;right:0;width:30rem;height:15rem}
+.dc-dots{left:3.2rem;bottom:7rem;width:6.2rem;height:7.6rem;background-image:radial-gradient(circle,color-mix(in srgb,var(--text) 28%,transparent) 1.5px,transparent 2px);background-size:1.55rem 1.55rem}
+
+.ph{display:block;overflow:hidden}.ph img{display:block;width:100%;height:100%;object-fit:cover}[hidden]{display:none!important}svg.f{fill:currentColor;stroke-width:2}
+:root{--soft:color-mix(in srgb,var(--text) 82%,transparent);--gold2:color-mix(in srgb,var(--gold) 70%,#fff)}
+/* باکس‌های کدر + ابعاد دقیقاً مثل طرح اصلی (px÷12 = rem) */
+:root{--box:#fff;--tint:rgba(20,40,89,.06)}
+:root[data-theme=dark]{--box:#17224e;--tint:rgba(255,255,255,.06)}
+.rise:not(.go){opacity:0}
+.rise.go{animation:rise .7s var(--ease) backwards;animation-delay:min(calc(var(--i,0)*55ms),800ms)}
+@keyframes rise{from{opacity:0;transform:translateY(1.2rem)}}
+.pg{position:relative;z-index:1;padding-bottom:2rem}
+
+/* هیرو (بدون باکس) */
+.hero{display:flex;justify-content:space-between;align-items:flex-start;height:21rem}
+.hero-tx{padding-top:3.4rem}
+.crumb{display:flex;align-items:center;gap:.67rem;font-size:1.17rem}
+.crumb svg{width:1.17rem;height:1.17rem;color:var(--muted)}
+.hero h1{margin-top:1.17rem;font-size:3.5rem;font-weight:800;line-height:1.4}
+.hero p{margin-top:1rem;font-size:1.25rem;color:var(--muted)}
+.hero-img{flex:none;width:43.3rem;height:20.8rem;margin-top:.33rem;animation:fade 1.2s .2s both,fl 7s 1.4s ease-in-out infinite}
+.hero-img img{object-fit:contain}
+@keyframes fade{from{opacity:0}}
+@keyframes fl{50%{transform:translateY(-.7rem)}}
+.pills{display:flex;flex-wrap:wrap;gap:1rem}
+.pill{display:flex;align-items:center;gap:.67rem;height:3.67rem;padding:0 1.67rem;font-size:1.17rem;font-weight:500;background:var(--box);border:1px solid var(--line);border-radius:.9rem;transition:border-color .25s,color .25s}
+.pill svg{width:1.5rem;height:1.5rem;color:var(--soft)}
+.pill:hover{border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+.pill.on,.pill.on svg{color:var(--gold)}
+.pill.on{border-color:var(--gold)}
+
+/* پخش‌کننده */
+.player{display:flex;justify-content:space-between;align-items:flex-start;height:13.92rem;margin-top:1.75rem;padding:2.67rem 2.92rem 0 2.75rem;background:var(--box);border:1px solid var(--line);border-radius:1.25rem}
+.pc-l{display:flex;align-items:flex-start;gap:2.5rem}
+.pc-art .ph{width:8.58rem;height:8.58rem;border-radius:.75rem;transition:transform .5s var(--ease)}
+.playing .pc-art .ph{transform:scale(calc(1 + var(--b,0)*.04));transition:transform .09s linear}
+.pc-info{margin-top:1rem}
+.pc-info h2{font-size:1.67rem;font-weight:700;line-height:1.6}
+.pc-info small{display:block;font-size:1.17rem;color:var(--muted)}
+.pc-mid{position:relative;flex:1;min-width:0;max-width:57.8rem}
+.ctl{display:flex;align-items:center;justify-content:center;gap:3.5rem;height:5rem;direction:ltr}
+.ctl button{display:grid;place-items:center;color:var(--text);transition:color .2s,transform .2s}
+.ctl button:hover,.ctl button.on{color:var(--gold)}
+.ctl svg.i{width:1.83rem;height:1.83rem}
+.ctl .play{width:5rem;height:5rem;border:2.5px solid var(--gold);border-radius:50%;background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.ctl .play:hover{color:var(--text);transform:scale(1.06)}
+.ctl .play svg{width:2rem;height:2rem}
+.prog{display:flex;align-items:center;gap:1.5rem;direction:ltr;margin-top:1.83rem;font-size:1.08rem;color:var(--soft)}
+.bar{position:relative;flex:1;height:.42rem;border-radius:.42rem;background:var(--line);cursor:pointer;transition:height .2s}
+.bar:hover{height:.6rem}
+.bar b{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:.42rem;background:var(--gold);transition:width 1s linear}
+.bar b::after{content:"";position:absolute;right:-.5rem;top:50%;width:1rem;height:1rem;margin-top:-.5rem;border-radius:50%;background:var(--gold)}
+.eq,.eq2{display:flex;align-items:center;gap:.18rem;direction:ltr}
+.eq{position:absolute;left:.2rem;top:1.25rem;height:3.5rem}
+.eq i,.eq2 i{width:.28rem;height:14%;min-height:.28rem;border-radius:99px;background:linear-gradient(var(--gold2),var(--gold));opacity:.4}
+
+/* بدنه */
+.main{display:grid;grid-template-columns:18.5rem 1fr;gap:3.17rem;margin-top:3rem;align-items:stretch}
+.content{display:flex;flex-direction:column}
+.lh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;border-bottom:1px solid var(--line)}
+.lh h3{display:flex;align-items:center;gap:.67rem;padding:.67rem 0 .83rem;margin-bottom:-1px;font-size:1.33rem;font-weight:700;border-bottom:2px solid var(--gold)}
+.lh h3 svg{width:1.5rem;height:1.5rem;color:var(--gold)}
+.vt{display:flex;gap:.33rem;margin-bottom:.83rem;padding:.25rem;background:var(--box);border:1px solid var(--line);border-radius:1rem}
+.vt button{display:grid;place-items:center;width:4rem;height:2.83rem;border-radius:.75rem;color:var(--soft);transition:.2s}
+.vt button.on{color:var(--text);background:color-mix(in srgb,var(--gold) 16%,transparent);box-shadow:inset 0 0 0 1.5px var(--gold)}
+.vt svg{width:1.5rem;height:1.5rem}
+.songs{display:grid;grid-template-columns:repeat(3,1fr);gap:2.08rem}
+.song{display:grid;grid-template-columns:8.92rem 1fr;grid-template-rows:7.67rem 2.83rem;gap:.67rem 1.33rem;direction:ltr;height:13.5rem;padding:1.25rem 2.5rem 1.08rem 1.58rem;background:var(--box);border:1px solid var(--line);border-radius:1rem;cursor:pointer;transition:transform .35s var(--ease),border-color .3s}
+.song:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+.song.cur{border-color:var(--gold)}
+.cw{position:relative;border-radius:.75rem;overflow:hidden}
+.cv{width:100%;height:100%;border-radius:.75rem}
+.cv img{transition:transform .5s var(--ease)}
+.song:hover .cv img{transform:scale(1.08)}
+.eq2{position:absolute;inset:0;display:none;justify-content:center;padding:1.5rem;background:rgba(7,13,32,.55)}
+.air .cur .eq2{display:flex}
+.tx{direction:rtl;text-align:right;padding-top:.17rem;min-width:0}
+.tx h4{font-size:1.42rem;font-weight:700;line-height:1.6}
+.tx small{display:block;margin-top:.17rem;font-size:1.12rem;color:var(--muted)}
+.pl{display:grid;place-items:center;width:2.83rem;height:2.83rem;color:var(--text);border:2px solid var(--gold);border-radius:50%;transition:background .2s,color .2s}
+.pl svg{width:1.08rem;height:1.08rem;margin-left:.17rem}
+.pl:hover{background:var(--gold);color:#14204f}
+.mt{display:flex;align-items:center;gap:1.33rem;direction:rtl;font-size:1.17rem;color:var(--muted)}
+.hb{display:grid;place-items:center;color:var(--soft);transition:color .2s,transform .2s}
+.hb:hover{transform:scale(1.12)}
+.hb svg{width:1.75rem;height:1.75rem}
+.hb.on{color:var(--gold)}
+.hb.on svg{fill:currentColor;animation:pop .45s var(--ease)}
+@keyframes pop{40%{transform:scale(1.4)}}
+.songs.list{grid-template-columns:1fr;gap:1rem}
+.list .song{direction:rtl;height:auto;grid-template-columns:6.33rem 1fr auto auto;grid-template-rows:auto;align-items:center;gap:1.5rem;padding:1rem 1.83rem}
+.list .cw{grid-area:1/1;height:5.33rem}
+.list .tx{grid-area:1/2}.list .mt{grid-area:1/3}.list .pl{grid-area:1/4}
+.empty{grid-column:1/-1;padding:2.5rem 0;text-align:center;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:2.08rem}
+.st{display:grid;grid-template-columns:auto 1fr;column-gap:.83rem;align-items:center;padding:.9rem 1.33rem;background:var(--box);border:1px solid var(--line);border-radius:1rem}
+.st svg{grid-row:span 2;width:1.67rem;height:1.67rem;color:var(--gold)}
+.st small{font-size:1rem;color:var(--muted);line-height:1.5}
+.st b{min-width:0;font-size:1.25rem;font-weight:800;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.banner{display:flex;align-items:center;flex:1;min-height:12.67rem;margin-top:2.08rem;padding:0 3rem;background:var(--box);border:1px solid var(--line);border-radius:1.25rem;overflow:hidden}
+.banner h3{font-size:1.75rem;font-weight:800;line-height:1.5}
+.banner p{margin-top:.5rem;font-size:1.17rem;color:var(--muted)}
+.cta{display:inline-flex;align-items:center;gap:.83rem;height:4rem;margin-inline-start:9.17rem;padding:0 2.33rem;font-size:1.25rem;font-weight:500;color:var(--gold);border:1.5px solid var(--gold);border-radius:999px;transition:background .25s,color .25s}
+.cta:hover{background:var(--gold);color:#14204f}
+.cta svg{width:1.42rem;height:1.42rem}
+.banner-img{flex:none;width:21.67rem;height:12.5rem;margin-inline-start:auto}
+.banner-img img{object-fit:contain}
+
+/* ستون کناری */
+.side{display:flex;flex-direction:column;gap:2.25rem}
+.box{overflow:hidden;background:var(--box);border:1px solid var(--line);border-radius:1.25rem}
+.box h3{display:flex;align-items:center;gap:.67rem;padding:1.58rem 1.83rem 1rem;font-size:1.33rem;font-weight:700}
+.box h3 svg{width:1.58rem;height:1.58rem;color:var(--gold)}
+.cats{list-style:none;padding-bottom:1rem}
+.cats button{position:relative;display:flex;align-items:center;gap:1rem;width:100%;height:3.67rem;padding:0 2rem 0 1.5rem;font-size:1.17rem;text-align:right;transition:background .2s}
+.cats button:hover,.cats .on{background:var(--tint)}
+.cats svg{width:1.42rem;height:1.42rem;color:var(--muted)}
+.cats .on::after{content:"";position:absolute;inset:0 0 0 auto;width:3px;border-radius:3px 0 0 3px;background:var(--gold)}
+.box.tp{flex:1;display:flex;flex-direction:column}
+.box.tp h3{padding:1.67rem 1.83rem;background:var(--tint);border-bottom:1px solid var(--line)}
+.tl{flex:1;display:flex;flex-direction:column;justify-content:space-around;list-style:none;padding:.5rem 0 .83rem}
+.tl li{display:flex;align-items:center;gap:1rem;min-height:5.75rem;padding:0 1.67rem 0 1.5rem;cursor:pointer;transition:background .2s}
+.tl li:hover{background:var(--tint)}
+.rk{display:grid;place-items:center;flex:none;width:1.75rem;height:1.75rem;border-radius:.5rem;font-size:1rem;font-weight:700;color:var(--soft);background:var(--chip)}
+.rk.g{color:var(--gold2);background:color-mix(in srgb,var(--gold) 25%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 70%,transparent)}
+.tl .ph{flex:none;width:3.83rem;height:3.83rem;border-radius:.58rem}
+.tl h5{font-size:1.17rem;font-weight:700;line-height:1.5}
+.tl small{font-size:1.04rem;color:var(--muted)}
+
+@media(max-width:1180px){
+  html{font-size:13px}.page{padding-inline:1.2rem}.top{height:auto;flex-wrap:wrap;gap:.8rem}.search{order:3;flex-basis:100%;margin:0}.actions{margin-inline-start:auto}
+  .nav{padding-inline-start:0;gap:1.8rem;flex-wrap:wrap;row-gap:.4rem}.dc-tr,.dc-bl,.dc-br{opacity:.6}
+  .main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}.songs{grid-template-columns:repeat(2,1fr)}
+  .hero{height:auto;min-height:16rem;gap:1rem}.hero-img{width:30rem;height:15rem}
+  .player{height:auto;flex-direction:column;align-items:stretch;gap:5rem;padding-bottom:2rem}.pc-mid{max-width:none}
+}
+@media(max-width:900px){html{font-size:12px}.eq{display:none}.player{gap:2rem}}
+@media(max-width:700px){
+  .hero{flex-direction:column;align-items:stretch}.hero-tx{padding-top:1.5rem}.hero h1{font-size:2.6rem}.hero-img{width:100%;height:16rem}
+  .songs,.side{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}
+  .banner{flex-direction:column;padding:2rem;gap:1.2rem;text-align:center}.cta,.banner-img{margin:0}.banner-img{width:100%}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rise:not(.go){opacity:1}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6zM14 3v5h5M9 13h7M9 17h7"/></symbol>
+<symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14c1 1.5 2.5 2 4 2s3-.5 4-2M9 9.5v.01M15 9.5v.01"/></symbol>
+<symbol id="i-frown" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 16c1-1.5 2.5-2 4-2s3 .5 4 2M9 9.5v.01M15 9.5v.01"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+<symbol id="i-cup" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 01-8 0zM8 6H4v1a4 4 0 004 4M16 6h4v1a4 4 0 01-4 4M12 14v4M8 21h8"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5 5 10a5 5 0 01-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/></symbol>
+<symbol id="i-shuf" viewBox="0 0 24 24"><path d="M3 7h4l10 10h4M3 17h4l3-3M14 10l3-3h4M18 4l3 3-3 3M18 14l3 3-3 3"/></symbol>
+<symbol id="i-rep" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 013-3h13M17 3l3 3-3 3M20 13v2a3 3 0 01-3 3H4M7 21l-3-3 3-3"/></symbol>
+<symbol id="i-prev" viewBox="0 0 24 24"><path d="M19 5v14L8 12zM5 5v14"/></symbol>
+<symbol id="i-next" viewBox="0 0 24 24"><path d="M5 5v14l11-7zM19 5v14"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-calg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+</svg>
+
+<div class="page">
+<div class="deco" aria-hidden="true">
+    <i class="a"></i><i class="b"></i>
+    <svg class="dc-tr" viewBox="0 0 420 150" preserveAspectRatio="none"><path class="s" d="M150 0C250 8 350 40 420 120V0z"/><path class="g" d="M70 70C190 12 310-6 420 36"/></svg>
+    <svg class="dc-bl" viewBox="0 0 520 150" preserveAspectRatio="none"><path class="s" d="M0 150C130 70 330 60 520 150z"/><path class="g" d="M0 120C120 50 320 20 520 62"/></svg>
+    <svg class="dc-br" viewBox="0 0 300 150" preserveAspectRatio="none"><path class="s" d="M300 30C230 55 190 100 160 150h140z"/><path class="g" d="M300 80C260 90 225 115 205 150"/></svg>
+    <span class="dc-dots" style="position:absolute"></span>
+  </div>
+
+  <header class="top">
+    <a href="./رستا _ فضای کار (1).html" class="logo" aria-label="بازگشت به داشبورد مدار">
+      <span class="ph" data-ph="لوگو"><img class="only-light" src="../عکس ها/هدر.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/هدر.png" alt="" onerror="this.remove()"></span>
+      <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
+    </a>
+    <label class="search">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input type="search" placeholder="جستجو در سامانه...">
+    </label>
+    <div class="actions">
+      <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
+      <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
+      <div class="profile" id="profile">
+        <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profilePanel" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
+        <div class="pp" id="profilePanel" aria-hidden="true">
+          <div class="pp-head">
+            <span class="av-lg"><svg class="i"><use href="#i-user"/></svg></span>
+            <div><b id="pName">کاربر</b><small id="pRole">دانش‌آموز</small></div>
+          </div>
+          <ul class="pp-list">
+            <li><svg class="i"><use href="#i-phone"/></svg><span>شماره موبایل</span><b id="pPhone" dir="auto">—</b></li>
+            <li><svg class="i"><use href="#i-mail"/></svg><span>ایمیل</span><b id="pEmail" dir="auto">—</b></li>
+            <li><svg class="i"><use href="#i-send"/></svg><span>تلگرام</span><b id="pTg" dir="auto">—</b></li>
+            <li><svg class="i"><use href="#i-calg"/></svg><span>عضویت از</span><b id="pSince" dir="auto">—</b></li>
+          </ul>
+          <a href="#" class="pp-more" id="pMore">تغییرات بیشتر<svg class="i"><use href="#i-back"/></svg></a>
+          <button class="pp-out" id="logoutBtn" type="button"><svg class="i"><use href="#i-logout"/></svg>خروج از حساب</button>
+        </div>
+      </div>
+    </div>
+  </header>
+<nav class="nav" aria-label="منوی اصلی"><a href="./رستا _ فضای کار (1).html">خانه</a><a href="#">خدمات</a><a href="#">آموزش‌ها</a><a href="#">مقالات</a><a href="#" class="on" aria-current="page">آهنگ‌ها</a><a href="#">تماس با ما</a></nav>
+<main class="pg">
+  <section class="hero rise">
+    <div class="hero-tx">
+      <nav class="crumb" aria-label="مسیر"><a href="./رستا _ فضای کار (1).html">خانه</a><svg class="i"><use href="#i-chev"/></svg><span>آهنگ‌ها</span></nav>
+      <h1>آهنگ‌های من</h1>
+      <p>مجموعه‌ای از آهنگ‌های مورد علاقه و منتخب من</p>
+    </div>
+    <span class="ph hero-img" data-ph="عکس هیرو (هدفون و نت موسیقی)"><img src="../عکس ها/هیرو-هدفون.png" alt="" onerror="this.remove()"></span>
+  </section>
+
+  <div class="pills rise">
+    <button class="pill on"><svg class="i"><use href="#i-music"/></svg>همه آهنگ‌ها</button>
+    <button class="pill" data-f="1"><svg class="i"><use href="#i-heart"/></svg>مورد علاقه‌ها</button>
+    <button class="pill"><svg class="i"><use href="#i-disc"/></svg>آلبوم‌ها</button>
+    <button class="pill"><svg class="i"><use href="#i-star"/></svg>جدیدترین‌ها</button>
+    <button class="pill"><svg class="i"><use href="#i-fire"/></svg>محبوب‌ترین‌ها</button>
+  </div>
+
+  <section class="player rise" aria-label="پخش‌کننده">
+    <div class="pc-l">
+      <div class="pc-art"><span class="ph" data-ph="کاور آهنگ"></span></div>
+      <div class="pc-info"><h2 id="pTitle"></h2><small>مدار</small></div>
+    </div>
+    <div class="pc-mid">
+      <div class="eq" aria-hidden="true"></div>
+      <div class="ctl">
+        <button id="shuf" aria-label="پخش تصادفی"><svg class="i"><use href="#i-shuf"/></svg></button>
+        <button id="prev" aria-label="قبلی"><svg class="i f"><use href="#i-prev"/></svg></button>
+        <button class="play" id="bigPlay" aria-label="پخش / توقف"><svg class="i f"><use href="#i-play"/></svg></button>
+        <button id="next" aria-label="بعدی"><svg class="i f"><use href="#i-next"/></svg></button>
+        <button id="rep" aria-label="تکرار"><svg class="i"><use href="#i-rep"/></svg></button>
+      </div>
+      <div class="prog"><span id="tCur">00:00</span><div class="bar" id="bar"><b id="fill"></b></div><span id="tTot">00:00</span></div>
+    </div>
+    </section>
+
+  <div class="main">
+    <aside class="side">
+      <section class="box rise">
+        <h3><svg class="i"><use href="#i-grid"/></svg>دسته‌بندی‌ها</h3>
+        <ul class="cats">
+          <li><button class="on"><svg class="i"><use href="#i-grid"/></svg>همه دسته‌ها</button></li>
+          <li><button><svg class="i"><use href="#i-heart"/></svg>احساسی</button></li>
+          <li><button><svg class="i"><use href="#i-smile"/></svg>شاد</button></li>
+          <li><button><svg class="i"><use href="#i-frown"/></svg>غمگین</button></li>
+          <li><button><svg class="i"><use href="#i-bolt"/></svg>انگیزشی</button></li>
+          <li><button><svg class="i"><use href="#i-dots"/></svg>دیگر موارد</button></li>
+        </ul>
+      </section>
+      <section class="box tp rise">
+        <h3><svg class="i"><use href="#i-cup"/></svg>آهنگ‌های برتر</h3>
+        <ul class="tl" id="tl"></ul>
+      </section>
+    </aside>
+
+    <div class="content">
+      <div class="lh rise">
+        <h3><svg class="i"><use href="#i-music"/></svg>لیست آهنگ‌ها</h3>
+        <div class="vt" role="group" aria-label="نوع نمایش">
+          <button class="on" data-v="grid" aria-label="نمایش شبکه‌ای"><svg class="i f"><use href="#i-grid"/></svg></button>
+          <button data-v="list" aria-label="نمایش لیستی"><svg class="i"><use href="#i-list"/></svg></button>
+        </div>
+      </div>
+      <div class="songs" id="songs"></div>
+      <div class="stats rise">
+        <div class="st"><svg class="i"><use href="#i-music"/></svg><small>آهنگ‌ها</small><b id="sN"></b></div>
+        <div class="st"><svg class="i"><use href="#i-clock"/></svg><small>مدت کل</small><b id="sT"></b></div>
+        <div class="st"><svg class="i"><use href="#i-heart"/></svg><small>مورد علاقه‌ها</small><b id="sFav">0</b></div>
+        <div class="st"><svg class="i"><use href="#i-disc"/></svg><small>در حال پخش</small><b id="sCur"></b></div>
+      </div>
+      <section class="banner rise">
+        <div><h3>موسیقی، همراه همیشگی تو...</h3><p>با آهنگ‌های من، همیشه در کنار خودت باش</p></div>
+        <a class="cta" href="#songs"><svg class="i f"><use href="#i-play"/></svg>بیشتر گوش کن</a>
+        <span class="ph banner-img" data-ph="عکس بنر (هدفون)"><img src="../عکس ها/بنر-هدفون.png" alt="" onerror="this.remove()"></span>
+      </section>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+/* ✏️ آهنگ‌ها: [نام، مدت، کاور، (اختیاری) آدرس فایل صوتی]؛ با فایل صوتی، میله‌ها از طیف واقعی صدا حرکت می‌کنند وگرنه ریتم نمایشی دارند */
+const SONGS=[['دنیای بهتر','03:45','کاور-1.jpg'],['بارون','04:20','کاور-2.jpg'],['رویای دور','03:12','کاور-3.jpg'],['لبخند تو','03:50','کاور-4.jpg'],['آرامش','05:10','کاور-5.jpg'],['شهر رویاها','03:28','کاور-6.jpg']];
+const IMG=f=>`<img src="../عکس ها/${f}" alt="" onerror="this.remove()">`;
+$('#songs').innerHTML=SONGS.map(([t,d,f],i)=>`<article class="song rise" data-i="${i}"><div class="cw"><span class="ph cv" data-ph="کاور ${i+1}">${IMG(f)}</span><div class="eq2"><i></i><i></i><i></i><i></i><i></i></div></div><div class="tx"><h4>${t}</h4><small>مدار</small></div><button class="pl" aria-label="پخش"><svg class="i f"><use href="#i-play"/></svg></button><div class="mt"><button class="hb" aria-label="پسندیدن"><svg class="i"><use href="#i-heart"/></svg></button><span>${d}</span></div></article>`).join('')+'<p class="empty" hidden>هنوز آهنگی را نپسندیده‌ای؛ با زدن قلب، اینجا جمع می‌شوند.</p>';
+$('#tl').innerHTML=[0,2,4].map((k,n)=>`<li data-i="${k}"><span class="rk${n%2?'':' g'}">${n+1}</span><span class="ph" data-ph="کاور">${IMG(SONGS[k][2])}</span><div><h5>${SONGS[k][0]}</h5><small>مدار</small></div></li>`).join('');
+
+/* ورود تدریجی هنگام دیده‌شدن */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');io.unobserve(e.target)}}),{threshold:.08});
+$$('.rise').forEach((e,i)=>{e.style.setProperty('--i',i);io.observe(e)});
+const replay=e=>{e.style.animation='none';e.offsetWidth;e.style.animation=''};
+
+/* فیلتر و نما */
+const S=$$('.song');let fav=0;
+const flt=()=>{S.forEach(s=>s.hidden=!!fav&&!$('.hb.on',s));$('.empty').hidden=!(fav&&S.every(s=>s.hidden))};
+$$('.pill').forEach(b=>b.onclick=()=>{$$('.pill').forEach(x=>x.classList.toggle('on',x===b));fav=b.dataset.f?1:0;flt();S.forEach(replay)});
+$$('.cats button').forEach(b=>b.onclick=()=>$$('.cats button').forEach(x=>x.classList.toggle('on',x===b)));
+$$('.vt button').forEach(b=>b.onclick=()=>{$$('.vt button').forEach(x=>x.classList.toggle('on',x===b));$('#songs').classList.toggle('list',b.dataset.v==='list');S.forEach(replay)});
+
+/* پخش‌کننده (نمایشی؛ بعداً به فایل صوتی وصل کن) */
+const pl=$('.player'),fill=$('#fill');let cur=0,t=0,dur=225,timer,shuf=0,rep=0,tk=0,real=0;
+const AU=new Audio();let ctx,an,fq,wired=0;
+const wire=()=>{if(wired)return;wired=1;try{ctx=new(window.AudioContext||webkitAudioContext)();an=ctx.createAnalyser();an.fftSize=128;an.smoothingTimeConstant=.8;ctx.createMediaElementSource(AU).connect(an);an.connect(ctx.destination);fq=new Uint8Array(an.frequencyBinCount)}catch(e){an=0}};
+AU.onended=()=>rep?(AU.currentTime=0,AU.play()):next();
+const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const upd=()=>{fill.style.width=t/dur*100+'%';$('#tCur').textContent=fmt(t)};
+const next=()=>load(shuf?Math.random()*S.length|0:(cur+1)%S.length,1);
+const set=on=>{pl.classList.toggle('playing',on);document.body.classList.toggle('air',on);$('#bigPlay use').setAttribute('href',on?'#i-pause':'#i-play');$$('.pl use').forEach((u,k)=>u.setAttribute('href',on&&k===cur?'#i-pause':'#i-play'));clearInterval(timer);tk=performance.now();if(real){on?(wire(),ctx&&ctx.resume(),AU.play().catch(()=>{})):AU.pause()}if(on)timer=setInterval(()=>{tk=performance.now();if(real){t=AU.currentTime|0;AU.duration&&(dur=AU.duration|0)}else if(++t>=dur){rep?t=0:next()}upd()},1000)};
+function load(i,play){cur=i;const[m,x]=SONGS[i][1].split(':').map(Number);dur=m*60+x;t=0;real=!!SONGS[i][3];if(real)AU.src=SONGS[i][3];else{AU.pause();AU.removeAttribute('src')}S.forEach((e,k)=>e.classList.toggle('cur',k===i));$('#pTitle').textContent=SONGS[i][0];$('#tTot').textContent=SONGS[i][1];$('.pc-art .ph').innerHTML=IMG(SONGS[i][2]);upd();set(play);stt()}
+$('#bigPlay').onclick=()=>set(!pl.classList.contains('playing'));
+$('#next').onclick=next;
+$('#prev').onclick=()=>load((cur-1+S.length)%S.length,pl.classList.contains('playing'));
+$('#shuf').onclick=e=>{shuf=!shuf;e.currentTarget.classList.toggle('on',shuf)};
+$('#rep').onclick=e=>{rep=!rep;e.currentTarget.classList.toggle('on',rep)};
+$('#bar').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();t=Math.round((e.clientX-r.left)/r.width*dur);if(real)AU.currentTime=t;upd()};
+$('#songs').onclick=e=>{const s=e.target.closest('.song');if(!s)return;
+  if(e.target.closest('.hb')){e.target.closest('.hb').classList.toggle('on');flt();stt();return}
+  const i=+s.dataset.i;i===cur?set(!pl.classList.contains('playing')):load(i,1)};
+$$('#tl li').forEach(l=>l.onclick=()=>load(+l.dataset.i,1));
+/* ===== میله‌ها با ریتم و تن آهنگ ===== */
+const BPM=[96,84,72,108,64,100],RM=matchMedia('(prefers-reduced-motion:reduce)').matches,N=14;
+const EB=Array.from({length:N},()=>document.createElement('i'));$('.eq').append(...EB);
+let v=Array(N).fill(0),ks=0,kk=0,clean=0;
+function levels(T){
+  if(real&&an&&!AU.paused){an.getByteFrequencyData(fq);if(fq.some(x=>x)){kk=(fq[1]+fq[2]+fq[3])/765;return v.map((_,j)=>{const a=1+(Math.pow(j/(N-1),1.7)*fq.length*.75)|0;return Math.min(1,Math.pow((fq[a]+fq[a+1])/510,1.35)*1.25)})}}
+  const b=60/BPM[cur],ph=T/b%1,k=Math.exp(-ph*5.5),sn=(T/b%2)>=1?Math.exp(-ph*8):0;kk=k;
+  return v.map((_,j)=>{const f=j/(N-1),m=.5+.5*Math.sin(T*(1.1+j*.43)+j*1.9+cur);return Math.min(1,.1+k*Math.pow(1-f,1.4)*.95+sn*f*.7+m*.32*Math.sin(Math.PI*f*.9+.3)+.05*Math.pow(Math.sin(T*11+j*2.3),2))})
+}
+function frame(){
+  const on=pl.classList.contains('playing');let mx=0;
+  const L=on?(RM?v.map(()=>.3):levels(real&&!AU.paused?AU.currentTime:t+(performance.now()-tk)/1000)):0;
+  v=v.map((x,j)=>{const g=on?L[j]:0,y=x+(g-x)*(g>x?.55:.13);mx=Math.max(mx,y);return y});
+  const tg=on?kk:0;ks+=(tg-ks)*(tg>ks?.6:.12);
+  if(!on&&mx<.004){if(clean)return requestAnimationFrame(frame);clean=1}else clean=0;
+  EB.forEach((b,j)=>{b.style.height=(14+86*v[j])+'%';b.style.opacity=.4+.6*v[j]});
+  pl.style.setProperty('--b',ks.toFixed(3));
+  if(on){const c=$$('.eq2 i',S[cur]);[1,4,7,10,12].forEach((k,n)=>{if(c[n]){c[n].style.height=(12+88*v[k])+'%';c[n].style.opacity=.5+.5*v[k]}})}
+  requestAnimationFrame(frame)
+}
+requestAnimationFrame(frame);
+const stt=()=>{$('#sFav').textContent=$$('.hb.on').length;$('#sCur').textContent=SONGS[cur][0]};
+$('#sN').textContent=SONGS.length;
+$('#sT').textContent=fmt(SONGS.reduce((a,[,d])=>{const[m,s]=d.split(':').map(Number);return a+m*60+s},0));
+load(0,0);
+</script>
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+<script>(()=>{const $=id=>document.getElementById(id);const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+/* تم (همان منطق فایل رستا) */
+const root=document.documentElement;let timer;
+$('themeBtn').onclick=()=>{
+  const next=root.dataset.theme==='dark'?'light':'dark';
+  root.classList.add('theming');root.dataset.theme=next;
+  clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('theming'),700);
+  try{localStorage.setItem('theme',next)}catch(e){}
+};
+addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
+
+/* پنل پروفایل */
+const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
+const setPanel=open=>{
+  pPanel.classList.toggle('open',open);
+  pBtn.setAttribute('aria-expanded',open);
+  pPanel.setAttribute('aria-hidden',!open);
+};
+pBtn.onclick=e=>{e.stopPropagation();setPanel(!pPanel.classList.contains('open'))};
+document.addEventListener('click',e=>{if(!$('profile').contains(e.target))setPanel(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setPanel(false)});
+$('logoutBtn').onclick=()=>{
+  if(typeof Auth!=='undefined')Auth.logout();
+  else location.href='../لاگین و ثبت نام/لاگین.html';
+};
+
+/* اطلاعات کاربر از بک‌اند */
+const REQUIRE_LOGIN=true;
+const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'};
+(async()=>{
+  let user=null;
+  try{user=REQUIRE_LOGIN?await Auth.requireAuth():await Auth.me()}catch(e){}
+  if(!user)return;
+  $('pName').textContent=user.name;
+  $('pRole').textContent=ROLE_FA[user.role]||'کاربر';
+  $('pPhone').textContent=user.phone?fa(user.phone):'—';
+  $('pEmail').textContent=user.email||'—';
+  $('pTg').textContent=user.telegramUsername?'@'+user.telegramUsername:'—';
+  $('pSince').textContent=user.createdAt
+    ?new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(new Date(user.createdAt))
+    :'—';
+  /* اسم دانش‌آموز در سلام و روی کارت */
+  document.querySelectorAll('[data-user-name]').forEach(el=>el.textContent=user.name);
+})();
+
+/* منوی کشویی (موبایل با کلیک) */
+(()=>{
+  const dds=[...document.querySelectorAll('.dd')];
+  const closeAll=ex=>dds.forEach(d=>d!==ex&&d.classList.remove('open'));
+  dds.forEach(d=>d.firstElementChild.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeAll(d);d.classList.toggle('open')}));
+  document.addEventListener('click',()=>closeAll());
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+})();
+
+})();</script>
+</body>
+</html>
