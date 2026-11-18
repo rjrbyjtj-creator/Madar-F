@@ -15,9 +15,9 @@ const API = Object.freeze({
   login: `${API_BASE_URL}/auth/login`,
 
   // Password recovery
-  forgotPassword: `${API_BASE_URL}/auth/forgot-password/send-code`,
-  resetPassword: `${API_BASE_URL}/auth/forgot-password/reset`,
-  forgotPasswordVerify: `${API_BASE_URL}/auth/forgot-password/verify-code`,
+  forgotPassword: `${AUTH_API_BASE_URL}/auth/forgot-password/send-code`,
+  resetPassword: `${AUTH_API_BASE_URL}/auth/forgot-password/reset`,
+  forgotPasswordVerify: `${AUTH_API_BASE_URL}/auth/forgot-password/verify-code`,
 
   // User
   profile: `${API_BASE_URL}/users/me`,
