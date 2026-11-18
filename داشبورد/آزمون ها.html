@@ -62,7 +62,9 @@ svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;strok
 #themeBtn .sun,:root[data-theme=dark] #themeBtn .moon{display:none}
 :root[data-theme=dark] #themeBtn .sun{display:block}
 
-.profile{position:relative}
+.back-link{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-width:6.2rem;height:2.35rem;padding:0 .85rem;border:1px solid var(--line);border-radius:.8rem;background:var(--chip);color:var(--text);font-size:.82rem;font-weight:700;transition:background .2s,border-color .2s,transform .25s var(--ease)}
+.back-link:hover{background:var(--tile);border-color:var(--gold);transform:translateY(-1px)}
+.back-link svg.i{width:1.1rem;height:1.1rem;transform:rotate(180deg)}
 .avatar{display:grid;place-items:center;width:2.65rem;height:2.65rem;border-radius:50%;color:var(--text);background:var(--tile);border:1.5px solid var(--line);transition:border-color .25s,transform .3s var(--ease)}
 .avatar:hover,.avatar[aria-expanded=true]{border-color:var(--gold);transform:translateY(-2px)}
 .avatar svg.i{width:1.4rem;height:1.4rem}
@@ -432,23 +434,9 @@ a.tr:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
     <div class="actions">
       <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
       <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
-      <div class="profile" id="profile">
-        <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profilePanel" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
-        <div class="pp" id="profilePanel" aria-hidden="true">
-          <div class="pp-head">
-            <span class="av-lg"><svg class="i"><use href="#i-user"/></svg></span>
-            <div><b id="pName">کاربر</b><small id="pRole">دانش‌آموز</small></div>
-          </div>
-          <ul class="pp-list">
-            <li><svg class="i"><use href="#i-phone"/></svg><span>شماره موبایل</span><b id="pPhone" dir="auto">—</b></li>
-            <li><svg class="i"><use href="#i-mail"/></svg><span>ایمیل</span><b id="pEmail" dir="auto">—</b></li>
-            <li><svg class="i"><use href="#i-send"/></svg><span>تلگرام</span><b id="pTg" dir="auto">—</b></li>
-            <li><svg class="i"><use href="#i-calg"/></svg><span>عضویت از</span><b id="pSince" dir="auto">—</b></li>
-          </ul>
-          <a href="#" class="pp-more" id="pMore">تغییرات بیشتر<svg class="i"><use href="#i-back"/></svg></a>
-          <button class="pp-out" id="logoutBtn" type="button"><svg class="i"><use href="#i-logout"/></svg>خروج از حساب</button>
-        </div>
-      </div>
+      <a class="back-link" href="./رستا _ فضای کار (1).html" aria-label="بازگشت به داشبورد">
+        <svg class="i"><use href="#i-back"/></svg><span>بازگشت</span>
+      </a>
     </div>
   </header>
 
@@ -488,9 +476,9 @@ a.tr:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
       <div class="hp-r">
         <div class="tag">موفقیت شما، هدف ماست...<i class="gline"></i></div>
         <div class="stats3">
-          <div class="stat"><svg class="i"><use href="#i-calg"/></svg><small>آخرین آزمون</small><b>۲۵ آبان ۱۴۰۴</b></div>
-          <div class="stat"><svg class="i"><use href="#i-trophy"/></svg><small>تعداد آزمون‌ها</small><b>۸</b></div>
-          <div class="stat"><svg class="i"><use href="#i-bars"/></svg><small>رتبه شما</small><b>۱۲۵</b></div>
+          <div class="stat"><svg class="i"><use href="#i-calg"/></svg><small>آخرین آزمون</small><b id="lastExamStat">—</b></div>
+          <div class="stat"><svg class="i"><use href="#i-trophy"/></svg><small>تعداد آزمون‌ها</small><b id="examCountStat">۰</b></div>
+          <div class="stat"><svg class="i"><use href="#i-bars"/></svg><small>آزمون‌های پیش‌رو</small><b id="upcomingCountStat">۰</b></div>
         </div>
       </div>
     </div>
@@ -543,11 +531,11 @@ a.tr:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
         </div>
         <i class="vr"></i>
         <div class="info">
-          <h3>آزمون جامع ریاضی و فیزیک</h3>
-          <div class="meta">
+          <h3 id="currentExamTitle">در حال دریافت اطلاعات آزمون...</h3>
+          <div class="meta" id="currentExamMeta">
             <span><svg class="i"><use href="#i-calg"/></svg>تاریخ: ۲۹ آبان ۱۴۰۴</span>
             <span><svg class="i"><use href="#i-clock"/></svg>مدت: ۹۰ دقیقه</span>
-            <span><svg class="i" style="fill:currentColor;stroke:none"><use href="#i-bars"/></svg>تعداد سوال: ۱۴۰</span>
+            <span><svg class="i" style="fill:currentColor;stroke:none"><use href="#i-bars"/></svg>تعداد سوال: —</span>
           </div>
           <a href="#" class="btn-o">مشاهده آزمون<svg class="i"><use href="#i-back"/></svg></a>
         </div>
@@ -578,9 +566,7 @@ a.tr:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
       </div>
       <div class="tbl">
         <div class="tr th"><span class="tt">عنوان آزمون</span><span>تاریخ انتشار</span><span>تعداد سوالات</span><span>وضعیت</span></div>
-        <a href="#" class="tr"><span class="tt"><svg class="i"><use href="#i-chevr"/></svg>آزمون جامع ریاضی و فیزیک</span><span>۱۴۰۴/۰۸/۲۰</span><span>۹۰ سوال</span><span><i class="badge">منتشر شده</i></span></a>
-        <a href="#" class="tr"><span class="tt"><svg class="i"><use href="#i-chevr"/></svg>آزمون شبیه‌ساز کنکور</span><span>۱۴۰۴/۰۸/۱۸</span><span>۹۰ سوال</span><span><i class="badge">منتشر شده</i></span></a>
-        <a href="#" class="tr"><span class="tt"><svg class="i"><use href="#i-chevr"/></svg>آزمون آزمایشی دهم</span><span>۱۴۰۴/۰۸/۱۵</span><span>۶۰ سوال</span><span><i class="badge">منتشر شده</i></span></a>
+        <div id="publishedExamRows"><div class="tr"><span class="tt">در حال دریافت آزمون‌ها...</span><span>—</span><span>—</span><span>—</span></div></div>
       </div>
     </article>
 
@@ -631,38 +617,12 @@ $('themeBtn').onclick=()=>{
 };
 addEventListener('storage',e=>{if(e.key==='theme')root.dataset.theme=e.newValue==='dark'?'dark':'light'});
 
-/* پنل پروفایل */
-const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
-const setPanel=open=>{
-  pPanel.classList.toggle('open',open);
-  pBtn.setAttribute('aria-expanded',open);
-  pPanel.setAttribute('aria-hidden',!open);
-};
-pBtn.onclick=e=>{e.stopPropagation();setPanel(!pPanel.classList.contains('open'))};
-document.addEventListener('click',e=>{if(!$('profile').contains(e.target))setPanel(false)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')setPanel(false)});
-$('logoutBtn').onclick=()=>{
-  if(typeof Auth!=='undefined')Auth.logout();
-  else location.href='../لاگین و ثبت نام/لاگین.html';
-};
-
-/* اطلاعات کاربر از بک‌اند */
-const REQUIRE_LOGIN=true;
-const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'};
+/* احراز هویت و نام دانش‌آموز */
 (async()=>{
   let user=null;
-  try{user=REQUIRE_LOGIN?await Auth.requireAuth():await Auth.me()}catch(e){}
-  if(!user)return;
-  $('pName').textContent=user.name;
-  $('pRole').textContent=ROLE_FA[user.role]||'کاربر';
-  $('pPhone').textContent=user.phone?fa(user.phone):'—';
-  $('pEmail').textContent=user.email||'—';
-  $('pTg').textContent=user.telegramUsername?'@'+user.telegramUsername:'—';
-  $('pSince').textContent=user.createdAt
-    ?new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(new Date(user.createdAt))
-    :'—';
-  /* اسم دانش‌آموز در سلام و روی کارت */
-  document.querySelectorAll('[data-user-name]').forEach(el=>el.textContent=user.name);
+  try{user=await Auth.requireAuth()}catch(e){}
+  if(user)document.querySelectorAll('[data-user-name]').forEach(el=>el.textContent=user.name||'دانش‌آموز');
+  loadExams();
 })();
 
 /* منوی کشویی (موبایل با کلیک) */
@@ -674,18 +634,69 @@ const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 })();
 
-/* ===== آزمون جاری (نمونه: ۲ ساعت و ۱۵ دقیقه و ۲۷ ثانیه مانده؛ END و PERCENT را از بک‌اند بگیر) ===== */
-const PERCENT=75;
-const END=Date.now()+(2*3600+15*60+27)*1000;
-const pad=n=>fa(String(n).padStart(2,'0'));
-const tick=()=>{
-  const s=Math.max(0,Math.round((END-Date.now())/1000));
-  $('cdH').textContent=pad(Math.floor(s/3600));
-  $('cdM').textContent=pad(Math.floor(s%3600/60));
-  $('cdS').textContent=pad(s%60);
+/* ===== اطلاعات آزمون‌ها از بک‌اند ===== */
+const formatExamDate=value=>value?new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(new Date(value)):'—';
+const loadExams=async()=>{
+  const rows=$('publishedExamRows');
+  try{
+    const response=await fetch(API.exams,{headers:Auth.headers(),cache:'no-store'});
+    if(response.status===401){Auth.logout();return}
+    if(!response.ok)throw new Error('EXAMS_LOAD_FAILED');
+    const data=await response.json();
+    const exams=Array.isArray(data.exams)?data.exams:[];
+    $('examCountStat').textContent=fa(data.summary?.publishedCount??exams.length);
+    $('upcomingCountStat').textContent=fa(data.summary?.upcomingCount??0);
+    $('lastExamStat').textContent=data.summary?.latestExamAt?formatExamDate(data.summary.latestExamAt):'—';
+    rows.replaceChildren();
+    if(!exams.length){
+      const row=document.createElement('div');row.className='tr';
+      const title=document.createElement('span');title.className='tt';title.textContent='هنوز آزمونی منتشر نشده است';
+      row.append(title);rows.append(row);
+    }else{
+      exams.forEach(exam=>{
+        const row=document.createElement('div');row.className='tr';
+        const title=document.createElement('span');title.className='tt';
+        const arrow=document.createElementNS('http://www.w3.org/2000/svg','svg');arrow.setAttribute('class','i');
+        const use=document.createElementNS('http://www.w3.org/2000/svg','use');use.setAttribute('href','#i-chevr');arrow.append(use);
+        title.append(arrow,document.createTextNode(exam.title||'آزمون'));
+        const date=document.createElement('span');date.textContent=formatExamDate(exam.publishedAt||exam.scheduledAt);
+        const count=document.createElement('span');count.textContent=fa(exam.questionCount||0)+' سوال';
+        const status=document.createElement('span');const badge=document.createElement('i');badge.className='badge';badge.textContent='منتشر شده';status.append(badge);
+        row.append(title,date,count,status);rows.append(row);
+      });
+    }
+    const current=data.currentExam;
+    if(current){
+      $('currentExamTitle').textContent=current.title||'آزمون پیش‌رو';
+      $('currentExamDate').textContent='تاریخ: '+formatExamDate(current.scheduledAt);
+      $('currentExamDuration').textContent='مدت: '+fa(current.durationMinutes)+' دقیقه';
+      $('currentExamMeta').querySelectorAll('span')[2].lastChild.textContent='تعداد سوال: '+fa(current.questionCount);
+      const end=new Date(current.scheduledAt).getTime();
+      const tick=()=>{
+        const seconds=Math.max(0,Math.floor((end-Date.now())/1000));
+        $('cdH').textContent=fa(String(Math.floor(seconds/3600)).padStart(2,'0'));
+        $('cdM').textContent=fa(String(Math.floor(seconds%3600/60)).padStart(2,'0'));
+        $('cdS').textContent=fa(String(seconds%60).padStart(2,'0'));
+      };
+      tick();setInterval(tick,1000);
+      $('ringP').style.strokeDasharray='0 100';
+    }else{
+      $('currentExamTitle').textContent='آزمون پیش‌رویی ثبت نشده است';
+      $('currentExamDate').textContent='تاریخ: —';
+      $('currentExamDuration').textContent='مدت: —';
+      $('currentExamMeta').querySelectorAll('span')[2].lastChild.textContent='تعداد سوال: —';
+      $('cdH').textContent='۰۰';$('cdM').textContent='۰۰';$('cdS').textContent='۰۰';
+      $('ringP').style.strokeDasharray='0 100';
+    }
+  }catch(error){
+    rows.replaceChildren();
+    const row=document.createElement('div');row.className='tr';
+    const title=document.createElement('span');title.className='tt';title.textContent='دریافت اطلاعات آزمون‌ها ناموفق بود؛ صفحه را دوباره بارگذاری کن.';
+    row.append(title);rows.append(row);
+    $('currentExamTitle').textContent='اطلاعات آزمون در دسترس نیست';
+    console.error('[EXAMS]',error);
+  }
 };
-tick();setInterval(tick,1000);
-requestAnimationFrame(()=>requestAnimationFrame(()=>{$('ringP').style.strokeDasharray=PERCENT+' 100'}));
 
 /* ===== اسلایدر اطلاعیه‌ها ===== */
 (()=>{
