@@ -193,10 +193,20 @@
   }
 
 
-  #historyDialog::backdrop{background:rgba(8,16,38,.48);backdrop-filter:blur(3px)}
-  #historyDialog input,#historyDialog select,#historyDialog textarea{font-family:var(--font)}
-  #historyDialog .lnk{cursor:pointer}
-  #historyDialog button[type=submit]{cursor:pointer}
+
+  .inline-history-editor{margin-top:12px;padding:14px;border:1px solid var(--gold-soft);border-radius:12px;background:var(--card)}
+  .inline-editor-head,.inline-editor-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .inline-editor-head{margin-bottom:10px;color:var(--navy);font-size:13px}
+  .inline-editor-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}
+  .inline-field{display:grid;gap:5px;min-width:0;color:var(--muted);font-size:11px}
+  .inline-field input,.inline-field select,.inline-field textarea{width:100%;min-width:0;min-height:36px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--navy);font:inherit;font-size:12px;outline:none}
+  .inline-field textarea{min-height:54px;resize:vertical}
+  .inline-field input:focus,.inline-field select:focus,.inline-field textarea:focus{border-color:var(--gold)}
+  .inline-editor-actions{justify-content:flex-start;margin-top:10px}
+  .inline-save,.inline-cancel{min-height:32px;padding:0 13px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--navy);font:inherit;font-size:11px;cursor:pointer}
+  .inline-save{border-color:var(--navy);background:var(--navy);color:#fff}
+  [data-add][hidden]{display:none!important}
+  @media(max-width:520px){.inline-editor-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.inline-field:has(textarea){grid-column:1/-1}}
 
 </style>
 <script defer src="../js/theme.js?v=planning-theme-sync-20261116"></script>
@@ -241,21 +251,11 @@
 <script src="../js/auth.js"></script>
 <script src="../js/madar-connect.js?v=academic-history-api-20261118"></script>
 <div id="historyStatus" role="status" aria-live="polite" style="max-width:1040px;margin:0 auto 12px;padding:0 16px;color:var(--muted);font-size:12px"></div>
-<dialog id="historyDialog" style="width:min(460px,calc(100% - 28px));border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--card);color:var(--navy);box-shadow:0 20px 60px #101b3833">
-  <form id="historyForm">
-    <h3 id="historyDialogTitle" style="margin:0 0 16px;font-size:17px"></h3>
-    <div id="historyFields" style="display:grid;gap:12px"></div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px">
-      <button type="button" id="historyCancel" class="lnk">انصراف</button>
-      <button type="submit" class="lnk" style="background:var(--navy);color:white;border-color:var(--navy)">ذخیره سابقه</button>
-    </div>
-  </form>
-</dialog>
 <script>
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
-  const app = $('app'), dialog = $('historyDialog'), form = $('historyForm');
+  const app = $('app');
   const status = $('historyStatus');
   const fa = v => String(v ?? '').replace(/\\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -353,20 +353,30 @@
     solved:{title:'ثبت تعداد سوالات حل‌شده',fields:[['label','عنوان دسته','text',true],['count','تعداد','number',true,0,10000000]]},
     exams:{title:'افزودن آزمون آینده',fields:[['title','عنوان آزمون','text',true],['date','تاریخ آزمون','date',true],['provider','برگزارکننده','select',true,[['maz','ماز'],['ghalamchi','قلمچی'],['school','مدرسه'],['other','سایر']]]]}
   };
-  function openAdd(type){
-    activeType=type;const def=definitions[type];$('historyDialogTitle').textContent=def.title;
-    $('historyFields').innerHTML=def.fields.map(([name,label,kind,required,opts,min,max])=>{
+  function openAdd(type,trigger){
+    activeType=type;
+    const def=definitions[type];
+    const parent=trigger.closest('.card')||trigger.parentElement;
+    const previous=parent.querySelector('.inline-history-editor');
+    if(previous){previous.remove();trigger.hidden=false;}
+    trigger.hidden=true;
+    const editor=document.createElement('form');
+    editor.id='historyForm';
+    editor.className='inline-history-editor';
+    editor.innerHTML='<div class="inline-editor-head"><strong>'+esc(def.title)+'</strong><button type="button" class="inline-cancel" data-cancel-editor>بستن</button></div><div class="inline-editor-fields">'+def.fields.map(([name,label,kind,required,opts,min,max])=>{
       let input='';
       if(kind==='select')input='<select name="'+name+'" '+(required?'required':'')+'>'+opts.map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('')+'</select>';
-      else if(kind==='textarea')input='<textarea name="'+name+'" rows="4" maxlength="1500" '+(required?'required':'')+'></textarea>';
+      else if(kind==='textarea')input='<textarea name="'+name+'" rows="2" maxlength="1500" '+(required?'required':'')+'></textarea>';
       else input='<input name="'+name+'" type="'+kind+'" '+(min!==undefined?'min="'+min+'"':'')+' '+(max!==undefined?'max="'+max+'"':'')+' '+(kind==='number'?'step="any"':'')+' '+(required?'required':'')+' '+(name==='date'?'value="'+todayISO()+'"':'')+'>';
-      return '<label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">'+label+input+'</label>';
-    }).join('');
-    $('historyFields').querySelectorAll('input,select,textarea').forEach(el=>{el.style.cssText='width:100%;min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--navy);font:inherit';});
-    dialog.showModal();
+      return '<label class="inline-field">'+label+input+'</label>';
+    }).join('')+'</div><div class="inline-editor-actions"><button type="submit" class="inline-save">ذخیره سابقه</button><button type="button" class="inline-cancel" data-cancel-editor>انصراف</button></div>';
+    parent.appendChild(editor);
+    editor.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'&&el.tagName!=='TEXTAREA'){e.preventDefault();}}));
+    editor.querySelector('input,select,textarea')?.focus();
   }
   app.addEventListener('click',async e=>{
-    const add=e.target.closest('[data-add]');if(add){openAdd(add.dataset.add);return;}
+    const add=e.target.closest('[data-add]');if(add){openAdd(add.dataset.add,add);return;}
+    const cancel=e.target.closest('[data-cancel-editor]');if(cancel){const editor=cancel.closest('.inline-history-editor');if(editor){const trigger=editor.parentElement.querySelector('[data-add]');editor.remove();if(trigger)trigger.hidden=false;}return;}
     const del=e.target.closest('[data-del]');if(del){
       const type=del.dataset.del,id=del.dataset.id;
       if(!confirm('این سابقه حذف شود؟'))return;
@@ -380,16 +390,17 @@
       try{await persist();render();}catch(err){setStatus(err.message,true);await load();}
     }
   });
-  $('historyCancel').addEventListener('click',()=>dialog.close());
-  form.addEventListener('submit',async e=>{
+  app.addEventListener('submit',async e=>{
+    const target=e.target;
+    if(!target.matches('#historyForm'))return;
     e.preventDefault();if(saving)return;
-    const data=Object.fromEntries(new FormData(form).entries()),type=activeType;
+    const data=Object.fromEntries(new FormData(target).entries()),type=activeType;
     const item={id:crypto.randomUUID()};
     for(const [k,v] of Object.entries(data))item[k]=['score','totalScore','regionScore','mastery','count'].includes(k)?(v===''?null:Number(v)):v;
-    if(type==='grades'&&!item.date) item.date='';
+    if(type==='grades'&&!item.date)item.date='';
     if(type==='notes'&&!item.subject)item.subject='عمومی';
     history[type].push(item);
-    try{await persist();dialog.close();render();}catch(err){history[type].pop();setStatus(err.message,true);}
+    try{await persist();render();}catch(err){history[type].pop();setStatus(err.message,true);}
   });
   async function load(){
     try{
