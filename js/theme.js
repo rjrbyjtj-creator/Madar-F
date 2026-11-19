@@ -1,4 +1,4 @@
-/* MADAR GLOBAL THEME — one persistent mode across all pages */
+/* MADAR GLOBAL THEME — site-wide palette pack + per-visitor light/dark mode */
 (function () {
   "use strict";
   var API = "https://madar-jmy5.onrender.com/api/themes/active";
@@ -18,6 +18,12 @@
     green: ["--green", "--ok", "--status-green"]
   };
   var DARK = { bg: "#0f172a", surface: "#172238", line: "#2a3850", text: "#e7edf6", muted: "#9aa7bc" };
+  var GRAY_DARK = {
+    bg: "#202423", surface: "#292F2D", line: "#3A4340",
+    text: "#E8ECE9", muted: "#A0AAA5", navy: "#82928B",
+    gold: "#91B5AA", green: "#91B5AA"
+  };
+
   function readMode() {
     try {
       for (var i = 0; i < KEYS.length; i++) {
@@ -30,6 +36,7 @@
   function saveMode(mode) {
     try { KEYS.forEach(function (key) { localStorage.setItem(key, mode); }); } catch (e) {}
   }
+  function setVar(name, value) { if (value) root.style.setProperty(name, value); }
   function paintMode(mode) {
     var dark = mode === "dark";
     root.dataset.theme = mode;
@@ -39,28 +46,50 @@
       document.body.classList.toggle("dark-mode", dark);
     }
     root.style.colorScheme = dark ? "dark" : "light";
-    window.dispatchEvent(new CustomEvent("madar:mode-changed", { detail: { mode: mode } }));
   }
-  function setVar(name, value) { if (value) root.style.setProperty(name, value); }
+  function applyColors(theme, mode) {
+    if (!theme || !theme.colors) return;
+    var colors = theme.colors;
+    var dark = mode === "dark";
+    var isGray = theme.slug === "gray";
+    var palette = Object.assign({}, colors);
+    if (dark && isGray) palette = Object.assign(palette, GRAY_DARK);
+    else if (dark) palette = Object.assign(palette, DARK);
+    Object.keys(MAP).forEach(function (key) {
+      var value = palette[key];
+      MAP[key].forEach(function (name) { setVar(name, value); });
+    });
+    setVar("--bg2", dark ? palette.bg : (isGray ? "#F0F1F0" : "#FBFBFC"));
+    setVar("--on-primary", "#ffffff");
+    setVar("--on", "#ffffff");
+    setVar("--navy-hover", palette.navy);
+    var font = FONT_MAP[theme.font] || FONT_MAP.vazir;
+    setVar("--font-main", font);
+    root.style.fontFamily = font;
+    if (document.body) document.body.style.fontFamily = font;
+    root.classList.toggle("gray-theme", isGray);
+    if (document.body) document.body.classList.toggle("gray-theme", isGray);
+  }
   function apply(theme) {
     if (!theme || !theme.colors) return;
     var mode = readMode();
     currentTheme = Object.assign({}, theme, { mode: mode });
-    var colors = currentTheme.colors, dark = mode === "dark";
-    Object.keys(MAP).forEach(function (key) {
-      var value = dark && Object.prototype.hasOwnProperty.call(DARK, key) ? DARK[key] : colors[key];
-      MAP[key].forEach(function (name) { setVar(name, value); });
-    });
-    setVar("--on-primary", "#ffffff");
-    setVar("--on", "#ffffff");
-    setVar("--navy-hover", colors.navy);
-    var font = FONT_MAP[currentTheme.font] || FONT_MAP.vazir;
-    setVar("--font-main", font);
-    root.style.fontFamily = font;
+    applyColors(currentTheme, mode);
     paintMode(mode);
-    if (document.body) document.body.style.fontFamily = font;
     try { localStorage.setItem(CACHE, JSON.stringify(currentTheme)); } catch (e) {}
     window.dispatchEvent(new CustomEvent("madar:theme-applied", { detail: currentTheme }));
+  }
+  function setMode(mode) {
+    if (mode !== "light" && mode !== "dark") return;
+    saveMode(mode);
+    paintMode(mode);
+    if (currentTheme) {
+      currentTheme = Object.assign({}, currentTheme, { mode: mode });
+      applyColors(currentTheme, mode);
+      try { localStorage.setItem(CACHE, JSON.stringify(currentTheme)); } catch (e) {}
+      window.dispatchEvent(new CustomEvent("madar:theme-applied", { detail: currentTheme }));
+    }
+    window.dispatchEvent(new CustomEvent("madar:mode-changed", { detail: { mode: mode } }));
   }
   window.MadarTheme = {
     apply: apply,
@@ -75,21 +104,10 @@
     },
     refresh: function () { return this.getActive(); },
     getMode: readMode,
-    setMode: function (mode) {
-      if (mode !== "light" && mode !== "dark") return;
-      saveMode(mode);
-      paintMode(mode);
-      if (currentTheme) {
-        currentTheme = Object.assign({}, currentTheme, { mode: mode });
-        var colors = currentTheme.colors || {};
-        Object.keys(MAP).forEach(function (key) {
-          var value = mode === "dark" && Object.prototype.hasOwnProperty.call(DARK, key) ? DARK[key] : colors[key];
-          MAP[key].forEach(function (name) { setVar(name, value); });
-        });
-        try { localStorage.setItem(CACHE, JSON.stringify(currentTheme)); } catch (e) {}
-      }
-    }
+    setMode: setMode,
+    getPack: function () { return currentTheme && currentTheme.slug || "madar"; }
   };
+
   var initialMode = readMode();
   saveMode(initialMode);
   paintMode(initialMode);
@@ -99,9 +117,7 @@
   } catch (e) {}
   window.addEventListener("storage", function (event) {
     if (KEYS.indexOf(event.key) !== -1 && (event.newValue === "dark" || event.newValue === "light")) {
-      saveMode(event.newValue);
-      if (currentTheme) apply(currentTheme);
-      else paintMode(event.newValue);
+      setMode(event.newValue);
     }
   });
   window.MadarTheme.getActive().catch(function () {});
