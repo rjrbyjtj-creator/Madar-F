@@ -203,3 +203,15 @@ main{position:relative;z-index:1;display:grid;grid-template-columns:1fr;min-heig
 #forgotForm .msg{min-height:20px}
 #forgotForm .f+.f{margin-top:12px}
 @media(max-width:560px){.forgot-head{margin-bottom:14px}.forgot-otp{gap:5px;--ob:40px}}
+
+/* Desktop app: compact login card and reduced vertical rhythm */
+:root[data-desktop-app="1"] .side{padding:12px 16px}
+:root[data-desktop-app="1"] .card{padding:21px 26px 17px;max-height:calc(100dvh - 24px)}
+:root[data-desktop-app="1"] .brand{margin-bottom:14px}
+:root[data-desktop-app="1"] .tabs{margin-bottom:14px}
+:root[data-desktop-app="1"] .sub{margin-bottom:10px}
+:root[data-desktop-app="1"] .seg{margin-bottom:9px}
+:root[data-desktop-app="1"] .row{margin-top:9px}
+:root[data-desktop-app="1"] .submit{margin-top:11px}
+:root[data-desktop-app="1"] .legal{margin-top:8px}
+:root[data-desktop-app="1"] .sw{margin-top:8px}
