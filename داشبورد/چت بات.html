@@ -10,12 +10,13 @@
 <title>روبو | دستیار آموزشی مدار</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'IranSansDN';src:url('../iransansdn.ttf') format('truetype');font-style:normal;font-weight:100 900;font-display:swap}
 :root{--loader-color:#3987ff;--bg:#F6F7F9;--sf:#fff;--sb:#FBFBFC;--ln:#E3E6EC;--tx:#1B2233;--mu:#6B7488;--pr:#14264F;--pr2:#1D3670;--ac:#B8892D;--hv:#EDEFF4;--sh:0 1px 2px rgba(20,38,79,.05),0 8px 24px -12px rgba(20,38,79,.14)}
 :root.dark{--loader-color:#D9AE55;--bg:#0C1222;--sf:#131C32;--sb:#0F1729;--ln:#243049;--tx:#E6EAF3;--mu:#8D98B0;--pr:#2B4C98;--pr2:#3558AE;--ac:#D9AE55;--hv:#1A2440;--sh:0 8px 28px -12px rgba(0,0,0,.6)}
 :root.gray-theme{--loader-color:#648C83;--bg:#E9EAEB;--sf:#F8F8F7;--sb:#F0F1F0;--ln:#D4D7D6;--tx:#282D2C;--mu:#737B78;--pr:#555E5B;--pr2:#414A47;--ac:#668C82;--hv:#E1E5E3;--sh:0 2px 5px rgba(34,42,39,.04),0 10px 28px -16px rgba(34,42,39,.18)}
 :root.gray-theme.dark{--loader-color:#91B5AA;--bg:#202423;--sf:#292F2D;--sb:#242A28;--ln:#3A4340;--tx:#E8ECE9;--mu:#A0AAA5;--pr:#82928B;--pr2:#9BB0A6;--ac:#91B5AA;--hv:#343C38;--sh:0 8px 28px -12px rgba(0,0,0,.38)}
 
-*{box-sizing:border-box;margin:0;font-family:'Vazirmatn',sans-serif}
+*{box-sizing:border-box;margin:0;font-family:var(--chat-font,'Vazirmatn'),sans-serif}
 body{height:100vh;display:flex;background:var(--bg);color:var(--tx);overflow:hidden;transition:background .25s}
 button{cursor:pointer;border:0;background:none;color:inherit;font:inherit}
 svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
@@ -89,8 +90,8 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 
 .t2 pre.code-block{position:relative;direction:ltr;text-align:left;margin:12px 0;padding:42px 14px 14px;overflow:auto;max-width:100%;border:1px solid var(--ln);border-radius:12px;background:#101827;color:#e6edf7;font:12.5px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}
 .t2 pre.code-block code{font:inherit;color:inherit;white-space:pre}
-.t2 .code-head{position:absolute;top:0;left:0;right:0;height:32px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;background:#1b2738;color:#b9c6d8;border-bottom:1px solid #344154;font:11px Vazirmatn,sans-serif}
-.t2 .code-copy{border:1px solid #48576d;border-radius:6px;padding:3px 8px;color:#e6edf7;font:10px Vazirmatn,sans-serif}
+.t2 .code-head{position:absolute;top:0;left:0;right:0;height:32px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;background:#1b2738;color:#b9c6d8;border-bottom:1px solid #344154;font:11px var(--chat-font,'Vazirmatn'),sans-serif}
+.t2 .code-copy{border:1px solid #48576d;border-radius:6px;padding:3px 8px;color:#e6edf7;font:10px var(--chat-font,'Vazirmatn'),sans-serif}
 .t2 p code,.t2 li code{padding:2px 5px;border-radius:5px;background:var(--hv);direction:ltr;unicode-bidi:embed;font:12px ui-monospace,monospace}
 .t2 h2{font-size:16px;margin:18px 0 8px}.t2 h3{font-size:14px;margin:15px 0 7px}
 .t2 .math-block{direction:ltr;text-align:center;overflow-x:auto;padding:9px 4px;margin:9px 0}
@@ -631,7 +632,8 @@ body.shared-view #dock{display:none!important}
           <button id="th-gray-light" onclick="setTheme('gray-light')"><i style="background:linear-gradient(90deg,#E9EAEB 0 34%,#F8F8F7 34% 67%,#668C82 67% 100%)"></i>خاکستری روشن</button>
           <button id="th-gray-dark" onclick="setTheme('gray-dark')"><i style="background:linear-gradient(90deg,#202423 0 34%,#292F2D 34% 67%,#91B5AA 67% 100%)"></i>خاکستری تیره</button>
         </div>
-        <div class="srow top2" style="margin-top:22px"><div><b>جایگاه منو</b><small>سمت راست یا چپ صفحه</small></div></div>
+        <div class="srow top2" style="margin-top:22px"><div><b>فونت صفحه</b><small>فونت دلخواهت را برای محیط چت‌بات انتخاب کن</small></div><select class="fld" id="chat-font-select" aria-label="فونت صفحه" onchange="setChatFont(this.value)"><option value="vazirmatn">وزیرمتن</option><option value="iransans">ایران‌سنس</option></select></div>
+        <div class="srow top2"><div><b>جایگاه منو</b><small>سمت راست یا چپ صفحه</small></div></div>
         <div class="themes">
           <button id="sd-right" onclick="setSide('right')"><i style="background:linear-gradient(to left,var(--hv) 26%,var(--bg) 26%)"></i>سمت راست</button>
           <button id="sd-left" onclick="setSide('left')"><i style="background:linear-gradient(to right,var(--hv) 26%,var(--bg) 26%)"></i>سمت چپ</button>
@@ -1408,6 +1410,15 @@ function initPersona(){
 }
 let live=true,spd=5;
 function setLive(el){live=!live;el.classList.toggle('on',live)}
+function setChatFont(font,note=true){
+ const value=font==='iransans'?'iransans':'vazirmatn';
+ const family=value==='iransans'?'IranSansDN':'Vazirmatn';
+ document.documentElement.style.setProperty('--chat-font',"'"+family+"'");
+ try{localStorage.setItem('madar-chat-font',value)}catch(e){}
+ const select=document.getElementById('chat-font-select');
+ if(select)select.value=value;
+ if(note)toast(value==='iransans'?'فونت ایران‌سنس فعال شد':'فونت وزیرمتن فعال شد');
+}
 function setTheme(m,note=true){
  if(!['dark','light','gray-light','gray-dark'].includes(m))return;
  const root=document.documentElement,body=document.body;
@@ -1859,6 +1870,8 @@ window.addEventListener('madar:theme-applied',()=>{
 (function init(){
  let s=null,chatTheme=null;try{s=localStorage.getItem('madar-theme');chatTheme=localStorage.getItem('madar-chat-theme')}catch(e){}
  setTheme(['gray-light','gray-dark'].includes(chatTheme)?chatTheme:(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')),false);
+ let chatFont='vazirmatn';try{chatFont=localStorage.getItem('madar-chat-font')||'vazirmatn'}catch(e){}
+ setChatFont(chatFont,false);
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
  setSide(sd,false);$('inp').addEventListener('input',sync);
  $('slotW').appendChild($('box'));renderHist();
