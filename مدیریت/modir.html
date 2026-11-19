@@ -673,6 +673,245 @@
         clip-path: none;
       }
     }
+
+
+    /* بازطراحی موبایل داشبورد مدیریت مدار */
+    .mobile-menu-btn,
+    .mobile-menu-backdrop { display: none; }
+
+    @media (max-width: 768px) {
+      html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+      body { min-width: 0; }
+      .top-header {
+        position: relative;
+        z-index: 60;
+        padding: 0 14px;
+      }
+      .header-top-row {
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr) 40px;
+        align-items: center;
+        gap: 8px;
+        min-height: 62px;
+        margin: 0;
+      }
+      .brand-logo-wrapper {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+        gap: 0;
+        min-width: 0;
+      }
+      .brand-logo-img { height: 31px; max-width: 42px; }
+      .brand-logo-wrapper > svg,
+      .brand-title { display: none; }
+      .search-box { display: none; }
+      .mobile-menu-btn {
+        display: flex;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 4px;
+        border: 1px solid var(--border-color);
+        border-radius: 11px;
+        color: var(--text-main);
+        background: var(--bg-white);
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .mobile-menu-btn span {
+        display: block;
+        width: 16px;
+        height: 1.7px;
+        border-radius: 2px;
+        background: currentColor;
+      }
+      .mobile-nav-toggle { grid-column: 1; grid-row: 1; justify-self: start; }
+      .mobile-tools-toggle { grid-column: 3; grid-row: 1; justify-self: end; }
+      .header-actions {
+        display: flex;
+        position: fixed;
+        top: calc(72px + env(safe-area-inset-top, 0px));
+        left: 12px;
+        z-index: 62;
+        width: min(270px, calc(100vw - 24px));
+        padding: 13px;
+        gap: 12px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        box-shadow: 0 16px 42px rgba(0,0,0,.18);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-7px);
+        transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+      }
+      body.mobile-tools-open .header-actions {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .header-actions > .icon-btn { width: 38px; height: 38px; border: 1px solid var(--border-color); border-radius: 10px; }
+      .user-profile-btn { gap: 8px; padding: 3px; }
+      .profile-dropdown { left: 0; right: auto; top: calc(100% + 8px); }
+      .nav-bar {
+        display: flex;
+        position: fixed;
+        top: calc(72px + env(safe-area-inset-top, 0px));
+        right: 12px;
+        left: 12px;
+        z-index: 62;
+        width: auto;
+        max-width: none;
+        max-height: min(68vh, 480px);
+        height: auto;
+        margin: 0;
+        padding: 9px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 3px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        white-space: normal;
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        box-shadow: 0 16px 42px rgba(0,0,0,.18);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-7px);
+        transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+      }
+      body.mobile-nav-open .nav-bar {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .nav-item {
+        min-height: 43px;
+        padding: 9px 12px;
+        gap: 10px;
+        border-radius: 10px;
+        font-size: 13px;
+      }
+      .nav-item.active { background: color-mix(in srgb, var(--accent-gold) 12%, transparent); }
+      .nav-item::after { display: none; }
+      .mobile-menu-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: 0;
+        background: rgba(5, 12, 27, .28);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .18s ease, visibility .18s ease;
+      }
+      body.mobile-nav-open .mobile-menu-backdrop,
+      body.mobile-tools-open .mobile-menu-backdrop {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .hero-section { flex-direction: column; min-height: 0; }
+      .hero-image-container { display: none; }
+      .hero-content {
+        width: 100%;
+        min-width: 0;
+        padding: 23px 17px 18px;
+        gap: 8px;
+      }
+      .welcome-block h1 { margin-bottom: 5px; font-size: 20px; line-height: 1.55; }
+      .welcome-block p { margin-bottom: 12px; font-size: 12.5px; }
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        margin-top: 17px;
+      }
+      .stat-item {
+        min-width: 0;
+        padding: 11px 7px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background: var(--bg-white);
+      }
+      .stat-icon { margin-bottom: 4px; }
+      .stat-icon svg { width: 19px; height: 19px; }
+      .stat-number { font-size: 15px; }
+      .stat-label { font-size: 11px; }
+      .stat-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+      .main-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 11px;
+        width: 100%;
+        min-width: 0;
+        padding: 13px 12px 20px;
+      }
+      .grid-column {
+        min-width: 0;
+        padding: 15px 13px;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 14px;
+        background: var(--bg-white);
+      }
+      .grid-column:first-child,
+      .grid-column:last-child { padding-right: 13px; padding-left: 13px; }
+      .grid-column:not(:last-child) { border-left: 1px solid var(--border-color) !important; }
+      .column-header { gap: 8px; margin-bottom: 14px; }
+      .column-header h2 { font-size: 14px; white-space: nowrap; }
+      .header-gold-line { width: 18px; flex: 0 0 18px; }
+      .shortcut-list { gap: 9px; }
+      .shortcut-item { min-width: 0; gap: 8px; padding: 6px 0; }
+      .shortcut-right { min-width: 0; gap: 9px; font-size: 12.5px; }
+      .shortcut-right span { overflow-wrap: anywhere; }
+      .shortcut-right svg { width: 17px; height: 17px; }
+      .circle-arrow-btn { width: 25px; height: 25px; flex: 0 0 25px; }
+      .activity-list { gap: 12px; }
+      .activity-item { min-width: 0; gap: 8px; }
+      .activity-right { min-width: 0; gap: 8px; font-size: 12px; }
+      .activity-time { font-size: 10.5px; }
+      .view-all-activities { margin-top: 16px; font-size: 12px; }
+      .system-status-body { gap: 12px; justify-content: center; }
+      .status-center-box { margin-top: 0; }
+      .status-message { margin-bottom: 12px; font-size: 12.5px; }
+      .status-footer-info { margin-top: 12px; }
+      .bottom-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 13px 16px calc(13px + env(safe-area-inset-bottom, 0px));
+        font-size: 11px;
+      }
+      .footer-right { flex-wrap: wrap; gap: 6px; }
+      .footer-left { font-size: 10.5px; }
+      img, svg { max-width: 100%; }
+      .top-header *, .hero-section *, .main-grid *, .bottom-footer * { min-width: 0; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-content { padding-right: 14px; padding-left: 14px; }
+      .main-grid { padding-right: 9px; padding-left: 9px; }
+      .grid-column { padding-right: 11px; padding-left: 11px; }
+      .grid-column:first-child, .grid-column:last-child { padding-right: 11px; padding-left: 11px; }
+      .activity-time { white-space: normal; text-align: left; }
+      .column-header h2 { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
@@ -680,7 +919,9 @@
   <!-- ================= هدر بالایی ================= -->
   <header class="top-header">
     <div class="header-top-row">
-      
+      <button class="mobile-menu-btn mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="باز کردن منوی اصلی" aria-controls="mobileNavDrawer" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <!-- ===================================================================== -->
       <!-- ۱. محل قرارگیری عکس لوگوی بالای صفحه (سمت راست)                     -->
       <!-- آدرس فایل لوگوی خود را در ویژگی src تگ img زیر جایگزین کنید           -->
@@ -710,7 +951,7 @@
       </div>
 
       <!-- ابزارهای سمت چپ (تغییر تم، زنگوله، پروفایل مدیر ارشد) -->
-      <div class="header-actions">
+      <div class="header-actions" id="mobileToolsPanel">
         <!-- دکمه تغییر تم (خورشید) -->
         <button class="icon-btn" id="themeToggle" title="تغییر تم">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -756,10 +997,13 @@
           </div>
         </div>
       </div>
+      <button class="mobile-menu-btn mobile-tools-toggle" id="mobileToolsToggle" type="button" aria-label="باز کردن ابزارها" aria-controls="mobileToolsPanel" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
 
     <!-- ردیف دوم هدر: منوی ناوبری -->
-    <nav class="nav-bar">
+    <nav class="nav-bar" id="mobileNavDrawer">
       <a href="#" class="nav-item active">
         <svg viewBox="0 0 24 24" fill="currentColor">
           <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
@@ -805,6 +1049,7 @@
       </a>
     </nav>
   </header>
+  <button class="mobile-menu-backdrop" id="mobileMenuBackdrop" type="button" aria-label="بستن منوها" tabindex="-1"></button>
 
   <!-- ================= بخش هیرو (بنر اصلی) ================= -->
   <section class="hero-section">
@@ -1099,7 +1344,40 @@
   <script src="../js/config.js"></script>
   <script src="../js/auth.js"></script>
   <script>
-    // منوی پروفایل مدیر
+
+
+    // منوهای جمع‌وجور موبایل
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const mobileToolsToggle = document.getElementById('mobileToolsToggle');
+    const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+    function closeMobileMenus() {
+      document.body.classList.remove('mobile-nav-open', 'mobile-tools-open');
+      mobileNavToggle.setAttribute('aria-expanded', 'false');
+      mobileToolsToggle.setAttribute('aria-expanded', 'false');
+    }
+    mobileNavToggle.addEventListener('click', () => {
+      const open = !document.body.classList.contains('mobile-nav-open');
+      closeMobileMenus();
+      if (open) {
+        document.body.classList.add('mobile-nav-open');
+        mobileNavToggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+    mobileToolsToggle.addEventListener('click', () => {
+      const open = !document.body.classList.contains('mobile-tools-open');
+      closeMobileMenus();
+      if (open) {
+        document.body.classList.add('mobile-tools-open');
+        mobileToolsToggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+    mobileMenuBackdrop.addEventListener('click', closeMobileMenus);
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeMobileMenus();
+    });
+    document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', closeMobileMenus));
+
+        // منوی پروفایل مدیر
     const profileToggle = document.getElementById('profileMenuToggle');
     const profileDropdown = document.getElementById('profileDropdown');
     const profileWrap = document.getElementById('profileMenuWrap');
