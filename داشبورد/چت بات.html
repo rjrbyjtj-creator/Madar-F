@@ -112,6 +112,22 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .box:focus-within{border-color:var(--ac)}
 .box textarea{width:100%;border:0;outline:0;resize:none;background:none;color:var(--tx);font-size:15px;line-height:1.8;max-height:160px}
 .box textarea::placeholder{color:var(--mu)}
+#attachmentPreview{display:flex;align-items:flex-start;gap:12px;padding:2px 2px 12px;direction:rtl}
+#attachmentPreview[hidden]{display:none}
+.attachment-card{position:relative;width:104px;flex:0 0 104px;text-align:center;animation:up .18s ease}
+.attachment-square{position:relative;width:104px;height:104px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--ln);border-radius:14px;background:var(--sb)}
+.attachment-square img{width:100%;height:100%;object-fit:cover}
+.attachment-file-icon{width:42px;height:50px;color:var(--pr2)}
+.attachment-progress{position:absolute;inset:0;display:grid;place-items:center;background:rgba(10,15,28,.42);backdrop-filter:blur(2px)}
+.attachment-progress-ring{--progress:0%;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#fff var(--progress),rgba(255,255,255,.25) 0);padding:3px;box-shadow:0 2px 12px #0003}
+.attachment-progress-ring:before{content:'';grid-area:1/1;width:100%;height:100%;border-radius:50%;background:#172033}
+.attachment-progress-ring span{grid-area:1/1;z-index:1;color:#fff;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;direction:ltr}
+.attachment-remove{position:absolute;z-index:3;top:5px;left:5px;width:23px;height:23px;border:1px solid #ffffff55;border-radius:50%;background:#111a;color:#fff;display:grid;place-items:center;font-size:16px;line-height:1}
+.attachment-caption{margin-top:6px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.attachment-caption b{font-size:10px;font-weight:600;color:var(--tx);max-width:104px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attachment-caption small{font-size:10px;color:var(--mu);font-variant-numeric:tabular-nums}
+.attachment-card.done .attachment-square{border-color:color-mix(in srgb,var(--ac) 45%,var(--ln))}
+.attachment-card.error .attachment-progress-ring{background:conic-gradient(#d65a5a 100%,transparent 0)}
 .bar{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .bar span{font-size:11.5px;color:var(--mu)}
 .send{width:36px;height:36px;border-radius:50%;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;transition:.15s}.send:hover{background:var(--pr2)}
@@ -468,11 +484,12 @@ body.shared-view #dock{display:none!important}
 </main>
 
 <div id="tpl" style="display:none"><div class="box" id="box">
+  <div id="attachmentPreview" hidden aria-live="polite"></div>
   <textarea id="inp" rows="2" placeholder="سؤال خود را اینجا بنویسید…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
   <div class="bar">
     <span class="l">
       <button class="ib sm composer-plus" id="toolsToggle" type="button" onclick="toggleComposerTools()" aria-expanded="false" aria-controls="composerTools" title="ابزارهای بیشتر" aria-label="باز کردن ابزارهای بیشتر"><svg class="i"><use href="#pl"/></svg></button>
-      <input type="file" id="file" accept="application/pdf,.pdf" hidden onchange="attach(this)">
+      <input type="file" id="file" accept="application/pdf,.pdf,image/jpeg,.jpg,.jpeg,image/png,.png,image/webp,.webp" hidden onchange="attach(this)">
       <span id="fn" class="chip" hidden title="PDF پیوست‌شده به گفتگو"></span>
       <button class="ib sm" id="sttBtn" onclick="toggleDictation()" title="تبدیل گفتار به متن" aria-label="شروع تایپ صوتی"><svg class="i"><use href="#mc"/></svg></button>
       <button class="ib sm" id="liveBtn" onclick="openLiveCall()" title="گفتگوی صوتی با روبو" aria-label="شروع گفتگوی صوتی"><svg class="i"><use href="#wv"/></svg></button>
@@ -1366,35 +1383,83 @@ function stopDictation(stopEngine=true){
  if(stopEngine&&current){try{current.stop()}catch(error){}}
 }
 function sync(){$('sb').classList.toggle('on',!!$('inp').value.trim()||!!att)}
+let attachmentRequest=null;
+function renderAttachmentPreview(){
+ const host=$('attachmentPreview');host.innerHTML='';
+ if(!att){host.hidden=true;return}
+ host.hidden=false;
+ const card=document.createElement('div');card.className='attachment-card'+(att.uploading?' uploading':att.done?' done':'');
+ const square=document.createElement('div');square.className='attachment-square';
+ if(att.previewUrl){
+  const img=document.createElement('img');img.src=att.previewUrl;img.alt='پیش‌نمایش تصویر پیوست';square.appendChild(img);
+ }else{
+  square.innerHTML='<svg class="attachment-file-icon" viewBox="0 0 40 48" fill="none" aria-hidden="true"><path d="M7 2.5h17l9 9V43a2.5 2.5 0 0 1-2.5 2.5h-23A2.5 2.5 0 0 1 5 43V5A2.5 2.5 0 0 1 7.5 2.5Z" stroke="currentColor" stroke-width="2"/><path d="M24 3v9h9M10 26h20M10 32h20M10 38h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M11 17h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+ }
+ if(att.uploading){
+  const overlay=document.createElement('div');overlay.className='attachment-progress';
+  const ring=document.createElement('div');ring.className='attachment-progress-ring';ring.style.setProperty('--progress',(att.progress||0)+'%');
+  const value=document.createElement('span');value.textContent=(att.progress||0)+'%';ring.appendChild(value);overlay.appendChild(ring);square.appendChild(overlay);
+ }
+ const remove=document.createElement('button');remove.type='button';remove.className='attachment-remove';remove.textContent='×';remove.title='حذف فایل';remove.setAttribute('aria-label','حذف فایل');remove.onclick=clearAtt;square.appendChild(remove);
+ const caption=document.createElement('div');caption.className='attachment-caption';
+ const name=document.createElement('b');name.textContent=att.name;name.title=att.name;
+ const status=document.createElement('small');status.textContent=att.uploading?(att.processing?'در حال آماده‌سازی…':(att.progress||0)+'٪ بارگذاری شده'):att.done?'آماده ارسال به روبو':'آماده';
+ caption.append(name,status);card.append(square,caption);host.appendChild(card);
+}
+function setAttachmentProgress(percent,processing=false){
+ if(!att)return;att.progress=Math.max(0,Math.min(100,Math.round(percent)));att.processing=processing;renderAttachmentPreview();
+}
 async function attach(el){
  const f=el.files&&el.files[0];if(!f)return;
- if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){toast('فقط فایل PDF قابل ارسال است.');el.value='';return}
+ const isPdf=f.type==='application/pdf'||/\.pdf$/i.test(f.name);
+ const mime=isPdf?'application/pdf':f.type;
+ if(!isPdf&&!['image/jpeg','image/png','image/webp'].includes(mime)){toast('فقط PDF یا تصویر JPG، PNG و WEBP قابل ارسال است.');el.value='';return}
  if(f.size>15*1024*1024){toast('حجم فایل نباید بیشتر از ۱۵ مگابایت باشد.');el.value='';return}
  if(!Auth.get()){toast('برای ارسال فایل ابتدا وارد حساب کاربری شو.');el.value='';return}
- if(liveCallActive){toast('برای ارسال PDF ابتدا گفتگوی صوتی را پایان بده.');el.value='';return}
- att={name:f.name,uploading:true};$('fn').textContent='در حال بارگذاری: '+f.name;$('fn').hidden=false;sync();
+ if(liveCallActive){toast('برای ارسال فایل ابتدا گفتگوی صوتی را پایان بده.');el.value='';return}
+ if(attachmentRequest){attachmentRequest.abort();attachmentRequest=null}
+ if(att&&att.previewUrl)URL.revokeObjectURL(att.previewUrl);
+ att={name:f.name,mime,uploading:true,progress:0,previewUrl:mime.startsWith('image/')?URL.createObjectURL(f):null};
+ renderAttachmentPreview();sync();
+ selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini')}catch(error){}updateModelMenu();
+ const query=conversationId?'?conversationId='+encodeURIComponent(conversationId):'';
  try{
-  selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini')}catch(error){}updateModelMenu();
-  const query=conversationId?'?conversationId='+encodeURIComponent(conversationId):'';
-  const response=await fetch(AI_DOCUMENT_URL+query,{
-   method:'POST',
-   headers:{...Auth.headers(),'Content-Type':'application/pdf','X-File-Name':encodeURIComponent(f.name)},
-   body:f
+  const data=await new Promise((resolve,reject)=>{
+   const xhr=new XMLHttpRequest();attachmentRequest=xhr;
+   xhr.open('POST',AI_DOCUMENT_URL+query);
+   Object.entries({...Auth.headers(),'Content-Type':mime,'X-File-Name':encodeURIComponent(f.name)}).forEach(([key,value])=>xhr.setRequestHeader(key,value));
+   xhr.upload.onprogress=event=>{
+    if(!event.lengthComputable)return;
+    setAttachmentProgress(Math.min(90,event.loaded/event.total*90),false);
+   };
+   xhr.upload.onload=()=>setAttachmentProgress(92,true);
+   xhr.onload=()=>{
+    let body={};try{body=JSON.parse(xhr.responseText||'{}')}catch(error){}
+    if(xhr.status>=200&&xhr.status<300&&body.ok)resolve(body);
+    else reject(new Error(body.message||'بارگذاری فایل ناموفق بود.'));
+   };
+   xhr.onerror=()=>reject(new Error('ارتباط با سرور هنگام بارگذاری قطع شد.'));
+   xhr.onabort=()=>reject(new Error('بارگذاری فایل لغو شد.'));
+   xhr.send(f);
   });
-  const data=await response.json().catch(()=>({}));
-  if(!response.ok||!data.ok)throw new Error(data.message||'بارگذاری PDF ناموفق بود.');
+  attachmentRequest=null;
   conversationId=data.conversationId;active=conversationId;
-  att={id:data.documentId,name:data.fileName||f.name,uploading:false};
-  $('fn').textContent='PDF آمادهٔ بررسی: '+att.name;
+  att={id:data.documentId,name:data.fileName||f.name,mime,uploading:false,done:true,progress:100,previewUrl:att.previewUrl};
+  renderAttachmentPreview();
   if(!$('welcome').style.display||$('welcome').style.display!=='none')$('ttl').textContent='گفتگو درباره '+att.name;
   await loadConversations();
-  toast('PDF با موفقیت به گفتگو اضافه شد. حالا سؤالت را درباره فایل بنویس.');
+  toast('فایل با موفقیت اضافه شد. حالا سؤالت را درباره آن بنویس.');
  }catch(error){
-  att=null;$('fn').hidden=true;
-  toast(error.message||'بارگذاری PDF انجام نشد.');
+  attachmentRequest=null;
+  if(att&&att.previewUrl)URL.revokeObjectURL(att.previewUrl);
+  att=null;renderAttachmentPreview();toast(error.message||'بارگذاری فایل انجام نشد.');
  }finally{el.value='';sync()}
 }
-function clearAtt(){if(att&&att.uploading)return;att=null;$('file').value='';$('fn').hidden=true;sync()}
+function clearAtt(){
+ if(attachmentRequest){const request=attachmentRequest;attachmentRequest=null;request.abort()}
+ if(att&&att.previewUrl)URL.revokeObjectURL(att.previewUrl);
+ att=null;renderAttachmentPreview();$('file').value='';$('fn').hidden=true;sync();
+}
 let liveSocket=null;
 let liveMicStream=null;
 let liveInputContext=null;
