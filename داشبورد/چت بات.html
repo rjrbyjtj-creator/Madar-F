@@ -628,7 +628,8 @@ body.shared-view #dock{display:none!important}
         <div class="themes">
           <button id="th-light" onclick="setTheme('light')"><i style="background:linear-gradient(#F6F7F9 60%,#fff 60%)"></i>روشن</button>
           <button id="th-dark" onclick="setTheme('dark')"><i style="background:linear-gradient(#0C1222 60%,#131C32 60%)"></i>تاریک</button>
-          <button id="th-gray" onclick="setTheme('gray')"><i style="background:linear-gradient(90deg,#E9EAEB 0 34%,#F8F8F7 34% 67%,#668C82 67% 100%)"></i>خاکستری مدرن</button>
+          <button id="th-gray-light" onclick="setTheme('gray-light')"><i style="background:linear-gradient(90deg,#E9EAEB 0 34%,#F8F8F7 34% 67%,#668C82 67% 100%)"></i>خاکستری روشن</button>
+          <button id="th-gray-dark" onclick="setTheme('gray-dark')"><i style="background:linear-gradient(90deg,#202423 0 34%,#292F2D 34% 67%,#91B5AA 67% 100%)"></i>خاکستری تیره</button>
         </div>
         <div class="srow top2" style="margin-top:22px"><div><b>جایگاه منو</b><small>سمت راست یا چپ صفحه</small></div></div>
         <div class="themes">
@@ -1408,27 +1409,24 @@ function initPersona(){
 let live=true,spd=5;
 function setLive(el){live=!live;el.classList.toggle('on',live)}
 function setTheme(m,note=true){
- if(!['dark','light','gray'].includes(m))return;
+ if(!['dark','light','gray-light','gray-dark'].includes(m))return;
  const root=document.documentElement,body=document.body;
- if(m==='gray'){
-  try{localStorage.setItem('madar-chat-theme','gray')}catch(e){}
-  root.classList.add('gray-theme');body.classList.add('gray-theme');
- }else{
-  try{localStorage.setItem('madar-theme',m);localStorage.setItem('madar-chat-theme',m)}catch(e){}
-  root.classList.remove('gray-theme');body.classList.remove('gray-theme');
-  if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function'){
-   window.MadarTheme.setMode(m);
-  }else{
-   root.dataset.theme=m;
-   root.classList.toggle('dark',m==='dark');
-   body.classList.toggle('dark',m==='dark');
-   body.classList.toggle('dark-mode',m==='dark');
-  }
+ const isGray=m.startsWith('gray'),isDark=m==='dark'||m==='gray-dark';
+ try{
+  localStorage.setItem('madar-chat-theme',m);
+  if(!isGray)localStorage.setItem('madar-theme',m);
+ }catch(e){}
+ root.classList.toggle('gray-theme',isGray);body.classList.toggle('gray-theme',isGray);
+ root.classList.toggle('dark',isDark);body.classList.toggle('dark',isDark);body.classList.toggle('dark-mode',isDark);
+ if(!isGray){
+  if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function')window.MadarTheme.setMode(m);
+  else root.dataset.theme=m;
  }
  $('th-light').classList.toggle('on',m==='light');
  $('th-dark').classList.toggle('on',m==='dark');
- $('th-gray').classList.toggle('on',m==='gray');
- if(note)toast(m==='gray'?'تم خاکستری مدرن فعال شد':m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
+ $('th-gray-light').classList.toggle('on',m==='gray-light');
+ $('th-gray-dark').classList.toggle('on',m==='gray-dark');
+ if(note)toast(m==='gray-light'?'تم خاکستری روشن فعال شد':m==='gray-dark'?'تم خاکستری تیره فعال شد':m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
 }
 let att=null;
 let dictationRecognition=null;
@@ -1850,7 +1848,7 @@ let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sho
 
 (function init(){
  let s=null,chatTheme=null;try{s=localStorage.getItem('madar-theme');chatTheme=localStorage.getItem('madar-chat-theme')}catch(e){}
- setTheme(chatTheme==='gray'?'gray':(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')),false);
+ setTheme(['gray-light','gray-dark'].includes(chatTheme)?chatTheme:(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')),false);
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
  setSide(sd,false);$('inp').addEventListener('input',sync);
  $('slotW').appendChild($('box'));renderHist();
