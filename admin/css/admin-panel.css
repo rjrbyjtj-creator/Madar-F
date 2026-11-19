@@ -196,3 +196,8 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer}s
 .stat-unavailable b{color:var(--muted)}
 @media(max-width:1250px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:1.2rem}.stat:nth-child(4){border-inline-start:0}}
 @media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:1.8rem}.stat:nth-child(odd){border-inline-start:0}}
+
+/* Shared global gray theme pack */
+body.gray-theme{--bg:#E9EAEB;--surface:#F8F8F7;--navy:#555E5B;--navy-hover:#414A47;--gold:#668C82;--text:#282D2C;--muted:#737B78;--light:#8A918E;--line:#D4D7D6;--circle:#E1E5E3;--blob:#E1E5E3}
+body.gray-theme.dark{--bg:#202423;--surface:#292F2D;--navy:#82928B;--navy-hover:#9BB0A6;--gold:#91B5AA;--text:#E8ECE9;--muted:#A0AAA5;--light:#7D8983;--line:#3A4340;--circle:#343C38;--blob:#343C38}
+body.gray-theme .ring div,body.gray-theme .pill-btn{background:var(--navy);color:#fff}
