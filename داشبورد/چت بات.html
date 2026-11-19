@@ -472,8 +472,8 @@ body.shared-view #dock{display:none!important}
   <div class="bar">
     <span class="l">
       <button class="ib sm composer-plus" id="toolsToggle" type="button" onclick="toggleComposerTools()" aria-expanded="false" aria-controls="composerTools" title="ابزارهای بیشتر" aria-label="باز کردن ابزارهای بیشتر"><svg class="i"><use href="#pl"/></svg></button>
-      <input type="file" id="file" accept="image/*" hidden onchange="attach(this)">
-      <span id="fn" class="chip" hidden onclick="clearAtt()" title="حذف پیوست"></span>
+      <input type="file" id="file" accept="application/pdf,.pdf" hidden onchange="attach(this)">
+      <span id="fn" class="chip" hidden title="PDF پیوست‌شده به گفتگو"></span>
       <button class="ib sm" id="sttBtn" onclick="toggleDictation()" title="تبدیل گفتار به متن" aria-label="شروع تایپ صوتی"><svg class="i"><use href="#mc"/></svg></button>
       <button class="ib sm" id="liveBtn" onclick="openLiveCall()" title="گفتگوی صوتی با روبو" aria-label="شروع گفتگوی صوتی"><svg class="i"><use href="#wv"/></svg></button>
     </span>
@@ -554,7 +554,7 @@ body.shared-view #dock{display:none!important}
     <div class="box-tools-inner">
       <div class="tools-divider"></div>
       <div class="tools-grid">
-        <button class="tool-option" type="button" onclick="chooseComposerTool('image')"><span class="tool-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 15-5-5L5 20"/></svg></span><span><b>ارسال تصویر</b><small>افزودن عکس به گفتگو</small></span></button>
+        <button class="tool-option" type="button" onclick="chooseComposerTool('image')"><span class="tool-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 15-5-5L5 20"/></svg></span><span><b>ارسال فایل PDF</b><small>افزودن جزوه یا کتاب به گفتگو</small></span></button>
         <button class="tool-option" type="button" onclick="chooseComposerTool('plan')"><span class="tool-icon"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><span><b>اتصال برنامه من</b><small>بررسی برنامه مطالعاتی</small></span></button>
         <button class="tool-option" type="button" onclick="chooseComposerTool('exams')"><span class="tool-icon"><svg viewBox="0 0 24 24"><path d="M8 4h8M9 3h6v3H9z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="m8 13 2 2 5-5M8 18h8"/></svg></span><span><b>آزمون‌ها</b><small>مرور آزمون‌های پیش‌رو</small></span></button>
         <button class="tool-option" type="button" onclick="chooseComposerTool('study')"><span class="tool-icon"><svg viewBox="0 0 24 24"><path d="M3 6.5C6 5 9 5 12 7v13c-3-2-6-2-9-.5zM21 6.5C18 5 15 5 12 7v13c3-2 6-2 9-.5z"/></svg></span><span><b>درس و تمرین</b><small>حل سؤال و رفع اشکال</small></span></button>
@@ -703,6 +703,7 @@ let chatBusy=false;
 let pendingPlanProposal=null;
 let pendingPlanDeletionProposal=null;
 const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
+const AI_DOCUMENT_URL=`${API_BASE_URL}/ai/documents`;
 const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 let selectedAIModel='gemini';
 const GEMINI_MODELS=[
@@ -853,7 +854,7 @@ function toggleComposerTools(force){
 function closeComposerTools(){if($('composerTools').classList.contains('open'))toggleComposerTools(false)}
 function chooseComposerTool(tool){
  closeComposerTools();
- if(tool==='image'){$('file').click();return}
+ if(tool==='pdf'){$('file').click();return}
  const prompts={
   plan:'برنامه مطالعاتی ذخیره‌شده من را بررسی کن و بگو امروز چه کارهایی دارم و چه پیشنهادی برای بهتر شدنش داری.',
   exams:'آزمون‌های پیش‌رو و برنامه امتحانی من را بررسی کن و برای آمادگی آن‌ها راهنمایی‌ام کن.',
@@ -1061,8 +1062,9 @@ function createGridLoader(root,{jelly=1.6,duration=1.7}={}){
 async function send(text){
  if(liveCallActive){toast('پیش از ارسال پیام متنی، تماس صوتی را پایان بده.');return}
  if(chatBusy)return;
- const inp=$('inp');const t=(text||inp.value).trim();
- if(att){toast('رابط انتخاب تصویر آماده است؛ برای ارسال واقعی تصویر باید اتصال بک‌اند تکمیل شود.');return}
+ const inp=$('inp');let t=(text||inp.value).trim();
+ if(att&&att.uploading){toast('کمی صبر کن تا فایل کامل بارگذاری شود.');return}
+ if(!t&&att)t='این فایل PDF را بررسی کن و یک خلاصهٔ منظم از محتوای آن ارائه بده.';
  if(!t)return;
  if(pendingPlanDeletionProposal&&/^(بله|آره|اره|تأیید|تایید|تأیید می‌کنم|تایید میکنم|حذف کن|انجام بده|موافقم)([،, ]|[.!؟]|$)/i.test(t)){
   const proposal=pendingPlanDeletionProposal;layoutChat();addUser(t);inp.value='';inp.style.height='auto';sync();
@@ -1364,8 +1366,35 @@ function stopDictation(stopEngine=true){
  if(stopEngine&&current){try{current.stop()}catch(error){}}
 }
 function sync(){$('sb').classList.toggle('on',!!$('inp').value.trim()||!!att)}
-function attach(el){const f=el.files[0];if(!f)return;if(!f.type.startsWith('image/')){toast('فعلاً فقط انتخاب تصویر در این بخش مجاز است.');el.value='';return}att=f.name;$('fn').textContent=f.name;$('fn').hidden=false;sync();toast('تصویر انتخاب شد؛ ارسال واقعی تصویر در مرحله اتصال بک‌اند فعال می‌شود.')}
-function clearAtt(){att=null;$('file').value='';$('fn').hidden=true;sync()}
+async function attach(el){
+ const f=el.files&&el.files[0];if(!f)return;
+ if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){toast('فقط فایل PDF قابل ارسال است.');el.value='';return}
+ if(f.size>15*1024*1024){toast('حجم فایل نباید بیشتر از ۱۵ مگابایت باشد.');el.value='';return}
+ if(!Auth.get()){toast('برای ارسال فایل ابتدا وارد حساب کاربری شو.');el.value='';return}
+ if(liveCallActive){toast('برای ارسال PDF ابتدا گفتگوی صوتی را پایان بده.');el.value='';return}
+ att={name:f.name,uploading:true};$('fn').textContent='در حال بارگذاری: '+f.name;$('fn').hidden=false;sync();
+ try{
+  selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini')}catch(error){}updateModelMenu();
+  const query=conversationId?'?conversationId='+encodeURIComponent(conversationId):'';
+  const response=await fetch(AI_DOCUMENT_URL+query,{
+   method:'POST',
+   headers:{...Auth.headers(),'Content-Type':'application/pdf','X-File-Name':encodeURIComponent(f.name)},
+   body:f
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||!data.ok)throw new Error(data.message||'بارگذاری PDF ناموفق بود.');
+  conversationId=data.conversationId;active=conversationId;
+  att={id:data.documentId,name:data.fileName||f.name,uploading:false};
+  $('fn').textContent='PDF آمادهٔ بررسی: '+att.name;
+  if(!$('welcome').style.display||$('welcome').style.display!=='none')$('ttl').textContent='گفتگو درباره '+att.name;
+  await loadConversations();
+  toast('PDF با موفقیت به گفتگو اضافه شد. حالا سؤالت را درباره فایل بنویس.');
+ }catch(error){
+  att=null;$('fn').hidden=true;
+  toast(error.message||'بارگذاری PDF انجام نشد.');
+ }finally{el.value='';sync()}
+}
+function clearAtt(){if(att&&att.uploading)return;att=null;$('file').value='';$('fn').hidden=true;sync()}
 let liveSocket=null;
 let liveMicStream=null;
 let liveInputContext=null;
