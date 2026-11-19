@@ -1119,7 +1119,7 @@ updateModelMenu();
 function resetChat(){
  if(liveCallActive)stopLiveCall();
  $('box').classList.remove('compact');
- active=null;conversationId=null;conversation=[];att=null;
+ active=null;conversationId=null;conversation=[];att=null;$('fn').hidden=true;$('file').value='';
  $('chat').innerHTML='';$('chat').style.display='none';$('dock').style.display='none';
  $('welcome').style.display='';$('slotW').appendChild($('box'));$('ttl').textContent='روبو';
  if(innerWidth<900)document.body.classList.remove('m-open');
@@ -1140,7 +1140,7 @@ async function loadChat(id){
   const response=await fetch(`${API_BASE_URL}/ai/conversations/${encodeURIComponent(id)}`,{headers:Auth.headers()});
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.message||'بارگذاری گفتگو انجام نشد.');
-  const c=data.conversation;active=id;conversationId=id;att=null;
+  const c=data.conversation;active=id;conversationId=id;att=null;$('fn').hidden=true;$('file').value='';
   renderHist($('q').value);layoutChat();$('chat').innerHTML='';$('ttl').textContent=c.title||'گفتگو';
   conversation.forEach(m=>{if(m.role==='user')addUser(m.content);else addAI(m.content,false)});
   if(innerWidth<900)document.body.classList.remove('m-open');
