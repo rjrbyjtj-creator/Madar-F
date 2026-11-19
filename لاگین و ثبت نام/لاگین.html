@@ -239,7 +239,11 @@
   try {
     const user = await Auth.me(controller.signal);
     if (!user) return; // توکن نامعتبر است؛ Auth.me آن را پاک کرده و فرم ورود فعال می‌ماند.
-    const destination = user.role === "admin" ? API.adminDashboard : API.dashboard;
+    const isDesktopApp = new URLSearchParams(location.search).get("desktop") === "1";
+    const chatbotUrl = "https://rjrbyjtj-creator.github.io/Madar-F/داشبورد/چت%20بات.html";
+    const destination = user.role === "admin"
+      ? API.adminDashboard
+      : (isDesktopApp ? chatbotUrl : API.dashboard);
     if (destination) location.replace(destination);
   } catch (error) {
     console.warn("Madar saved-session check failed", error);
@@ -347,6 +351,11 @@ const why=(e,fb)=>e&&e.msg?e.msg:(e&&e.status?fb:'ارتباط با سرور ب�
 const go=(user)=>{
   if(user && user.role==='admin' && API.adminDashboard){
     location.href=API.adminDashboard;
+    return;
+  }
+  const isDesktopApp = new URLSearchParams(location.search).get('desktop') === '1';
+  if(isDesktopApp){
+    location.href='https://rjrbyjtj-creator.github.io/Madar-F/داشبورد/چت%20بات.html';
     return;
   }
   if(API.dashboard) location.href=API.dashboard;
