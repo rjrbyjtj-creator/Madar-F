@@ -59,7 +59,9 @@
       var value = palette[key];
       MAP[key].forEach(function (name) { setVar(name, value); });
     });
-    setVar("--bg2", dark ? palette.bg : (isGray ? "#F0F1F0" : "#FBFBFC"));
+    setVar("--bg2", dark ? (isGray ? "#242A28" : "#172238") : (isGray ? "#F0F1F0" : "#FBFBFC"));
+    setVar("--sb", isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface);
+    setVar("--hv", isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface);
     setVar("--on-primary", "#ffffff");
     setVar("--on", "#ffffff");
     setVar("--navy-hover", palette.navy);
