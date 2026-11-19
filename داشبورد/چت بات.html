@@ -100,9 +100,17 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .note{border-right:2px solid var(--ac);padding:2px 14px;margin:14px 0;color:var(--mu);font-size:14.5px}
 .eq{direction:ltr;text-align:center;font-family:ui-monospace,Menlo,monospace;font-weight:600;margin:10px 0;font-size:15px}
 .m{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:var(--hv);padding:0 6px;border-radius:5px;line-height:1.7}
-.acts{display:flex;gap:2px;margin-top:8px;opacity:0;transition:opacity .3s}.acts.show{opacity:1}
-.acts button{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);padding:5px 9px;border-radius:8px}.acts button:hover{background:var(--hv);color:var(--tx)}
-.acts svg{width:15px;height:15px}
+.acts{display:flex;align-items:center;gap:3px;margin-top:9px;opacity:0;transition:opacity .3s;direction:rtl;position:relative}
+.acts.show{opacity:1}
+.acts button{width:30px;height:30px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:transparent;color:var(--mu);cursor:pointer;transition:background .15s,color .15s}
+.acts button:hover{background:var(--hv);color:var(--tx)}
+.acts button.active{color:var(--pr2);background:var(--hv)}
+.acts button:disabled{opacity:.45;cursor:wait}
+.acts svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.acts .more-menu{position:absolute;right:0;bottom:36px;z-index:8;display:flex;flex-direction:column;min-width:150px;padding:5px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:0 8px 24px #0002}
+.acts .more-menu[hidden]{display:none}
+.acts .more-menu button{width:100%;height:34px;display:flex;justify-content:flex-start;gap:8px;padding:0 9px;font-size:12px;white-space:nowrap}
+.acts .more-menu button svg{width:15px;height:15px}
 .dots{display:flex;align-items:center;gap:8px;padding:8px 0;min-height:42px;width:100%;overflow:visible}.dots .loader-scale{width:46px;height:46px;flex:0 0 46px;transform:scale(.48);transform-origin:top right;overflow:visible}.dots .flat-grid-loader{position:relative;direction:ltr;width:53px;height:53px;transform:translateX(-9px)}.dots .flat-grid-loader span{position:absolute;top:0;left:0;width:24px;height:24px;border:3.5px solid var(--loader-color);border-radius:6px;will-change:transform;backface-visibility:hidden;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--loader-color) 40%,transparent))}.dots .flat-grid-loader span:nth-child(1){transform:translate3d(29px,29px,0)}.dots .flat-grid-loader span:nth-child(2){transform:translate3d(29px,0,0)}.dots .flat-grid-loader span:nth-child(4){transform:translate3d(0,29px,0)}.thinking-copy{display:flex;align-items:center;gap:7px;min-width:0;font-size:11px;color:var(--mu);line-height:1.5;transform:translateY(-1px)}.thinking-stage{color:var(--loader-color);font-weight:700;white-space:nowrap}.thinking-time{font-variant-numeric:tabular-nums;direction:ltr;color:var(--mu);opacity:.9}.thinking-sep{opacity:.45}
 @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 #dock{display:none;padding:6px 22px 14px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
@@ -973,11 +981,40 @@ function addAI(reply,animate,planProposal,planDeletionProposal){
  });
   if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise([el]).catch(()=>{});
   const a=document.createElement('div');a.className='acts';
-  const copy=document.createElement('button');copy.textContent='کپی پاسخ';
-  copy.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(reply);toast('پاسخ کپی شد')};
-  const speak=document.createElement('button');speak.textContent='پخش صوتی';
-  speak.onclick=()=>playSpeech(reply,speak);
-  a.append(copy,speak);el.appendChild(a);
+  const makeAction=(name,label,path,handler)=>{
+   const button=document.createElement('button');button.type='button';button.title=label;button.setAttribute('aria-label',label);
+   button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+path+'</svg>';
+   button.onclick=handler;a.appendChild(button);return button;
+  };
+  const copy=makeAction('copy','کپی پاسخ','<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',async()=>{
+   try{await navigator.clipboard.writeText(reply);toast('پاسخ کپی شد');copy.classList.add('active')}
+   catch(e){toast('کپی پاسخ در این مرورگر ممکن نیست')}
+  });
+  const speak=makeAction('volume','پخش صوتی','<path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',()=>playSpeech(reply,speak));
+  const like=makeAction('like','پسندیدن','<path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3ZM7 10l5-8a3 3 0 0 1 2 3l-1 5h6a3 3 0 0 1 3 3l-2 6a3 3 0 0 1-3 2H7"/>',()=>{
+   const active=like.classList.toggle('active');dislike.classList.remove('active');
+   like.setAttribute('aria-pressed',String(active));dislike.setAttribute('aria-pressed','false');
+  });
+  const dislike=makeAction('dislike','نپسندیدن','<path d="M7 14V3H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3ZM7 14l5 8a3 3 0 0 0 2-3l-1-5h6a3 3 0 0 0 3-3l-2-6a3 3 0 0 0-3-2H7"/>',()=>{
+   const active=dislike.classList.toggle('active');like.classList.remove('active');
+   dislike.setAttribute('aria-pressed',String(active));like.setAttribute('aria-pressed','false');
+  });
+  const retry=makeAction('retry','تولید دوباره پاسخ','<path d="M20 7v5h-5"/><path d="M20 12a8 8 0 1 0 2 5"/>',()=>{
+   const last=$('chat').querySelector('.u:last-of-type');
+   const previous=last?.querySelector('.u-message-text')?.textContent||last?.textContent||'';
+   if(!previous.trim()){toast('پیام قبلی برای تکرار پیدا نشد.');return}
+   send(previous.trim());
+  });
+  const more=makeAction('more','گزینه‌های بیشتر','<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',()=>{
+   const menu=a.querySelector('.more-menu');menu.hidden=!menu.hidden;
+  });
+  const menu=document.createElement('div');menu.className='more-menu';menu.hidden=true;
+  const copyMenu=document.createElement('button');copyMenu.type='button';copyMenu.innerHTML='<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg> کپی پاسخ';
+  copyMenu.onclick=()=>{copy.click();menu.hidden=true};
+  const retryMenu=document.createElement('button');retryMenu.type='button';retryMenu.innerHTML='<svg viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M20 12a8 8 0 1 0 2 5"/></svg> تولید دوباره';
+  retryMenu.onclick=()=>{retry.click();menu.hidden=true};
+  menu.append(copyMenu,retryMenu);a.appendChild(menu);
+  el.appendChild(a);
   if(planProposal&&Array.isArray(planProposal.tasks)){
    pendingPlanProposal=planProposal;
    const card=document.createElement('section');
