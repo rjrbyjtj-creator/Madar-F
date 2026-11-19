@@ -36,7 +36,7 @@
   function saveMode(mode) {
     try { KEYS.forEach(function (key) { localStorage.setItem(key, mode); }); } catch (e) {}
   }
-  function setVar(name, value) { if (value) root.style.setProperty(name, value); }
+  function setVar(name, value) { if (value) { root.style.setProperty(name, value); if (document.body) document.body.style.setProperty(name, value); } }
   function paintMode(mode) {
     var dark = mode === "dark";
     root.dataset.theme = mode;
