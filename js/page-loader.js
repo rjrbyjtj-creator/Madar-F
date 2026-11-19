@@ -114,11 +114,13 @@
     };
   }
  function mount(){
-  if(overlay)return overlay;overlay=document.createElement("div");overlay.id="madar-page-loader";overlay.setAttribute("aria-hidden","true");
-  overlay.innerHTML='<div class="mpl-stage"><div class="flat-grid-loader" role="status" aria-label="در حال بارگذاری"><span></span><span></span><span></span><span></span></div></div>';
+  if(overlay)return overlay;
+  overlay=document.createElement("div");
+  overlay.id="madar-page-loader";
+  overlay.setAttribute("aria-hidden","true");
+  overlay.innerHTML='<div class="mpl-stage"><svg viewBox="0 0 675 603" xmlns="http://www.w3.org/2000/svg" role="status" aria-label="در حال بارگذاری"><defs><clipPath id="madar-clip-outer"><path d="M653 126L543 27 530 21 522 21 521 20 520 21 512 21 506 23 496 29 342 167 333 167 176 27 163 21 145 21 135 25 128 30 24 123 20 129 20 494 21 496 28 503 122 576 136 582 154 583 162 581 175 574 262 498 270 489 270 484 268 480 232 439 228 436 222 436 216 440 151 498 141 498 124 484 101 467 94 460 93 457 93 163 94 160 107 147 150 109 158 109 318 252 329 258 334 259 346 258 354 254 517 109 525 109 571 150 580 159 582 163 582 457 580 461 575 466 534 498 524 498 455 437 447 436 440 442 406 481 405 490 408 494 504 577 510 580 521 583 534 583 545 580 551 577 649 501 655 493 655 130Z"/></clipPath><clipPath id="madar-clip-inner"><path d="M166 220L166 314 168 318 328 465 333 467 342 467 348 464 507 318 509 313 509 220 506 220 342 370 333 370 169 220Z"/></clipPath></defs><path class="ghost" d="M653 126L543 27 530 21 522 21 521 20 520 21 512 21 506 23 496 29 342 167 333 167 176 27 163 21 145 21 135 25 128 30 24 123 20 129 20 494 21 496 28 503 122 576 136 582 154 583 162 581 175 574 262 498 270 489 270 484 268 480 232 439 228 436 222 436 216 440 151 498 141 498 124 484 101 467 94 460 93 457 93 163 94 160 107 147 150 109 158 109 318 252 329 258 334 259 346 258 354 254 517 109 525 109 571 150 580 159 582 163 582 457 580 461 575 466 534 498 524 498 455 437 447 436 440 442 406 481 405 490 408 494 504 577 510 580 521 583 534 583 545 580 551 577 649 501 655 493 655 130Z"/><path class="ghost" d="M166 220L166 314 168 318 328 465 333 467 342 467 348 464 507 318 509 313 509 220 506 220 342 370 333 370 169 220Z"/><g clip-path="url(#madar-clip-outer)"><path class="draw outer" pathLength="1" d="M277 439L154 547L56 459L56 144L154 56L337 220L520 56L618 144L618 459L520 547L397 439"/></g><g clip-path="url(#madar-clip-inner)"><path class="draw inner" pathLength="1" d="M117 221L337 424L557 221"/></g></svg></div>';
   (document.body||document.documentElement).appendChild(overlay);
-  var reduce=false;try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
-  createGridLoader(overlay.querySelector(".flat-grid-loader"),reduce?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});return overlay;
+  return overlay;
  }
  function show(minDuration){syncTheme();mount();clearTimeout(hideTimer);minVisibleAt=Date.now()+(typeof minDuration==="number"?minDuration:550);overlay.classList.remove("leaving");void overlay.offsetWidth;overlay.classList.add("on");overlay.setAttribute("aria-hidden","false");}
  function hide(soft){if(!overlay)return;clearTimeout(hideTimer);if(soft===false){overlay.classList.remove("on","leaving");overlay.setAttribute("aria-hidden","true");return;}
