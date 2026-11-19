@@ -10,6 +10,17 @@
 <title>پنل مدیریت مدرسه مدار</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
 <link rel="stylesheet" href="./css/admin-panel.css?v=admin-stats-theme-20261114" />
+<style>
+.theme-pack-card{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:22px;margin:0 3.2rem 1.6rem;padding:18px 22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px -18px rgba(20,30,50,.2)}
+.theme-pack-copy{min-width:220px}.theme-pack-kicker{font-size:10px;color:var(--muted);font-weight:700}.theme-pack-copy h2{font-size:16px;margin:3px 0 4px;color:var(--navy)}.theme-pack-copy p{font-size:11px;color:var(--muted);line-height:1.8}
+.theme-pack-options{display:flex;gap:10px;flex-wrap:wrap}.theme-pack-option{display:flex;align-items:center;gap:10px;min-width:160px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);text-align:right;transition:border-color .18s,background .18s}
+.theme-pack-option:hover{border-color:var(--gold)}.theme-pack-option.active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,var(--surface))}
+.theme-pack-option:disabled{opacity:.6;cursor:wait}.theme-pack-option b,.theme-pack-option small{display:block}.theme-pack-option b{font-size:12px}.theme-pack-option small{font-size:10px;color:var(--muted);margin-top:2px}.theme-pack-option i{display:grid;place-items:center;width:18px;height:18px;border:1px solid var(--line);border-radius:50%;font-style:normal;color:transparent;font-size:11px}.theme-pack-option.active i{background:var(--gold);border-color:var(--gold);color:#fff}
+.theme-swatch{width:36px;height:36px;border-radius:9px;flex:none;border:1px solid var(--line)}.madar-swatch{background:linear-gradient(135deg,#14264F 0 48%,#B8892D 48% 62%,#F6F7F9 62%)}.gray-swatch{background:linear-gradient(135deg,#202423 0 35%,#E9EAEB 35% 70%,#91B5AA 70%)}
+.theme-pack-status{font-size:10px;color:var(--muted);white-space:nowrap}
+@media(max-width:850px){.theme-pack-card{margin:0 1.2rem 1.4rem;align-items:flex-start;flex-direction:column}.theme-pack-options{width:100%}.theme-pack-option{flex:1}}
+</style>
+<script defer src="../js/theme.js?v=global-theme-packs-20261119"></script>
 </head>
 <body>
 
@@ -80,6 +91,14 @@
 </section>
 
 <main class="main">
+  <section class="theme-pack-card" aria-labelledby="themePackTitle">
+    <div class="theme-pack-copy"><span class="theme-pack-kicker">ظاهر سراسری سایت</span><h2 id="themePackTitle">پوستهٔ پیش‌فرض سایت</h2><p>یکی از دو بستهٔ ظاهری را انتخاب کن؛ انتخاب مدیر برای همهٔ صفحات سایت اعمال می‌شود.</p></div>
+    <div class="theme-pack-options">
+      <button type="button" class="theme-pack-option" data-theme-pack="madar"><span class="theme-swatch madar-swatch"></span><span><b>مدار</b><small>سرمه‌ای و طلایی</small></span><i aria-hidden="true">✓</i></button>
+      <button type="button" class="theme-pack-option" data-theme-pack="gray"><span class="theme-swatch gray-swatch"></span><span><b>خاکستری</b><small>خاکستری و سبز ملایم</small></span><i aria-hidden="true">✓</i></button>
+    </div>
+    <div class="theme-pack-status" id="themePackStatus" role="status" aria-live="polite">در حال دریافت پوستهٔ فعال…</div>
+  </section>
   <section class="col">
     <div class="col-head"><i></i><h2>وضعیت سامانه</h2></div>
     <div class="status">
