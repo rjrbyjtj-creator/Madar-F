@@ -999,7 +999,7 @@ function addAI(reply,animate,planProposal,planDeletionProposal){
    const active=dislike.classList.toggle('active');like.classList.remove('active');
    dislike.setAttribute('aria-pressed',String(active));like.setAttribute('aria-pressed','false');
   });
-  const retry=makeAction('retry','تولید دوباره پاسخ','<path d="M20 7v5h-5"/><path d="M20 12a8 8 0 1 0 2 5"/>',()=>{
+  const retry=makeAction('retry','تولید دوباره پاسخ','<path d="M20 11a8.1 8.1 0 0 0-14.9-4L3 10"/><path d="M3 4v6h6"/><path d="M4 13a8.1 8.1 0 0 0 14.9 4L21 14"/><path d="M21 20v-6h-6"/>',()=>{
    const userMessages=$('chat').querySelectorAll('.u');const last=userMessages[userMessages.length-1];
    const previous=last?.querySelector('.u-message-text')?.textContent||last?.textContent||'';
    if(!previous.trim()){toast('پیام قبلی برای تکرار پیدا نشد.');return}
