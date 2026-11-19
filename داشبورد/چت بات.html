@@ -633,6 +633,7 @@ body.shared-view #dock{display:none!important}
       <div class="pane" id="p-look">
         <h3>ظاهر</h3>
         <div class="srow top2"><div><b>حالت نمایش</b><small>روشن یا تاریک</small></div></div>
+        <p class="persona-intro">بستهٔ رنگی اصلی سایت توسط مدیریت تنظیم می‌شود؛ از اینجا فقط حالت روشن یا تیره را انتخاب کن.</p>
         <div class="themes">
           <button id="th-light" onclick="setTheme('light')"><i style="background:linear-gradient(#F6F7F9 60%,#fff 60%)"></i>روشن</button>
           <button id="th-dark" onclick="setTheme('dark')"><i style="background:linear-gradient(#0C1222 60%,#131C32 60%)"></i>تاریک</button>
@@ -1428,28 +1429,22 @@ function setChatFont(font,note=true){
 }
 function setTheme(m,note=true){
  if(!['dark','light','gray-light','gray-dark'].includes(m))return;
- const root=document.documentElement,body=document.body;
- const isGray=m.startsWith('gray'),isDark=m==='dark'||m==='gray-dark';
- try{
-  localStorage.setItem('madar-chat-theme',m);
-  if(!isGray)localStorage.setItem('madar-theme',m);
- }catch(e){}
- root.classList.toggle('gray-theme',isGray);body.classList.toggle('gray-theme',isGray);
- root.classList.toggle('dark',isDark);body.classList.toggle('dark',isDark);body.classList.toggle('dark-mode',isDark);
- root.style.colorScheme=isDark?'dark':'light';
- if(isGray){
-  // The global theme loader writes palette variables inline; release them so this page's isolated gray palette can take effect.
-  ['--bg','--surface','--surface-2','--panel','--field','--card','--sf','--sb','--inner','--tile','--chip','--bg-white','--btn-circle-bg','--line','--border','--ln','--border-color','--text','--tx','--text-main','--muted','--mu','--text-muted','--text-light','--navy','--primary','--blue','--pr','--pr2','--primary-navy','--primary-navy-hover','--login','--gold','--accent','--acc','--ac','--accent-gold','--green','--ok','--status-green'].forEach(name=>root.style.removeProperty(name));
+ const mode=(m==='dark'||m==='gray-dark')?'dark':'light';
+ if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function')window.MadarTheme.setMode(mode);
+ else{
+  document.documentElement.dataset.theme=mode;
+  document.body.classList.toggle('dark',mode==='dark');
+  try{localStorage.setItem('madar-theme',mode)}catch(e){}
  }
- if(!isGray){
-  if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function')window.MadarTheme.setMode(m);
-  else root.dataset.theme=m;
- }
- $('th-light').classList.toggle('on',m==='light');
- $('th-dark').classList.toggle('on',m==='dark');
- $('th-gray-light').classList.toggle('on',m==='gray-light');
- $('th-gray-dark').classList.toggle('on',m==='gray-dark');
- if(note)toast(m==='gray-light'?'تم خاکستری روشن فعال شد':m==='gray-dark'?'تم خاکستری تیره فعال شد':m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
+ const pack=window.MadarTheme&&window.MadarTheme.getPack?window.MadarTheme.getPack():(document.documentElement.classList.contains('gray-theme')?'gray':'madar');
+ const gray=pack==='gray';
+ $('th-light').classList.toggle('on',!gray&&mode==='light');
+ $('th-dark').classList.toggle('on',!gray&&mode==='dark');
+ $('th-gray-light').classList.toggle('on',gray&&mode==='light');
+ $('th-gray-dark').classList.toggle('on',gray&&mode==='dark');
+ $('th-light').disabled=gray;$('th-dark').disabled=gray;
+ $('th-gray-light').disabled=!gray;$('th-gray-dark').disabled=!gray;
+ if(note)toast(mode==='dark'?'حالت تیره فعال شد':'حالت روشن فعال شد');
 }
 let att=null;
 let dictationRecognition=null;
@@ -1869,14 +1864,14 @@ function setSide(v,note=true){
 }
 let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
 
-// Re-apply the experimental chat-only palette if the asynchronous global theme loader finishes later.
+// Reflect the administrator-selected global pack after the public theme is loaded.
 window.addEventListener('madar:theme-applied',()=>{
- let saved=null;try{saved=localStorage.getItem('madar-chat-theme')}catch(e){}
- if(saved==='gray-light'||saved==='gray-dark')setTheme(saved,false);
+ const mode=window.MadarTheme&&window.MadarTheme.getMode?window.MadarTheme.getMode():'light';
+ setTheme(mode,false);
 });
 (function init(){
- let s=null,chatTheme=null;try{s=localStorage.getItem('madar-theme');chatTheme=localStorage.getItem('madar-chat-theme')}catch(e){}
- setTheme(['gray-light','gray-dark'].includes(chatTheme)?chatTheme:(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')),false);
+ let s=null;try{s=localStorage.getItem('madar-theme')}catch(e){}
+ setTheme((s==='dark'||s==='light')?s:(window.MadarTheme&&window.MadarTheme.getMode?window.MadarTheme.getMode():'light'),false);
  let chatFont='vazirmatn';try{chatFont=localStorage.getItem('madar-chat-font')||'vazirmatn'}catch(e){}
  setChatFont(chatFont,false);
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
