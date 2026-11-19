@@ -47,6 +47,11 @@ nav{display:flex;gap:10px;flex-wrap:wrap;padding:14px 0}nav a{padding:7px 13px;b
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.page{padding:14px 12px 100px}.grid,.form-grid{grid-template-columns:1fr}.search{order:3;flex-basis:100%;max-width:none}.editor-actions{width:calc(100% - 20px);justify-content:center}.editor-actions .btn{flex:1;padding:8px 7px}}
 </style>
+<style>
+body.gray-theme{--bg:#E9EAEB;--panel:#F8F8F7;--field:#F0F1F0;--border:#D4D7D6;--text:#282D2C;--muted:#737B78;--primary:#555E5B;--gold:#668C82;--ok:#668C82;--shadow:0 2px 5px rgba(34,42,39,.04),0 10px 28px -16px rgba(34,42,39,.18)}
+body.gray-theme.dark{--bg:#202423;--panel:#292F2D;--field:#242A28;--border:#3A4340;--text:#E8ECE9;--muted:#A0AAA5;--primary:#82928B;--gold:#91B5AA;--ok:#91B5AA;--shadow:0 8px 28px -12px rgba(0,0,0,.38)}
+</style>
+<script defer src="../js/theme.js?v=global-theme-packs-20261119"></script>
 </head>
 <body>
 <div class="page">
@@ -149,7 +154,7 @@ $('aiTopic').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preven
 $('new').onclick=function(){fill(null)};$('cancel').onclick=function(){show('list')};$('saveDraft').onclick=function(){save(false)};$('publish').onclick=function(){save(true)};$('cover').oninput=preview;$('search').oninput=render;
 document.querySelectorAll('[data-filter]').forEach(function(b){b.onclick=function(){filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(function(x){x.classList.toggle('active',x===b)});render()}});
 $('articles').onclick=async function(e){var b=e.target.closest('button[data-action]');if(!b)return;var a=items.find(function(x){return x._id===b.dataset.id});if(!a)return;if(b.dataset.action==='edit'){fill(a);return}if(b.dataset.action==='delete'){if(!confirm('این مقاله حذف شود؟'))return;try{await request('/'+encodeURIComponent(a._id),{method:'DELETE'});notify('مقاله حذف شد');load()}catch(err){notify(err.message)}return}if(b.dataset.action==='toggle'){try{await request('/'+encodeURIComponent(a._id),{method:'PUT',body:JSON.stringify({published:!a.published})});notify(a.published?'انتشار لغو شد':'مقاله منتشر شد');load()}catch(err){notify(err.message)}}};
-$('theme').onclick=function(){document.body.classList.toggle('dark');try{localStorage.setItem('madar_admin_mode',document.body.classList.contains('dark')?'dark':'light')}catch(e){}};
+
 load();
 })();
 </script>
