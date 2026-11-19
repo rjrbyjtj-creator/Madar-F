@@ -60,6 +60,9 @@
       MAP[key].forEach(function (name) { setVar(name, value); });
     });
     setVar("--bg2", dark ? (isGray ? "#242A28" : "#172238") : (isGray ? "#F0F1F0" : "#FBFBFC"));
+    setVar("--bg-top", palette.bg);
+    setVar("--bg-mid", isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface);
+    setVar("--bg-deep", isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg);
     setVar("--sb", isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface);
     setVar("--hv", isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface);
     setVar("--okbg", isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)");
