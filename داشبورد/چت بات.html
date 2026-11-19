@@ -12,6 +12,9 @@
 <style>
 :root{--loader-color:#3987ff;--bg:#F6F7F9;--sf:#fff;--sb:#FBFBFC;--ln:#E3E6EC;--tx:#1B2233;--mu:#6B7488;--pr:#14264F;--pr2:#1D3670;--ac:#B8892D;--hv:#EDEFF4;--sh:0 1px 2px rgba(20,38,79,.05),0 8px 24px -12px rgba(20,38,79,.14)}
 :root.dark{--loader-color:#D9AE55;--bg:#0C1222;--sf:#131C32;--sb:#0F1729;--ln:#243049;--tx:#E6EAF3;--mu:#8D98B0;--pr:#2B4C98;--pr2:#3558AE;--ac:#D9AE55;--hv:#1A2440;--sh:0 8px 28px -12px rgba(0,0,0,.6)}
+:root.gray-theme{--loader-color:#648C83;--bg:#E9EAEB;--sf:#F8F8F7;--sb:#F0F1F0;--ln:#D4D7D6;--tx:#282D2C;--mu:#737B78;--pr:#555E5B;--pr2:#414A47;--ac:#668C82;--hv:#E1E5E3;--sh:0 2px 5px rgba(34,42,39,.04),0 10px 28px -16px rgba(34,42,39,.18)}
+:root.gray-theme.dark{--loader-color:#91B5AA;--bg:#202423;--sf:#292F2D;--sb:#242A28;--ln:#3A4340;--tx:#E8ECE9;--mu:#A0AAA5;--pr:#82928B;--pr2:#9BB0A6;--ac:#91B5AA;--hv:#343C38;--sh:0 8px 28px -12px rgba(0,0,0,.38)}
+
 *{box-sizing:border-box;margin:0;font-family:'Vazirmatn',sans-serif}
 body{height:100vh;display:flex;background:var(--bg);color:var(--tx);overflow:hidden;transition:background .25s}
 button{cursor:pointer;border:0;background:none;color:inherit;font:inherit}
@@ -625,6 +628,7 @@ body.shared-view #dock{display:none!important}
         <div class="themes">
           <button id="th-light" onclick="setTheme('light')"><i style="background:linear-gradient(#F6F7F9 60%,#fff 60%)"></i>روشن</button>
           <button id="th-dark" onclick="setTheme('dark')"><i style="background:linear-gradient(#0C1222 60%,#131C32 60%)"></i>تاریک</button>
+          <button id="th-gray" onclick="setTheme('gray')"><i style="background:linear-gradient(90deg,#E9EAEB 0 34%,#F8F8F7 34% 67%,#668C82 67% 100%)"></i>خاکستری مدرن</button>
         </div>
         <div class="srow top2" style="margin-top:22px"><div><b>جایگاه منو</b><small>سمت راست یا چپ صفحه</small></div></div>
         <div class="themes">
@@ -1404,18 +1408,27 @@ function initPersona(){
 let live=true,spd=5;
 function setLive(el){live=!live;el.classList.toggle('on',live)}
 function setTheme(m,note=true){
- if(m!=='dark'&&m!=='light')return;
- try{localStorage.setItem('madar-theme',m)}catch(e){}
- if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function'){
-  window.MadarTheme.setMode(m);
+ if(!['dark','light','gray'].includes(m))return;
+ const root=document.documentElement,body=document.body;
+ if(m==='gray'){
+  try{localStorage.setItem('madar-chat-theme','gray')}catch(e){}
+  root.classList.add('gray-theme');body.classList.add('gray-theme');
  }else{
-  document.documentElement.dataset.theme=m;
-  document.documentElement.classList.toggle('dark',m==='dark');
-  document.body.classList.toggle('dark',m==='dark');
-  document.body.classList.toggle('dark-mode',m==='dark');
+  try{localStorage.setItem('madar-theme',m);localStorage.setItem('madar-chat-theme',m)}catch(e){}
+  root.classList.remove('gray-theme');body.classList.remove('gray-theme');
+  if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function'){
+   window.MadarTheme.setMode(m);
+  }else{
+   root.dataset.theme=m;
+   root.classList.toggle('dark',m==='dark');
+   body.classList.toggle('dark',m==='dark');
+   body.classList.toggle('dark-mode',m==='dark');
+  }
  }
- $('th-light').classList.toggle('on',m!=='dark');$('th-dark').classList.toggle('on',m==='dark');
- if(note)toast(m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
+ $('th-light').classList.toggle('on',m==='light');
+ $('th-dark').classList.toggle('on',m==='dark');
+ $('th-gray').classList.toggle('on',m==='gray');
+ if(note)toast(m==='gray'?'تم خاکستری مدرن فعال شد':m==='dark'?'حالت تاریک فعال شد':'حالت روشن فعال شد');
 }
 let att=null;
 let dictationRecognition=null;
@@ -1836,8 +1849,8 @@ function setSide(v,note=true){
 let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
 
 (function init(){
- let s=null;try{s=localStorage.getItem('madar-theme')}catch(e){}
- setTheme(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'),false);
+ let s=null,chatTheme=null;try{s=localStorage.getItem('madar-theme');chatTheme=localStorage.getItem('madar-chat-theme')}catch(e){}
+ setTheme(chatTheme==='gray'?'gray':(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')),false);
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
  setSide(sd,false);$('inp').addEventListener('input',sync);
  $('slotW').appendChild($('box'));renderHist();
