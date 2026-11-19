@@ -9,11 +9,11 @@
   var FONT_MAP = { vazir: "'Vazirmatn',Tahoma,sans-serif", tahoma: "Tahoma,sans-serif", system: "system-ui,-apple-system,sans-serif" };
   var MAP = {
     bg: ["--bg", "--bg2", "--hdr", "--bg-header", "--bg-body", "--bg-hero-left"],
-    surface: ["--surface", "--surface-2", "--panel", "--field", "--card", "--sf", "--sb", "--inner", "--tile", "--chip", "--bg-white", "--btn-circle-bg"],
+    surface: ["--surface", "--surface-2", "--panel", "--field", "--card", "--sf", "--inner", "--tile", "--chip", "--cb", "--bg-white", "--btn-circle-bg"],
     line: ["--line", "--border", "--ln", "--border-color"],
-    text: ["--text", "--tx", "--text-main"],
+    text: ["--text", "--tx", "--text-main", "--ink"],
     muted: ["--muted", "--mu", "--text-muted", "--text-light"],
-    navy: ["--navy", "--primary", "--blue", "--pr", "--pr2", "--primary-navy", "--primary-navy-hover", "--login"],
+    navy: ["--navy", "--primary", "--blue", "--pr", "--pr2", "--primary-navy", "--primary-navy-hover", "--login", "--ico"],
     gold: ["--gold", "--accent", "--acc", "--ac", "--accent-gold"],
     green: ["--green", "--ok", "--status-green"]
   };
@@ -62,6 +62,9 @@
     setVar("--bg2", dark ? (isGray ? "#242A28" : "#172238") : (isGray ? "#F0F1F0" : "#FBFBFC"));
     setVar("--sb", isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface);
     setVar("--hv", isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface);
+    setVar("--okbg", isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)");
+    setVar("--idbg", isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)");
+    setVar("--sh", isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)");
     setVar("--on-primary", "#ffffff");
     setVar("--on", "#ffffff");
     setVar("--navy-hover", palette.navy);
