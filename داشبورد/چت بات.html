@@ -1867,7 +1867,14 @@ let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sho
 // Reflect the administrator-selected global pack after the public theme is loaded.
 window.addEventListener('madar:theme-applied',()=>{
  const mode=window.MadarTheme&&window.MadarTheme.getMode?window.MadarTheme.getMode():'light';
- setTheme(mode,false);
+ const pack=window.MadarTheme&&window.MadarTheme.getPack?window.MadarTheme.getPack():'madar';
+ const gray=pack==='gray';
+ $('th-light').classList.toggle('on',!gray&&mode==='light');
+ $('th-dark').classList.toggle('on',!gray&&mode==='dark');
+ $('th-gray-light').classList.toggle('on',gray&&mode==='light');
+ $('th-gray-dark').classList.toggle('on',gray&&mode==='dark');
+ $('th-light').disabled=gray;$('th-dark').disabled=gray;
+ $('th-gray-light').disabled=!gray;$('th-gray-dark').disabled=!gray;
 });
 (function init(){
  let s=null;try{s=localStorage.getItem('madar-theme')}catch(e){}
