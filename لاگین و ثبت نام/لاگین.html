@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="../عکس ها/لوگو - تب گوگل - جدید.png?v=20261119">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(function(){
+ const desktop=new URLSearchParams(location.search).get("desktop")==="1";
+ if(!desktop)return;
+ document.documentElement.dataset.desktopApp="1";
+ try{
+  const keys=["madar-theme","theme","answer-sheet-theme"];
+  let saved=null;
+  for(const key of keys){const value=localStorage.getItem(key);if(value==="dark"||value==="light"){saved=value;break;}}
+  if(!saved){saved="dark";keys.forEach(key=>localStorage.setItem(key,"dark"));}
+  document.documentElement.dataset.theme=saved;
+  document.documentElement.style.colorScheme=saved;
+ }catch(e){document.documentElement.dataset.theme="dark";}
+})();
+</script>
 <link id="madar-page-loader-css" rel="stylesheet" href="../css/page-loader.css">
 <script src="../js/page-loader.js"></script>
 <script src="../js/madar-connect.js?v=connect-20261114"></script>
