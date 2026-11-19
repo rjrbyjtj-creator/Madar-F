@@ -1418,6 +1418,11 @@ function setTheme(m,note=true){
  }catch(e){}
  root.classList.toggle('gray-theme',isGray);body.classList.toggle('gray-theme',isGray);
  root.classList.toggle('dark',isDark);body.classList.toggle('dark',isDark);body.classList.toggle('dark-mode',isDark);
+ root.style.colorScheme=isDark?'dark':'light';
+ if(isGray){
+  // The global theme loader writes palette variables inline; release them so this page's isolated gray palette can take effect.
+  ['--bg','--surface','--surface-2','--panel','--field','--card','--sf','--sb','--inner','--tile','--chip','--bg-white','--btn-circle-bg','--line','--border','--ln','--border-color','--text','--tx','--text-main','--muted','--mu','--text-muted','--text-light','--navy','--primary','--blue','--pr','--pr2','--primary-navy','--primary-navy-hover','--login','--gold','--accent','--acc','--ac','--accent-gold','--green','--ok','--status-green'].forEach(name=>root.style.removeProperty(name));
+ }
  if(!isGray){
   if(window.MadarTheme&&typeof window.MadarTheme.setMode==='function')window.MadarTheme.setMode(m);
   else root.dataset.theme=m;
@@ -1846,6 +1851,11 @@ function setSide(v,note=true){
 }
 let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
 
+// Re-apply the experimental chat-only palette if the asynchronous global theme loader finishes later.
+window.addEventListener('madar:theme-applied',()=>{
+ let saved=null;try{saved=localStorage.getItem('madar-chat-theme')}catch(e){}
+ if(saved==='gray-light'||saved==='gray-dark')setTheme(saved,false);
+});
 (function init(){
  let s=null,chatTheme=null;try{s=localStorage.getItem('madar-theme');chatTheme=localStorage.getItem('madar-chat-theme')}catch(e){}
  setTheme(['gray-light','gray-dark'].includes(chatTheme)?chatTheme:(s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')),false);
