@@ -365,6 +365,12 @@ select.fld{cursor:pointer}
 /* logo slots: transparent box, your PNG fills it */
 .mark{background:none}
 .mark img{width:100%;height:100%;object-fit:contain;display:block}.mark img{transform:scale(1.2);transform-origin:center}
+/* Brand logo sizing and light-theme contrast */
+.brand .mark{width:44px;height:44px;min-width:44px;border-radius:10px}
+.brand .mark img{width:100%;height:100%;transform:scale(1.18)}
+#welcome .mark{width:88px;height:88px;border-radius:18px;margin:0 auto 22px}
+#welcome .mark img{width:100%;height:100%;transform:scale(1.12)}
+:root:not(.dark) .mark img{filter:brightness(0) saturate(100%)}
 /* settings: less rounded corners */
 .card.set{border-radius:10px}
 .set .ib{border-radius:8px}
