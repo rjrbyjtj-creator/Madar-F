@@ -1441,7 +1441,7 @@ async function loadAppVersion(){
   if(!window.__TAURI__||!window.__TAURI__.core||!window.__TAURI__.core.invoke)throw new Error('این قابلیت فقط در نسخهٔ دسکتاپ مدار روبو در دسترس است.');
   const version=await window.__TAURI__.core.invoke('get_app_version');
   versionEl.textContent='v'+version;appVersionLoaded=true;
- }catch(error){versionEl.textContent='نامشخص';$('app-update-message').textContent=error.message||'اطلاعات نسخه دریافت نشد.';$('app-check-update').disabled=true;}
+ }catch(error){versionEl.textContent='نسخهٔ دسکتاپ';appVersionLoaded=true;}
 }
 async function checkAppUpdate(){
  const check=$('app-check-update'),install=$('app-install-update'),status=$('app-update-status'),message=$('app-update-message');
