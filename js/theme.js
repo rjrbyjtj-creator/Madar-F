@@ -23,6 +23,11 @@
     text: "#E8ECE9", muted: "#A0AAA5", navy: "#82928B",
     gold: "#91B5AA", green: "#91B5AA"
   };
+  var CLAUDE_DARK = {
+    bg: "#191919", surface: "#242424", line: "#3A3A3A",
+    text: "#F1F0EE", muted: "#A6A29D", navy: "#E07A5F",
+    gold: "#D97757", green: "#D97757"
+  };
 
   function readMode() {
     try {
@@ -52,22 +57,24 @@
     var colors = theme.colors;
     var dark = mode === "dark";
     var isGray = theme.slug === "gray";
+    var isClaude = theme.slug === "claude";
     var palette = Object.assign({}, colors);
     if (dark && isGray) palette = Object.assign(palette, GRAY_DARK);
+    else if (dark && isClaude) palette = Object.assign(palette, CLAUDE_DARK);
     else if (dark) palette = Object.assign(palette, DARK);
     Object.keys(MAP).forEach(function (key) {
       var value = palette[key];
       MAP[key].forEach(function (name) { setVar(name, value); });
     });
-    setVar("--bg2", dark ? (isGray ? "#242A28" : "#172238") : (isGray ? "#F0F1F0" : "#FBFBFC"));
+    setVar("--bg2", isClaude ? (dark ? "#202020" : "#F0EEE9") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : (dark ? "#172238" : "#FBFBFC")));
     setVar("--bg-top", palette.bg);
-    setVar("--bg-mid", isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface);
-    setVar("--bg-deep", isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg);
-    setVar("--sb", isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface);
-    setVar("--hv", isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface);
-    setVar("--okbg", isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)");
-    setVar("--idbg", isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)");
-    setVar("--sh", isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)");
+    setVar("--bg-mid", isClaude ? (dark ? "#202020" : "#F0EEE9") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
+    setVar("--bg-deep", isClaude ? (dark ? "#191919" : "#EAE7E0") : (isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg));
+    setVar("--sb", isClaude ? (dark ? "#202020" : "#F0EEE9") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
+    setVar("--hv", isClaude ? (dark ? "#303030" : "#E9E5DE") : (isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface));
+    setVar("--okbg", isClaude ? (dark ? "rgba(217,119,87,.16)" : "rgba(217,119,87,.12)") : (isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)"));
+    setVar("--idbg", isClaude ? (dark ? "linear-gradient(145deg,#242424,#303030)" : "linear-gradient(145deg,#FFFFFF,#EEEAE2)") : (isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)"));
+    setVar("--sh", isClaude ? (dark ? "rgba(0,0,0,.34)" : "rgba(75,59,47,.10)") : (isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)"));
     setVar("--on-primary", "#ffffff");
     setVar("--on", "#ffffff");
     setVar("--navy-hover", palette.navy);
@@ -76,7 +83,11 @@
     root.style.fontFamily = font;
     if (document.body) document.body.style.fontFamily = font;
     root.classList.toggle("gray-theme", isGray);
-    if (document.body) document.body.classList.toggle("gray-theme", isGray);
+    root.classList.toggle("claude-theme", isClaude);
+    if (document.body) {
+      document.body.classList.toggle("gray-theme", isGray);
+      document.body.classList.toggle("claude-theme", isClaude);
+    }
   }
   function apply(theme) {
     if (!theme || !theme.colors) return;
