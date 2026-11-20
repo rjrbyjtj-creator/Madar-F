@@ -1443,6 +1443,7 @@ async function loadAppVersion(){
   versionEl.textContent='v'+version;appVersionLoaded=true;
  }catch(error){versionEl.textContent='نسخهٔ دسکتاپ';appVersionLoaded=true;}
 }
+function appUpdateErrorText(error){return typeof error==='string'?error:(error&&error.message?error.message:String(error));}
 async function checkAppUpdate(){
  const check=$('app-check-update'),install=$('app-install-update'),status=$('app-update-status'),message=$('app-update-message');
  check.disabled=true;install.hidden=true;status.className='app-update-status';status.textContent='در حال بررسی…';message.textContent='در حال ارتباط با سرور انتشار مدار…';
@@ -1456,14 +1457,14 @@ async function checkAppUpdate(){
    $('app-new-version-row').hidden=true;status.className='app-update-status ready';status.textContent='به‌روز هستی';
    message.textContent='آخرین نسخهٔ منتشرشده روی برنامه نصب است.';
   }
- }catch(error){status.textContent='بررسی ناموفق';message.textContent=error.message||'ارتباط با سرور به‌روزرسانی برقرار نشد.';}
+ }catch(error){status.textContent='بررسی ناموفق';message.textContent=appUpdateErrorText(error)||'ارتباط با سرور به‌روزرسانی برقرار نشد.';}
  finally{check.disabled=false;}
 }
 async function installAppUpdate(){
  const install=$('app-install-update'),message=$('app-update-message');
  install.disabled=true;install.textContent='در حال دریافت و نصب…';message.textContent='لطفاً برنامه را نبند. پس از نصب، مدار روبو خودکار راه‌اندازی می‌شود.';
  try{await window.__TAURI__.core.invoke('install_update');}
- catch(error){message.textContent=error.message||'نصب به‌روزرسانی انجام نشد.';install.disabled=false;install.textContent='تلاش دوباره برای نصب';}
+ catch(error){message.textContent=appUpdateErrorText(error)||'نصب به‌روزرسانی انجام نشد.';install.disabled=false;install.textContent='تلاش دوباره برای نصب';}
 }
 const PERSONAS={
  balanced:{label:'متعادل و آموزشی',note:'حالت متعادل و آموزشی فعاله.'},
