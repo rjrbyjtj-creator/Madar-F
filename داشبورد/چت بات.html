@@ -175,6 +175,21 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .themes i{display:block;height:54px;border-radius:9px;margin-bottom:9px;border:1px solid #ccd}
 .pane ul{padding-right:18px;font-size:13px;line-height:2.1;color:var(--mu)}
 .persona-intro{font-size:12px;line-height:1.9;color:var(--mu);margin:10px 0 13px}
+.app-update-card{margin-top:18px;padding:18px;border:1px solid var(--ln);border-radius:14px;background:linear-gradient(145deg,var(--sf),var(--sb));box-shadow:var(--sh)}
+.app-update-top{display:flex;align-items:center;gap:11px;padding-bottom:15px;border-bottom:1px solid var(--ln)}
+.app-update-symbol{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(184,137,45,.12);color:var(--ac)}
+.app-update-symbol svg{width:21px;height:21px}
+.app-update-heading{flex:1;min-width:0}.app-update-heading b{display:block;font-size:13px}.app-update-heading small{display:block;margin-top:3px;font-size:11px;color:var(--mu)}
+.app-update-status{font-size:10px;color:var(--mu);padding:5px 9px;border:1px solid var(--ln);border-radius:999px;white-space:nowrap}
+.app-update-status.ready{color:#26865b;border-color:rgba(38,134,91,.3);background:rgba(38,134,91,.08)}
+.app-update-status.available{color:var(--ac);border-color:rgba(184,137,45,.35);background:rgba(184,137,45,.1)}
+.app-update-version-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0 0;font-size:12px;color:var(--mu)}
+.app-update-version-row b{color:var(--tx);font-weight:600;direction:ltr}
+.app-update-message{margin:14px 0 12px;padding:10px 12px;border-radius:9px;background:var(--hv);font-size:12px;line-height:1.8;color:var(--mu)}
+.app-update-actions{display:flex;flex-wrap:wrap;gap:8px}.app-update-actions .btn{min-height:38px;padding:8px 14px;border-radius:9px;background:var(--pr);color:#fff;font-size:12px}.app-update-actions .btn.secondary{background:var(--hv);color:var(--tx);border:1px solid var(--ln)}
+.app-update-actions button:disabled{opacity:.55;cursor:wait}
+.app-update-footnote{display:block;margin-top:12px;color:var(--mu);font-size:10px;line-height:1.7}
+
 .persona-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .persona-option{display:flex;align-items:center;gap:9px;min-width:0;padding:11px;border:1px solid var(--ln);border-radius:12px;text-align:right;background:var(--sf);transition:.16s}
 .persona-option:hover{border-color:var(--ac);background:var(--hv)}
@@ -615,6 +630,7 @@ body.shared-view #dock{display:none!important}
       <button data-t="look" onclick="tab('look')"><svg class="i"><use href="#gr"/></svg>ظاهر</button>
       <button data-t="bot" onclick="tab('bot')"><svg class="i"><use href="#ck"/></svg>روبو</button>
       <button data-t="models" onclick="tab('models')"><svg class="i"><use href="#ck"/></svg>مدل‌های هوش مصنوعی</button>
+      <button data-t="updates" onclick="tab('updates')"><svg class="i"><use href="#ck"/></svg>به‌روزرسانی برنامه</button>
       <button data-t="help" onclick="tab('help')"><svg class="i"><use href="#hp"/></svg>راهنما</button>
     </nav>
     <div class="sbody">
@@ -718,6 +734,26 @@ body.shared-view #dock{display:none!important}
         </div>
         <div class="ai-catalog-note">نکته: کیفیت، سرعت و در دسترس‌بودن هر مدل به ارائه‌دهنده و محدودیت‌های حساب Hugging Face بستگی دارد. دو مدل Vision در این فهرست قابل انتخاب‌اند، اما ارسال واقعی تصویر از رابط پیوست چت هنوز به این مسیر متصل نشده است. گفتگوی صوتی زنده در مدار همچنان از Gemini استفاده می‌کند و انتخاب مدل متنی آن را تغییر نمی‌دهد.</div>
       </div>
+      <div class="pane" id="p-updates">
+        <h3>به‌روزرسانی مدار روبو</h3>
+        <p class="persona-intro">از این بخش می‌توانی نسخهٔ برنامه را بررسی کنی و در صورت انتشار نسخهٔ جدید، آن را مستقیم دریافت کنی.</p>
+        <section class="app-update-card">
+          <div class="app-update-top">
+            <div class="app-update-symbol"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg></div>
+            <div class="app-update-heading"><b>به‌روزرسانی نرم‌افزار</b><small>نسخهٔ رسمی مدار | روبو</small></div>
+            <span class="app-update-status" id="app-update-status">آمادهٔ بررسی</span>
+          </div>
+          <div class="app-update-version-row"><span>نسخهٔ نصب‌شده</span><b id="app-current-version">در حال دریافت…</b></div>
+          <div class="app-update-version-row" id="app-new-version-row" hidden><span>نسخهٔ جدید</span><b id="app-new-version">—</b></div>
+          <p class="app-update-message" id="app-update-message">برای بررسی انتشار نسخهٔ جدید، دکمهٔ زیر را بزن.</p>
+          <div class="app-update-actions">
+            <button type="button" class="btn secondary" id="app-check-update" onclick="checkAppUpdate()">بررسی به‌روزرسانی</button>
+            <button type="button" class="btn" id="app-install-update" onclick="installAppUpdate()" hidden>دریافت و نصب نسخهٔ جدید</button>
+          </div>
+          <small class="app-update-footnote">در زمان نصب به‌روزرسانی، برنامه پس از دریافت فایل به‌صورت خودکار دوباره راه‌اندازی می‌شود.</small>
+        </section>
+      </div>
+
       <div class="pane" id="p-help">
         <h3>راهنما</h3>
         <ul>
@@ -1394,8 +1430,41 @@ function closeModal(){$('modal').classList.remove('show')}
 function tab(t){
  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));
  document.querySelectorAll('.snav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+ if(t==='updates')loadAppVersion();
 }
 function navFilter(v){document.querySelectorAll('.snav button').forEach(b=>b.style.display=b.textContent.includes(v.trim())?'':'none')}
+let appVersionLoaded=false;
+async function loadAppVersion(){
+ if(appVersionLoaded)return;
+ const versionEl=$('app-current-version');
+ try{
+  if(!window.__TAURI__||!window.__TAURI__.core||!window.__TAURI__.core.invoke)throw new Error('این قابلیت فقط در نسخهٔ دسکتاپ مدار روبو در دسترس است.');
+  const version=await window.__TAURI__.core.invoke('get_app_version');
+  versionEl.textContent='v'+version;appVersionLoaded=true;
+ }catch(error){versionEl.textContent='نامشخص';$('app-update-message').textContent=error.message||'اطلاعات نسخه دریافت نشد.';$('app-check-update').disabled=true;}
+}
+async function checkAppUpdate(){
+ const check=$('app-check-update'),install=$('app-install-update'),status=$('app-update-status'),message=$('app-update-message');
+ check.disabled=true;install.hidden=true;status.className='app-update-status';status.textContent='در حال بررسی…';message.textContent='در حال ارتباط با سرور انتشار مدار…';
+ try{
+  const update=await window.__TAURI__.core.invoke('check_for_update');
+  if(update){
+   $('app-new-version').textContent='v'+update.version;$('app-new-version-row').hidden=false;
+   status.className='app-update-status available';status.textContent='نسخهٔ جدید موجود است';
+   message.textContent=update.notes||'نسخهٔ جدید آمادهٔ دریافت و نصب است.';install.hidden=false;
+  }else{
+   $('app-new-version-row').hidden=true;status.className='app-update-status ready';status.textContent='به‌روز هستی';
+   message.textContent='آخرین نسخهٔ منتشرشده روی برنامه نصب است.';
+  }
+ }catch(error){status.textContent='بررسی ناموفق';message.textContent=error.message||'ارتباط با سرور به‌روزرسانی برقرار نشد.';}
+ finally{check.disabled=false;}
+}
+async function installAppUpdate(){
+ const install=$('app-install-update'),message=$('app-update-message');
+ install.disabled=true;install.textContent='در حال دریافت و نصب…';message.textContent='لطفاً برنامه را نبند. پس از نصب، مدار روبو خودکار راه‌اندازی می‌شود.';
+ try{await window.__TAURI__.core.invoke('install_update');}
+ catch(error){message.textContent=error.message||'نصب به‌روزرسانی انجام نشد.';install.disabled=false;install.textContent='تلاش دوباره برای نصب';}
+}
 const PERSONAS={
  balanced:{label:'متعادل و آموزشی',note:'حالت متعادل و آموزشی فعاله.'},
  friendly:{label:'صمیمی و خودمانی',note:'با لحنی گرم، راحت و محاوره‌ای پاسخ می‌دم.'},
