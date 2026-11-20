@@ -2,694 +2,204 @@
 <html lang="fa" dir="rtl" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مدار | داشبورد دانش‌آموز</title>
+<link rel="icon" type="image/png" href="../عکس ها/لوگو - تب گوگل - جدید.png?v=20261119">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link id="madar-page-loader-css" rel="stylesheet" href="../css/page-loader.css">
 <script src="../js/page-loader.js"></script>
 <script src="../js/madar-connect.js?v=connect-20261114"></script>
 <script defer src="../js/theme.js?v=claude-neutral-final-20261120"></script>
-<title>مدار | داشبورد</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="../عکس ها/لوگو - تب گوگل - جدید.png?v=20261119">
-<script>try{var savedMadarMode=localStorage.getItem('madar-theme')||localStorage.getItem('theme');if(savedMadarMode==='dark'||savedMadarMode==='light')document.documentElement.dataset.theme=savedMadarMode;}catch(e){}</script>
 <style>
-:root{--bg:#e8eaf3;--bg2:#f1f2f8;--card:#fff;--panel:#fff;--cb:rgba(255,255,255,.9);--inner:#f6f7fb;--tile:#e9ecf7;--chip:#eef0f8;--text:#11204f;--muted:#5b6382;--primary:#142859;--login:#0f1d47;--gold:#c9963a;--line:rgba(20,40,89,.1);--sh:rgba(30,40,90,.07);--on:#fff;--ease:cubic-bezier(.22,1,.36,1)}
-:root[data-theme=dark]{--bg:#0e1633;--bg2:#151e45;--card:rgba(255,255,255,.06);--panel:#1a2557;--cb:rgba(255,255,255,.1);--inner:rgba(255,255,255,.04);--tile:rgba(255,255,255,.08);--chip:rgba(255,255,255,.08);--text:#eef1ff;--muted:#a3abd2;--primary:#34479f;--login:#34479f;--gold:#e0ae45;--line:rgba(255,255,255,.12);--sh:rgba(0,0,0,.3)}
-*{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--bg);font-size:clamp(10.8px,.8613vw,19.8px);scroll-behavior:smooth}
-body{font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--text);font-size:1rem;line-height:1.7;min-height:100vh;overflow-x:hidden;
-  background:radial-gradient(40rem 34rem at 10% 36%,color-mix(in srgb,var(--primary) 8%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg))}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-svg.i{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.only-light{display:block}.only-dark{display:none}
-:root[data-theme=dark] .only-light{display:none}:root[data-theme=dark] .only-dark{display:block}
-.ph:empty{display:grid;place-items:center;border:1.5px dashed color-mix(in srgb,var(--text) 30%,transparent);border-radius:.8rem;background:color-mix(in srgb,var(--text) 4%,transparent)}
-.ph:empty::before{content:attr(data-ph);color:var(--muted);font-size:.8rem}
-
-.page{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:1.1rem 4.75rem 0 4.4rem}
-
-/* هدر */
-.top{position:relative;z-index:5;display:flex;align-items:center;height:3.6rem}
-.logo{display:flex;align-items:center;gap:.75rem}
-.logo .ph{width:3.3rem;height:3.6rem}
-.logo img{height:3.6rem;width:auto}
-.logo strong{display:block;font-size:2rem;font-weight:800;line-height:1.1}
-.logo small{display:block;font-size:.7rem;font-weight:700;line-height:1.4}
-.search{flex:0 0 35rem;margin-inline:18.2rem auto;display:flex;align-items:center;gap:.75rem;height:2.65rem;padding:0 1.1rem;background:var(--card);border:1px solid var(--cb);border-radius:999px;box-shadow:0 .25rem 1rem var(--sh);color:var(--muted);transition:box-shadow .3s,border-color .3s}
-.search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent)}
-.search svg.i{width:1.3rem;height:1.3rem;color:var(--text)}
-.search input{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;font-size:.9rem;color:var(--text)}
-.search input::placeholder{color:var(--muted)}
-.actions{display:flex;align-items:center;gap:1.4rem}
-.ib{position:relative;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;color:var(--text);transition:background .2s,transform .3s var(--ease)}
-.ib:hover{background:var(--chip);transform:translateY(-2px)}
-.ib svg.i{width:1.4rem;height:1.4rem}
-.ib .dot{position:absolute;top:.25rem;right:.3rem;width:.55rem;height:.55rem;border-radius:50%;background:var(--gold);border:1.5px solid var(--bg2)}
-#themeBtn .sun,:root[data-theme=dark] #themeBtn .moon{display:none}
-:root[data-theme=dark] #themeBtn .sun{display:block}
-
-.profile{position:relative}
-.avatar{display:grid;place-items:center;width:2.65rem;height:2.65rem;border-radius:50%;color:var(--text);background:var(--tile);border:1.5px solid var(--line);transition:border-color .25s,transform .3s var(--ease)}
-.avatar:hover,.avatar[aria-expanded=true]{border-color:var(--gold);transform:translateY(-2px)}
-.avatar svg.i{width:1.4rem;height:1.4rem}
-.pp{position:absolute;top:calc(100% + .8rem);left:0;z-index:50;width:20rem;max-width:calc(100vw - 2rem);padding:1.1rem 1.2rem 1rem;background:var(--panel);border:1px solid var(--line);border-radius:1.1rem;box-shadow:0 1rem 2.5rem var(--sh);opacity:0;visibility:hidden;transform:translateY(-.5rem);transition:opacity .25s,transform .35s var(--ease),visibility .25s}
-.pp.open{opacity:1;visibility:visible;transform:none}
-.pp-head{display:flex;align-items:center;gap:.9rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
-.av-lg{display:grid;place-items:center;flex:none;width:3.6rem;height:3.6rem;border-radius:50%;background:var(--tile);border:1.5px solid var(--line)}
-.av-lg svg.i{width:1.9rem;height:1.9rem}
-.pp-head b{display:block;font-size:1rem;font-weight:700;line-height:1.5}
-.pp-head small{display:inline-block;margin-top:.15rem;padding:0 .75rem;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--chip);border-radius:999px}
-.pp-list{list-style:none;padding:.5rem 0}
-.pp-list li{display:flex;align-items:center;gap:.7rem;min-height:2.4rem;font-size:.85rem}
-.pp-list li svg.i{width:1.05rem;height:1.05rem;color:var(--muted)}
-.pp-list li span{color:var(--muted)}
-.pp-list li b{margin-inline-start:auto;max-width:11rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
-.pp-more{display:flex;align-items:center;justify-content:space-between;height:2.6rem;padding:0 1rem;font-size:.86rem;font-weight:700;color:var(--on);background:var(--primary);border-radius:.8rem;transition:filter .2s,transform .3s var(--ease)}
-.pp-more:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.pp-more svg.i{width:1rem;height:1rem}
-.pp-out{display:flex;align-items:center;gap:.5rem;width:100%;height:2.4rem;margin-top:.5rem;padding:0 .4rem;font-size:.82rem;color:var(--muted);transition:color .2s}
-.pp-out:hover{color:#d64545}
-.pp-out svg.i{width:1.05rem;height:1.05rem}
-
-/* منو */
-.nav{position:relative;z-index:3;display:flex;gap:3.6rem;margin-top:1.1rem;padding-inline-start:16.9rem}
-.nav a{position:relative;display:flex;align-items:center;gap:.45rem;padding-bottom:.55rem;font-size:.92rem;font-weight:500;white-space:nowrap;transition:color .2s}
-.nav a:hover,.nav a.on{color:var(--gold)}
-.nav a svg.i{width:.7rem;height:.7rem;stroke-width:2}
-.nav a.on::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;border-radius:2px;background:var(--gold)}
-.dd{position:relative}
-.dd>a svg.i{transition:transform .3s var(--ease)}
-.dd:hover>a,.dd.open>a,.dd:has(:focus-visible)>a{color:var(--gold)}
-.dd:hover>a svg.i,.dd.open>a svg.i{transform:rotate(180deg)}
-.sub{position:absolute;top:calc(100% + .45rem);inset-inline-start:-.8rem;z-index:40;min-width:12.5rem;list-style:none;padding:.5rem;background:var(--panel);border:1px solid var(--line);border-radius:1rem;box-shadow:0 1rem 2.5rem var(--sh);opacity:0;visibility:hidden;transform:translateY(-.4rem);transition:opacity .25s,transform .35s var(--ease),visibility .25s}
-.sub::before{content:"";position:absolute;inset:-.6rem 0 auto;height:.6rem}
-.dd:hover .sub,.dd.open .sub,.dd:has(:focus-visible) .sub{opacity:1;visibility:visible;transform:none}
-.nav .sub a{padding:.5rem .8rem;border-radius:.6rem;font-size:.85rem}
-.nav .sub a:hover{background:var(--chip);color:var(--gold)}
-
-/* تزئینات + انتقال تم */
-.theming,.theming *{transition:background-color .5s,color .5s,border-color .5s!important}
-.deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.deco i{position:absolute;border-radius:50%}
-.deco .a{top:-15rem;left:-13rem;width:35rem;height:35rem;background:color-mix(in srgb,var(--primary) 9%,transparent)}
-.deco .b{top:30rem;right:-12rem;width:34rem;height:34rem;border:2px solid color-mix(in srgb,var(--primary) 14%,transparent)}
-
-/* ===== هیرو (بلندتر و بازتر) ===== */
-.main{position:relative;z-index:1;margin-top:1.4rem;padding-bottom:3rem}
-.pill{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem 1rem;font-size:.78rem;font-weight:700;background:var(--chip);border-radius:999px}
-.pill svg.i{width:1.1rem;height:1.1rem}
-.hero{display:grid;grid-template-columns:1fr 24rem;align-items:center;gap:2rem 3rem;min-height:30rem;padding-top:3rem}
-.hero h1{margin-top:1.2rem;font-size:2.6rem;font-weight:800;line-height:1.5;max-width:30rem}
-.hero p{margin-top:.6rem;font-size:1rem;font-weight:500;color:var(--muted);max-width:28rem}
-.hero .fbtn{margin-top:2rem}
-.hero-art{position:relative;display:grid;min-height:20rem}
-.hero-art::before{content:"";position:absolute;inset:-2.5rem 0 -1rem -9rem;border-radius:46% 54% 58% 42%/52% 44% 56% 48%;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 11%,transparent),color-mix(in srgb,var(--primary) 3%,transparent))}
-.hero-img{position:relative;min-height:20rem}
-.hero-img img{width:100%;height:100%;object-fit:contain}
-.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);padding-top:1.6rem;border-top:1px solid var(--line)}
-.st{display:flex;align-items:center;gap:.8rem;padding-inline:1.6rem;border-inline-start:1px solid var(--line)}
-.st:first-child{border:0;padding-inline-start:0}
-.st svg.i{width:1.6rem;height:1.6rem}
-.st b{display:block;font-size:.88rem;font-weight:700;line-height:1.4}
-.st small{display:flex;align-items:center;gap:.4rem;font-size:.75rem}
-.st small::before{content:"";width:.38rem;height:.38rem;border-radius:50%;background:var(--gold)}
-
-/* ===== عنوان + کارت‌های دسترسی سریع ===== */
-.intro{margin-top:3.5rem}
-.intro h2{margin-top:.9rem;font-size:2rem;font-weight:800;line-height:1.5}
-.intro p{color:var(--muted)}
-.gline{display:block;width:7rem;height:2px;margin-top:.8rem;border-radius:2px;background:var(--gold)}
-.cards{display:grid;grid-template-columns:repeat(6,1fr);margin-top:1.6rem}
-.fc{grid-column:span 2;padding:1.8rem 2rem;border-inline-start:1px solid var(--line)}
-.fc:nth-child(n+4){grid-column:span 3;border-top:1px solid var(--line)}
-.fc:nth-child(1),.fc:nth-child(4){border-inline-start:0}
-.fh{display:flex;align-items:center;gap:1.1rem}
-.fiw{flex:none;width:6.2rem;transition:transform .4s var(--ease)}
-.fiw::after{content:"";display:block;width:75%;height:.7rem;margin:.1rem auto 0;border-bottom:2px solid var(--gold);border-radius:0 0 50% 50%/0 0 100% 100%}
-.fi{display:grid;place-items:center;width:6.2rem;height:6.2rem;border-radius:50%;background:var(--tile);color:var(--login)}
-.fi svg{width:3.4rem;height:3.4rem}
-:root[data-theme=dark] .fi{color:#9aaaf0}
-.fc h3{font-size:1.15rem;font-weight:800;transition:color .2s}
-.fc p{font-size:.82rem;color:var(--muted);line-height:1.9}
-.fbtn{display:inline-flex;align-items:center;justify-content:space-between;gap:1.2rem;min-width:12.5rem;height:2.9rem;margin-top:1.4rem;padding:0 1.3rem;font-size:.85rem;font-weight:700;color:var(--on);background:var(--login);border-radius:999px;box-shadow:0 .5rem 1rem var(--sh);transition:filter .2s,transform .3s var(--ease)}
-.fbtn svg.i{width:1rem;height:1rem}
-.fc:hover .fiw{transform:translateY(-4px)}
-.fc:hover h3{color:var(--gold)}
-.fbtn:hover{filter:brightness(1.2);transform:translateY(-2px)}
-
-/* ===== سکشن‌های هر بخش ===== */
-.sec{display:grid;grid-template-columns:1fr 1.2fr;align-items:center;gap:5rem;margin-top:5rem;padding-top:5rem;border-top:1px solid var(--line);scroll-margin-top:1rem}
-.sec.rev{grid-template-columns:1.2fr 1fr}
-.sec.rev>.txt{order:2}
-.txt h2{margin-top:1rem;font-size:1.8rem;font-weight:800;line-height:1.6}
-.txt>p{margin-top:.6rem;max-width:30rem;font-size:.92rem;line-height:2.1;color:var(--muted)}
-.pts{list-style:none;display:grid;gap:.6rem;margin-top:1.4rem;font-size:.88rem}
-.pts li{display:flex;align-items:center;gap:.7rem}
-.pts li::before{content:"";flex:none;width:.4rem;height:.4rem;border-radius:50%;background:var(--gold)}
-.box{padding:1.6rem 1.8rem;background:var(--card);border:1px solid var(--cb);border-radius:1.2rem;box-shadow:0 .5rem 1.6rem var(--sh)}
-.box h4{font-size:.95rem;font-weight:800}
-.box small{display:block;font-size:.76rem;color:var(--muted)}
-.row{display:flex;align-items:center;gap:1.2rem;padding:.85rem 0;border-bottom:1px solid var(--line);font-size:.88rem}
-.row:last-child{border:0;padding-bottom:0}
-.row time{flex:none;width:5.5rem;font-size:.78rem;color:var(--muted)}
-.row b{font-weight:700}
-.row em{margin-inline-start:auto;font-style:normal;font-size:.72rem;color:var(--gold)}
-.row.now b{color:var(--gold)}
-.chat{display:flex;flex-direction:column;gap:.8rem}
-.bub{max-width:82%;padding:.7rem 1.1rem;border-radius:1.1rem;font-size:.85rem;line-height:1.9;background:var(--chip)}
-.bub.me{align-self:flex-start;border-end-start-radius:.3rem;color:var(--on);background:var(--login)}
-.bub.bot{align-self:flex-end;border-end-end-radius:.3rem}
-.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
-.chips span{padding:.2rem .9rem;font-size:.76rem;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
-.ext{display:grid;place-items:center;flex:none;width:2.5rem;height:2.5rem;border-radius:.7rem;font-size:.62rem;font-weight:800;background:var(--tile)}
-.row small{margin-inline-start:auto}
-.ex{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
-.ex .box:nth-child(even){margin-top:2.4rem}
-.ex .d{display:block;font-size:2.2rem;font-weight:800;line-height:1.2;color:var(--gold)}
-.ex .m{display:block;font-size:.8rem;color:var(--muted)}
-.ex h4{margin-top:1.1rem}
-.an{display:grid;grid-template-columns:1.3fr 1fr;gap:1.3rem}
-.an .big{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:18rem;border-inline-start:3px solid var(--gold)}
-.an .big h4{font-size:1.2rem;line-height:1.7}
-.an .big p,.an .box p{margin-top:.5rem;font-size:.82rem;color:var(--muted);line-height:1.9}
-.an time{margin-bottom:.6rem;font-size:.74rem;color:var(--gold)}
-
-.foot{display:flex;align-items:center;gap:.7rem;margin-top:5rem;font-size:.8rem;color:var(--muted)}
-.foot svg.i{width:1.2rem;height:1.2rem}
-.foot .gline{width:4.5rem;margin:0}
-
-@media(max-width:1180px){
-  html{font-size:13.5px}
-  .page{padding-inline:1.2rem}
-  .top{height:auto;flex-wrap:wrap;gap:.8rem}
-  .search{order:3;flex-basis:100%;margin:0}
-  .actions{margin-inline-start:auto}
-  .nav{padding-inline-start:0;gap:1.8rem;overflow:visible;flex-wrap:wrap;row-gap:.4rem}
-}
-@media(max-width:900px){
-  html{font-size:12.6px}
-  .hero{grid-template-columns:1fr;min-height:0;padding-top:1.5rem}
-  .hero h1{font-size:1.9rem}
-  .hero-art::before{inset:0}.hero-img{min-height:14rem}
-  .stats{grid-template-columns:repeat(2,1fr);gap:.9rem 0}
-  .st:nth-child(odd){border:0;padding-inline-start:0}
-  .intro h2{font-size:1.5rem}
-  .cards{grid-template-columns:1fr}
-  .fc,.fc:nth-child(n){grid-column:auto;padding:1.4rem 0;border:0;border-top:1px solid var(--line)}
-  .fc:first-child{border-top:0}
-  .sec,.sec.rev{grid-template-columns:1fr;gap:2.5rem;margin-top:3.5rem;padding-top:3.5rem}
-  .sec.rev>.txt{order:0}
-  .ex,.an{grid-template-columns:1fr}
-  .ex .box:nth-child(even){margin-top:0}
-  .an .big{grid-row:auto;min-height:12rem}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-
-
-/* بازطراحی واکنش‌گرای رستا برای موبایل */
-.mobile-menu-btn,.mobile-menu-backdrop{display:none}
-@media(max-width:700px){
-  html,body{width:100%;max-width:100%;overflow-x:clip}
-  html{font-size:14px}
-  body{min-width:0}
-  .page{width:100%;min-width:0;padding: max(.65rem,env(safe-area-inset-top)) .9rem calc(1.5rem + env(safe-area-inset-bottom))}
-  .top{
-    position:relative;z-index:70;
-    display:grid;grid-template-columns:42px minmax(0,1fr) 42px;
-    align-items:center;gap:.4rem;height:58px;min-height:58px;
-    padding:0 .1rem;
-  }
-  .logo{grid-column:1;grid-row:1;justify-self:start;gap:0;min-width:0}
-  .logo .ph{width:37px;height:40px;display:grid;place-items:center}
-  .logo img{width:auto;height:36px;max-width:40px;object-fit:contain}
-  .logo>span:last-child{display:none}
-  .search{display:none}
-  .mobile-menu-btn{
-    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
-    width:38px;height:38px;border:1px solid var(--line);border-radius:12px;
-    background:var(--card);color:var(--text);box-shadow:0 3px 12px var(--sh);
-    -webkit-tap-highlight-color:transparent
-  }
-  .mobile-menu-btn span{display:block;width:16px;height:1.7px;border-radius:2px;background:currentColor}
-  .mobile-nav-toggle{grid-column:3;grid-row:1;justify-self:end}
-  .mobile-tools-toggle{grid-column:3;grid-row:1;justify-self:end}
-  .actions{
-    position:fixed;z-index:82;top:calc(68px + env(safe-area-inset-top));left:12px;
-    display:flex;align-items:center;justify-content:flex-start;gap:12px;
-    width:min(230px,calc(100vw - 24px));padding:12px;
-    background:var(--panel);border:1px solid var(--line);border-radius:15px;
-    box-shadow:0 16px 42px var(--sh);
-    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-7px);
-    transition:opacity .18s ease,transform .18s ease,visibility .18s ease
-  }
-  body.mobile-tools-open .actions{opacity:1;visibility:visible;pointer-events:auto;transform:none}
-  .actions .ib{width:38px;height:38px;background:var(--chip);border:1px solid var(--line)}
-  .avatar{width:38px;height:38px}
-  .pp{position:absolute;top:calc(100% + .6rem);left:0;right:auto;width:min(20rem,calc(100vw - 48px))}
-  .nav{
-    position:fixed;z-index:82;top:calc(68px + env(safe-area-inset-top));right:12px;left:12px;
-    display:flex;flex-direction:column;align-items:stretch;gap:2px;
-    width:auto;max-height:min(72vh,560px);margin:0;padding:9px;
-    overflow-x:hidden;overflow-y:auto;
-    background:var(--panel);border:1px solid var(--line);border-radius:16px;
-    box-shadow:0 16px 42px var(--sh);
-    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-7px);
-    transition:opacity .18s ease,transform .18s ease,visibility .18s ease
-  }
-  body.mobile-nav-open .nav{opacity:1;visibility:visible;pointer-events:auto;transform:none}
-  .nav .dd{width:100%}
-  .nav .dd>a{display:flex;justify-content:space-between;min-height:43px;padding:9px 12px;margin:0;border-radius:10px;font-size:13px}
-  .nav .dd>a.on{background:var(--chip)}
-  .nav .dd>a::after{display:none}
-  .nav .dd>a svg.i{width:13px;height:13px}
-  .nav .sub{
-    position:static;display:none;min-width:0;width:100%;margin:0 0 5px;padding:5px 8px;
-    border:0;border-radius:9px;box-shadow:none;background:var(--inner);
-    opacity:1;visibility:visible;transform:none;transition:none
-  }
-  .nav .dd.open .sub{display:block}
-  .nav .sub a{min-height:36px;padding:7px 12px;font-size:12px}
-  .mobile-menu-backdrop{
-    display:block;position:fixed;inset:0;z-index:75;width:100%;height:100%;
-    border:0;background:rgba(5,12,27,.3);opacity:0;visibility:hidden;pointer-events:none;
-    transition:opacity .18s ease,visibility .18s ease
-  }
-  body.mobile-nav-open .mobile-menu-backdrop,body.mobile-tools-open .mobile-menu-backdrop{
-    opacity:1;visibility:visible;pointer-events:auto
-  }
-  body.mobile-nav-open,body.mobile-tools-open{overflow:hidden}
-  .main{width:100%;min-width:0;margin-top:.6rem;padding-bottom:1.5rem}
-  .hero{grid-template-columns:minmax(0,1fr);gap:1rem;min-height:0;padding-top:1.1rem}
-  .hero>div:first-child{min-width:0}
-  .hero h1{max-width:none;margin-top:.8rem;font-size:1.65rem;line-height:1.65}
-  .hero p{max-width:100%;font-size:.88rem;line-height:2}
-  .hero .fbtn{margin-top:1rem}
-  .hero-art{min-height:0;height:145px;max-height:145px;overflow:hidden;border-radius:16px;place-items:center}
-  .hero-art::before{inset:8px 22%;border-radius:50%;background:color-mix(in srgb,var(--primary) 7%,transparent)}
-  .hero-img{display:grid;place-items:center;min-height:0;width:100%;height:135px}
-  .hero-img img{display:block;width:auto;height:112px;max-width:70%;object-fit:contain}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:0;padding-top:.7rem}
-  .st{min-width:0;padding:.75rem .55rem;border-inline-start:0;border-bottom:1px solid var(--line);gap:.55rem}
-  .st:nth-child(odd){padding-inline-start:.55rem}
-  .st:nth-child(even){border-inline-start:1px solid var(--line)}
-  .st:nth-last-child(-n+2){border-bottom:0}
-  .st svg.i{width:1.35rem;height:1.35rem}
-  .st b{font-size:.8rem}
-  .st small{font-size:.7rem}
-  .intro{margin-top:2rem}
-  .intro h2{margin-top:.65rem;font-size:1.35rem;line-height:1.7}
-  .intro p{font-size:.82rem;line-height:1.9}
-  .gline{width:3.5rem;margin-top:.55rem}
-  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:.8rem}
-  .fc,.fc:nth-child(n){
-    grid-column:auto;min-width:0;padding:1rem .65rem;
-    border:0;border-top:1px solid var(--line)
-  }
-  .fc:nth-child(odd){border-inline-start:1px solid var(--line)}
-  .fc:nth-child(1),.fc:nth-child(2){border-top:0}
-  .fh{align-items:flex-start;gap:.65rem}
-  .fiw{width:2.8rem;flex:0 0 2.8rem}
-  .fi{width:2.8rem;height:2.8rem;border-radius:.8rem}
-  .fi svg{width:1.65rem;height:1.65rem}
-  .fiw::after{width:60%;height:.35rem}
-  .fc h3{font-size:.88rem;line-height:1.6}
-  .fc p{margin-top:.15rem;font-size:.72rem;line-height:1.8}
-  .fc .fbtn{min-width:0;width:100%;height:2.5rem;margin-top:.8rem;padding:0 .7rem;gap:.35rem;font-size:.72rem}
-  .fc .fbtn svg.i{width:.85rem;height:.85rem}
-  .sec,.sec.rev{
-    grid-template-columns:minmax(0,1fr);gap:1rem;
-    margin-top:2rem;padding-top:1.6rem;scroll-margin-top:1rem
-  }
-  .sec.rev>.txt{order:0}
-  .txt h2{margin-top:.7rem;font-size:1.35rem;line-height:1.65}
-  .txt>p{max-width:none;font-size:.83rem;line-height:2}
-  .pts{gap:.5rem;margin-top:.9rem;font-size:.8rem}
-  .sec .fbtn{min-width:0;height:2.65rem;margin-top:1rem;padding:0 1rem;font-size:.8rem}
-  .box{min-width:0;padding:1rem 1.05rem;border-radius:1rem}
-  .box h4{font-size:.88rem}
-  .box small{font-size:.7rem}
-  .row{gap:.5rem;padding:.7rem 0;font-size:.78rem}
-  .row time{width:5rem;font-size:.68rem}
-  .row em{font-size:.65rem}
-  .chat{gap:.55rem}
-  .bub{max-width:92%;padding:.55rem .8rem;font-size:.77rem;line-height:1.8}
-  .chips{gap:.35rem;margin-top:.8rem}
-  .chips span{padding:.18rem .6rem;font-size:.68rem}
-  .ex{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
-  .ex .box:nth-child(even){margin-top:0}
-  .ex .d{font-size:1.8rem}
-  .ex h4{margin-top:.7rem}
-  .an{grid-template-columns:1fr;gap:.65rem}
-  .an .big{grid-row:auto;min-height:0}
-  .an .big h4{font-size:1rem}
-  .an .big p,.an .box p{font-size:.75rem;line-height:1.9}
-  .foot{flex-wrap:wrap;gap:.5rem;margin-top:2rem;font-size:.72rem}
-  .foot .gline{width:2.5rem}
-  .deco .a{width:18rem;height:18rem;top:-9rem;left:-8rem}
-  .deco .b{width:18rem;height:18rem;right:-10rem;top:28rem}
-  .page,.top,.main,.hero,.stats,.intro,.cards,.sec,.box,.foot{max-width:100%}
-  .page *{min-width:0}
-  img,svg{max-width:100%}
-}
-@media(max-width:380px){
-  .page{padding-inline:.7rem}
-  .hero h1{font-size:1.48rem}
-  .cards{grid-template-columns:minmax(0,1fr)}
-  .fc,.fc:nth-child(n){padding:1rem .25rem;border-inline-start:0}
-  .fc:nth-child(2){border-top:1px solid var(--line)}
-  .ex{gap:.5rem}
-  .row time{width:4.5rem}
-}
+:root{--dash-bg:var(--bg,#f5f6f8);--dash-side:var(--surface,#fff);--dash-card:var(--surface,#fff);--dash-line:var(--line,#e3e6ec);--dash-act:var(--bg2,#eef0f3);--dash-tx:var(--text,#202633);--dash-mut:var(--muted,#778091);--dash-bar:var(--navy,#33415c);--dash-hi:var(--gold,#b7a06a);color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box}
+html{height:100%;font-size:clamp(12px,min(.9vw,2vh),15px);background:var(--dash-bg)}
+body{margin:0;height:100%;overflow:hidden;background:var(--dash-bg);color:var(--dash-tx);font:1rem/1.75 "Vazirmatn",Tahoma,sans-serif}
+button,a{font:inherit;color:inherit}
+a{text-decoration:none}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{height:100%;display:grid;grid-template-columns:minmax(230px,260px) minmax(0,1fr);gap:0}
+.side{z-index:3;display:flex;flex-direction:column;min-height:0;overflow:auto;padding:22px 16px;background:var(--dash-side);border-left:1px solid var(--dash-line)}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 20px;border-bottom:1px solid var(--dash-line)}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand b{display:block;font-size:19px;font-weight:800;line-height:1.4}
+.brand small{display:block;color:var(--dash-mut);font-size:11px}
+.userbox{display:flex;align-items:center;gap:10px;margin:16px 0;padding:12px;border:1px solid var(--dash-line);border-radius:13px;background:var(--dash-bg)}
+.avatar{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--dash-act);color:var(--dash-tx);font-weight:700}
+.userbox b{display:block;font-size:13px}
+.userbox small{display:block;color:var(--dash-mut);font-size:11px}
+.nav-label{padding:10px 9px 5px;color:var(--dash-mut);font-size:11px;font-weight:600}
+.nav{display:flex;flex-direction:column;gap:3px}
+.nav a,.nav button{width:100%;min-height:39px;display:flex;align-items:center;gap:10px;padding:7px 10px;border:0;border-radius:9px;background:transparent;color:var(--dash-mut);font-size:13px;text-align:right;cursor:pointer;transition:.18s}
+.nav a:hover,.nav button:hover{background:var(--dash-act);color:var(--dash-tx)}
+.nav a.active{background:var(--dash-act);color:var(--dash-tx);font-weight:700;box-shadow:inset 0 0 0 1px var(--dash-line)}
+.nav .sub{margin:1px 0 5px 0;padding-right:17px;border-right:1px solid var(--dash-line);display:flex;flex-direction:column;gap:2px}
+.nav .sub a{min-height:32px;font-size:12px}
+.side-foot{margin-top:auto;padding-top:15px}
+.side-foot button{width:100%;display:flex;align-items:center;gap:9px;padding:10px;border:1px solid var(--dash-line);border-radius:10px;background:transparent;color:var(--dash-mut);cursor:pointer}
+main{display:flex;flex-direction:column;min-width:0;min-height:0;padding:24px 30px 28px;overflow:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.top h1{margin:0;font-size:18px;font-weight:750}
+.top small{color:var(--dash-mut);font-size:12px}
+.tools{display:flex;gap:8px}
+.icon-btn{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--dash-line);border-radius:11px;background:var(--dash-card);color:var(--dash-mut);cursor:pointer}
+.icon-btn:hover{color:var(--dash-tx);background:var(--dash-act)}
+.content{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);grid-template-rows:auto 1fr;grid-template-areas:"hero stats" "plan side";gap:22px;margin-top:24px;min-height:0;flex:1}
+.hero{grid-area:hero;padding:8px 0 18px}
+.eyebrow{font-size:12px;color:var(--dash-mut)}
+.hero h2{margin:5px 0 8px;font-size:clamp(22px,2vw,30px);font-weight:800;line-height:1.6}
+.hero p{margin:0;color:var(--dash-mut);font-size:13px}
+.meta{margin-top:17px;color:var(--dash-mut);font-size:12px}
+.meta b{display:block;color:var(--dash-tx);font-size:13px}
+.stats{grid-area:stats;align-self:start;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border:1px solid var(--dash-line);border-radius:15px;background:var(--dash-card)}
+.st{min-height:86px;padding:13px 15px}
+.st:nth-child(odd){border-left:1px solid var(--dash-line)}
+.st:nth-child(-n+2){border-bottom:1px solid var(--dash-line)}
+.st small{display:block;color:var(--dash-mut);font-size:11px}
+.st strong{display:block;margin-top:5px;font-size:21px;font-weight:800;line-height:1.4}
+.st span{display:block;color:var(--dash-mut);font-size:10px}
+.plan{grid-area:plan;display:flex;flex-direction:column;min-height:220px;padding:18px 0 0;border-top:1px solid var(--dash-line)}
+.side2{grid-area:side;display:flex;flex-direction:column;min-height:220px;padding:18px 0 0;border-top:1px solid var(--dash-line)}
+h3{margin:0;font-size:15px;font-weight:750}
+.sub{color:var(--dash-mut);font-size:11px}
+.empty{display:flex;flex:1;align-items:center;justify-content:center;min-height:115px;margin-top:12px;padding:18px;border:1px dashed var(--dash-line);border-radius:13px;color:var(--dash-mut);font-size:12px;text-align:center;background:var(--dash-card)}
+.items{display:flex;flex-direction:column;margin-top:10px}
+.item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--dash-line)}
+.item:last-child{border-bottom:0}
+.item-dot{width:8px;height:8px;border:2px solid var(--dash-bar);border-radius:50%;flex:none}
+.item .b{flex:1;min-width:0}
+.item .t{font-size:12px;font-weight:650}
+.item .d{color:var(--dash-mut);font-size:10px}
+.time{padding:3px 9px;border:1px solid var(--dash-line);border-radius:8px;color:var(--dash-mut);font-size:10px}
+.chart{display:flex;align-items:flex-end;justify-content:space-around;gap:8px;min-height:125px;margin-top:15px;padding:10px;border-bottom:1px solid var(--dash-line)}
+.chart span{width:8%;height:5px;border-radius:8px;background:var(--dash-act)}
+.exam{margin-top:16px;padding:13px;border:1px solid var(--dash-line);border-radius:12px;background:var(--dash-card)}
+.exam small{color:var(--dash-mut);font-size:10px}
+.exam b{display:block;margin:4px 0;font-size:13px}
+.toast{position:fixed;z-index:10;bottom:20px;left:20px;max-width:min(90vw,360px);padding:11px 15px;border:1px solid var(--dash-line);border-radius:10px;background:var(--dash-card);color:var(--dash-tx);box-shadow:0 8px 28px rgba(0,0,0,.12);font-size:12px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s}
+.toast.show{opacity:1;transform:translateY(0)}
+.mobile-toggle{display:none}
+@media(max-width:900px){.app{grid-template-columns:220px minmax(0,1fr)}main{padding:20px}.content{grid-template-columns:1fr;grid-template-areas:"hero" "stats" "plan" "side"}.hero{padding-bottom:0}.stats{margin-top:0}.plan,.side2{min-height:180px}}
+@media(max-width:650px){html{font-size:14px}body{height:auto;min-height:100%;overflow:auto}.app{height:auto;min-height:100vh;display:block}.side{position:fixed;inset:0 auto 0 0;width:min(84vw,290px);transform:translateX(105%);transition:transform .25s;box-shadow:-12px 0 35px rgba(0,0,0,.15)}body.menu-open .side{transform:translateX(0)}main{min-height:100vh;padding:16px}.mobile-toggle{display:grid}.top{align-items:flex-start}.top h1{font-size:16px}.content{gap:18px;margin-top:18px}.stats{grid-template-columns:1fr 1fr}.side{border-radius:0}.userbox{margin-top:12px}}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
-  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
-  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
-  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
-  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></symbol>
-  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
-  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
-  <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
-  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-  <symbol id="i-calg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
-  <symbol id="i-cap" viewBox="0 0 24 24"><path d="m22 10-10-5L2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5M22 10v6"/></symbol>
-  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></symbol>
-  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
-  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
-  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
-  <symbol id="ic-cal" viewBox="0 0 64 64"><rect x="10" y="14" width="40" height="38" rx="6" fill="currentColor"/><rect x="18" y="8" width="5" height="12" rx="2.5" fill="currentColor"/><rect x="37" y="8" width="5" height="12" rx="2.5" fill="currentColor"/><rect x="15" y="25" width="30" height="22" rx="3" style="fill:var(--tile)"/><g fill="currentColor"><circle cx="21" cy="31" r="2"/><circle cx="30" cy="31" r="2"/><circle cx="39" cy="31" r="2"/><circle cx="21" cy="39" r="2"/><circle cx="30" cy="39" r="2"/><circle cx="39" cy="39" r="2"/></g><circle cx="48" cy="46" r="10" style="fill:var(--gold)"/><path d="M48 40v6l4 2" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
-  <symbol id="ic-bot" viewBox="0 0 64 64"><rect x="12" y="20" width="40" height="32" rx="11" fill="currentColor"/><rect x="6" y="30" width="6" height="12" rx="3" fill="currentColor"/><rect x="52" y="30" width="6" height="12" rx="3" fill="currentColor"/><path d="M32 20v-7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="10" r="4" style="fill:var(--gold)"/><rect x="17" y="26" width="30" height="20" rx="8" style="fill:var(--tile)"/><circle cx="25" cy="34" r="3" fill="currentColor"/><circle cx="39" cy="34" r="3" fill="currentColor"/><path d="M27 40q5 4 10 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
-  <symbol id="ic-folder" viewBox="0 0 64 64"><path d="M6 18a5 5 0 0 1 5-5h12l5 6h25a5 5 0 0 1 5 5v22a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5z" fill="currentColor"/><path d="M6 25h52v6H6z" style="fill:var(--gold)"/></symbol>
-  <symbol id="ic-exam" viewBox="0 0 64 64"><rect x="12" y="6" width="38" height="48" rx="6" fill="currentColor"/><path d="M20 20h4M29 20h14M20 29h4M29 29h14M20 38h4M29 38h9" fill="none" stroke-width="3" stroke-linecap="round" style="stroke:var(--tile)"/><circle cx="47" cy="47" r="11" style="fill:var(--gold)"/><path d="m42 47 4 4 7-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-mega" viewBox="0 0 64 64"><path d="M10 26h10l22-12v36L20 38H10a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3z" fill="currentColor"/><path d="m18 40 4 14h6l-3-13z" fill="currentColor"/><path d="m50 22 7-4M52 32h7M50 42l7 4" fill="none" stroke-width="3" stroke-linecap="round" style="stroke:var(--gold)"/></symbol>
-  <symbol id="ic-music" viewBox="0 0 64 64"><path d="M25 45V13l28-5v32" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="16" cy="47" rx="10" ry="8" fill="currentColor"/><ellipse cx="44" cy="42" rx="10" ry="8" fill="currentColor"/><circle cx="51" cy="13" r="5" style="fill:var(--gold)"/></symbol>
-</svg>
-
-<div class="page">
-  <div class="deco" aria-hidden="true"><i class="a"></i><i class="b"></i></div>
-
-  <!-- هدر -->
+<div class="app">
+<aside class="side" id="sidebar">
+  <div class="brand"><img src="../عکس ها/لوگو سایت جدید.png" alt="مدار" onerror="this.style.display='none'"><div><b>مدار</b><small>فضای دانش‌آموزی</small></div></div>
+  <div class="userbox"><span class="avatar" id="userInitial">م</span><div><b id="userName">در حال دریافت اطلاعات...</b><small id="userRole">دانش‌آموز</small></div></div>
+  <div class="nav-label">صفحه اصلی</div>
+  <nav class="nav" aria-label="صفحه اصلی">
+    <a class="active" href="./رستا _ فضای کار (1).html"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>داشبورد</a>
+    <a href="#" data-soon="پروفایل من"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>پروفایل من</a>
+  </nav>
+  <div class="nav-label">اطلاعیه‌ها</div>
+  <nav class="nav">
+    <a href="#" data-soon="اطلاعیه‌های جدید">اطلاعیه‌های جدید</a>
+    <a href="#" data-soon="اخبار مدرسه">اخبار مدرسه</a>
+    <a href="#" data-soon="بایگانی">بایگانی</a>
+  </nav>
+  <div class="nav-label">آزمون‌ها</div>
+  <nav class="nav">
+    <a href="./آزمون ها.html">آزمون‌های پیش‌رو</a>
+    <a href="./آزمون ها.html" data-subsection="online">آزمون آنلاین</a>
+    <a href="./آزمون ها.html" data-subsection="results">نتایج آزمون‌ها</a>
+  </nav>
+  <div class="nav-label">برنامه‌ها</div>
+  <nav class="nav">
+    <a href="./برنامه ریزی.html">برنامه‌ریزی من</a>
+    <a href="./برنامه ریزی.html" data-subsection="weekly">برنامه هفتگی</a>
+    <a href="./برنامه ریزی.html" data-subsection="exam-plan">برنامه امتحانی</a>
+  </nav>
+  <div class="nav-label">امکانات</div>
+  <nav class="nav">
+    <a href="./چت بات.html"><svg class="i" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8 8 0 0 1-3.5-.8L4 20l1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg>چت‌بات</a>
+    <a href="./فایل ها.html">فایل‌ها</a>
+    <a href="./آهنگ ها.html">آهنگ‌ها</a>
+  </nav>
+  <div class="nav-label">معلمان و مشاوره</div>
+  <nav class="nav">
+    <a href="#" data-soon="لیست معلمان">لیست معلمان</a>
+    <a href="#" data-soon="ارتباط با معلم">ارتباط با معلم</a>
+    <a href="#" data-soon="رزرو وقت مشاوره">رزرو وقت مشاوره</a>
+    <a href="#" data-soon="منابع مطالعاتی">منابع مطالعاتی</a>
+  </nav>
+  <div class="nav-label">مدرسه</div>
+  <nav class="nav">
+    <a href="#" data-soon="معرفی مدرسه">معرفی مدرسه</a>
+    <a href="#" data-soon="تماس با ما">تماس با ما</a>
+  </nav>
+  <div class="side-foot"><button id="logoutBtn" type="button"><svg class="i" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg>خروج از حساب</button></div>
+</aside>
+<main>
   <header class="top">
-    <button class="mobile-menu-btn mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="باز کردن منوی اصلی" aria-controls="mainNav" aria-expanded="false"><span></span><span></span><span></span></button>
-    <a href="#" class="logo" aria-label="مدار">
-      <span class="ph" data-ph="لوگو"><img class="only-light" src="../عکس ها/لوگو سایت جدید.png" alt="" onerror="this.remove()"><img class="only-dark" src="../عکس ها/لوگو سایت جدید.png" alt="" onerror="this.remove()"></span>
-      <span><strong>مدار</strong><small>دبیرستان دوره دوم</small></span>
-    </a>
-    <label class="search">
-      <svg class="i"><use href="#i-search"/></svg>
-      <input type="search" placeholder="جستجو در سامانه...">
-    </label>
-    <div class="actions" id="mobileToolsPanel">
-      <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
-      <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
-      <div class="profile" id="profile">
-        <button class="avatar" id="avatarBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profilePanel" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
-        <div class="pp" id="profilePanel" aria-hidden="true">
-          <div class="pp-head">
-            <span class="av-lg"><svg class="i"><use href="#i-user"/></svg></span>
-            <div><b id="pName">کاربر</b><small id="pRole">دانش‌آموز</small></div>
-          </div>
-          <ul class="pp-list">
-            <li><svg class="i"><use href="#i-phone"/></svg><span>شماره موبایل</span><b id="pPhone" dir="auto">—</b></li>
-            <li><svg class="i"><use href="#i-mail"/></svg><span>ایمیل</span><b id="pEmail" dir="auto">—</b></li>
-            <li><svg class="i"><use href="#i-send"/></svg><span>تلگرام</span><b id="pTg" dir="auto">—</b></li>
-            <li><svg class="i"><use href="#i-calg"/></svg><span>عضویت از</span><b id="pSince" dir="auto">—</b></li>
-          </ul>
-          <a href="#" class="pp-more" id="pMore">تغییرات بیشتر<svg class="i"><use href="#i-back"/></svg></a>
-          <button class="pp-out" id="logoutBtn" type="button"><svg class="i"><use href="#i-logout"/></svg>خروج از حساب</button>
-        </div>
-      </div>
-      <button class="mobile-menu-btn mobile-tools-toggle" id="mobileToolsToggle" type="button" aria-label="باز کردن ابزارها" aria-controls="mobileToolsPanel" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="icon-btn mobile-toggle" id="menuToggle" aria-label="باز کردن منو"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <div><h1>داشبورد دانش‌آموز</h1><small>خانه / فضای دانش‌آموزی / نمای کلی</small></div>
+    </div>
+    <div class="tools">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر تم"><svg class="i" viewBox="0 0 24 24"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg></button>
+      <button class="icon-btn" id="profileBtn" type="button" aria-label="حساب کاربری"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></button>
     </div>
   </header>
-  <button class="mobile-menu-backdrop" id="mobileMenuBackdrop" type="button" aria-label="بستن منوها" tabindex="-1"></button>
-
-  <nav class="nav" id="mainNav" aria-label="منوی اصلی">
-    <div class="dd"><a href="#" class="on" aria-haspopup="true">صفحه اصلی<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">داشبورد</a></li><li><a href="#">پروفایل من</a></li></ul></div>
-    <div class="dd"><a href="#" aria-haspopup="true">اطلاعیه‌ها<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">اطلاعیه‌های جدید</a></li><li><a href="#">اخبار مدرسه</a></li><li><a href="#">بایگانی</a></li></ul></div>
-    <div class="dd"><a href="#" aria-haspopup="true">آزمون‌ها<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">آزمون‌های پیش‌رو</a></li><li><a href="#">آزمون آنلاین</a></li><li><a href="#">نتایج آزمون‌ها</a></li></ul></div>
-    <div class="dd"><a href="#" aria-haspopup="true">برنامه‌ها<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="./برنامه ریزی.html">برنامه‌ریزی من</a></li><li><a href="#">برنامه هفتگی</a></li><li><a href="#">برنامه امتحانی</a></li></ul></div>
-    <div class="dd"><a href="#" aria-haspopup="true">معلمان<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">لیست معلمان</a></li><li><a href="#">ارتباط با معلم</a></li></ul></div>
-    <div class="dd"><a href="#" aria-haspopup="true">مشاوره تحصیلی<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">رزرو وقت مشاوره</a></li><li><a href="#">منابع مطالعاتی</a></li></ul></div>
-    <div class="dd"><a href="#" aria-haspopup="true">درباره ما<svg class="i"><use href="#i-down"/></svg></a>
-      <ul class="sub"><li><a href="#">معرفی مدرسه</a></li><li><a href="#">تماس با ما</a></li></ul></div>
-  </nav>
-
-<main class="main">
-
-  <!-- هیرو: بدون سلام و اسم کاربر -->
-  <section class="hero">
-    <div>
-      <span class="pill"><svg class="i"><use href="#i-cap"/></svg>داشبورد دانش‌آموز</span>
-      <h1>همه‌چیز مدرسه، در یک نگاه</h1>
-      <p>برنامه امروز، آزمون‌های پیش‌رو و آخرین اطلاعیه‌ها را از همین‌جا دنبال کنید.</p>
-      <a href="#daily" class="fbtn">مشاهده برنامه امروز<svg class="i"><use href="#i-chev"/></svg></a>
-    </div>
-
-<div class="hero-art">
-    <div class="hero-img">
-        <img
-            src="../عکس ها/لوگو سایت جدید.png"
-            alt="لوگوی اصلی مدرسه مدار"
-        >
-    </div>
-</div>
-
-    <div class="stats">
-      <div class="st"><svg class="i"><use href="#i-calg"/></svg><div><b>برنامه امروز</b><small id="sCls">۷ درس</small></div></div>
-      <div class="st"><svg class="i"><use href="#i-bell"/></svg><div><b>اعلان‌های جدید</b><small id="sNtf">۳ مورد</small></div></div>
-      <div class="st"><svg class="i"><use href="#i-doc"/></svg><div><b>اطلاعیه‌های جدید</b><small id="sAnn">۲ مورد</small></div></div>
-      <div class="st"><svg class="i"><use href="#i-folder"/></svg><div><b>فایل‌های جدید</b><small id="sFil">۵ فایل</small></div></div>
-    </div>
-  </section>
-
-  <!-- دسترسی سریع -->
-  <section class="intro">
-    <span class="pill"><svg class="i"><use href="#i-cap"/></svg>به پنل کاربری خود خوش آمدید</span>
-    <h2>مدرسه مدار، همراه مسیر پیشرفت شما</h2>
-    <p>با امکانات هوشمندانه، تجربه‌ای بهتر از مدرسه را تجربه کنید.</p>
-    <i class="gline"></i>
-  </section>
-
-  <section class="cards">
-    <article class="fc">
-      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-cal"/></svg></span></div>
-        <div><h3>برنامه‌ریزی من</h3><p>ثبت برنامه مطالعه، زمان‌بندی کارها و پیگیری فعالیت‌های روزانه</p></div></div>
-      <a href="./برنامه ریزی.html" class="fbtn">ورود به برنامه‌ریزی من<svg class="i"><use href="#i-chev"/></svg></a>
-    </article>
-    <article class="fc">
-      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-bot"/></svg></span></div>
-        <div><h3>چت بات</h3><p>پرسش‌های خود را از دستیار هوشمند مدرسه بپرسید.</p></div></div>
-      <a href="#chatbot" class="fbtn">ورود به چت بات<svg class="i"><use href="#i-chev"/></svg></a>
-    </article>
-    <article class="fc">
-      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-folder"/></svg></span></div>
-        <div><h3>فایل‌ها</h3><p>دسترسی سریع به فایل‌های آموزشی و منابع درسی.</p></div></div>
-      <a href="./فایل ها.html" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </article>
-    <article class="fc">
-      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-exam"/></svg></span></div>
-        <div><h3>آزمون‌ها</h3><p>مشاهده و شرکت در آزمون‌های آنلاین و حضوری.</p></div></div>
-      <a href="./آزمون ها.html" class="fbtn">ورود به بخش آزمون‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </article>
-    <article class="fc">
-      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-music"/></svg></span></div>
-        <div><h3>آهنگ‌ها</h3><p>مجموعه‌ای از آهنگ‌های منتخب برای گوش دادن در زمان استراحت.</p></div></div>
-      <a href="./آهنگ ها.html" class="fbtn">ورود به بخش آهنگ‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </article>
-    <article class="fc">
-      <div class="fh"><div class="fiw"><span class="fi"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ic-mega"/></svg></span></div>
-        <div><h3>اطلاعیه‌ها و اعلان‌ها</h3><p>آخرین اطلاعیه‌ها و اخبار مدرسه را مشاهده کنید.</p></div></div>
-      <a href="#news" class="fbtn">ورود به بخش اطلاعیه‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </article>
-  </section>
-
-  <!-- ۱) برنامه روزانه (داده‌ها نمونه‌اند؛ بعداً از بک‌اند پر کن) -->
-  <section class="sec" id="daily">
-    <div class="txt">
-      <span class="pill"><svg class="i"><use href="#i-calg"/></svg>برنامه روزانه</span>
-      <h2>روز خود را از اول تا آخر ببینید</h2>
-      <p>ساعت هر کلاس، نام درس و کلاس در حال برگزاری یک‌جا نمایش داده می‌شود تا هیچ زنگی را از دست ندهید.</p>
-      <ul class="pts"><li>کلاس در حال برگزاری با رنگ طلایی مشخص می‌شود</li><li>تغییرات برنامه همان لحظه به‌روز می‌شود</li><li>نسخه هفتگی و امتحانی هم در دسترس است</li></ul>
-      <a href="./برنامه ریزی.html" class="fbtn">ورود به برنامه‌ریزی من<svg class="i"><use href="#i-chev"/></svg></a>
-    </div>
-    <div class="box">
-      <h4>برنامه امروز</h4><small>۷ درس</small>
-      <div class="row now"><time>۰۸:۰۰ – ۰۹:۱۵</time><b>ریاضی</b><em>در حال برگزاری</em></div>
-      <div class="row"><time>۰۹:۳۰ – ۱۰:۴۵</time><b>فیزیک</b></div>
-      <div class="row"><time>۱۱:۰۰ – ۱۲:۱۵</time><b>ادبیات فارسی</b></div>
-      <div class="row"><time>۱۲:۳۰ – ۱۳:۴۵</time><b>شیمی</b></div>
-    </div>
-  </section>
-
-  <!-- ۲) چت بات -->
-  <section class="sec rev" id="chatbot">
-    <div class="txt">
-      <span class="pill"><svg class="i"><use href="#i-send"/></svg>چت بات</span>
-      <h2>دستیار هوشمند، هر وقت سؤالی داشتید</h2>
-      <p>از ساعت کلاس‌ها تا قوانین مدرسه و زمان آزمون‌ها، سؤال خود را بنویسید و جواب را سریع بگیرید.</p>
-      <div class="chips"><span>ساعت زنگ‌ها</span><span>تاریخ آزمون‌ها</span><span>آدرس مدرسه</span><span>قوانین حضور و غیاب</span></div>
-      <a href="./چت بات.html" class="fbtn">ورود به چت بات<svg class="i"><use href="#i-chev"/></svg></a>
-    </div>
-    <div class="box chat">
-      <div class="bub me">آزمون بعدی فیزیک چه روزیه؟</div>
-      <div class="bub bot">آزمون فیزیک سه‌شنبه هفته آینده ساعت ۹ برگزار می‌شود.</div>
-      <div class="bub me">فایل نمونه سؤال هم دارید؟</div>
-      <div class="bub bot">بله، در بخش فایل‌ها پوشه «فیزیک» را ببینید.</div>
-    </div>
-  </section>
-
-  <!-- ۳) فایل‌ها -->
-  <section class="sec" id="files">
-    <div class="txt">
-      <span class="pill"><svg class="i"><use href="#i-folder"/></svg>فایل‌ها</span>
-      <h2>منابع درسی، مرتب و در دسترس</h2>
-      <p>جزوه‌ها، نمونه سؤال‌ها و تمرین‌ها به تفکیک درس دسته‌بندی شده‌اند و تازه‌ترین فایل‌ها همیشه بالای فهرست هستند.</p>
-      <ul class="pts"><li>دسته‌بندی بر اساس درس و پایه</li><li>دانلود مستقیم بدون نیاز به واسطه</li></ul>
-      <a href="./فایل ها.html" class="fbtn">ورود به بخش فایل‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </div>
-    <div class="box">
-      <h4>تازه‌ترین فایل‌ها</h4><small>۵ فایل جدید</small>
-      <div class="row"><span class="ext">PDF</span><div><b>جزوه فصل سوم فیزیک</b><small>فیزیک</small></div></div>
-      <div class="row"><span class="ext">DOC</span><div><b>تمرین‌های هفته دوم ریاضی</b><small>ریاضی</small></div></div>
-      <div class="row"><span class="ext">PDF</span><div><b>نمونه سؤال شیمی</b><small>شیمی</small></div></div>
-    </div>
-  </section>
-
-  <!-- ۴) آزمون‌ها (چیدمان پلکانی) -->
-  <section class="sec rev" id="exams">
-    <div class="txt">
-      <span class="pill"><svg class="i"><use href="#i-doc"/></svg>آزمون‌ها</span>
-      <h2>آزمون‌های پیش‌رو، بدون غافلگیری</h2>
-      <p>تاریخ و ساعت هر آزمون را از قبل ببینید و برای آزمون‌های آنلاین مستقیم از همین‌جا وارد شوید.</p>
-      <ul class="pts"><li>یادآوری قبل از شروع آزمون</li><li>مشاهده نتیجه پس از اعلام نمره</li></ul>
-      <a href="#" class="fbtn">ورود به بخش آزمون‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </div>
-    <div class="ex">
-      <div class="box"><span class="d">۲۹</span><span class="m">آبان</span><h4>فیزیک</h4><small>حضوری · ساعت ۹</small></div>
-      <div class="box"><span class="d">۳</span><span class="m">آذر</span><h4>ریاضی</h4><small>آنلاین · ساعت ۱۰</small></div>
-      <div class="box"><span class="d">۷</span><span class="m">آذر</span><h4>شیمی</h4><small>حضوری · ساعت ۸:۳۰</small></div>
-      <div class="box"><span class="d">۱۲</span><span class="m">آذر</span><h4>ادبیات</h4><small>آنلاین · ساعت ۱۱</small></div>
-    </div>
-  </section>
-
-  <!-- ۵) اطلاعیه‌ها (یک کارت بزرگ + دو کارت کوچک) -->
-  <section class="sec" id="news">
-    <div class="txt">
-      <span class="pill"><svg class="i"><use href="#i-bell"/></svg>اطلاعیه‌ها و اعلان‌ها</span>
-      <h2>خبرهای مهم مدرسه، یک‌جا</h2>
-      <p>اطلاعیه‌های مدیریت، اخبار برنامه‌ها و تغییرات کلاسی به ترتیب تاریخ نمایش داده می‌شوند.</p>
-      <a href="#" class="fbtn">ورود به بخش اطلاعیه‌ها<svg class="i"><use href="#i-chev"/></svg></a>
-    </div>
-    <div class="an">
-      <div class="box big"><time>۲۲ آبان</time><h4>تغییر ساعت شروع کلاس‌ها از هفته آینده</h4><p>ساعت شروع زنگ اول از هفته آینده نیم ساعت زودتر خواهد بود.</p></div>
-      <div class="box"><time>۲۰ آبان</time><h4>ثبت‌نام اردوی علمی</h4><p>مهلت ثبت‌نام تا پایان هفته است.</p></div>
-      <div class="box"><time>۱۸ آبان</time><h4>برنامه امتحانی منتشر شد</h4><p>جدول کامل در بخش آزمون‌ها قرار دارد.</p></div>
-    </div>
-  </section>
-
-  <footer class="foot">
-    <svg class="i"><use href="#i-heart"/></svg>مدرسه مدار، گامی به سوی آینده روشن‌تر<i class="gline"></i>
-  </footer>
+  <div class="content">
+    <section class="hero">
+      <div class="eyebrow">هر روز یک قدم به هدفت نزدیک‌تر</div>
+      <h2 id="welcomeTitle">به مدار خوش آمدی!</h2>
+      <p>نمای کلی مسیر تحصیلی، برنامه‌ها و فعالیت‌های مدرسه از اینجا در دسترس خواهد بود.</p>
+      <div class="meta"><b id="todayDate">—</b>اطلاعات هر بخش به‌تدریج به داده‌های واقعی سامانه متصل می‌شود.</div>
+    </section>
+    <section class="stats">
+      <div class="st"><small>زمان مطالعه</small><strong>—</strong><span>پس از اتصال بخش برنامه‌ریزی</span></div>
+      <div class="st"><small>پیشرفت برنامه</small><strong>—</strong><span>گزارش هفتگی</span></div>
+      <div class="st"><small>میانگین نمرات</small><strong>—</strong><span>بر اساس نتایج ثبت‌شده</span></div>
+      <div class="st"><small>تکلیف‌ها</small><strong>—</strong><span>فعالیت‌های باقی‌مانده</span></div>
+    </section>
+    <section class="plan">
+      <h3>برنامه امروز تو</h3>
+      <div class="sub">برنامه روزانه و زمان‌بندی کلاس‌ها</div>
+      <div class="empty">بخش برنامهٔ روزانه در مرحلهٔ بعد به اطلاعات واقعی دانش‌آموز متصل می‌شود.</div>
+    </section>
+    <section class="side2">
+      <h3>گزارش پیشرفت</h3>
+      <div class="sub">نمای هفتگی فعالیت‌های آموزشی</div>
+      <div class="chart" aria-label="نمودار پیشرفت در حال آماده‌سازی"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="exam"><small>آزمون بعدی</small><b>اطلاعات آزمون‌های پیش‌رو پس از اتصال این بخش نمایش داده می‌شود.</b></div>
+    </section>
+  </div>
 </main>
 </div>
-
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../js/config.js"></script>
 <script src="../js/auth.js"></script>
 <script>
-
-/* کنترل منوهای هدر در موبایل */
-(()=>{
-  const navBtn=document.getElementById('mobileNavToggle');
-  const toolsBtn=document.getElementById('mobileToolsToggle');
-  const backdrop=document.getElementById('mobileMenuBackdrop');
-  const close=()=>{
-    document.body.classList.remove('mobile-nav-open','mobile-tools-open');
-    navBtn.setAttribute('aria-expanded','false');
-    toolsBtn.setAttribute('aria-expanded','false');
-  };
-  navBtn.addEventListener('click',()=>{
-    const shouldOpen=!document.body.classList.contains('mobile-nav-open');
-    close();
-    if(shouldOpen){document.body.classList.add('mobile-nav-open');navBtn.setAttribute('aria-expanded','true');}
-  });
-  toolsBtn.addEventListener('click',()=>{
-    const shouldOpen=!document.body.classList.contains('mobile-tools-open');
-    close();
-    if(shouldOpen){document.body.classList.add('mobile-tools-open');toolsBtn.setAttribute('aria-expanded','true');}
-  });
-  backdrop.addEventListener('click',close);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-  document.querySelectorAll('#mainNav a').forEach(a=>a.addEventListener('click',e=>{
-    if(a.closest('.sub'))close();
-  }));
-  window.addEventListener('resize',()=>{if(window.innerWidth>700)close()});
-})();
-
-const $=id=>document.getElementById(id);
-const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
-
-/* تم */
-const root=document.documentElement;let timer;
-$('themeBtn').onclick=()=>{
-  const next=root.dataset.theme==='dark'?'light':'dark';
-  root.classList.add('theming');
-  if(window.MadarTheme) window.MadarTheme.setMode(next);
-  else {root.dataset.theme=next;try{['madar-theme','theme','answer-sheet-theme'].forEach(k=>localStorage.setItem(k,next))}catch(e){}}
-  clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('theming'),700);
-};
-/* پنل پروفایل */
-const pBtn=$('avatarBtn'),pPanel=$('profilePanel');
-const setPanel=open=>{
-  pPanel.classList.toggle('open',open);
-  pBtn.setAttribute('aria-expanded',open);
-  pPanel.setAttribute('aria-hidden',!open);
-};
-pBtn.onclick=e=>{e.stopPropagation();setPanel(!pPanel.classList.contains('open'))};
-document.addEventListener('click',e=>{if(!$('profile').contains(e.target))setPanel(false)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')setPanel(false)});
-$('logoutBtn').onclick=()=>{
-  if(typeof Auth!=='undefined')Auth.logout();
-  else location.href='../لاگین و ثبت نام/لاگین.html';
-};
-
-/* اطلاعات کاربر از بک‌اند */
-const REQUIRE_LOGIN=true;
-const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'};
-(async()=>{
-  let user=null;
-  try{user=REQUIRE_LOGIN?await Auth.requireAuth():await Auth.me()}catch(e){}
-  if(!user)return;
-  $('pName').textContent=user.name;
-  $('pRole').textContent=ROLE_FA[user.role]||'کاربر';
-  $('pPhone').textContent=user.phone?fa(user.phone):'—';
-  $('pEmail').textContent=user.email||'—';
-  $('pTg').textContent=user.telegramUsername?'@'+user.telegramUsername:'—';
-  $('pSince').textContent=user.createdAt
-    ?new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(new Date(user.createdAt))
-    :'—';
-})();
-
-/* منوی کشویی (موبایل با کلیک) */
-(()=>{
-  const dds=[...document.querySelectorAll('.dd')];
-  const closeAll=ex=>dds.forEach(d=>d!==ex&&d.classList.remove('open'));
-  dds.forEach(d=>d.firstElementChild.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeAll(d);d.classList.toggle('open')}));
-  document.addEventListener('click',()=>closeAll());
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+(function(){
+  const $=id=>document.getElementById(id);
+  const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+  try{$('todayDate').textContent=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){}
+  const toast=message=>{const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(window.__madarToastTimer);window.__madarToastTimer=setTimeout(()=>el.classList.remove('show'),2600)};
+  document.querySelectorAll('[data-soon]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();toast('بخش «'+a.dataset.soon+'» در مراحل بعدی آماده می‌شود.')})); 
+  $('themeBtn').addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else document.documentElement.dataset.theme=next});
+  $('menuToggle').addEventListener('click',()=>document.body.classList.toggle('menu-open'));
+  document.addEventListener('click',e=>{if(document.body.classList.contains('menu-open')&&!$('sidebar').contains(e.target)&&!$('menuToggle').contains(e.target))document.body.classList.remove('menu-open')});
+  $('profileBtn').addEventListener('click',()=>toast('بخش پروفایل از منوی کناری قابل دسترسی خواهد بود.'));
+  $('logoutBtn').addEventListener('click',()=>{if(window.Auth&&typeof Auth.logout==='function')Auth.logout();else location.href='../لاگین و ثبت نام/لاگین.html'});
+  const ROLE_FA={student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'};
+  (async()=>{
+    try{
+      if(!window.Auth||typeof Auth.requireAuth!=='function')return;
+      const user=await Auth.requireAuth();
+      if(!user)return;
+      const name=user.name||'دانش‌آموز';
+      $('userName').textContent=name;
+      $('userRole').textContent=ROLE_FA[user.role]||'کاربر';
+      $('userInitial').textContent=name.trim().charAt(0)||'م';
+      $('welcomeTitle').textContent='سلام '+name+'، به مدار خودت خوش اومدی!';
+    }catch(e){console.warn('Student dashboard auth:',e)}
+  })();
 })();
 </script>
 </body>
