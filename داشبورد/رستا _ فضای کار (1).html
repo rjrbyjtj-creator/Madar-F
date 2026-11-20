@@ -173,6 +173,30 @@ body.closed #openBtn .i{width:19px;height:19px}
 .item-dot{border-color:var(--pr,var(--dash-bar))}
 .time{border-color:var(--ln,var(--dash-line));background:var(--hv,var(--dash-act));color:var(--mu,var(--dash-mut))}
 .exam{border-radius:12px;box-shadow:var(--sh,none)}
+
+/* Home tab — spacious, quiet and card-light */
+.home-view{width:100%;max-width:1120px;margin:0 auto;padding:30px 2px 48px}
+.welcome{padding:10px 0 34px;border-bottom:1px solid var(--ln)}
+.welcome-kicker{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:12px;font-weight:500}
+.welcome-kicker:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.welcome h1{margin:12px 0 7px;color:var(--tx);font-size:clamp(23px,2.4vw,32px);font-weight:750;line-height:1.5}
+.welcome p{margin:0;color:var(--mu);font-size:13px;line-height:2}
+.quick-section{padding-top:25px}
+.quick-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.quick-heading h2{margin:0;color:var(--tx);font-size:15px;font-weight:700}
+.quick-heading span{color:var(--mu);font-size:11px}
+.quick-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.quick-link{display:flex;align-items:flex-start;gap:12px;min-width:0;padding:14px 16px;border-left:1px solid var(--ln);border-radius:0;transition:background .18s ease}
+.quick-link:first-child{padding-right:0}
+.quick-link:last-child{border-left:0}
+.quick-link:hover{background:var(--hv);border-radius:10px}
+.quick-icon{width:36px;height:36px;display:grid;place-items:center;flex:0 0 36px;border-radius:10px;background:var(--hv);color:var(--ac)}
+.quick-icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.quick-copy{min-width:0}
+.quick-copy b{display:block;color:var(--tx);font-size:12.5px;font-weight:650}
+.quick-copy small{display:block;margin-top:4px;color:var(--mu);font-size:10.5px;line-height:1.9}
+@media(max-width:900px){.home-view{padding-top:22px}.quick-links{grid-template-columns:1fr}.quick-link,.quick-link:first-child{padding:13px 0;border-left:0;border-bottom:1px solid var(--ln)}.quick-link:last-child{border-bottom:0}.quick-link:hover{padding-right:10px}.welcome{padding-bottom:25px}}
+
 </style>
 </head>
 <body>
@@ -214,6 +238,34 @@ body.closed #openBtn .i{width:19px;height:19px}
       <button class="icon-btn" id="profileBtn" type="button" aria-label="حساب کاربری"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></button>
     </div>
   </header>
+
+  <section class="home-view" aria-label="خانه">
+    <div class="welcome">
+      <div class="welcome-kicker">فضای دانش‌آموزی مدار</div>
+      <h1>خوش اومدی<span id="welcomeName"></span></h1>
+      <p>اینجا می‌تونی مسیر یادگیریت رو دنبال کنی و به ابزارهای آموزشی مدار دسترسی داشته باشی.</p>
+    </div>
+    <section class="quick-section" aria-labelledby="quickTitle">
+      <div class="quick-heading">
+        <h2 id="quickTitle">دسترسی سریع</h2>
+        <span>برای شروع، یکی از بخش‌ها رو انتخاب کن</span>
+      </div>
+      <div class="quick-links">
+        <a class="quick-link" href="./چت بات.html">
+          <span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8 8 0 0 1-3.5-.8L4 20l1.5-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span>
+          <span class="quick-copy"><b>ایجنت روبو</b><small>برای پرسیدن سؤال و کمک گرفتن در یادگیری</small></span>
+        </a>
+        <a class="quick-link" href="./برنامه ریزی.html">
+          <span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h3M8 17h7"/></svg></span>
+          <span class="quick-copy"><b>برنامه‌ها</b><small>برای دیدن و مدیریت برنامه‌ریزی درسی</small></span>
+        </a>
+        <a class="quick-link" href="./آزمون ها.html">
+          <span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M9 4h6M9 2h6v4H9zM6 4H4v18h16V4h-2"/><path d="m8 13 2 2 5-5"/></svg></span>
+          <span class="quick-copy"><b>آزمون‌ها</b><small>برای تمرین و بررسی آموخته‌ها</small></span>
+        </a>
+      </div>
+    </section>
+  </section>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -235,8 +287,8 @@ function toggleSidebar(){
       if(!window.Auth||typeof Auth.requireAuth!=='function')return;
       const user=await Auth.requireAuth();
       if(!user)return;
-      $('userName').textContent=user.name||'کاربر';
-      $('userRole').textContent=({student:'دانش‌آموز',teacher:'معلم',admin:'مدیر'})[user.role]||'کاربر';
+      const welcomeName=$('welcomeName');
+      if(welcomeName&&user.name)welcomeName.textContent='، '+user.name;
     }catch(e){console.warn('Student dashboard auth:',e)}
   })();
 })();
