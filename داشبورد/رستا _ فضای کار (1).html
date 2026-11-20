@@ -464,81 +464,102 @@ body.closed #openBtn .i{width:19px;height:19px}
 
 
 /* کتابخانه موسیقی؛ استایل محدود به پنل داخلی داشبورد */
-#native-music{max-width:1180px;width:100%}
-#native-music .music-inline-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
-#native-music .music-inline-head h2{margin:0;font-size:17px;font-weight:750;color:var(--tx)}
-#native-music .music-inline-head p{margin:4px 0 0;color:var(--mu);font-size:11px}
-#native-music .music-inline-count{padding:6px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);font-size:10px;color:var(--mu);white-space:nowrap}
-#native-music .music-inline-player{display:grid;grid-template-columns:62px minmax(145px,.8fr) minmax(230px,1.2fr);align-items:center;gap:14px;padding:13px 15px;margin-bottom:13px;border:1px solid var(--ln);border-radius:11px;background:var(--sf)}
-#native-music .music-inline-art{position:relative;display:grid;place-items:center;width:58px;height:58px;overflow:hidden;border-radius:9px;background:linear-gradient(145deg,#142859,#263d80);color:#e0b65e}
-#native-music .music-inline-art span{font-size:30px;z-index:1}
-#native-music .music-inline-art i{position:absolute;bottom:0;width:1px;height:18px;background:#e0b65e;opacity:.2;transform:rotate(35deg)}
-#native-music .music-inline-art i:nth-child(2){left:12px;height:31px}.music-inline-art i:nth-child(3){left:30px;height:24px}.music-inline-art i:nth-child(4){right:8px;height:36px}
-#native-music .music-inline-current{min-width:0}
-#native-music .music-inline-current small,#native-music .music-inline-current span{display:block;color:var(--mu);font-size:9px}
-#native-music .music-inline-current b{display:block;margin:3px 0;overflow-wrap:anywhere;color:var(--tx);font-size:12px}
-#native-music .music-inline-controls{min-width:0}
-#native-music .music-inline-buttons{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px}
-#native-music .music-inline-buttons button{display:grid;place-items:center;min-width:28px;height:28px;border:1px solid var(--ln);border-radius:7px;color:var(--mu);font-size:12px}
-#native-music .music-inline-buttons button.is-active{color:var(--gold);border-color:var(--gold)}
-#native-music .music-inline-buttons .music-inline-play{width:34px;height:34px;border:0;border-radius:9px;background:var(--ac);color:white;font-size:14px}
-#native-music .music-inline-play:disabled{opacity:.4}
-#native-music .music-inline-progress{display:flex;align-items:center;gap:8px}
-#native-music .music-inline-progress span{min-width:34px;color:var(--mu);font-size:8px;font-variant-numeric:tabular-nums}
+/* Music tab — fully scoped to prevent dashboard layout/style collisions */
+#native-music{width:100%;max-width:none;color:var(--tx);padding:2px 0 28px;--mm-line:var(--ln);--mm-surface:var(--sf);--mm-soft:var(--bg2);--mm-accent:var(--ac)}
+#native-music *{box-sizing:border-box}
+#native-music button{font:inherit;cursor:pointer}
+#native-music .mm-head{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:150px;margin-bottom:14px;padding:8px 4px 14px}
+#native-music .mm-heading{min-width:0}
+#native-music .mm-crumb{display:flex;align-items:center;gap:9px;color:var(--mu);font-size:11px}
+#native-music .mm-crumb i{font-style:normal;color:var(--ac);font-size:18px}
+#native-music .mm-crumb b{color:var(--tx);font-weight:600}
+#native-music .mm-heading h2{margin:10px 0 3px;color:var(--tx);font-size:clamp(22px,2.2vw,30px);font-weight:800;line-height:1.5}
+#native-music .mm-heading p{margin:0;color:var(--mu);font-size:12px}
+#native-music .mm-count{display:inline-flex;margin-top:11px;padding:4px 10px;border:1px solid var(--ln);border-radius:7px;background:var(--sf);color:var(--mu);font-size:10px}
+#native-music .mm-hero-art{position:relative;display:grid;place-items:center;flex:none;width:210px;height:128px;overflow:hidden;border:1px solid var(--ln);border-radius:14px;background:linear-gradient(145deg,color-mix(in srgb,var(--pr) 90%,#0b1534),color-mix(in srgb,var(--pr) 58%,#0b1534));color:#e4bd69}
+#native-music .mm-hero-art:before{content:"";position:absolute;width:130px;height:130px;border:1px solid rgba(255,255,255,.15);border-radius:50%;box-shadow:0 0 0 18px rgba(255,255,255,.035),0 0 0 38px rgba(255,255,255,.025)}
+#native-music .mm-note{z-index:1;font-size:54px;line-height:1}
+#native-music .mm-hero-art i{position:absolute;bottom:27px;width:3px;border-radius:5px;background:#e4bd69;opacity:.7;transform:rotate(28deg)}
+#native-music .mm-hero-art i:nth-of-type(1){left:34px;height:30px}
+#native-music .mm-hero-art i:nth-of-type(2){left:48px;height:45px}
+#native-music .mm-hero-art i:nth-of-type(3){right:35px;height:36px}
+#native-music .mm-art-caption{position:absolute;bottom:9px;right:13px;color:rgba(255,255,255,.62);font-size:7px;letter-spacing:2px}
+#native-music .mm-player{display:grid;grid-template-columns:64px minmax(150px,.8fr) minmax(240px,1.2fr);align-items:center;gap:16px;min-width:0;margin-bottom:15px;padding:14px 17px;border:1px solid var(--ln);border-radius:12px;background:var(--sf)}
+#native-music .mm-player-art{position:relative;display:grid;place-items:center;width:60px;height:60px;overflow:hidden;border:1px solid rgba(224,174,69,.35);border-radius:10px;background:linear-gradient(145deg,#142859,#263d80);color:#e0b65e}
+#native-music .mm-player-art span{z-index:1;font-size:30px}
+#native-music .mm-player-art i{position:absolute;bottom:0;width:2px;background:#e0b65e;opacity:.3;transform:rotate(35deg)}
+#native-music .mm-player-art i:nth-of-type(1){left:12px;height:31px}
+#native-music .mm-player-art i:nth-of-type(2){left:30px;height:24px}
+#native-music .mm-player-art i:nth-of-type(3){right:8px;height:36px}
+#native-music .mm-current{min-width:0}
+#native-music .mm-current small,#native-music .mm-current span{display:block;color:var(--mu);font-size:10px}
+#native-music .mm-current b{display:block;overflow:hidden;margin:3px 0;color:var(--tx);font-size:14px;text-overflow:ellipsis;white-space:nowrap}
+#native-music .mm-controls{min-width:0}
+#native-music .mm-buttons{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:8px;direction:ltr}
+#native-music .mm-buttons button{display:grid;place-items:center;width:31px;height:31px;border:1px solid var(--ln);border-radius:8px;background:transparent;color:var(--mu);font-size:13px;transition:.18s}
+#native-music .mm-buttons button:hover,#native-music .mm-buttons button.is-active{border-color:var(--ac);color:var(--ac)}
+#native-music .mm-buttons .mm-play{width:38px;height:38px;border:0;border-radius:11px;background:var(--ac);color:#fff;font-size:15px}
+#native-music .mm-buttons .mm-play:hover{filter:brightness(1.1);color:#fff}
+#native-music .mm-play:disabled{opacity:.4;cursor:not-allowed}
+#native-music .mm-progress{display:flex;align-items:center;gap:9px;direction:ltr}
+#native-music .mm-progress span{min-width:35px;color:var(--mu);font-size:9px;font-variant-numeric:tabular-nums}
 #native-music #musicSeek{width:100%;height:4px;accent-color:var(--ac);cursor:pointer}
-#native-music .music-inline-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
-#native-music .music-inline-filters{display:flex;flex-wrap:wrap;gap:6px}
-#native-music .music-inline-filter{display:flex;align-items:center;gap:5px;height:30px;padding:0 10px;border:1px solid var(--ln);border-radius:7px;color:var(--mu);font-size:10px}
-#native-music .music-inline-filter.is-active{background:var(--ac);border-color:var(--ac);color:#fff}
-#native-music .music-inline-filter span{opacity:.75}
-#native-music .music-inline-view{display:flex;gap:4px}
-#native-music .music-inline-view button{width:29px;height:29px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:15px}
-#native-music .music-inline-view button.is-active{border-color:var(--ac);color:var(--ac);background:var(--sf)}
-#native-music .music-inline-categories{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-#native-music .music-inline-category{height:27px;padding:0 10px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:9px}
-#native-music .music-inline-category.is-active{border-color:var(--gold);color:var(--tx);background:color-mix(in srgb,var(--gold) 9%,var(--sf))}
-#native-music .music-inline-body{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:11px;align-items:start}
-#native-music .music-inline-library,#native-music .music-inline-top{min-width:0;padding:12px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
-#native-music .music-inline-subhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-#native-music .music-inline-subhead h3{margin:0;color:var(--tx);font-size:11px;font-weight:700}
-#native-music .music-inline-subhead>span{color:var(--mu);font-size:9px}
-#native-music .music-inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
-#native-music .music-inline-card{display:flex;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid var(--ln);border-radius:8px;background:var(--bg2)}
-#native-music .music-inline-card.is-current{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 6%,var(--bg2))}
-#native-music .music-inline-cover{display:grid;place-items:center;flex:none;width:37px;height:39px;border-radius:7px;background:rgba(190,155,83,.13);color:var(--gold);font-size:18px}
-#native-music .music-inline-track{flex:1;min-width:0}
-#native-music .music-inline-track b{display:block;overflow-wrap:anywhere;color:var(--tx);font-size:10px;line-height:1.7}
-#native-music .music-inline-track small{display:block;overflow:hidden;color:var(--mu);font-size:9px;text-overflow:ellipsis;white-space:nowrap}
-#native-music .music-inline-card-actions{display:flex;align-items:center;gap:4px}
-#native-music .music-inline-card-actions button{display:grid;place-items:center;width:27px;height:27px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:12px}
-#native-music .music-inline-card-actions button[data-music-play]{background:var(--ac);border-color:var(--ac);color:#fff}
-#native-music .music-inline-card-actions button.is-favorite{color:#d66b7b;border-color:rgba(214,107,123,.35)}
-#native-music .music-inline-grid.is-list{grid-template-columns:1fr}
-#native-music .music-inline-top-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--ln);min-width:0}
-#native-music .music-inline-top-item:last-child{border-bottom:0}
-#native-music .music-inline-rank{display:grid;place-items:center;width:21px;height:21px;flex:none;border-radius:6px;background:var(--bg2);color:var(--gold);font-size:9px}
-#native-music .music-inline-top-item>div{flex:1;min-width:0}
-#native-music .music-inline-top-item b{display:block;overflow:hidden;color:var(--tx);font-size:9px;text-overflow:ellipsis;white-space:nowrap}
-#native-music .music-inline-top-item small{display:block;color:var(--mu);font-size:8px}
-#native-music .music-inline-top-item button{color:var(--mu);font-size:13px}
-#native-music .music-inline-tip{display:flex;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid var(--ln)}
-#native-music .music-inline-tip span{color:var(--gold);font-size:16px}
-#native-music .music-inline-tip p{margin:0;color:var(--mu);font-size:8px;line-height:1.9}
-#native-music .music-inline-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
-#native-music .music-inline-stats>div{padding:10px 12px;border:1px solid var(--ln);border-radius:8px;background:var(--sf)}
-#native-music .music-inline-stats small{display:block;color:var(--mu);font-size:9px}
-#native-music .music-inline-stats b{display:block;margin-top:3px;color:var(--tx);font-size:15px;font-weight:700}
-#native-music .native-status{margin-top:8px}
-@media(max-width:850px){#native-music .music-inline-body{grid-template-columns:1fr}#native-music .music-inline-top{order:2}}
-@media(max-width:620px){#native-music .music-inline-player{grid-template-columns:48px minmax(0,1fr);gap:10px;padding:10px}#native-music .music-inline-art{width:46px;height:46px}#native-music .music-inline-controls{grid-column:1/-1}#native-music .music-inline-grid{grid-template-columns:1fr}#native-music .music-inline-head{align-items:flex-start;flex-direction:column}#native-music .music-inline-stats>div{padding:8px}#native-music .music-inline-stats b{font-size:12px}}
-
-
-#native-music .music-inline-toolbar{flex-wrap:wrap}
-#native-music .music-inline-search{display:flex;align-items:center;gap:6px;width:210px;max-width:100%;height:30px;padding:0 9px;border:1px solid var(--ln);border-radius:7px;background:var(--sf)}
-#native-music .music-inline-search span{color:var(--mu);font-size:17px}
-#native-music .music-inline-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--tx);font:inherit;font-size:10px}
-@media(max-width:620px){#native-music .music-inline-search{width:100%}}
-
+#native-music .mm-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+#native-music .mm-search{display:flex;align-items:center;gap:7px;width:230px;max-width:100%;height:35px;padding:0 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--mu)}
+#native-music .mm-search span{font-size:19px}
+#native-music .mm-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--tx);font:inherit;font-size:11px}
+#native-music .mm-filters{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+#native-music .mm-filters button{display:flex;align-items:center;gap:5px;min-height:32px;padding:0 12px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--mu);font-size:10px;transition:.18s}
+#native-music .mm-filters button.is-active{border-color:var(--ac);background:var(--ac);color:#fff}
+#native-music .mm-filters button span{opacity:.8}
+#native-music .mm-view{display:flex;gap:4px}
+#native-music .mm-view button{width:32px;height:32px;border:1px solid var(--ln);border-radius:7px;background:var(--sf);color:var(--mu);font-size:16px}
+#native-music .mm-view button.is-active{border-color:var(--ac);color:var(--ac);background:var(--hv)}
+#native-music .mm-categories-wrap{margin-bottom:13px;padding:11px 13px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+#native-music .mm-section-label{margin-bottom:8px;color:var(--mu);font-size:10px;font-weight:650}
+#native-music .mm-categories{display:flex;flex-wrap:wrap;gap:6px}
+#native-music .mm-categories button{min-height:28px;padding:0 11px;border:1px solid var(--ln);border-radius:7px;background:var(--bg2);color:var(--mu);font-size:10px}
+#native-music .mm-categories button.is-active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--sf));color:var(--tx)}
+#native-music .mm-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:13px;align-items:start}
+#native-music .mm-library,#native-music .mm-top{min-width:0;padding:14px;border:1px solid var(--ln);border-radius:11px;background:var(--sf)}
+#native-music .mm-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--ln)}
+#native-music .mm-section-head h3{margin:0;color:var(--tx);font-size:13px;font-weight:750}
+#native-music .mm-section-head p{margin:3px 0 0;color:var(--mu);font-size:9px}
+#native-music .mm-section-head>span{color:var(--mu);font-size:10px;white-space:nowrap}
+#native-music .mm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#native-music .mm-song-card{display:grid;grid-template-columns:48px minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0;padding:10px;border:1px solid var(--ln);border-radius:9px;background:var(--bg2);transition:border-color .2s,transform .2s}
+#native-music .mm-song-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--gold) 55%,var(--ln))}
+#native-music .mm-song-card.is-current{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 7%,var(--bg2))}
+#native-music .mm-cover{display:grid;place-items:center;width:46px;height:46px;border-radius:8px;background:linear-gradient(145deg,color-mix(in srgb,var(--pr) 85%,#0c1738),color-mix(in srgb,var(--pr) 55%,#0c1738));color:#e4bd69;font-size:22px}
+#native-music .mm-track{min-width:0}
+#native-music .mm-track b{display:block;overflow:hidden;color:var(--tx);font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+#native-music .mm-track small{display:block;overflow:hidden;margin-top:3px;color:var(--mu);font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+#native-music .mm-card-actions{display:flex;align-items:center;gap:5px}
+#native-music .mm-card-actions button{display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--ln);border-radius:7px;background:transparent;color:var(--mu);font-size:13px}
+#native-music .mm-card-actions button[data-music-play]{border-color:var(--ac);background:var(--ac);color:#fff}
+#native-music .mm-card-actions button.is-favorite{border-color:rgba(214,107,123,.4);color:#d66b7b}
+#native-music .mm-grid.is-list{grid-template-columns:1fr}
+#native-music .mm-grid.is-list .mm-song-card{grid-template-columns:48px minmax(0,1fr) auto}
+#native-music .mm-top-item{display:flex;align-items:center;gap:9px;min-width:0;padding:9px 0;border-bottom:1px solid var(--ln)}
+#native-music .mm-top-item:last-child{border-bottom:0}
+#native-music .mm-rank{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:7px;background:var(--bg2);color:var(--gold);font-size:10px;font-weight:700}
+#native-music .mm-top-copy{flex:1;min-width:0}
+#native-music .mm-top-copy b{display:block;overflow:hidden;color:var(--tx);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+#native-music .mm-top-copy small{display:block;margin-top:2px;color:var(--mu);font-size:9px}
+#native-music .mm-top-item button{width:26px;height:26px;border:1px solid var(--ln);border-radius:7px;color:var(--mu);font-size:11px}
+#native-music .mm-tip{display:flex;gap:8px;margin-top:11px;padding-top:10px;border-top:1px solid var(--ln)}
+#native-music .mm-tip span{color:var(--gold);font-size:17px}
+#native-music .mm-tip p{margin:0;color:var(--mu);font-size:9px;line-height:1.9}
+#native-music .mm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}
+#native-music .mm-stats>div{padding:11px 13px;border:1px solid var(--ln);border-radius:9px;background:var(--sf)}
+#native-music .mm-stats small{display:block;color:var(--mu);font-size:10px}
+#native-music .mm-stats b{display:block;margin-top:3px;color:var(--tx);font-size:16px;font-weight:750}
+#native-music .native-status{min-height:17px;margin-top:8px;color:var(--mu);font-size:10px}
+#native-music .native-empty{grid-column:1/-1;display:block;margin:0;padding:25px 12px;border:1px dashed var(--ln);border-radius:9px;color:var(--mu);font-size:11px;text-align:center}
+@media(max-width:1050px){#native-music .mm-layout{grid-template-columns:minmax(0,1fr) 210px}#native-music .mm-grid{grid-template-columns:1fr}}
+@media(max-width:850px){#native-music .mm-layout{grid-template-columns:1fr}#native-music .mm-top{order:2}#native-music .mm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){#native-music .mm-head{min-height:0;gap:10px}#native-music .mm-hero-art{width:105px;height:95px}#native-music .mm-note{font-size:38px}#native-music .mm-player{grid-template-columns:48px minmax(0,1fr);gap:10px;padding:11px}#native-music .mm-player-art{width:46px;height:46px}#native-music .mm-controls{grid-column:1/-1}#native-music .mm-toolbar{align-items:stretch}#native-music .mm-search{width:100%}#native-music .mm-filters{flex:1}#native-music .mm-filters button{padding:0 8px;font-size:9px}#native-music .mm-grid{grid-template-columns:1fr}#native-music .mm-stats>div{padding:9px}#native-music .mm-stats b{font-size:13px}}
+@media(max-width:390px){#native-music .mm-head{align-items:flex-start}#native-music .mm-hero-art{width:82px;height:80px}#native-music .mm-filters button{min-height:29px}#native-music .mm-view{margin-inline-start:auto}}
 /* Full-width native sections: tighter page gutters and fluid sidebar resizing */
 main{padding:18px 20px 24px}
 .tab-panel{width:100%;max-width:none;margin:0;padding:18px 0 38px}
@@ -980,56 +1001,73 @@ body:has(#native-plans:not([hidden])) main{padding:0;}
   <p class="native-status" id="fileStatus" role="status" aria-live="polite"></p>
 </section>
   <section class="native-section" id="native-music" hidden>
-  <div class="music-inline-head">
-    <div><h2>موسیقی برای لحظه‌های تو</h2><p>آهنگ دلخواهت را انتخاب کن و با آرامش گوش بده</p></div>
-    <span class="music-inline-count" id="musicCount">—</span>
-  </div>
-  <section class="music-inline-player" aria-label="پخش‌کننده موسیقی">
-    <div class="music-inline-art" aria-hidden="true"><span>♫</span><i></i><i></i><i></i></div>
-    <div class="music-inline-current"><small>اکنون در حال پخش</small><b id="musicNowTitle">هنوز آهنگی انتخاب نشده</b><span id="musicNowArtist">یک آهنگ از کتابخانه انتخاب کن</span></div>
-    <div class="music-inline-controls">
-      <div class="music-inline-buttons">
-        <button type="button" id="musicShuffle" aria-label="پخش تصادفی" title="پخش تصادفی">⤨</button>
-        <button type="button" id="musicPrev" aria-label="آهنگ قبلی" title="قبلی">|◀</button>
-        <button type="button" id="musicToggle" class="music-inline-play" disabled aria-label="پخش یا توقف">▶</button>
-        <button type="button" id="musicNext" aria-label="آهنگ بعدی" title="بعدی">▶|</button>
-        <button type="button" id="musicRepeat" aria-label="تکرار آهنگ" title="تکرار">↻</button>
+    <div class="mm-head">
+      <div class="mm-heading">
+        <div class="mm-crumb"><span>داشبورد</span><i>›</i><b>آهنگ‌ها</b></div>
+        <h2>آهنگ‌های من</h2>
+        <p>مجموعه‌ای از آهنگ‌های منتخب برای لحظه‌های تو</p>
+        <span class="mm-count" id="musicCount">—</span>
       </div>
-      <div class="music-inline-progress"><span id="musicElapsed">00:00</span><input id="musicSeek" type="range" min="0" max="1000" value="0" aria-label="موقعیت پخش"><span id="musicDuration">00:00</span></div>
+      <div class="mm-hero-art" aria-hidden="true"><span class="mm-note">♫</span><i></i><i></i><i></i><span class="mm-art-caption">MUSIC LIBRARY</span></div>
     </div>
-  </section>
-  <audio id="nativeAudio" preload="none"></audio>
-  <div class="music-inline-toolbar">
-    <label class="music-inline-search"><span>⌕</span><input id="musicSearch" type="search" placeholder="جست‌وجوی آهنگ یا خواننده…" aria-label="جست‌وجو در آهنگ‌ها"></label>
-    <div class="music-inline-filters" role="group" aria-label="فیلتر آهنگ‌ها">
-      <button type="button" class="music-inline-filter is-active" data-music-filter="all">همه آهنگ‌ها</button>
-      <button type="button" class="music-inline-filter" data-music-filter="favorites">موردعلاقه‌ها <span id="musicFavCount">۰</span></button>
-      <button type="button" class="music-inline-filter" data-music-filter="newest">جدیدترین‌ها</button>
-    </div>
-    <div class="music-inline-view" role="group" aria-label="نوع نمایش">
-      <button type="button" class="is-active" data-music-view="grid" aria-label="نمایش شبکه‌ای">▦</button>
-      <button type="button" data-music-view="list" aria-label="نمایش فهرستی">☷</button>
-    </div>
-  </div>
-  <div class="music-inline-categories" id="musicCategories" aria-label="دسته‌بندی آهنگ‌ها"></div>
-  <div class="music-inline-body">
-    <section class="music-inline-library">
-      <div class="music-inline-subhead"><h3>کتابخانه آهنگ‌ها</h3><span id="musicResults">—</span></div>
-      <div class="music-inline-grid" id="musicList"><p class="native-empty">در حال دریافت آهنگ‌ها…</p></div>
+
+    <section class="mm-player" aria-label="پخش‌کننده موسیقی">
+      <div class="mm-player-art"><span>♫</span><i></i><i></i><i></i></div>
+      <div class="mm-current">
+        <small>اکنون در حال پخش</small>
+        <b id="musicNowTitle">هنوز آهنگی انتخاب نشده</b>
+        <span id="musicNowArtist">یک آهنگ از کتابخانه انتخاب کن</span>
+      </div>
+      <div class="mm-controls">
+        <div class="mm-buttons">
+          <button type="button" id="musicShuffle" aria-label="پخش تصادفی" title="پخش تصادفی">⤨</button>
+          <button type="button" id="musicPrev" aria-label="آهنگ قبلی" title="قبلی">|◀</button>
+          <button type="button" id="musicToggle" class="mm-play" disabled aria-label="پخش یا توقف">▶</button>
+          <button type="button" id="musicNext" aria-label="آهنگ بعدی" title="بعدی">▶|</button>
+          <button type="button" id="musicRepeat" aria-label="تکرار آهنگ" title="تکرار">↻</button>
+        </div>
+        <div class="mm-progress"><span id="musicElapsed">00:00</span><input id="musicSeek" type="range" min="0" max="1000" value="0" aria-label="موقعیت پخش"><span id="musicDuration">00:00</span></div>
+      </div>
     </section>
-    <aside class="music-inline-top">
-      <div class="music-inline-subhead"><h3>پیشنهادهای شنیدنی</h3><span>♫</span></div>
-      <div id="musicTopList"><p class="native-empty">در حال دریافت…</p></div>
-      <div class="music-inline-tip"><span>♪</span><p>برای نگه‌داشتن آهنگ‌های محبوبت، نشان قلب کنار هر آهنگ را انتخاب کن.</p></div>
-    </aside>
-  </div>
-  <div class="music-inline-stats">
-    <div><small>تعداد آهنگ‌ها</small><b id="musicStatCount">—</b></div>
-    <div><small>مدت کل کتابخانه</small><b id="musicStatDuration">—</b></div>
-    <div><small>موردعلاقه‌ها</small><b id="musicStatFavorites">—</b></div>
-  </div>
-  <p class="native-status" id="musicStatus" role="status" aria-live="polite"></p>
-</section>
+    <audio id="nativeAudio" preload="none"></audio>
+
+    <div class="mm-toolbar">
+      <label class="mm-search"><span>⌕</span><input id="musicSearch" type="search" placeholder="جست‌وجوی آهنگ یا خواننده…" aria-label="جست‌وجو در آهنگ‌ها"></label>
+      <div class="mm-filters" role="group" aria-label="فیلتر آهنگ‌ها">
+        <button type="button" class="is-active" data-music-filter="all">همه آهنگ‌ها</button>
+        <button type="button" data-music-filter="favorites">موردعلاقه‌ها <span id="musicFavCount">۰</span></button>
+        <button type="button" data-music-filter="newest">جدیدترین‌ها</button>
+      </div>
+      <div class="mm-view" role="group" aria-label="نوع نمایش">
+        <button type="button" class="is-active" data-music-view="grid" aria-label="نمایش شبکه‌ای">▦</button>
+        <button type="button" data-music-view="list" aria-label="نمایش فهرستی">☷</button>
+      </div>
+    </div>
+
+    <div class="mm-categories-wrap">
+      <div class="mm-section-label">دسته‌بندی‌ها</div>
+      <div class="mm-categories" id="musicCategories" aria-label="دسته‌بندی آهنگ‌ها"></div>
+    </div>
+
+    <div class="mm-layout">
+      <section class="mm-library">
+        <div class="mm-section-head"><div><h3>کتابخانه آهنگ‌ها</h3><p>برای پخش، روی دکمهٔ کنار هر آهنگ بزن</p></div><span id="musicResults">—</span></div>
+        <div class="mm-grid" id="musicList"><p class="native-empty">در حال دریافت آهنگ‌ها…</p></div>
+      </section>
+      <aside class="mm-top">
+        <div class="mm-section-head"><div><h3>آهنگ‌های برتر</h3><p>چند انتخاب برای شروع</p></div><span>♫</span></div>
+        <div id="musicTopList"><p class="native-empty">در حال دریافت…</p></div>
+        <div class="mm-tip"><span>♪</span><p>با انتخاب قلب، آهنگ‌های محبوبت را در فهرست علاقه‌مندی‌ها نگه دار.</p></div>
+      </aside>
+    </div>
+
+    <div class="mm-stats">
+      <div><small>تعداد آهنگ‌ها</small><b id="musicStatCount">—</b></div>
+      <div><small>مدت کل کتابخانه</small><b id="musicStatDuration">—</b></div>
+      <div><small>موردعلاقه‌ها</small><b id="musicStatFavorites">—</b></div>
+    </div>
+    <p class="native-status" id="musicStatus" role="status" aria-live="polite"></p>
+  </section>
   <section class="native-section" id="native-advisor" hidden>
     <div class="section-intro"><div><h2>مشاور تحصیلی</h2><p>برای تصمیم‌های درسی و برنامه‌ریزی، راهنمایی بگیر.</p></div></div>
     <div class="native-feature"><span class="native-feature-icon"><svg  viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.62 11.6Q1.22 10 4.68 8.55L12.87 5.1Q13.85 4.69 14.83 5.09L23.26 8.57Q26.72 10 23.32 11.57L14.81 15.49Q13.85 15.94 12.89 15.49Z"/><path d="M6.35 12.88V19.56Q6.35 23 10.29 23H17.47Q21.6 23 21.6 19.56V12.88"/><path d="M2.91 11.31V17.88"/></svg></span><div><h2>همراه مسیر تحصیلی‌ات</h2><p>این فضا برای ارتباط با مشاور و دریافت راهنمایی‌های تحصیلی در نظر گرفته شده است. امکان ثبت درخواست مشاوره در ادامهٔ توسعه فعال می‌شود.</p><span class="native-feature-state">در حال آماده‌سازی</span></div></div>
@@ -1214,7 +1252,7 @@ function toggleSidebar(){
   $('musicResults').textContent=fa(rows.length)+' آهنگ';
   $('musicFavCount').textContent=fa(musicFavorites.size);
   $('musicStatFavorites').textContent=fa(musicFavorites.size);
-  $('musicList').innerHTML=rows.length?rows.map(({track:t,index:i})=>'<article class="music-inline-card '+(i===activeAudioIndex?'is-current':'')+'"><span class="music-inline-cover">♫</span><div class="music-inline-track"><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+' · '+escape(t.category||'عمومی')+' · '+escape(t.durationLabel||'')+'</small></div><div class="music-inline-card-actions"><button type="button" data-music-fav="'+i+'" class="'+(musicFavorites.has(String(t.id))?'is-favorite':'')+'" aria-label="افزودن به موردعلاقه‌ها" title="موردعلاقه">♥</button><button type="button" data-music-play="'+i+'" aria-label="پخش آهنگ" title="پخش">▶</button></div></article>').join(''):'<p class="native-empty">آهنگی با این فیلتر پیدا نشد.</p>';
+  $('musicList').innerHTML=rows.length?rows.map(({track:t,index:i})=>'<article class="mm-song-card '+(i===activeAudioIndex?'is-current':'')+'"><span class="mm-cover">♫</span><div class="mm-track"><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+' · '+escape(t.category||'عمومی')+' · '+escape(t.durationLabel||'')+'</small></div><div class="mm-card-actions"><button type="button" data-music-fav="'+i+'" class="'+(musicFavorites.has(String(t.id))?'is-favorite':'')+'" aria-label="افزودن به موردعلاقه‌ها" title="موردعلاقه">♥</button><button type="button" data-music-play="'+i+'" aria-label="پخش آهنگ" title="پخش">▶</button></div></article>').join(''):'<p class="native-empty">آهنگی با این فیلتر پیدا نشد.</p>';
   const cats=[...new Set(allTracks.map(t=>t.category||'عمومی'))];
   $('musicCategories').innerHTML=['همه دسته‌ها',...cats].map((c,i)=>'<button type="button" class="music-inline-category '+((i===0&&!musicCategory)||(c===musicCategory)?'is-active':'')+'" data-music-category="'+(i===0?'':escape(c))+'">'+escape(c)+'</button>').join('');
   $('musicTopList').innerHTML=allTracks.length?allTracks.slice(0,5).map((t,i)=>'<div class="music-inline-top-item"><span class="music-inline-rank">'+(i+1)+'</span><div><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+'</small></div><button type="button" data-music-top="'+i+'" aria-label="پخش">▶</button></div>').join(''):'<p class="native-empty">هنوز آهنگی ثبت نشده است.</p>';
@@ -1230,7 +1268,7 @@ function toggleSidebar(){
   const t=allTracks[activeAudioIndex],base='https://madar-jmy5.onrender.com';
   $('musicNowTitle').textContent=t.title||'آهنگ بدون نام';
   $('musicNowArtist').textContent=t.artist||'نامشخص';
-  musicAudio.src=base+String(t.streamUrl||'');
+  musicAudio.src=new URL(String(t.streamUrl||''),base).href;
   $('musicToggle').disabled=false;
   $('musicToggle').textContent='Ⅱ';
   $('musicElapsed').textContent='00:00';
