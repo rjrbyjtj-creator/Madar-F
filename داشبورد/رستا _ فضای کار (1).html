@@ -741,6 +741,7 @@ main{padding:18px 20px 24px}
 #native-plans{--plan-rem:clamp(16px,.957vw,22px);--bg:var(--bg2,#f6f7fc);--card:var(--sf,#fff);--navy:var(--tx,#14234f);--navy-soft:var(--pr,#3b4a72);--muted:var(--mu,#6f778c);--line:var(--ln,#e9ecf4);--gold:var(--ac,#b98a2e);--gold-soft:color-mix(in srgb,var(--ac,#b98a2e) 28%,transparent);--blue-bg:color-mix(in srgb,var(--pr,#385a9c) 14%,transparent);--blue-ink:var(--tx,#14234f);--peach-bg:color-mix(in srgb,var(--ac,#b98a2e) 14%,transparent);--peach-ink:var(--ac,#b98a2e);--green-bg:color-mix(in srgb,#269b79 14%,transparent);--green-ink:color-mix(in srgb,#269b79 82%,var(--tx,#14234f));width:100%;max-width:none;min-height:100%;background:var(--bg);color:var(--navy)}
 #native-history{--hist-rem:16px;--bg:var(--bg2,#f6f7fc);--card:var(--sf,#fff);--navy:var(--tx,#14234f);--navy-soft:var(--pr,#3b4a72);--muted:var(--mu,#6f778c);--line:var(--ln,#e9ecf4);--gold:var(--ac,#b98a2e);--gold-soft:color-mix(in srgb,var(--ac,#b98a2e) 28%,transparent);--blue-bg:color-mix(in srgb,var(--pr,#385a9c) 14%,transparent);--blue-ink:var(--tx,#14234f);--peach-bg:color-mix(in srgb,var(--ac,#b98a2e) 14%,transparent);--peach-ink:var(--ac,#b98a2e);--green-bg:color-mix(in srgb,#269b79 14%,transparent);--green-ink:color-mix(in srgb,#269b79 82%,var(--tx,#14234f));width:100%;max-width:none;background:var(--bg);color:var(--navy)}
 #tabPanel{max-width:none;width:100%;padding:0 0 36px}
+body:has(#native-plans:not([hidden])) main{padding:0;}
 #tabPanel:has(#native-plans:not([hidden]))>.tab-panel-head{display:none}
 #native-plans .wrap{max-width:1280px;width:100%}
 #native-history .wrap{max-width:1040px;width:100%}
@@ -1302,14 +1303,14 @@ function toggleSidebar(){
     weekDates=Array.from({length:7},(_,i)=>addDays(start,i));
     const end=weekDates[6];
     $('weekRangeText').textContent=persianShort.format(start)+' تا '+persian.format(end);
-    document.querySelectorAll('[data-weekday]').forEach(th=>{
+    planRoot.querySelectorAll('[data-weekday]').forEach(th=>{
       const i=Number(th.dataset.weekday),d=weekDates[i],iso=toISO(d);
       th.innerHTML='<div class="weekday-head '+(iso===toISO(new Date())?'is-today':'')+'"><span>'+weekdayFmt.format(d)+'</span><small>'+persianShort.format(d)+'</small></div>';
     });
     renderTable();
     renderDayCards();
     const count=weekDates.reduce((sum,d)=>sum+((plansByDate[toISO(d)]?.tasks||[]).length),0);
-    const goal=document.querySelector('.goal span');
+    const goal=planRoot.querySelector('.goal span');
     if(goal)goal.textContent=count?('این هفته '+new Intl.NumberFormat('fa-IR').format(count)+' فعالیت ثبت کرده‌ای'):'هنوز برنامه‌ای برای این هفته ثبت نکرده‌ای';
   }
   function renderTable(){
