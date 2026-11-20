@@ -338,6 +338,81 @@ body.closed #openBtn .i{width:19px;height:19px}
 @media(max-width:900px){.home-main-grid{grid-template-columns:1fr}.home-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.home-metric:nth-child(2){border-left:1px solid var(--ln)}.home-metric:nth-child(-n+2){border-bottom:1px solid var(--ln)}.quick-links{grid-template-columns:1fr}.quick-link,.quick-link:first-child{padding:10px 12px;border-left:0;border-bottom:1px solid var(--ln)}.quick-link:last-child{border-bottom:0}}
 @media(max-width:520px){.home-date-line{font-size:10px;gap:7px}.home-clock strong{font-size:18px}.home-view{padding-top:12px}.home-metric{padding:10px 11px;min-height:78px}}
 
+
+/* برنامه‌ریزی یکپارچه داخل داشبورد؛ همهٔ قواعد محدود به پنل برنامه‌ها هستند */
+#native-plans{width:100%;max-width:100%;padding:0;background:transparent;border:0;box-shadow:none}
+#native-plans .plan-inline-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px}
+#native-plans .plan-inline-head h2{margin:0;color:var(--tx);font-size:17px;font-weight:750}
+#native-plans .plan-inline-head p,#native-plans .plan-inline-schedule-head p,#native-plans .plan-inline-upcoming-head p{margin:4px 0 0;color:var(--mu);font-size:11px}
+#native-plans .plan-inline-summary{font-size:10px;color:var(--mu);padding:6px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf)}
+#native-plans .plan-inline-schedule,#native-plans .plan-inline-upcoming{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:15px;margin-bottom:13px;min-width:0}
+#native-plans .plan-inline-schedule-head,#native-plans .plan-inline-upcoming-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+#native-plans .plan-inline-schedule-head h3,#native-plans .plan-inline-upcoming-head h3{margin:0;font-size:13px;font-weight:700;color:var(--tx)}
+#native-plans .plan-inline-actions{display:flex;align-items:center;gap:9px}
+#native-plans .plan-inline-add{height:32px;padding:0 11px;border-radius:8px;background:var(--ac);color:#fff;font-size:10px;font-weight:650;display:flex;align-items:center;gap:5px}
+#native-plans .plan-inline-add span{font-size:17px;line-height:1}
+#native-plans .plan-inline-weeknav{display:flex;align-items:center;gap:4px;border:1px solid var(--ln);border-radius:8px;padding:3px}
+#native-plans .plan-inline-weeknav button{min-width:27px;height:25px;padding:0 7px;border-radius:6px;color:var(--tx);font-size:11px}
+#native-plans .plan-inline-weeknav button:hover{background:var(--hv)}
+#native-plans .plan-inline-table-scroll{width:100%;overflow-x:auto}
+#native-plans .plan-inline-table{width:100%;min-width:720px;border-collapse:separate;border-spacing:3px;table-layout:fixed;font-size:10px}
+#native-plans .plan-inline-table th{padding:7px 4px;text-align:center;color:var(--mu);font-weight:600;background:var(--bg2);border-radius:6px}
+#native-plans .plan-inline-table th:first-child{width:75px}
+#native-plans .plan-inline-table td{vertical-align:top;min-width:75px;height:43px;padding:4px;background:var(--bg2);border-radius:6px}
+#native-plans .plan-inline-table tbody th{vertical-align:middle;color:var(--mu);font-size:9px}
+#native-plans .weekday-head{display:grid;gap:2px}
+#native-plans .weekday-head span{font-size:10px;color:var(--tx)}
+#native-plans .weekday-head small{font-size:9px;font-weight:400;color:var(--mu)}
+#native-plans .weekday-head.is-today span{color:var(--gold)}
+#native-plans .plan-inline-table .empty-cell{height:65px;text-align:center;vertical-align:middle;color:var(--mu);font-size:10px}
+#native-plans .slot{position:relative;display:grid;gap:3px;margin:2px 0;padding:6px 7px;border-radius:6px;background:color-mix(in srgb,var(--ac) 10%,var(--sf));border-right:2px solid var(--ac);text-align:right}
+#native-plans .slot.peach{background:rgba(201,150,58,.10);border-color:var(--gold)}
+#native-plans .slot.green{background:rgba(53,164,119,.10);border-color:#35a477}
+#native-plans .slot b{font-size:9px;font-weight:650;color:var(--tx);overflow-wrap:anywhere}
+#native-plans .slot small{font-size:8px;color:var(--mu)}
+#native-plans .task-remove{position:absolute;top:1px;left:3px;width:17px;height:17px;border-radius:5px;color:var(--mu);font-size:13px;line-height:1}
+#native-plans .task-remove:hover{background:rgba(210,70,70,.12);color:#d34b4b}
+#native-plans .plan-inline-upcoming-head{margin-bottom:12px}
+#native-plans .plan-inline-filter{position:relative}
+#native-plans .plan-inline-filter>button{height:30px;padding:0 10px;border:1px solid var(--ln);border-radius:7px;background:var(--sf);color:var(--tx);font-size:10px}
+#native-plans #filterMenu{display:none;position:absolute;z-index:8;top:calc(100% + 5px);left:0;min-width:125px;list-style:none;margin:0;padding:5px;background:var(--sf);border:1px solid var(--ln);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+#native-plans #filterMenu.is-open{display:block}
+#native-plans #filterMenu button{width:100%;padding:7px 9px;text-align:right;border-radius:5px;color:var(--tx);font-size:10px}
+#native-plans #filterMenu button:hover,#native-plans #filterMenu button[aria-selected=true]{background:var(--hv)}
+#native-plans .plan-inline-days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#native-plans .day{min-width:0;padding:10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg2)}
+#native-plans .day.is-faded{opacity:.48}
+#native-plans .day-head{display:flex;align-items:center;justify-content:space-between;gap:5px;padding-bottom:7px;border-bottom:1px solid var(--ln)}
+#native-plans .day-head h3{margin:0;font-size:10px;font-weight:700;color:var(--tx)}
+#native-plans .day-head time{font-size:9px;color:var(--mu)}
+#native-plans .tasks{list-style:none;margin:7px 0 0;padding:0;display:grid;gap:5px}
+#native-plans .task{position:relative;display:flex;align-items:center;gap:6px;min-width:0;padding:6px 23px 6px 5px;border-radius:6px;background:var(--sf);font-size:9px;color:var(--tx)}
+#native-plans .task:before{content:"";position:absolute;right:9px;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+#native-plans .task.dot-navy:before{background:var(--gold)}
+#native-plans .task span{overflow-wrap:anywhere}
+#native-plans .task.is-done span{text-decoration:line-through;opacity:.6}
+#native-plans .task.is-dim{opacity:.2}
+#native-plans .task .task-remove{top:4px;left:4px}
+#native-plans .empty-day{padding:8px 3px;color:var(--mu);font-size:9px}
+#native-plans .plan-inline-dialog{width:min(440px,calc(100vw - 28px));max-height:90vh;overflow:auto;margin:auto;padding:0;border:1px solid var(--ln);border-radius:13px;background:var(--sf);color:var(--tx);box-shadow:0 18px 60px rgba(0,0,0,.22)}
+#native-plans .plan-inline-dialog::backdrop{background:rgba(8,15,35,.48);backdrop-filter:blur(3px)}
+#native-plans .plan-inline-form{display:grid;gap:11px;padding:19px}
+#native-plans .plan-inline-form h3{margin:0;font-size:15px}
+#native-plans .plan-inline-form p{margin:3px 0 0;color:var(--mu);font-size:10px}
+#native-plans .plan-inline-form label{display:grid;gap:5px;color:var(--mu);font-size:10px}
+#native-plans .plan-inline-form input,#native-plans .plan-inline-form select,#native-plans .plan-inline-form textarea{width:100%;min-width:0;min-height:35px;padding:7px 9px;border:1px solid var(--ln);border-radius:7px;background:var(--bg2);color:var(--tx);font:inherit;font-size:11px;outline:none}
+#native-plans .plan-inline-form textarea{min-height:65px;resize:vertical}
+#native-plans #planDatePersian{font-size:9px;color:var(--mu)}
+#native-plans .plan-inline-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#native-plans .plan-inline-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}
+#native-plans .plan-inline-form-actions button{height:34px;padding:0 13px;border-radius:7px;font-size:10px;font-weight:650}
+#native-plans .plan-inline-cancel{border:1px solid var(--ln);color:var(--mu)}
+#native-plans .plan-inline-save{background:var(--ac);color:#fff}
+#native-plans .native-status{margin:8px 2px 0;font-size:10px;color:var(--mu)}
+#native-plans .native-status.error{color:#d45b5b}
+@media(max-width:900px){#native-plans .plan-inline-days{grid-template-columns:repeat(2,minmax(0,1fr))}#native-plans .plan-inline-schedule-head{align-items:flex-start}}
+@media(max-width:560px){#native-plans .plan-inline-head{align-items:flex-start;flex-direction:column}#native-plans .plan-inline-schedule,#native-plans .plan-inline-upcoming{padding:10px}#native-plans .plan-inline-schedule-head,#native-plans .plan-inline-upcoming-head{align-items:flex-start;flex-direction:column}#native-plans .plan-inline-actions{width:100%;justify-content:space-between}#native-plans .plan-inline-days{grid-template-columns:1fr}#native-plans .plan-inline-summary{align-self:flex-start}}
+
 </style>
 </head>
 <body>
@@ -385,9 +460,27 @@ body.closed #openBtn .i{width:19px;height:19px}
 <section class="tab-panel" id="tabPanel" hidden aria-live="polite">
   <div class="tab-panel-head"><div><span class="tab-kicker">فضای دانش‌آموزی مدار</span><h1 id="tabTitle">برنامه‌ها</h1></div><button class="tab-back" id="tabHomeBtn" type="button">بازگشت به خانه</button></div>
   <section class="native-section" id="native-plans" hidden>
-    <div class="section-intro"><div><h2>برنامه‌ریزی هفتگی</h2><p>برنامه‌ها و فعالیت‌های ثبت‌شده‌ات را یک‌جا ببین.</p></div><div class="week-controls"><button type="button" id="planPrev" aria-label="هفته قبل">‹</button><button type="button" id="planToday">امروز</button><button type="button" id="planNext" aria-label="هفته بعد">›</button></div></div>
-    <div class="native-meta" id="planRange">در حال دریافت برنامه‌ها…</div><div class="native-list" id="planList"><p class="native-empty">در حال بارگذاری…</p></div><p class="native-status" id="planStatus" role="status"></p>
+  <div class="plan-inline-head"><div><h2>برنامه‌ریزی تحصیلی</h2><p>برنامه‌های هفتگی و فعالیت‌های روزهای پیش رو</p></div><span class="plan-inline-summary" id="planWeekSummary">در حال دریافت برنامه‌ها…</span></div>
+  <section class="plan-inline-schedule" aria-labelledby="weekTitle">
+    <div class="plan-inline-schedule-head"><div><h3 id="weekTitle">برنامه هفتگی</h3><p id="weekRangeText">در حال دریافت تاریخ هفته…</p></div>
+      <div class="plan-inline-actions"><button class="plan-inline-add" id="openPlanDialog" type="button"><span>＋</span> افزودن برنامه</button><div class="plan-inline-weeknav"><button id="prevWeek" type="button" aria-label="هفته قبل">‹</button><button id="todayWeek" type="button">امروز</button><button id="nextWeek" type="button" aria-label="هفته بعد">›</button></div></div>
+    </div>
+    <div class="plan-inline-table-scroll"><table class="plan-inline-table"><thead><tr><th scope="col">ساعت</th><th scope="col" data-weekday="0"></th><th scope="col" data-weekday="1"></th><th scope="col" data-weekday="2"></th><th scope="col" data-weekday="3"></th><th scope="col" data-weekday="4"></th><th scope="col" data-weekday="5"></th><th scope="col" data-weekday="6"></th></tr></thead><tbody id="weeklyTableBody"><tr><th scope="row" colspan="8">در حال بارگذاری برنامه‌ها…</th></tr></tbody></table></div>
   </section>
+  <section class="plan-inline-upcoming" aria-labelledby="upTitle"><div class="plan-inline-upcoming-head"><div><h3 id="upTitle">کارهای روزهای آینده</h3><p>فعالیت‌ها، آزمون‌ها و زمان‌های مطالعه</p></div>
+    <div class="plan-inline-filter"><button id="filterBtn" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="filterLabel">همه موارد</span>⌄</button><ul id="filterMenu" role="listbox" aria-label="فیلتر موارد"><li role="presentation"><button type="button" role="option" aria-selected="true" data-filter="all">همه موارد</button></li><li role="presentation"><button type="button" role="option" aria-selected="false" data-filter="exam">امتحان‌ها</button></li><li role="presentation"><button type="button" role="option" aria-selected="false" data-filter="deliver">تحویل‌ها</button></li><li role="presentation"><button type="button" role="option" aria-selected="false" data-filter="study">مطالعه و مرور</button></li></ul></div>
+  </div><div class="plan-inline-days" id="dayGrid" aria-live="polite"></div></section>
+  <dialog class="plan-inline-dialog" id="planDialog" aria-labelledby="planDialogTitle"><form class="plan-inline-form" id="planForm">
+    <div><h3 id="planDialogTitle">افزودن به برنامه هفتگی</h3><p>فعالیتت را ثبت کن تا در برنامه نمایش داده شود.</p></div>
+    <label>عنوان فعالیت<input id="planTitle" name="title" maxlength="120" required placeholder="مثلاً مطالعه فصل دوم ریاضی"></label>
+    <label>تاریخ<input id="planDate" name="date" type="date" required><small id="planDatePersian"></small></label>
+    <div class="plan-inline-fields"><label>ساعت شروع<input id="planStart" name="start" type="time" value="08:00" required></label><label>ساعت پایان<input id="planEnd" name="end" type="time" value="09:00" required></label></div>
+    <label>نوع فعالیت<select id="planType" name="type"><option value="study">مطالعه و مرور</option><option value="test">امتحان و آزمون</option><option value="video">آموزش و ویدیو</option><option value="note">تحویل و یادداشت</option></select></label>
+    <label>یادداشت روز (اختیاری)<textarea id="planNote" name="note" maxlength="4000" placeholder="نکته‌ای برای این روز…"></textarea></label>
+    <div class="plan-inline-form-actions"><button class="plan-inline-cancel" id="cancelPlan" type="button">انصراف</button><button class="plan-inline-save" id="savePlan" type="submit">ذخیره برنامه</button></div>
+  </form></dialog>
+  <p class="native-status" id="planStatus" role="status" aria-live="polite"></p>
+</section>
   <section class="native-section" id="native-announcements" hidden>
     <div class="section-intro"><div><h2>اطلاعیه‌های مدرسه</h2><p>آخرین خبرها و یادآوری‌های آموزشی.</p></div></div>
     <div class="announcement-list">
@@ -536,6 +629,226 @@ function toggleSidebar(){
  const audio=$('nativeAudio'),toggle=$('musicToggle');
  $('musicList').addEventListener('click',e=>{const b=e.target.closest('[data-track]');if(!b)return;const i=Number(b.dataset.track),t=allTracks[i];if(!t)return;activeAudioIndex=i;audio.src='https://madar-jmy5.onrender.com'+String(t.streamUrl||'');$('musicNowTitle').textContent=t.title||'آهنگ';$('musicNowArtist').textContent=t.artist||'نامشخص';toggle.disabled=false;audio.play().then(()=>toggle.textContent='Ⅱ').catch(()=>toast('پخش این آهنگ ممکن نشد.'))});
  toggle.onclick=()=>{if(audio.paused)audio.play().then(()=>toggle.textContent='Ⅱ');else{audio.pause();toggle.textContent='▶'}};audio.onended=()=>toggle.textContent='▶';
+})();
+</script>
+<script>
+
+(function () {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const dayGrid = $('dayGrid');
+  const tableBody = $('weeklyTableBody');
+  const status = $('planStatus');
+  const dialog = $('planDialog');
+  const form = $('planForm');
+  const persian = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {day:'numeric',month:'long',year:'numeric'});
+  const persianShort = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {day:'numeric',month:'long'});
+  const weekdayFmt = new Intl.DateTimeFormat('fa-IR', {weekday:'long'});
+  const clockFmt = new Intl.DateTimeFormat('fa-IR', {hour:'2-digit',minute:'2-digit'});
+  let weekOffset = 0;
+  let weekDates = [];
+  let plansByDate = Object.create(null);
+  let activeFilter = 'all';
+  let saving = false;
+
+  const toISO = d => [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  const fromISO = value => { const [y,m,d]=value.split('-').map(Number); return new Date(y,m-1,d,12,0,0,0); };
+  const addDays = (date,n) => { const d=new Date(date); d.setDate(d.getDate()+n); return d; };
+  const startOfWeek = date => { const d=new Date(date); d.setHours(12,0,0,0); d.setDate(d.getDate()-((d.getDay()+1)%7)); return d; };
+  const escapeHTML = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const taskCategory = type => type==='test'?'exam':type==='note'?'deliver':'study';
+  const taskColor = type => type==='test'||type==='note'?'peach':type==='video'?'green':'blue';
+  function setStatus(message,error=false){status.textContent=message||'';status.classList.toggle('error',!!error)}
+  function currentWeek(){
+    const base=startOfWeek(new Date());
+    return addDays(base,weekOffset*7);
+  }
+  function updateDateLabel(){
+    const value=$('planDate').value;
+    $('planDatePersian').textContent=value?persian.format(fromISO(value)):'';
+  }
+  function renderWeek(){
+    const start=currentWeek();
+    weekDates=Array.from({length:7},(_,i)=>addDays(start,i));
+    const end=weekDates[6];
+    $('weekRangeText').textContent=persianShort.format(start)+' تا '+persian.format(end);
+    document.querySelectorAll('#native-plans [data-weekday]').forEach(th=>{
+      const i=Number(th.dataset.weekday),d=weekDates[i],iso=toISO(d);
+      th.innerHTML='<div class="weekday-head '+(iso===toISO(new Date())?'is-today':'')+'"><span>'+weekdayFmt.format(d)+'</span><small>'+persianShort.format(d)+'</small></div>';
+    });
+    renderTable();
+    renderDayCards();
+    const count=weekDates.reduce((sum,d)=>sum+((plansByDate[toISO(d)]?.tasks||[]).length),0);
+    const goal=$('planWeekSummary');
+    if(goal)goal.textContent=count?('این هفته '+new Intl.NumberFormat('fa-IR').format(count)+' فعالیت ثبت شده'):'برای این هفته هنوز برنامه‌ای ثبت نشده است';
+  }
+  function renderTable(){
+    const slotMap=new Map();
+    weekDates.forEach((date,dayIndex)=>{
+      const plan=plansByDate[toISO(date)];
+      (plan?.tasks||[]).forEach(task=>{
+        const key=task.start+'|'+task.end;
+        if(!slotMap.has(key))slotMap.set(key,{start:task.start,end:task.end,days:Array.from({length:7},()=>[])});
+        slotMap.get(key).days[dayIndex].push(task);
+      });
+    });
+    const slots=[...slotMap.values()].sort((a,b)=>a.start.localeCompare(b.start)||a.end.localeCompare(b.end));
+    if(!slots.length){
+      tableBody.innerHTML='<tr><th scope="row">—</th><td colspan="7" class="empty-cell">برای این هفته هنوز برنامه‌ای ثبت نشده است.</td></tr>';
+      return;
+    }
+    tableBody.innerHTML=slots.map(slot=>{
+      const time=clockFmt.format(fromISO('2000-01-01').setHours(Number(slot.start.slice(0,2)),Number(slot.start.slice(3,5)),0,0))+' - '+clockFmt.format(fromISO('2000-01-01').setHours(Number(slot.end.slice(0,2)),Number(slot.end.slice(3,5)),0,0));
+      const cells=slot.days.map((items,dayIndex)=>{
+        const date=toISO(weekDates[dayIndex]);
+        return '<td>'+ (items.length?items.map(task=>'<div class="slot '+taskColor(task.type)+'" data-date="'+date+'" data-task-id="'+escapeHTML(task.id)+'"><b>'+escapeHTML(task.title)+'</b><small>'+escapeHTML(task.start)+' تا '+escapeHTML(task.end)+'</small><button class="task-remove" type="button" data-date="'+date+'" data-task-id="'+escapeHTML(task.id)+'" aria-label="حذف '+escapeHTML(task.title)+'" title="حذف فعالیت">×</button></div>').join(''):'')+'</td>';
+      }).join('');
+      return '<tr><th scope="row">'+time+'</th>'+cells+'</tr>';
+    }).join('');
+  }
+  function renderDayCards(){
+    const today=new Date();
+    today.setHours(12,0,0,0);
+    const upcomingDates=Array.from({length:6},(_,index)=>addDays(today,index));
+    dayGrid.innerHTML=upcomingDates.map(date=>{
+      const iso=toISO(date),plan=plansByDate[iso]||{tasks:[],note:''};
+      const tasks=[...(plan.tasks||[])].sort((a,b)=>a.start.localeCompare(b.start));
+      const rows=tasks.map(task=>{
+        const category=taskCategory(task.type);
+        const icon=task.type==='test'?'#i-book':task.type==='note'?'#i-clipboard':task.type==='video'?'#i-clock':'#i-check';
+        const dot=category==='exam'?'dot-navy':category==='deliver'?'dot-gold':'';
+        return '<li class="task '+dot+(task.done?' is-done':'')+'" data-type="'+category+'">'+
+          '<svg class="icon '+(category==='deliver'?'ic-gold':'')+'"><use href="'+icon+'"/></svg>'+
+          '<span>'+escapeHTML(task.title)+'</span>'+
+          '<button class="task-remove" type="button" data-date="'+iso+'" data-task-id="'+escapeHTML(task.id)+'" aria-label="حذف '+escapeHTML(task.title)+'" title="حذف فعالیت">×</button></li>';
+      }).join('');
+      return '<article class="day reveal-scroll"><header class="day-head"><h3>'+weekdayFmt.format(date)+'</h3><time datetime="'+iso+'">'+persian.format(date)+'</time></header><ul class="tasks">'+(rows||'<li class="empty-day">برای این روز برنامه‌ای ثبت نشده است.</li>')+'</ul></article>';
+    }).join('');
+    applyUpcomingFilter();
+  }
+  function applyUpcomingFilter(){
+    dayGrid.querySelectorAll('.day').forEach(day=>{
+      let hasMatch=false;
+      day.querySelectorAll('.task').forEach(task=>{
+        const match=activeFilter==='all'||task.dataset.type===activeFilter;
+        task.classList.toggle('is-dim',!match);
+        if(match)hasMatch=true;
+      });
+      day.classList.toggle('is-faded',activeFilter!=='all'&&!hasMatch);
+    });
+  }
+  async function fetchPlans(from,to){
+    const url=API.plans+'?from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
+    const response=await fetch(url,{headers:Auth.headers(),cache:'no-store'});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok)throw new Error(data.message||'دریافت برنامه‌ها ناموفق بود.');
+    (data.plans||[]).forEach(plan=>{plansByDate[plan.date]=plan;});
+  }
+  async function loadWeek(){
+    const start=currentWeek(),end=addDays(start,6);
+    const today=new Date();today.setHours(12,0,0,0);
+    const upcomingEnd=addDays(today,5);
+    const rangeFrom=toISO(start)<toISO(today)?toISO(start):toISO(today);
+    const rangeTo=toISO(end)>toISO(upcomingEnd)?toISO(end):toISO(upcomingEnd);
+    setStatus('در حال دریافت برنامه‌های ذخیره‌شده…');
+    tableBody.innerHTML='<tr><th scope="row" colspan="8">در حال بارگذاری…</th></tr>';
+    try{
+      await fetchPlans(rangeFrom,rangeTo);
+      renderWeek();
+      setStatus('');
+    }catch(error){
+      setStatus(error.message||'ارتباط با سرور برقرار نشد.',true);
+      tableBody.innerHTML='<tr><th scope="row" colspan="8">بارگذاری برنامه‌ها انجام نشد. اتصال را بررسی و صفحه را دوباره بارگذاری کن.</th></tr>';
+    }
+  }
+  async function removePlanTask(date,taskId,button){
+    if(!date||!taskId||!window.confirm('این فعالیت از برنامه‌ات حذف شود؟'))return;
+    if(button){button.disabled=true;button.textContent='…'}
+    try{
+      const response=await fetch(API.plans+'/'+encodeURIComponent(date)+'/tasks/'+encodeURIComponent(taskId),{
+        method:'DELETE',headers:Auth.headers()
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||!data.ok)throw new Error(data.message||'حذف فعالیت انجام نشد.');
+      plansByDate[date]=data.plan||{date,tasks:[],note:''};
+      renderWeek();
+      setStatus('فعالیت با موفقیت حذف شد.');
+    }catch(error){
+      if(button){button.disabled=false;button.textContent='×'}
+      setStatus(error.message||'حذف فعالیت ناموفق بود.',true);
+    }
+  }
+  dayGrid.addEventListener('click',event=>{
+    const button=event.target.closest('.task-remove');
+    if(button)removePlanTask(button.dataset.date,button.dataset.taskId,button);
+  });
+  tableBody.addEventListener('click',event=>{
+    const button=event.target.closest('.task-remove');
+    if(button)removePlanTask(button.dataset.date,button.dataset.taskId,button);
+  });
+
+  async function sendPlanRequest(date,path,method,body){
+    const response=await fetch(API.plans+'/'+encodeURIComponent(date)+path,{
+      method,headers:{'Content-Type':'application/json',...Auth.headers()},
+      ...(body===undefined?{}:{body:JSON.stringify(body)})
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok)throw new Error(data.message||'ذخیره برنامه انجام نشد.');
+    plansByDate[date]=data.plan||{date,tasks:[],note:''};
+    renderWeek();
+    return data.plan;
+  }
+  function openDialog(date){
+    form.reset();
+    $('planDate').value=date||toISO(new Date());
+    $('planStart').value='08:00';$('planEnd').value='09:00';$('planType').value='study';
+    $('planNote').value=plansByDate[$('planDate').value]?.note||'';
+    updateDateLabel();dialog.showModal();$('planTitle').focus();
+  }
+  $('openPlanDialog').addEventListener('click',()=>openDialog(toISO(new Date())));
+  $('cancelPlan').addEventListener('click',()=>dialog.close());
+  $('planDate').addEventListener('change',updateDateLabel);
+  $('prevWeek').addEventListener('click',()=>{weekOffset--;loadWeek()});
+  $('nextWeek').addEventListener('click',()=>{weekOffset++;loadWeek()});
+  $('todayWeek').addEventListener('click',()=>{weekOffset=0;loadWeek()});
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();if(saving)return;
+    const date=$('planDate').value,title=$('planTitle').value.trim(),start=$('planStart').value,end=$('planEnd').value,type=$('planType').value,note=$('planNote').value.trim();
+    if(!date||!title||!start||!end||end<=start){setStatus('عنوان، تاریخ و بازه ساعت را درست وارد کن؛ ساعت پایان باید بعد از شروع باشد.',true);return}
+    saving=true;$('savePlan').disabled=true;$('savePlan').textContent='در حال ذخیره…';setStatus('در حال ذخیره در حساب کاربری…');
+    try{
+      if(!plansByDate[date])await fetchPlans(date,date);
+      const old=plansByDate[date]||{tasks:[],note:''};
+      const task={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'task-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),title,type,start,end,done:false};
+      const previousWeekISO=toISO(startOfWeek(currentWeek()));
+      await sendPlanRequest(date,'/tasks','POST',{task,note:note||old.note||''});
+      const targetWeek=startOfWeek(fromISO(date));
+      weekOffset=Math.round((targetWeek-startOfWeek(new Date()))/604800000);
+      if(toISO(targetWeek)!==previousWeekISO)await loadWeek();
+      dialog.close();setStatus('برنامه با موفقیت ذخیره شد.');
+    }catch(error){setStatus(error.message||'ذخیره برنامه ناموفق بود.',true)}
+    finally{saving=false;$('savePlan').disabled=false;$('savePlan').textContent='ذخیره برنامه'}
+  });
+  const filterButton=$('filterBtn'),filterMenu=$('filterMenu'),filterLabel=$('filterLabel');
+  if(filterButton&&filterMenu){
+    const options=[...filterMenu.querySelectorAll('[role="option"]')];
+    const setOpen=value=>{filterMenu.classList.toggle('is-open',value);filterButton.setAttribute('aria-expanded',String(value))};
+    filterButton.addEventListener('click',event=>{event.stopPropagation();setOpen(!filterMenu.classList.contains('is-open'))});
+    filterMenu.addEventListener('click',event=>event.stopPropagation());
+    document.addEventListener('click',()=>setOpen(false));
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&filterMenu.classList.contains('is-open')){setOpen(false);filterButton.focus()}});
+    options.forEach(option=>option.addEventListener('click',()=>{
+      options.forEach(item=>item.setAttribute('aria-selected','false'));
+      option.setAttribute('aria-selected','true');activeFilter=option.dataset.filter;
+      filterLabel.textContent=option.textContent.trim();setOpen(false);applyUpcomingFilter();
+    }));
+  }
+  (async()=>{
+    if(typeof Auth==='undefined'||typeof API==='undefined'){setStatus('تنظیمات ورود و اتصال سرور بارگذاری نشد.',true);return}
+    if(!Auth.get()){setStatus('برای مشاهده برنامه‌ها ابتدا وارد حساب کاربری شو.',true);return;}
+    await loadWeek();
+  })();
+
 })();
 </script>
 </body>
