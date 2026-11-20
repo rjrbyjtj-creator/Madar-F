@@ -112,6 +112,10 @@ body.closed #sidebar{width:0;border-left-color:transparent}
 .home-link{font-weight:600}
 .nav-group{display:flex;flex-direction:column;gap:1px}
 .nav-group+.nav-group{margin-top:7px}
+/* Keep the support entry compact and slightly higher in the sidebar */
+.nav-group:last-child{margin-top:3px;gap:0}
+.nav-group:last-child .lbl{padding-top:6px;padding-bottom:3px}
+.nav-group:last-child a{min-height:35px;padding-top:5px;padding-bottom:5px}
 .nav-count{margin-right:auto;padding:2px 6px;border-radius:6px;background:var(--hv);color:var(--ac);font-size:10px}
 .foot{position:relative;border-top:1px solid var(--ln);padding-top:10px;margin-top:auto}
 .acct{display:flex;align-items:center;gap:10px;width:100%;padding:8px;border-radius:12px;text-align:right;transition:.15s;border:0;background:none;color:var(--tx);cursor:default}
