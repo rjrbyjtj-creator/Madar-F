@@ -226,31 +226,87 @@ body.madar-sidebar-open #madarSidebarScrim{opacity:1;visibility:visible}
 #openSidebarBtn{flex:none}
 @media(prefers-reduced-motion:reduce){#madarSidebar,#madarSidebarScrim,.madar-side-nav a{transition:none!important}}
 
+
+/* سایدبار یکپارچه داشبورد؛ ظاهر و رفتار مطابق فایل مرجع */
+#sidebar{--sb:var(--card);--ln:var(--line);--tx:var(--text);--mu:var(--muted);--hv:var(--chip);--ac:var(--primary);
+ position:fixed;inset:0 0 0 auto;z-index:81;width:264px;min-width:0;overflow:hidden;
+ background:var(--sb);border-left:1px solid var(--ln);border-radius:11px 0 0 11px;
+ box-shadow:-14px 0 34px -13px rgba(0,0,0,.22);transition:width .3s cubic-bezier(.4,0,.2,1),transform .3s,border-color .3s}
+#sidebar .in{width:264px;min-width:264px;height:100%;display:flex;flex-direction:column;padding:10px 10px 8px;overflow:hidden}
+#sidebar .brand{display:flex;align-items:center;justify-content:space-between;padding:0 4px 10px;border-bottom:0}
+#sidebar .brand a{display:flex;align-items:center;gap:9px;color:var(--tx);transform:translateY(-2px)}
+#sidebar .mark{width:33px;height:33px;display:flex;align-items:center;justify-content:center;flex:none}
+#sidebar .mark img{width:33px;height:33px;object-fit:contain}
+#sidebar .brand b{font-size:15px;font-weight:700;line-height:1.2}
+#sidebar .ib{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:0;border-radius:10px;background:none;color:var(--mu);transition:.15s;cursor:pointer}
+#sidebar .ib:hover{background:var(--hv);color:var(--tx)}
+#sidebar .ib.sm{width:30px;height:30px;border-radius:8px}
+#sidebar .ib.sm svg{width:17px;height:17px}
+#sidebar .nav{display:flex;flex-direction:column;gap:1px;padding:2px 0 8px}
+#sidebar .nav-group{display:flex;flex-direction:column;gap:1px}
+#sidebar .nav-group+.nav-group{margin-top:7px}
+#sidebar .nav .lbl{padding:10px 10px 6px;color:var(--mu);font-size:11.5px;font-weight:500}
+#sidebar .nav a{display:flex;align-items:center;gap:10px;width:100%;min-height:39px;padding:7px 9px;border-radius:10px;color:var(--tx);font-size:12.5px;text-align:right;transition:background .18s,transform .18s,box-shadow .18s}
+#sidebar .nav a .i{width:22px;height:22px;flex:0 0 22px;color:var(--mu);background:transparent;stroke-width:1.7}
+#sidebar .nav a:hover{background:var(--hv);transform:translateX(-2px);box-shadow:0 3px 10px rgba(20,35,70,.07)}
+#sidebar .nav a:hover .i,#sidebar .nav a.active .i{color:var(--ac)}
+#sidebar .nav a.active{background:var(--hv);font-weight:600}
+#sidebar .home-group{padding-bottom:8px;margin-bottom:5px;border-bottom:1px solid var(--ln)}
+#sidebar .home-link{font-weight:600}
+#sidebar .foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--ln)}
+#sidebar .acct{display:flex;align-items:center;gap:10px;width:100%;padding:8px;border-radius:12px}
+#sidebar .av{width:28px;height:28px;display:grid;place-items:center;flex:none;border-radius:8px;background:var(--hv);color:var(--tx);font-size:12px;font-weight:700}
+#sidebar .account-info{flex:1;min-width:0}
+#sidebar .account-info b{display:block;overflow:hidden;color:var(--tx);font-size:12.5px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+#sidebar .account-info small{display:block;color:var(--mu);font-size:11px}
+#scrim{display:none}
+#openSidebarBtn{display:none;flex:none}
+body{padding-right:264px;transition:padding-right .3s cubic-bezier(.4,0,.2,1)}
+body.closed{padding-right:0}
+body.closed #sidebar{width:0;border-left-color:transparent;box-shadow:none}
+body.closed #openSidebarBtn{display:flex}
+#openSidebarBtn{width:36px;height:36px;align-items:center;justify-content:center;border:0;border-radius:10px;background:transparent;color:var(--muted)}
+#openSidebarBtn:hover{background:var(--chip);color:var(--text)}
+@media(max-width:899px){
+ body{padding-right:0}
+ #sidebar{width:264px!important;transform:translateX(100%);border-left:1px solid var(--ln)}
+ body.m-open #sidebar{transform:translateX(0);box-shadow:-23px 0 56px -14px rgba(0,0,0,.56)}
+ body.m-open #scrim{display:block;position:fixed;inset:0;background:rgba(10,16,32,.45);z-index:80}
+ #openSidebarBtn{display:flex}
+ body.closed #sidebar{width:264px;border-left-color:var(--ln)}
+}
+@media(prefers-reduced-motion:reduce){#sidebar,#openSidebarBtn,body{transition:none!important}}
+
 </style>
 </head>
 <body>
 
-<div id="madarSidebarScrim" aria-hidden="true"></div>
-<aside id="madarSidebar" aria-label="منوی کناری مدار" aria-hidden="true">
-  <div class="madar-side-head">
-    <a class="madar-side-brand" href="#" aria-label="خانه مدار">
-      <img src="../عکس ها/لوگو سایت جدید.png" alt="M" onerror="this.style.display='none'">
-      <span>مدار</span>
-    </a>
-    <button class="madar-side-close" type="button" aria-label="بستن منو" title="بستن منو">
-      <svg class="i" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
+<div id="scrim" aria-hidden="true"></div>
+<aside id="sidebar" aria-label="سایدبار دانش‌آموز">
+  <div class="in">
+    <div class="brand">
+      <a href="./رستا _ فضای کار (1).html"><span class="mark"><img src="../عکس ها/لوگو سایت جدید.png" alt="مدار" onerror="this.style.display='none'"></span><b>مدار</b></a>
+      <button class="ib sm" id="sidebarClose" type="button" title="بستن منو" aria-label="بستن منو"><svg class="i pn" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button>
+    </div>
+    <nav class="nav" aria-label="منوی دانش‌آموز">
+      <div class="nav-group home-group"><a class="home-link active" href="./رستا _ فضای کار (1).html"><svg class="i" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>خانه</a></div>
+      <div class="nav-group"><div class="lbl">فضای آموزشی</div>
+        <a href="./چت بات.html"><svg class="i" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8 8 0 0 1-3.5-.8L4 20l1.5-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg>ایجنت روبو</a>
+        <a href="./برنامه ریزی.html"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h3M8 17h7"/></svg>برنامه‌ریزی</a>
+        <a href="#daily"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg>برنامه روزانه</a>
+        <a href="#news"><svg class="i" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18s-3-2-3-9M10 21h4"/></svg>اطلاعیه‌ها</a>
+      </div>
+      <div class="nav-group"><div class="lbl">منابع و سرگرمی</div>
+        <a href="./آزمون ها.html"><svg class="i" viewBox="0 0 24 24"><path d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14M14 2v8h8"/></svg>آزمون‌ها</a>
+        <a href="./فایل ها.html"><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h5l2 3h5a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>فایل‌ها</a>
+        <a href="./آهنگ ها.html"><svg class="i" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>آهنگ‌ها</a>
+      </div>
+      <div class="nav-group"><div class="lbl">راهنما و پشتیبانی</div>
+        <a href="#contact"><svg class="i" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.5a2.5 2.5 0 0 1-1-2z"/><path d="M8 8h8M8 12h5"/></svg>پشتیبانی</a>
+      </div>
+    </nav>
+    <div class="foot"><div class="acct"><span class="av">م</span><span class="account-info"><b>فضای دانش‌آموزی</b><small>مدرسه مدار</small></span></div></div>
   </div>
-  <nav class="madar-side-nav" aria-label="دسترسی سریع">
-    <a href="#" class="is-active"><svg class="i" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>صفحه اصلی</a>
-    <span class="madar-side-label">فضای آموزشی</span>
-    <a href="#daily"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4m8-4v4M3 9h18M8 13h.01M12 13h.01M16 13h.01"/></svg>برنامه روزانه</a>
-    <a href="./چت بات.html"><svg class="i" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8 8 0 0 1-3.5-.8L4 20l1.5-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg>چت‌بات</a>
-    <a href="#files"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>فایل‌ها</a>
-    <a href="#exams"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>آزمون‌ها</a>
-    <a href="#news"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h4"/></svg>اطلاعیه‌ها</a>
-  </nav>
-  <div class="madar-side-foot">مدرسه مدار · فضای دانش‌آموزی</div>
 </aside>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -292,7 +348,7 @@ body.madar-sidebar-open #madarSidebarScrim{opacity:1;visibility:visible}
       <input type="search" placeholder="جستجو در سامانه...">
     </label>
     <div class="actions">
-      <button class="ib" id="openSidebarBtn" type="button" aria-label="باز کردن منو" aria-controls="madarSidebar" aria-expanded="false" title="باز کردن منو"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button>
+      <button class="ib" id="openSidebarBtn" type="button" aria-label="باز کردن منو" aria-controls="sidebar" aria-expanded="true" title="باز کردن منو"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button>
       
       <button class="ib" id="themeBtn" aria-label="تغییر تم روشن و تیره"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
       <a href="#" class="ib" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><i class="dot"></i></a>
@@ -494,24 +550,26 @@ const $=id=>document.getElementById(id);
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 
 
-/* کنترل سایدبار */
+/* کنترل سایدبار با همان انیمیشن و رفتار فایل مرجع */
 (()=>{
- const body=document.body,side=document.getElementById('madarSidebar'),scrim=document.getElementById('madarSidebarScrim');
- const open=document.getElementById('openSidebarBtn'),close=side.querySelector('.madar-side-close');
+ const body=document.body,side=document.getElementById('sidebar'),scrim=document.getElementById('scrim');
+ const open=document.getElementById('openSidebarBtn'),close=document.getElementById('sidebarClose');
  const setOpen=value=>{
-  body.classList.toggle('madar-sidebar-open',value);
-  side.setAttribute('aria-hidden',String(!value));
+  if(innerWidth<900){body.classList.toggle('m-open',value);side.setAttribute('aria-hidden',String(!value));}
+  else{body.classList.toggle('closed',!value);side.setAttribute('aria-hidden',String(!value));}
   open.setAttribute('aria-expanded',String(value));
-  open.setAttribute('aria-label',value?'بستن منو':'باز کردن منو');
  };
- open.addEventListener('click',()=>setOpen(!body.classList.contains('madar-sidebar-open')));
+ open.addEventListener('click',()=>setOpen(innerWidth<900?!body.classList.contains('m-open'):document.body.classList.contains('closed')));
  close.addEventListener('click',()=>setOpen(false));
  scrim.addEventListener('click',()=>setOpen(false));
  document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});
- side.querySelectorAll('.madar-side-nav a').forEach(a=>a.addEventListener('click',()=>{
-  side.querySelectorAll('.madar-side-nav a').forEach(x=>x.classList.remove('is-active'));
-  a.classList.add('is-active');setOpen(false);
+ side.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{
+  side.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));
+  a.classList.add('active');
+  if(innerWidth<900)setOpen(false);
  }));
+ if(innerWidth>=900){body.classList.remove('closed');side.setAttribute('aria-hidden','false');}
+ else{side.setAttribute('aria-hidden','true');}
 })();
 
 /* تم */
