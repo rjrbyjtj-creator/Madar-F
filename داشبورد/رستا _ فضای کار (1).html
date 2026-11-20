@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" data-theme="light">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,13 +11,12 @@
 <link id="madar-page-loader-css" rel="stylesheet" href="../css/page-loader.css">
 <script src="../js/page-loader.js"></script>
 <script src="../js/madar-connect.js?v=connect-20261114"></script>
-<script defer src="../js/theme.js?v=chatbot-aligned-dashboard-20261120"></script>
+<script defer src="../js/theme.js?v=server-theme-sidebar-workspace-20261120"></script>
 <style>
-:root{--dash-bg:var(--bg,#F6F7F9);--dash-side:var(--sb,#FBFBFC);--dash-card:var(--sf,#FFFFFF);--dash-line:var(--ln,#E3E6EC);--dash-act:var(--hv,#EDEFF4);--dash-tx:var(--tx,#1B2233);--dash-mut:var(--mu,#6B7488);--dash-bar:var(--pr,#14264F);--dash-hi:var(--ac,#B8892D);color-scheme:light}
-:root.dark{color-scheme:dark}
+:root{color-scheme:normal}
 *{box-sizing:border-box}
-html{height:100%;font-size:clamp(12px,min(.9vw,2vh),15px);background:var(--dash-bg)}
-body{margin:0;height:100%;overflow:hidden;background:var(--bg,var(--dash-bg));color:var(--tx,var(--dash-tx));font:1rem/1.75 "Vazirmatn",Tahoma,sans-serif}
+html{height:100%;font-size:clamp(12px,min(.9vw,2vh),15px);background:var(--bg)}
+body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font:1rem/1.75 "Vazirmatn",Tahoma,sans-serif}
 button,a{font:inherit;color:inherit}
 a{text-decoration:none}
 .i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -212,32 +211,7 @@ body.closed #openBtn .i{width:19px;height:19px}
       <button class="icon-btn" id="profileBtn" type="button" aria-label="حساب کاربری"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></button>
     </div>
   </header>
-  <div class="content">
-    <section class="hero">
-      <div class="eyebrow">هر روز یک قدم به هدفت نزدیک‌تر</div>
-      <h2 id="welcomeTitle">به مدار خوش آمدی!</h2>
-      <p>نمای کلی مسیر تحصیلی، برنامه‌ها و فعالیت‌های مدرسه از اینجا در دسترس خواهد بود.</p>
-      <div class="meta"><b id="todayDate">—</b>اطلاعات هر بخش به‌تدریج به داده‌های واقعی سامانه متصل می‌شود.</div>
-    </section>
-    <section class="stats">
-      <div class="st"><small>زمان مطالعه</small><strong>—</strong><span>پس از اتصال بخش برنامه‌ریزی</span></div>
-      <div class="st"><small>پیشرفت برنامه</small><strong>—</strong><span>گزارش هفتگی</span></div>
-      <div class="st"><small>میانگین نمرات</small><strong>—</strong><span>بر اساس نتایج ثبت‌شده</span></div>
-      <div class="st"><small>تکلیف‌ها</small><strong>—</strong><span>فعالیت‌های باقی‌مانده</span></div>
-    </section>
-    <section class="plan">
-      <h3>برنامه امروز تو</h3>
-      <div class="sub">برنامه روزانه و زمان‌بندی کلاس‌ها</div>
-      <div class="empty">بخش برنامهٔ روزانه در مرحلهٔ بعد به اطلاعات واقعی دانش‌آموز متصل می‌شود.</div>
-    </section>
-    <section class="side2">
-      <h3>گزارش پیشرفت</h3>
-      <div class="sub">نمای هفتگی فعالیت‌های آموزشی</div>
-      <div class="chart" aria-label="نمودار پیشرفت در حال آماده‌سازی"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="exam"><small>آزمون بعدی</small><b>اطلاعات آزمون‌های پیش‌رو پس از اتصال این بخش نمایش داده می‌شود.</b></div>
-    </section>
-  </div>
-</main>
+  </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../js/config.js"></script>
@@ -249,10 +223,7 @@ function toggleSidebar(){
 }
 (function(){
   const $=id=>document.getElementById(id);
-  const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
-  try{$('todayDate').textContent=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){}
   const toast=message=>{const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(window.__madarToastTimer);window.__madarToastTimer=setTimeout(()=>el.classList.remove('show'),2600)};
-  document.querySelectorAll('[data-soon]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();toast('بخش «'+a.dataset.soon+'» در مراحل بعدی آماده می‌شود.')})); 
   $('themeBtn').addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else document.documentElement.dataset.theme=next});
   $('profileBtn').addEventListener('click',()=>toast('بخش پروفایل از منوی کناری قابل دسترسی خواهد بود.'));
   $('logoutBtn').addEventListener('click',()=>{if(window.Auth&&typeof Auth.logout==='function')Auth.logout();else location.href='../لاگین و ثبت نام/لاگین.html'});
@@ -266,7 +237,6 @@ function toggleSidebar(){
       $('userName').textContent=name;
       $('userRole').textContent=ROLE_FA[user.role]||'کاربر';
       $('userInitial').textContent=name.trim().charAt(0)||'م';
-      $('welcomeTitle').textContent='سلام '+name+'، به مدار خودت خوش اومدی!';
     }catch(e){console.warn('Student dashboard auth:',e)}
   })();
 })();
