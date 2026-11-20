@@ -21,7 +21,7 @@ body{margin:0;height:100%;overflow:hidden;background:var(--bg,var(--dash-bg));co
 button,a{font:inherit;color:inherit}
 a{text-decoration:none}
 .i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.app{height:100%;display:grid;grid-template-columns:288px minmax(0,1fr);gap:0}
+.app{height:100%;display:flex;min-height:0;gap:0}
 .side{z-index:3;display:flex;flex-direction:column;min-height:0;overflow:hidden;padding:0;background:var(--sb,var(--dash-side));border-left:1px solid var(--ln,var(--dash-line))}
 .side-inner{width:100%;height:100%;min-height:0;display:flex;flex-direction:column;padding:14px 12px 12px;overflow:hidden}
 .brand{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 14px;border-bottom:1px solid var(--ln,var(--dash-line))}
@@ -128,6 +128,23 @@ body.closed #openBtn{display:flex}
  #openBtn{display:flex}
 }
 @media(prefers-reduced-motion:reduce){#sidebar,#openBtn{transition:none!important}}
+/* Exact desktop sidebar mechanics from روبو */
+.app{display:flex;flex-direction:row;height:100%;min-height:0;gap:0}
+#sidebar{width:264px;flex:0 0 264px;min-width:0;transition:width .3s cubic-bezier(.4,0,.2,1),flex-basis .3s cubic-bezier(.4,0,.2,1),border-color .3s;overflow:hidden}
+#sidebar .in{width:264px;min-width:264px;height:100%;display:flex;flex-direction:column;padding:10px 10px 8px;overflow:hidden}
+body.closed #sidebar{width:0;flex-basis:0;border-left-color:transparent}
+main{flex:1 1 auto;width:auto;min-width:0;min-height:0}
+.ib.pn svg,.ib .pn{width:17px;height:17px}
+@media(max-width:899px){
+ .app{display:flex;min-height:100vh;height:100%;overflow:visible}
+ #sidebar{position:fixed;top:0;bottom:0;right:0;left:auto;z-index:40;width:264px!important;flex:0 0 264px;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--ln);border-right:0}
+ #sidebar .in{width:264px;min-width:264px}
+ body.m-open #sidebar{width:264px;transform:none;box-shadow:-20px 0 50px -20px rgba(0,0,0,.4)}
+ body.m-open #scrim{display:block;position:fixed;inset:0;background:rgba(10,16,32,.45);z-index:30}
+ #openBtn{display:flex}
+ body.closed #sidebar{width:264px;flex-basis:264px}
+}
+@media(prefers-reduced-motion:reduce){#sidebar,#openBtn{transition:none!important}}
 /* Dashboard surfaces follow the chatbot's global theme tokens */
 .top{min-height:42px}
 .top h1{color:var(--tx,var(--dash-tx))}
@@ -151,7 +168,7 @@ body.closed #openBtn{display:flex}
 <aside id="sidebar" aria-label="سایدبار دانش‌آموز"><div class="in">
   <div class="brand">
     <a href="./رستا _ فضای کار (1).html"><span class="mark"><img src="../عکس ها/لوگو سایت جدید.png" alt="مدار" onerror="this.style.display='none'"></span><b>مدار</b></a>
-    <button class="ib sm" id="sidebarClose" type="button" onclick="toggleSidebar()" title="بستن منو" aria-label="بستن منو"><svg class="i" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
+    <button class="ib sm" id="sidebarClose" type="button" onclick="toggleSidebar()" title="بستن منو" aria-label="بستن منو"><svg class="i pn" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button>
   </div>
   <nav class="nav" aria-label="منوی دانش‌آموز">
     <div class="nav-group">
@@ -178,7 +195,7 @@ body.closed #openBtn{display:flex}
 <main>
   <header class="top">
     <div style="display:flex;align-items:center;gap:12px">
-      <button class="ib" id="openBtn" type="button" onclick="toggleSidebar()" aria-label="باز کردن منو" title="باز کردن منو"><svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+      <button class="ib" id="openBtn" type="button" onclick="toggleSidebar()" aria-label="باز کردن منو" title="باز کردن منو"><svg class="i pn" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button>
       <div><h1>داشبورد دانش‌آموز</h1><small>خانه / فضای دانش‌آموزی / نمای کلی</small></div>
     </div>
     <div class="tools">
