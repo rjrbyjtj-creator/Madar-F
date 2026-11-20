@@ -122,14 +122,14 @@ body.closed #openBtn{display:flex}
 #scrim{display:none}
 @media(max-width:899px){
  #sidebar{position:fixed;top:0;bottom:0;right:0;z-index:40;transform:translateX(100%);transition:transform .3s;width:264px!important;border-left:1px solid var(--ln)}
- body.m-open #sidebar{transform:none;box-shadow:-20px 0 50px -20px rgba(0,0,0,.4)}
+ body.m-open #sidebar{transform:none;box-shadow:-23px 0 56px -14px rgba(0,0,0,.56)}
  body.m-open #scrim{display:block;position:fixed;inset:0;background:rgba(10,16,32,.45);z-index:30}
  #openBtn{display:flex}
 }
 @media(prefers-reduced-motion:reduce){#sidebar,#openBtn{transition:none!important}}
 /* Exact desktop sidebar mechanics from روبو */
 .app{display:flex;flex-direction:row;height:100%;min-height:0;gap:0}
-#sidebar{width:264px;flex:0 0 264px;min-width:0;transition:width .3s cubic-bezier(.4,0,.2,1),flex-basis .3s cubic-bezier(.4,0,.2,1),border-color .3s;overflow:hidden;border-radius:16px 0 0 16px;box-shadow:-10px 0 28px -22px rgba(0,0,0,.42)}
+#sidebar{width:264px;flex:0 0 264px;min-width:0;transition:width .3s cubic-bezier(.4,0,.2,1),flex-basis .3s cubic-bezier(.4,0,.2,1),border-color .3s;overflow:hidden;border-radius:11px 0 0 11px;box-shadow:-14px 0 34px -13px rgba(0,0,0,.56)}
 #sidebar .in{width:264px;min-width:264px;height:100%;display:flex;flex-direction:column;padding:10px 10px 8px;overflow:hidden}
 body.closed #sidebar{width:0;flex-basis:0;border-left-color:transparent}
 main{flex:1 1 auto;width:auto;min-width:0;min-height:0}
@@ -146,9 +146,9 @@ body.closed #openBtn .i{width:19px;height:19px}
  body.closed #openBtn{top:12px;right:12px}
  .top .icon-btn{transform:translateY(-3px)}
  .app{display:flex;min-height:100vh;height:100%;overflow:visible}
- #sidebar{position:fixed;top:0;bottom:0;right:0;left:auto;z-index:40;width:264px!important;flex:0 0 264px;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--ln);border-right:0;border-radius:16px 0 0 16px;box-shadow:-12px 0 34px -22px rgba(0,0,0,.45)}
+ #sidebar{position:fixed;top:0;bottom:0;right:0;left:auto;z-index:40;width:264px!important;flex:0 0 264px;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--ln);border-right:0;border-radius:11px 0 0 11px;box-shadow:-17px 0 40px -12px rgba(0,0,0,.58)}
  #sidebar .in{width:264px;min-width:264px}
- body.m-open #sidebar{width:264px;transform:none;box-shadow:-20px 0 50px -20px rgba(0,0,0,.4)}
+ body.m-open #sidebar{width:264px;transform:none;box-shadow:-23px 0 56px -14px rgba(0,0,0,.56)}
  body.m-open #scrim{display:block;position:fixed;inset:0;background:rgba(10,16,32,.45);z-index:30}
  #openBtn{display:flex}
  body.closed #sidebar{width:264px;flex-basis:264px}
