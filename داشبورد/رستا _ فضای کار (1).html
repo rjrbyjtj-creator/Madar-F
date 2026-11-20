@@ -531,6 +531,12 @@ body.closed #openBtn .i{width:19px;height:19px}
 @media(max-width:850px){#native-music .music-inline-body{grid-template-columns:1fr}#native-music .music-inline-top{order:2}}
 @media(max-width:620px){#native-music .music-inline-player{grid-template-columns:48px minmax(0,1fr);gap:10px;padding:10px}#native-music .music-inline-art{width:46px;height:46px}#native-music .music-inline-controls{grid-column:1/-1}#native-music .music-inline-grid{grid-template-columns:1fr}#native-music .music-inline-head{align-items:flex-start;flex-direction:column}#native-music .music-inline-stats>div{padding:8px}#native-music .music-inline-stats b{font-size:12px}}
 
+
+#native-music .music-inline-toolbar{flex-wrap:wrap}
+#native-music .music-inline-search{display:flex;align-items:center;gap:6px;width:210px;max-width:100%;height:30px;padding:0 9px;border:1px solid var(--ln);border-radius:7px;background:var(--sf)}
+#native-music .music-inline-search span{color:var(--mu);font-size:17px}
+#native-music .music-inline-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--tx);font:inherit;font-size:10px}
+@media(max-width:620px){#native-music .music-inline-search{width:100%}}
 </style>
 </head>
 <body>
@@ -657,6 +663,7 @@ body.closed #openBtn .i{width:19px;height:19px}
   </section>
   <audio id="nativeAudio" preload="none"></audio>
   <div class="music-inline-toolbar">
+    <label class="music-inline-search"><span>⌕</span><input id="musicSearch" type="search" placeholder="جست‌وجوی آهنگ یا خواننده…" aria-label="جست‌وجو در آهنگ‌ها"></label>
     <div class="music-inline-filters" role="group" aria-label="فیلتر آهنگ‌ها">
       <button type="button" class="music-inline-filter is-active" data-music-filter="all">همه آهنگ‌ها</button>
       <button type="button" class="music-inline-filter" data-music-filter="favorites">موردعلاقه‌ها <span id="musicFavCount">۰</span></button>
@@ -915,6 +922,7 @@ function toggleSidebar(){
  $('musicRepeat').onclick=()=>{musicRepeat=!musicRepeat;$('musicRepeat').classList.toggle('is-active',musicRepeat)};
  musicAudio.onended=()=>{if(musicRepeat){musicAudio.currentTime=0;musicAudio.play().catch(()=>{})}else advanceMusic(1)};
 
+ $('musicSearch').oninput=renderMusic;
 })();
 </script>
 <script>
