@@ -461,6 +461,76 @@ body.closed #openBtn .i{width:19px;height:19px}
 @media(max-width:700px){#native-files .files-inline-layout{grid-template-columns:1fr}#native-files .files-inline-recent{order:2}#native-files .files-inline-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){#native-files .files-inline-head{align-items:flex-start;flex-direction:column}#native-files .files-inline-tools{flex-direction:column}#native-files .files-inline-tools select{width:100%}#native-files .files-inline-grid{grid-template-columns:1fr}#native-files .files-inline-library,#native-files .files-inline-recent{padding:10px}}
 
+
+/* کتابخانه موسیقی؛ استایل محدود به پنل داخلی داشبورد */
+#native-music{max-width:1180px;width:100%}
+#native-music .music-inline-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+#native-music .music-inline-head h2{margin:0;font-size:17px;font-weight:750;color:var(--tx)}
+#native-music .music-inline-head p{margin:4px 0 0;color:var(--mu);font-size:11px}
+#native-music .music-inline-count{padding:6px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);font-size:10px;color:var(--mu);white-space:nowrap}
+#native-music .music-inline-player{display:grid;grid-template-columns:62px minmax(145px,.8fr) minmax(230px,1.2fr);align-items:center;gap:14px;padding:13px 15px;margin-bottom:13px;border:1px solid var(--ln);border-radius:11px;background:var(--sf)}
+#native-music .music-inline-art{position:relative;display:grid;place-items:center;width:58px;height:58px;overflow:hidden;border-radius:9px;background:linear-gradient(145deg,#142859,#263d80);color:#e0b65e}
+#native-music .music-inline-art span{font-size:30px;z-index:1}
+#native-music .music-inline-art i{position:absolute;bottom:0;width:1px;height:18px;background:#e0b65e;opacity:.2;transform:rotate(35deg)}
+#native-music .music-inline-art i:nth-child(2){left:12px;height:31px}.music-inline-art i:nth-child(3){left:30px;height:24px}.music-inline-art i:nth-child(4){right:8px;height:36px}
+#native-music .music-inline-current{min-width:0}
+#native-music .music-inline-current small,#native-music .music-inline-current span{display:block;color:var(--mu);font-size:9px}
+#native-music .music-inline-current b{display:block;margin:3px 0;overflow-wrap:anywhere;color:var(--tx);font-size:12px}
+#native-music .music-inline-controls{min-width:0}
+#native-music .music-inline-buttons{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px}
+#native-music .music-inline-buttons button{display:grid;place-items:center;min-width:28px;height:28px;border:1px solid var(--ln);border-radius:7px;color:var(--mu);font-size:12px}
+#native-music .music-inline-buttons button.is-active{color:var(--gold);border-color:var(--gold)}
+#native-music .music-inline-buttons .music-inline-play{width:34px;height:34px;border:0;border-radius:9px;background:var(--ac);color:white;font-size:14px}
+#native-music .music-inline-play:disabled{opacity:.4}
+#native-music .music-inline-progress{display:flex;align-items:center;gap:8px}
+#native-music .music-inline-progress span{min-width:34px;color:var(--mu);font-size:8px;font-variant-numeric:tabular-nums}
+#native-music #musicSeek{width:100%;height:4px;accent-color:var(--ac);cursor:pointer}
+#native-music .music-inline-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+#native-music .music-inline-filters{display:flex;flex-wrap:wrap;gap:6px}
+#native-music .music-inline-filter{display:flex;align-items:center;gap:5px;height:30px;padding:0 10px;border:1px solid var(--ln);border-radius:7px;color:var(--mu);font-size:10px}
+#native-music .music-inline-filter.is-active{background:var(--ac);border-color:var(--ac);color:#fff}
+#native-music .music-inline-filter span{opacity:.75}
+#native-music .music-inline-view{display:flex;gap:4px}
+#native-music .music-inline-view button{width:29px;height:29px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:15px}
+#native-music .music-inline-view button.is-active{border-color:var(--ac);color:var(--ac);background:var(--sf)}
+#native-music .music-inline-categories{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+#native-music .music-inline-category{height:27px;padding:0 10px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:9px}
+#native-music .music-inline-category.is-active{border-color:var(--gold);color:var(--tx);background:color-mix(in srgb,var(--gold) 9%,var(--sf))}
+#native-music .music-inline-body{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:11px;align-items:start}
+#native-music .music-inline-library,#native-music .music-inline-top{min-width:0;padding:12px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+#native-music .music-inline-subhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+#native-music .music-inline-subhead h3{margin:0;color:var(--tx);font-size:11px;font-weight:700}
+#native-music .music-inline-subhead>span{color:var(--mu);font-size:9px}
+#native-music .music-inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+#native-music .music-inline-card{display:flex;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid var(--ln);border-radius:8px;background:var(--bg2)}
+#native-music .music-inline-card.is-current{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 6%,var(--bg2))}
+#native-music .music-inline-cover{display:grid;place-items:center;flex:none;width:37px;height:39px;border-radius:7px;background:rgba(190,155,83,.13);color:var(--gold);font-size:18px}
+#native-music .music-inline-track{flex:1;min-width:0}
+#native-music .music-inline-track b{display:block;overflow-wrap:anywhere;color:var(--tx);font-size:10px;line-height:1.7}
+#native-music .music-inline-track small{display:block;overflow:hidden;color:var(--mu);font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+#native-music .music-inline-card-actions{display:flex;align-items:center;gap:4px}
+#native-music .music-inline-card-actions button{display:grid;place-items:center;width:27px;height:27px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:12px}
+#native-music .music-inline-card-actions button[data-music-play]{background:var(--ac);border-color:var(--ac);color:#fff}
+#native-music .music-inline-card-actions button.is-favorite{color:#d66b7b;border-color:rgba(214,107,123,.35)}
+#native-music .music-inline-grid.is-list{grid-template-columns:1fr}
+#native-music .music-inline-top-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--ln);min-width:0}
+#native-music .music-inline-top-item:last-child{border-bottom:0}
+#native-music .music-inline-rank{display:grid;place-items:center;width:21px;height:21px;flex:none;border-radius:6px;background:var(--bg2);color:var(--gold);font-size:9px}
+#native-music .music-inline-top-item>div{flex:1;min-width:0}
+#native-music .music-inline-top-item b{display:block;overflow:hidden;color:var(--tx);font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+#native-music .music-inline-top-item small{display:block;color:var(--mu);font-size:8px}
+#native-music .music-inline-top-item button{color:var(--mu);font-size:13px}
+#native-music .music-inline-tip{display:flex;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid var(--ln)}
+#native-music .music-inline-tip span{color:var(--gold);font-size:16px}
+#native-music .music-inline-tip p{margin:0;color:var(--mu);font-size:8px;line-height:1.9}
+#native-music .music-inline-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+#native-music .music-inline-stats>div{padding:10px 12px;border:1px solid var(--ln);border-radius:8px;background:var(--sf)}
+#native-music .music-inline-stats small{display:block;color:var(--mu);font-size:9px}
+#native-music .music-inline-stats b{display:block;margin-top:3px;color:var(--tx);font-size:15px;font-weight:700}
+#native-music .native-status{margin-top:8px}
+@media(max-width:850px){#native-music .music-inline-body{grid-template-columns:1fr}#native-music .music-inline-top{order:2}}
+@media(max-width:620px){#native-music .music-inline-player{grid-template-columns:48px minmax(0,1fr);gap:10px;padding:10px}#native-music .music-inline-art{width:46px;height:46px}#native-music .music-inline-controls{grid-column:1/-1}#native-music .music-inline-grid{grid-template-columns:1fr}#native-music .music-inline-head{align-items:flex-start;flex-direction:column}#native-music .music-inline-stats>div{padding:8px}#native-music .music-inline-stats b{font-size:12px}}
+
 </style>
 </head>
 <body>
@@ -567,10 +637,55 @@ body.closed #openBtn .i{width:19px;height:19px}
   <p class="native-status" id="fileStatus" role="status" aria-live="polite"></p>
 </section>
   <section class="native-section" id="native-music" hidden>
-    <div class="section-intro"><div><h2>کتابخانهٔ موسیقی</h2><p>آهنگ‌های منتخب برای لحظه‌های استراحت و تمرکز.</p></div><span class="native-count" id="musicCount">—</span></div>
-    <div class="music-now"><div class="music-disc">♫</div><div><small>در حال پخش</small><b id="musicNowTitle">هنوز آهنگی انتخاب نشده</b><span id="musicNowArtist">—</span></div><button id="musicToggle" type="button" disabled aria-label="پخش یا توقف">▶</button></div>
-    <audio id="nativeAudio" preload="none"></audio><div class="native-list" id="musicList"><p class="native-empty">در حال دریافت آهنگ‌ها…</p></div>
+  <div class="music-inline-head">
+    <div><h2>موسیقی برای لحظه‌های تو</h2><p>آهنگ دلخواهت را انتخاب کن و با آرامش گوش بده</p></div>
+    <span class="music-inline-count" id="musicCount">—</span>
+  </div>
+  <section class="music-inline-player" aria-label="پخش‌کننده موسیقی">
+    <div class="music-inline-art" aria-hidden="true"><span>♫</span><i></i><i></i><i></i></div>
+    <div class="music-inline-current"><small>اکنون در حال پخش</small><b id="musicNowTitle">هنوز آهنگی انتخاب نشده</b><span id="musicNowArtist">یک آهنگ از کتابخانه انتخاب کن</span></div>
+    <div class="music-inline-controls">
+      <div class="music-inline-buttons">
+        <button type="button" id="musicShuffle" aria-label="پخش تصادفی" title="پخش تصادفی">⤨</button>
+        <button type="button" id="musicPrev" aria-label="آهنگ قبلی" title="قبلی">|◀</button>
+        <button type="button" id="musicToggle" class="music-inline-play" disabled aria-label="پخش یا توقف">▶</button>
+        <button type="button" id="musicNext" aria-label="آهنگ بعدی" title="بعدی">▶|</button>
+        <button type="button" id="musicRepeat" aria-label="تکرار آهنگ" title="تکرار">↻</button>
+      </div>
+      <div class="music-inline-progress"><span id="musicElapsed">00:00</span><input id="musicSeek" type="range" min="0" max="1000" value="0" aria-label="موقعیت پخش"><span id="musicDuration">00:00</span></div>
+    </div>
   </section>
+  <audio id="nativeAudio" preload="none"></audio>
+  <div class="music-inline-toolbar">
+    <div class="music-inline-filters" role="group" aria-label="فیلتر آهنگ‌ها">
+      <button type="button" class="music-inline-filter is-active" data-music-filter="all">همه آهنگ‌ها</button>
+      <button type="button" class="music-inline-filter" data-music-filter="favorites">موردعلاقه‌ها <span id="musicFavCount">۰</span></button>
+      <button type="button" class="music-inline-filter" data-music-filter="newest">جدیدترین‌ها</button>
+    </div>
+    <div class="music-inline-view" role="group" aria-label="نوع نمایش">
+      <button type="button" class="is-active" data-music-view="grid" aria-label="نمایش شبکه‌ای">▦</button>
+      <button type="button" data-music-view="list" aria-label="نمایش فهرستی">☷</button>
+    </div>
+  </div>
+  <div class="music-inline-categories" id="musicCategories" aria-label="دسته‌بندی آهنگ‌ها"></div>
+  <div class="music-inline-body">
+    <section class="music-inline-library">
+      <div class="music-inline-subhead"><h3>کتابخانه آهنگ‌ها</h3><span id="musicResults">—</span></div>
+      <div class="music-inline-grid" id="musicList"><p class="native-empty">در حال دریافت آهنگ‌ها…</p></div>
+    </section>
+    <aside class="music-inline-top">
+      <div class="music-inline-subhead"><h3>پیشنهادهای شنیدنی</h3><span>♫</span></div>
+      <div id="musicTopList"><p class="native-empty">در حال دریافت…</p></div>
+      <div class="music-inline-tip"><span>♪</span><p>برای نگه‌داشتن آهنگ‌های محبوبت، نشان قلب کنار هر آهنگ را انتخاب کن.</p></div>
+    </aside>
+  </div>
+  <div class="music-inline-stats">
+    <div><small>تعداد آهنگ‌ها</small><b id="musicStatCount">—</b></div>
+    <div><small>مدت کل کتابخانه</small><b id="musicStatDuration">—</b></div>
+    <div><small>موردعلاقه‌ها</small><b id="musicStatFavorites">—</b></div>
+  </div>
+  <p class="native-status" id="musicStatus" role="status" aria-live="polite"></p>
+</section>
   <section class="native-section" id="native-advisor" hidden>
     <div class="section-intro"><div><h2>مشاور تحصیلی</h2><p>برای تصمیم‌های درسی و برنامه‌ریزی، راهنمایی بگیر.</p></div></div>
     <div class="native-feature"><span class="native-feature-icon"><svg  viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.62 11.6Q1.22 10 4.68 8.55L12.87 5.1Q13.85 4.69 14.83 5.09L23.26 8.57Q26.72 10 23.32 11.57L14.81 15.49Q13.85 15.94 12.89 15.49Z"/><path d="M6.35 12.88V19.56Q6.35 23 10.29 23H17.47Q21.6 23 21.6 19.56V12.88"/><path d="M2.91 11.31V17.88"/></svg></span><div><h2>همراه مسیر تحصیلی‌ات</h2><p>این فضا برای ارتباط با مشاور و دریافت راهنمایی‌های تحصیلی در نظر گرفته شده است. امکان ثبت درخواست مشاوره در ادامهٔ توسعه فعال می‌شود.</p><span class="native-feature-state">در حال آماده‌سازی</span></div></div>
@@ -725,14 +840,81 @@ function toggleSidebar(){
   }catch(err){if(preview&&!preview.closed)preview.close();toast(err.message||'دریافت فایل ناموفق بود.')}
   finally{b.disabled=false}
  });
+
  async function loadMusic(){
-  const list=$('musicList');list.innerHTML='<p class="native-empty">در حال دریافت آهنگ‌ها…</p>';
-  try{const base='https://madar-jmy5.onrender.com/api';const res=await fetch(base+'/music',{cache:'no-store'});if(!res.ok)throw new Error('دریافت کتابخانهٔ موسیقی ناموفق بود.');const data=await res.json();allTracks=Array.isArray(data.tracks)?data.tracks:[];$('musicCount').textContent=fa(allTracks.length)+' آهنگ';list.innerHTML=allTracks.length?allTracks.map((t,i)=>'<article class="native-row"><div class="native-row-main"><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+' · '+escape(t.durationLabel||'')+'</small></div><button class="native-action" data-track="'+i+'">پخش</button></article>').join(''):'<p class="native-empty">هنوز آهنگی در کتابخانه ثبت نشده است.</p>';musicLoaded=true
-  }catch(e){list.innerHTML='<p class="native-empty">کتابخانهٔ موسیقی فعلاً در دسترس نیست.</p>'}
+  const list=$('musicList');$('musicStatus').textContent='در حال دریافت کتابخانه موسیقی…';
+  try{
+   const base='https://madar-jmy5.onrender.com/api';
+   const res=await fetch(base+'/music',{cache:'no-store'});
+   if(!res.ok)throw new Error('دریافت کتابخانه موسیقی ناموفق بود.');
+   const data=await res.json();allTracks=Array.isArray(data.tracks)?data.tracks:[];
+   $('musicCount').textContent=fa(allTracks.length)+' آهنگ';
+   $('musicStatCount').textContent=fa(allTracks.length);
+   const total=allTracks.reduce((sum,t)=>sum+(Number(t.duration)||durationSeconds(t.durationLabel)),0);
+   $('musicStatDuration').textContent=musicTime(total);
+   musicFavorites=readMusicFavorites();
+   renderMusic();$('musicStatus').textContent='';musicLoaded=true;
+  }catch(e){$('musicStatus').textContent=e.message||'خطا در دریافت آهنگ‌ها.';list.innerHTML='<p class="native-empty">کتابخانه موسیقی فعلاً در دسترس نیست.</p>';$('musicTopList').innerHTML=''}
  }
- const audio=$('nativeAudio'),toggle=$('musicToggle');
- $('musicList').addEventListener('click',e=>{const b=e.target.closest('[data-track]');if(!b)return;const i=Number(b.dataset.track),t=allTracks[i];if(!t)return;activeAudioIndex=i;audio.src='https://madar-jmy5.onrender.com'+String(t.streamUrl||'');$('musicNowTitle').textContent=t.title||'آهنگ';$('musicNowArtist').textContent=t.artist||'نامشخص';toggle.disabled=false;audio.play().then(()=>toggle.textContent='Ⅱ').catch(()=>toast('پخش این آهنگ ممکن نشد.'))});
- toggle.onclick=()=>{if(audio.paused)audio.play().then(()=>toggle.textContent='Ⅱ');else{audio.pause();toggle.textContent='▶'}};audio.onended=()=>toggle.textContent='▶';
+ function durationSeconds(label){const p=String(label||'').split(':').map(Number);return p.length===2&&p.every(Number.isFinite)?p[0]*60+p[1]:0}
+ function musicTime(seconds){const n=Math.max(0,Math.floor(Number(seconds)||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}
+ function readMusicFavorites(){try{const v=JSON.parse(localStorage.getItem('madar-music-favorites')||'[]');return new Set(Array.isArray(v)?v.map(String):[])}catch(e){return new Set()}}
+ function saveMusicFavorites(){try{localStorage.setItem('madar-music-favorites',JSON.stringify([...musicFavorites]))}catch(e){}}
+ function renderMusic(){
+  const query=$('musicSearch')?.value?.trim().toLowerCase()||'';
+  let rows=allTracks.map((track,index)=>({track,index}));
+  if(musicFilter==='favorites')rows=rows.filter(x=>musicFavorites.has(String(x.track.id)));
+  if(musicFilter==='newest')rows.reverse();
+  if(musicCategory)rows=rows.filter(x=>(x.track.category||'عمومی')===musicCategory);
+  if(query)rows=rows.filter(x=>[x.track.title,x.track.artist,x.track.category].join(' ').toLowerCase().includes(query));
+  $('musicResults').textContent=fa(rows.length)+' آهنگ';
+  $('musicFavCount').textContent=fa(musicFavorites.size);
+  $('musicStatFavorites').textContent=fa(musicFavorites.size);
+  $('musicList').innerHTML=rows.length?rows.map(({track:t,index:i})=>'<article class="music-inline-card '+(i===activeAudioIndex?'is-current':'')+'"><span class="music-inline-cover">♫</span><div class="music-inline-track"><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+' · '+escape(t.category||'عمومی')+' · '+escape(t.durationLabel||'')+'</small></div><div class="music-inline-card-actions"><button type="button" data-music-fav="'+i+'" class="'+(musicFavorites.has(String(t.id))?'is-favorite':'')+'" aria-label="افزودن به موردعلاقه‌ها" title="موردعلاقه">♥</button><button type="button" data-music-play="'+i+'" aria-label="پخش آهنگ" title="پخش">▶</button></div></article>').join(''):'<p class="native-empty">آهنگی با این فیلتر پیدا نشد.</p>';
+  const cats=[...new Set(allTracks.map(t=>t.category||'عمومی'))];
+  $('musicCategories').innerHTML=['همه دسته‌ها',...cats].map((c,i)=>'<button type="button" class="music-inline-category '+((i===0&&!musicCategory)||(c===musicCategory)?'is-active':'')+'" data-music-category="'+(i===0?'':escape(c))+'">'+escape(c)+'</button>').join('');
+  $('musicTopList').innerHTML=allTracks.length?allTracks.slice(0,5).map((t,i)=>'<div class="music-inline-top-item"><span class="music-inline-rank">'+(i+1)+'</span><div><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+'</small></div><button type="button" data-music-top="'+i+'" aria-label="پخش">▶</button></div>').join(''):'<p class="native-empty">هنوز آهنگی ثبت نشده است.</p>';
+  $('musicList').classList.toggle('is-list',musicView==='list');
+  document.querySelectorAll('#native-music [data-music-filter]').forEach(b=>b.classList.toggle('is-active',b.dataset.musicFilter===musicFilter));
+  document.querySelectorAll('#native-music [data-music-view]').forEach(b=>b.classList.toggle('is-active',b.dataset.musicView===musicView));
+ }
+ let musicFilter='all',musicCategory='',musicView='grid',musicShuffle=false,musicRepeat=false,musicFavorites=new Set();
+ const musicAudio=$('nativeAudio');
+ function playMusic(index,autoplay=true){
+  if(!allTracks.length)return;
+  activeAudioIndex=(index+allTracks.length)%allTracks.length;
+  const t=allTracks[activeAudioIndex],base='https://madar-jmy5.onrender.com';
+  $('musicNowTitle').textContent=t.title||'آهنگ بدون نام';
+  $('musicNowArtist').textContent=t.artist||'نامشخص';
+  musicAudio.src=base+String(t.streamUrl||'');
+  $('musicToggle').disabled=false;
+  $('musicToggle').textContent='Ⅱ';
+  $('musicElapsed').textContent='00:00';
+  $('musicDuration').textContent=t.durationLabel||'00:00';
+  $('musicSeek').value=0;
+  renderMusic();
+  if(autoplay)musicAudio.play().then(()=>{$('musicToggle').textContent='Ⅱ'}).catch(()=>{$('musicToggle').textContent='▶';toast('پخش این آهنگ ممکن نشد.')});
+ }
+ $('musicList').addEventListener('click',e=>{
+  const fav=e.target.closest('[data-music-fav]');
+  if(fav){const t=allTracks[Number(fav.dataset.musicFav)];if(!t)return;const id=String(t.id);musicFavorites.has(id)?musicFavorites.delete(id):musicFavorites.add(id);saveMusicFavorites();renderMusic();return}
+  const play=e.target.closest('[data-music-play]');if(play)playMusic(Number(play.dataset.musicPlay));
+ });
+ $('musicTopList').addEventListener('click',e=>{const b=e.target.closest('[data-music-top]');if(b)playMusic(Number(b.dataset.musicTop))});
+ $('musicCategories').addEventListener('click',e=>{const b=e.target.closest('[data-music-category]');if(!b)return;musicCategory=b.dataset.musicCategory;renderMusic()});
+ document.querySelectorAll('#native-music [data-music-filter]').forEach(b=>b.addEventListener('click',()=>{musicFilter=b.dataset.musicFilter;renderMusic()}));
+ document.querySelectorAll('#native-music [data-music-view]').forEach(b=>b.addEventListener('click',()=>{musicView=b.dataset.musicView;renderMusic()}));
+ $('musicToggle').onclick=()=>{if(!musicAudio.src)return;if(musicAudio.paused)musicAudio.play().then(()=>$('musicToggle').textContent='Ⅱ').catch(()=>toast('پخش آهنگ ممکن نشد.'));else musicAudio.pause()};
+ musicAudio.onplay=()=>$('musicToggle').textContent='Ⅱ';
+ musicAudio.onpause=()=>$('musicToggle').textContent='▶';
+ musicAudio.ontimeupdate=()=>{if(!Number.isFinite(musicAudio.duration)||!musicAudio.duration)return;$('musicElapsed').textContent=musicTime(musicAudio.currentTime);$('musicDuration').textContent=musicTime(musicAudio.duration);$('musicSeek').value=Math.round(musicAudio.currentTime/musicAudio.duration*1000)};
+ $('musicSeek').oninput=()=>{if(Number.isFinite(musicAudio.duration)&&musicAudio.duration)musicAudio.currentTime=Number($('musicSeek').value)/1000*musicAudio.duration};
+ function advanceMusic(direction=1){if(!allTracks.length)return;let next=musicShuffle?Math.floor(Math.random()*allTracks.length):(activeAudioIndex+direction+allTracks.length)%allTracks.length;playMusic(next)}
+ $('musicNext').onclick=()=>advanceMusic(1);$('musicPrev').onclick=()=>advanceMusic(-1);
+ $('musicShuffle').onclick=()=>{musicShuffle=!musicShuffle;$('musicShuffle').classList.toggle('is-active',musicShuffle)};
+ $('musicRepeat').onclick=()=>{musicRepeat=!musicRepeat;$('musicRepeat').classList.toggle('is-active',musicRepeat)};
+ musicAudio.onended=()=>{if(musicRepeat){musicAudio.currentTime=0;musicAudio.play().catch(()=>{})}else advanceMusic(1)};
+
 })();
 </script>
 <script>
