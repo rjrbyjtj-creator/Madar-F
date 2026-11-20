@@ -413,6 +413,54 @@ body.closed #openBtn .i{width:19px;height:19px}
 @media(max-width:900px){#native-plans .plan-inline-days{grid-template-columns:repeat(2,minmax(0,1fr))}#native-plans .plan-inline-schedule-head{align-items:flex-start}}
 @media(max-width:560px){#native-plans .plan-inline-head{align-items:flex-start;flex-direction:column}#native-plans .plan-inline-schedule,#native-plans .plan-inline-upcoming{padding:10px}#native-plans .plan-inline-schedule-head,#native-plans .plan-inline-upcoming-head{align-items:flex-start;flex-direction:column}#native-plans .plan-inline-actions{width:100%;justify-content:space-between}#native-plans .plan-inline-days{grid-template-columns:1fr}#native-plans .plan-inline-summary{align-self:flex-start}}
 
+
+/* کتابخانه فایل‌ها؛ طراحی مستقل و محدود به پنل داخلی */
+#native-files{max-width:1180px;width:100%}
+#native-files .files-inline-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:15px}
+#native-files .files-inline-head h2{margin:0;font-size:17px;font-weight:750;color:var(--tx)}
+#native-files .files-inline-head p{margin:4px 0 0;font-size:11px;color:var(--mu)}
+#native-files .files-inline-count{padding:6px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);font-size:10px;color:var(--mu);white-space:nowrap}
+#native-files .files-inline-tools{display:flex;gap:8px;margin-bottom:11px}
+#native-files .files-inline-search{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:38px;padding:0 11px;border:1px solid var(--ln);border-radius:8px;background:var(--sf)}
+#native-files .files-inline-search svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--mu);stroke-width:1.7;stroke-linecap:round}
+#native-files .files-inline-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--tx);font:inherit;font-size:11px}
+#native-files .files-inline-tools select{width:170px;min-width:0;height:38px;padding:0 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--tx);font:inherit;font-size:11px}
+#native-files .files-inline-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 13px}
+#native-files .files-inline-chip{height:29px;padding:0 10px;border:1px solid var(--ln);border-radius:7px;background:var(--sf);color:var(--mu);font-size:10px;transition:.18s}
+#native-files .files-inline-chip[aria-pressed=true]{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 9%,var(--sf));color:var(--tx)}
+#native-files .files-inline-layout{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:11px;align-items:start}
+#native-files .files-inline-library,#native-files .files-inline-recent{min-width:0;padding:13px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+#native-files .files-inline-subhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+#native-files .files-inline-subhead h3{margin:0;font-size:12px;font-weight:700;color:var(--tx)}
+#native-files .files-inline-subhead>span{font-size:9px;color:var(--mu)}
+#native-files .files-inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#native-files .files-inline-card{min-width:0;padding:10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg2)}
+#native-files .files-inline-card-top{display:flex;align-items:flex-start;gap:9px;min-width:0}
+#native-files .files-inline-pdf{display:grid;place-items:center;flex:none;width:34px;height:38px;border-radius:7px;background:rgba(213,76,76,.10);color:#d65c5c;font-size:9px;font-weight:800;letter-spacing:.2px}
+#native-files .files-inline-copy{min-width:0;flex:1}
+#native-files .files-inline-copy b{display:block;overflow-wrap:anywhere;font-size:10px;font-weight:700;color:var(--tx);line-height:1.7}
+#native-files .files-inline-copy small{display:block;margin-top:3px;font-size:9px;color:var(--mu);line-height:1.6}
+#native-files .files-inline-card-actions{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--ln)}
+#native-files .files-inline-card-actions button{flex:1;height:27px;border:1px solid var(--ln);border-radius:6px;color:var(--mu);font-size:9px}
+#native-files .files-inline-card-actions button:first-child{background:var(--ac);border-color:var(--ac);color:#fff}
+#native-files .files-inline-card-actions button:disabled{opacity:.5;cursor:wait}
+#native-files .files-inline-recent ul{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+#native-files .files-inline-recent li{display:flex;align-items:center;gap:8px;min-width:0;padding:7px 0;border-bottom:1px solid var(--ln)}
+#native-files .files-inline-recent li:last-child{border-bottom:0}
+#native-files .files-inline-recent .files-inline-pdf{width:27px;height:30px;font-size:8px}
+#native-files .files-inline-recent li>div{min-width:0}
+#native-files .files-inline-recent li b{display:block;overflow-wrap:anywhere;font-size:9px;color:var(--tx);line-height:1.6}
+#native-files .files-inline-recent li small{display:block;color:var(--mu);font-size:8px}
+#native-files .files-inline-all{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:9px;padding:8px 0 0;border-top:1px solid var(--ln);color:var(--mu);font-size:9px;text-align:right}
+#native-files .files-inline-all span{font-size:15px;color:var(--gold)}
+#native-files .files-inline-upload-note{display:flex;align-items:flex-start;gap:9px;margin-top:11px;padding:10px 12px;border:1px dashed var(--ln);border-radius:8px}
+#native-files .files-inline-upload-note>span{display:grid;place-items:center;flex:none;width:17px;height:17px;border-radius:50%;background:var(--bg2);color:var(--mu);font-size:10px}
+#native-files .files-inline-upload-note p{margin:0;color:var(--mu);font-size:9px;line-height:1.9}
+#native-files .files-inline-status-error{color:#d65c5c}
+@media(max-width:900px){#native-files .files-inline-layout{grid-template-columns:minmax(0,1fr) 205px}}
+@media(max-width:700px){#native-files .files-inline-layout{grid-template-columns:1fr}#native-files .files-inline-recent{order:2}#native-files .files-inline-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){#native-files .files-inline-head{align-items:flex-start;flex-direction:column}#native-files .files-inline-tools{flex-direction:column}#native-files .files-inline-tools select{width:100%}#native-files .files-inline-grid{grid-template-columns:1fr}#native-files .files-inline-library,#native-files .files-inline-recent{padding:10px}}
+
 </style>
 </head>
 <body>
@@ -495,10 +543,29 @@ body.closed #openBtn .i{width:19px;height:19px}
     <div class="native-list" id="examList"><p class="native-empty">در حال دریافت آزمون‌ها…</p></div><p class="native-status" id="examStatus" role="status"></p>
   </section>
   <section class="native-section" id="native-files" hidden>
-    <div class="section-intro"><div><h2>فایل‌های درسی</h2><p>جزوه‌ها و منابع ثبت‌شده در کتابخانهٔ مدار.</p></div><span class="native-count" id="fileCount">—</span></div>
-    <div class="file-tools"><input id="fileSearch" type="search" placeholder="جست‌وجو در فایل‌ها…"><select id="fileSubject" aria-label="فیلتر درس"><option value="همه">همهٔ درس‌ها</option></select></div>
-    <div class="native-list" id="fileList"><p class="native-empty">در حال دریافت فایل‌ها…</p></div><p class="native-status" id="fileStatus" role="status"></p>
-  </section>
+  <div class="files-inline-head">
+    <div><h2>کتابخانه فایل‌های درسی</h2><p>جزوه‌ها و منابع آموزشی، مرتب‌شده بر اساس درس</p></div>
+    <span class="files-inline-count" id="fileCount">—</span>
+  </div>
+  <div class="files-inline-tools">
+    <label class="files-inline-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7.5"/><path d="m16.5 16.5 4 4"/></svg><input id="fileSearch" type="search" placeholder="جست‌وجو در نام یا موضوع فایل…" aria-label="جست‌وجو در فایل‌ها"></label>
+    <select id="fileSubject" aria-label="فیلتر بر اساس درس"><option value="همه">همهٔ درس‌ها</option></select>
+  </div>
+  <div class="files-inline-chips" id="fileChips" aria-label="دسته‌بندی درس‌ها"></div>
+  <div class="files-inline-layout">
+    <section class="files-inline-library" aria-live="polite">
+      <div class="files-inline-subhead"><h3 id="fileHeading">همه فایل‌های درسی</h3><span id="fileResultCount">—</span></div>
+      <div class="files-inline-grid" id="fileList"><p class="native-empty">در حال دریافت فایل‌ها…</p></div>
+    </section>
+    <aside class="files-inline-recent">
+      <div class="files-inline-subhead"><h3>فایل‌های اخیر</h3><span class="files-inline-clock">◷</span></div>
+      <ul id="fileRecent"><li class="native-empty">در حال دریافت…</li></ul>
+      <button type="button" id="fileShowAll" class="files-inline-all">مشاهده همه فایل‌ها <span>←</span></button>
+    </aside>
+  </div>
+  <div class="files-inline-upload-note"><span>i</span><p>برای افزودن فایل جدید، PDF را در گفت‌وگوی خصوصی ربات فایل‌های مدار به‌صورت Document ارسال کن؛ پس از ثبت موفق، فایل به‌صورت خودکار در این کتابخانه نمایش داده می‌شود.</p></div>
+  <p class="native-status" id="fileStatus" role="status" aria-live="polite"></p>
+</section>
   <section class="native-section" id="native-music" hidden>
     <div class="section-intro"><div><h2>کتابخانهٔ موسیقی</h2><p>آهنگ‌های منتخب برای لحظه‌های استراحت و تمرکز.</p></div><span class="native-count" id="musicCount">—</span></div>
     <div class="music-now"><div class="music-disc">♫</div><div><small>در حال پخش</small><b id="musicNowTitle">هنوز آهنگی انتخاب نشده</b><span id="musicNowArtist">—</span></div><button id="musicToggle" type="button" disabled aria-label="پخش یا توقف">▶</button></div>
@@ -613,14 +680,51 @@ function toggleSidebar(){
    list.innerHTML=exams.length?exams.map(x=>'<article class="native-row"><div class="native-row-main"><b>'+escape(x.title||'آزمون')+'</b><small>انتشار: '+fmtDate(x.publishedAt||x.scheduledAt)+'</small></div><span class="native-tag">'+fa(x.questionCount||0)+' سؤال</span><span class="native-tag">منتشرشده</span></article>').join(''):'<p class="native-empty">هنوز آزمونی منتشر نشده است.</p>';$('examStatus').textContent='';examsLoaded=true;
   }catch(e){$('examStatus').textContent=e.message||'خطا در دریافت آزمون‌ها.';list.innerHTML='<p class="native-empty">فعلاً امکان دریافت آزمون‌ها وجود ندارد.</p>'}
  }
+
  async function loadFiles(){
   const list=$('fileList');$('fileStatus').textContent='در حال دریافت فایل‌ها…';
-  try{const res=await fetch(API_BASE_URL+'/study-files',{headers:Auth.headers(),cache:'no-store'});if(res.status===401){Auth.logout();return}if(!res.ok)throw new Error('دریافت فایل‌ها ناموفق بود.');const data=await res.json();allFiles=Array.isArray(data.files)?data.files:[];const subjects=[...new Set(allFiles.map(x=>x.subject||'عمومی'))];$('fileSubject').innerHTML='<option value="همه">همهٔ درس‌ها</option>'+subjects.map(s=>'<option value="'+escape(s)+'">'+escape(s)+'</option>').join('');renderFiles();$('fileStatus').textContent='';filesLoaded=true;
-  }catch(e){$('fileStatus').textContent=e.message||'خطا در دریافت فایل‌ها.';list.innerHTML='<p class="native-empty">کتابخانهٔ فایل‌ها در دسترس نیست.</p>'}
+  list.innerHTML='<p class="native-empty">در حال دریافت فایل‌های ثبت‌شده…</p>';
+  try{
+   const res=await fetch(API_BASE_URL+'/study-files',{headers:Auth.headers(),cache:'no-store'});
+   if(res.status===401){Auth.logout();return}
+   if(!res.ok)throw new Error('دریافت فایل‌ها ناموفق بود.');
+   const data=await res.json();allFiles=Array.isArray(data.files)?data.files:[];
+   const subjects=[...new Set(allFiles.map(f=>f.subject||'عمومی'))];
+   $('fileSubject').innerHTML='<option value="همه">همهٔ درس‌ها</option>'+subjects.map(v=>'<option value="'+escape(v)+'">'+escape(v)+'</option>').join('');
+   renderFiles();$('fileStatus').textContent='';filesLoaded=true;
+  }catch(e){$('fileStatus').textContent=e.message||'خطا در دریافت فایل‌ها.';list.innerHTML='<p class="native-empty">کتابخانهٔ فایل‌ها فعلاً در دسترس نیست.</p>'}
  }
- function renderFiles(){const q=$('fileSearch').value.trim().toLowerCase(),subject=$('fileSubject').value;const rows=allFiles.filter(f=>(subject==='همه'||(f.subject||'عمومی')===subject)&&[f.name,f.caption,f.subject].join(' ').toLowerCase().includes(q));$('fileCount').textContent=fa(rows.length)+' فایل';$('fileList').innerHTML=rows.length?rows.map(f=>'<article class="native-row"><div class="native-row-main"><b>'+escape(f.name||'فایل PDF')+'</b><small>'+escape(f.subject||'عمومی')+' · '+fmtDate(f.createdAt)+'</small></div><button class="native-action" data-file="'+escape(f.id)+'" data-action="view">مشاهده</button><button class="native-action" data-file="'+escape(f.id)+'" data-action="download">دانلود</button></article>').join(''):'<p class="native-empty">فایلی با این مشخصات پیدا نشد.</p>'}
+ function renderFiles(){
+  const q=$('fileSearch').value.trim().toLowerCase(),subject=$('fileSubject').value;
+  const rows=allFiles.filter(f=>(subject==='همه'||(f.subject||'عمومی')===subject)&&[f.name,f.caption,f.subject].join(' ').toLowerCase().includes(q));
+  const subjects=['همه',...new Set(allFiles.map(f=>f.subject||'عمومی'))];
+  $('fileCount').textContent=fa(rows.length)+' فایل';
+  $('fileResultCount').textContent=fa(rows.length)+' مورد';
+  $('fileHeading').textContent=subject==='همه'?'همه فایل‌های درسی':'فایل‌های درس '+subject;
+  $('fileList').innerHTML=rows.length?rows.map(f=>'<article class="files-inline-card"><div class="files-inline-card-top"><span class="files-inline-pdf">PDF</span><div class="files-inline-copy"><b>'+escape(f.name||'فایل PDF')+'</b><small>'+escape(f.subject||'عمومی')+'</small><small>'+fmtDate(f.createdAt)+'</small></div></div><div class="files-inline-card-actions"><button type="button" data-file="'+escape(f.id)+'" data-action="view">مشاهده</button><button type="button" data-file="'+escape(f.id)+'" data-action="download">دانلود</button></div></article>').join(''):'<p class="native-empty">فایلی با این مشخصات پیدا نشد.</p>';
+  $('fileChips').innerHTML=subjects.map(v=>'<button type="button" class="files-inline-chip" data-file-subject="'+escape(v)+'" aria-pressed="'+(v===subject)+'">'+escape(v==='همه'?'همه درس‌ها':v)+'</button>').join('');
+  const recent=[...allFiles].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,5);
+  $('fileRecent').innerHTML=recent.length?recent.map(f=>'<li><span class="files-inline-pdf">PDF</span><div><b>'+escape(f.name||'فایل PDF')+'</b><small>'+escape(f.subject||'عمومی')+' · '+fmtDate(f.createdAt)+'</small></div></li>').join(''):'<li class="native-empty">هنوز فایلی ثبت نشده است.</li>';
+ }
  $('fileSearch').oninput=renderFiles;$('fileSubject').onchange=renderFiles;
- $('fileList').addEventListener('click',async e=>{const b=e.target.closest('[data-file]');if(!b)return;const file=allFiles.find(x=>String(x.id)===b.dataset.file);if(!file)return;const preview=b.dataset.action==='view'?window.open('about:blank','_blank'):null;b.disabled=true;try{const res=await fetch(API_BASE_URL+'/study-files/'+encodeURIComponent(file.id)+'/content'+(preview?'':'?download=1'),{headers:Auth.headers(),cache:'no-store'});if(!res.ok)throw new Error('دریافت فایل ناموفق بود.');const url=URL.createObjectURL(await res.blob());if(preview){preview.location.href=url;setTimeout(()=>URL.revokeObjectURL(url),600000)}else{const a=document.createElement('a');a.href=url;a.download=file.name||'study-file.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}}catch(err){if(preview)preview.close();toast(err.message)}finally{b.disabled=false}});
+ $('fileChips').addEventListener('click',e=>{const b=e.target.closest('[data-file-subject]');if(!b)return;$('fileSubject').value=b.dataset.fileSubject;renderFiles()});
+ $('fileShowAll').onclick=()=>{$('fileSubject').value='همه';$('fileSearch').value='';renderFiles()};
+ $('fileList').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-file]');if(!b)return;
+  const file=allFiles.find(x=>String(x.id)===b.dataset.file);if(!file)return;
+  const preview=b.dataset.action==='view'?window.open('about:blank','_blank'):null;
+  if(preview){try{preview.opener=null;preview.document.title='در حال دریافت فایل…';preview.document.body.innerHTML='<p style="font-family:sans-serif;text-align:center;margin:3rem">در حال دریافت فایل…</p>'}catch(err){}}
+  b.disabled=true;
+  try{
+   const res=await fetch(API_BASE_URL+'/study-files/'+encodeURIComponent(file.id)+'/content'+(preview?'':'?download=1'),{headers:Auth.headers(),cache:'no-store'});
+   if(!res.ok)throw new Error('دریافت فایل ناموفق بود.');
+   const url=URL.createObjectURL(await res.blob());
+   if(preview&&!preview.closed){preview.location.replace(url);preview.focus();setTimeout(()=>URL.revokeObjectURL(url),600000)}
+   else if(!preview){const a=document.createElement('a');a.href=url;a.download=file.name||'study-file.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
+   else throw new Error('پنجرهٔ مشاهده باز نشد.');
+  }catch(err){if(preview&&!preview.closed)preview.close();toast(err.message||'دریافت فایل ناموفق بود.')}
+  finally{b.disabled=false}
+ });
  async function loadMusic(){
   const list=$('musicList');list.innerHTML='<p class="native-empty">در حال دریافت آهنگ‌ها…</p>';
   try{const base='https://madar-jmy5.onrender.com/api';const res=await fetch(base+'/music',{cache:'no-store'});if(!res.ok)throw new Error('دریافت کتابخانهٔ موسیقی ناموفق بود.');const data=await res.json();allTracks=Array.isArray(data.tracks)?data.tracks:[];$('musicCount').textContent=fa(allTracks.length)+' آهنگ';list.innerHTML=allTracks.length?allTracks.map((t,i)=>'<article class="native-row"><div class="native-row-main"><b>'+escape(t.title||'آهنگ بدون نام')+'</b><small>'+escape(t.artist||'نامشخص')+' · '+escape(t.durationLabel||'')+'</small></div><button class="native-action" data-track="'+i+'">پخش</button></article>').join(''):'<p class="native-empty">هنوز آهنگی در کتابخانه ثبت نشده است.</p>';musicLoaded=true
