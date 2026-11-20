@@ -483,6 +483,9 @@ body.closed #openBtn .i{width:19px;height:19px}
 #native-music .mm-hero-art i:nth-of-type(1){left:34px;height:30px}
 #native-music .mm-hero-art i:nth-of-type(2){left:48px;height:45px}
 #native-music .mm-hero-art i:nth-of-type(3){right:35px;height:36px}
+#native-music .mm-hero-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1}
+#native-music .mm-hero-art .mm-note{display:none}
+#native-music .mm-hero-art i{z-index:2}
 #native-music .mm-art-caption{position:absolute;bottom:9px;right:13px;color:rgba(255,255,255,.62);font-size:7px;letter-spacing:2px}
 #native-music .mm-player{display:grid;grid-template-columns:64px minmax(150px,.8fr) minmax(240px,1.2fr);align-items:center;gap:16px;min-width:0;margin-bottom:15px;padding:14px 17px;border:1px solid var(--ln);border-radius:12px;background:var(--sf)}
 #native-music .mm-player-art{position:relative;display:grid;place-items:center;width:60px;height:60px;overflow:hidden;border:1px solid rgba(224,174,69,.35);border-radius:10px;background:linear-gradient(145deg,#142859,#263d80);color:#e0b65e}
@@ -554,6 +557,15 @@ body.closed #openBtn .i{width:19px;height:19px}
 #native-music .mm-stats>div{padding:11px 13px;border:1px solid var(--ln);border-radius:9px;background:var(--sf)}
 #native-music .mm-stats small{display:block;color:var(--mu);font-size:10px}
 #native-music .mm-stats b{display:block;margin-top:3px;color:var(--tx);font-size:16px;font-weight:750}
+#native-music .mm-banner{display:flex;align-items:center;gap:20px;min-height:112px;margin-top:13px;padding:12px 20px;border:1px solid var(--ln);border-radius:11px;background:var(--sf);overflow:hidden}
+#native-music .mm-banner>div{min-width:0}
+#native-music .mm-banner h3{margin:0;color:var(--tx);font-size:15px;font-weight:800}
+#native-music .mm-banner p{margin:4px 0 0;color:var(--mu);font-size:10px}
+#native-music .mm-banner-link{display:inline-flex;align-items:center;gap:8px;flex:none;margin-inline-start:auto;padding:8px 14px;border:1px solid var(--gold);border-radius:99px;color:var(--gold);font-size:10px}
+#native-music .mm-banner-link:hover{background:var(--gold);color:#14204f}
+#native-music .mm-banner img{width:150px;height:90px;object-fit:contain;flex:none}
+@media(max-width:620px){#native-music .mm-banner{flex-wrap:wrap;justify-content:center;text-align:center;padding:13px;gap:8px}#native-music .mm-banner>div{flex-basis:100%}#native-music .mm-banner-link{margin:0}#native-music .mm-banner img{width:90px;height:62px}}
+
 #native-music .native-status{min-height:17px;margin-top:8px;color:var(--mu);font-size:10px}
 #native-music .native-empty{grid-column:1/-1;display:block;margin:0;padding:25px 12px;border:1px dashed var(--ln);border-radius:9px;color:var(--mu);font-size:11px;text-align:center}
 @media(max-width:1050px){#native-music .mm-layout{grid-template-columns:minmax(0,1fr) 210px}#native-music .mm-grid{grid-template-columns:1fr}}
@@ -1008,7 +1020,7 @@ body:has(#native-plans:not([hidden])) main{padding:0;}
         <p>مجموعه‌ای از آهنگ‌های منتخب برای لحظه‌های تو</p>
         <span class="mm-count" id="musicCount">—</span>
       </div>
-      <div class="mm-hero-art" aria-hidden="true"><span class="mm-note">♫</span><i></i><i></i><i></i><span class="mm-art-caption">MUSIC LIBRARY</span></div>
+      <div class="mm-hero-art"><img src="../عکس ها/اهنگ هور.png" alt="" onerror="this.remove()"><span class="mm-note" aria-hidden="true">♫</span><i></i><i></i><i></i></div>
     </div>
 
     <section class="mm-player" aria-label="پخش‌کننده موسیقی">
@@ -1066,6 +1078,11 @@ body:has(#native-plans:not([hidden])) main{padding:0;}
       <div><small>مدت کل کتابخانه</small><b id="musicStatDuration">—</b></div>
       <div><small>موردعلاقه‌ها</small><b id="musicStatFavorites">—</b></div>
     </div>
+    <section class="mm-banner">
+      <div><h3>موسیقی، همراه همیشگی تو...</h3><p>هر وقت خواستی، از میان آهنگ‌های منتخب خودت چیزی برای شنیدن پیدا کن.</p></div>
+      <a href="#musicList" class="mm-banner-link">بیشتر گوش کن <span>←</span></a>
+      <img src="../عکس ها/بنر-هدفون.png" alt="" onerror="this.remove()">
+    </section>
     <p class="native-status" id="musicStatus" role="status" aria-live="polite"></p>
   </section>
   <section class="native-section" id="native-advisor" hidden>
