@@ -231,7 +231,9 @@ body.madar-sidebar-open #madarSidebarScrim{opacity:1;visibility:visible}
 #sidebar{--sb:var(--card);--ln:var(--line);--tx:var(--text);--mu:var(--muted);--hv:var(--chip);--ac:var(--primary);
  position:fixed;inset:0 0 0 auto;z-index:81;width:264px;min-width:0;overflow:hidden;
  background:var(--sb);border-left:1px solid var(--ln);border-radius:11px 0 0 11px;
- box-shadow:-14px 0 34px -13px rgba(0,0,0,.22);transition:width .3s cubic-bezier(.4,0,.2,1),transform .3s,border-color .3s}
+ box-shadow:-14px 0 34px -13px rgba(0,0,0,.22);
+ transform:translate3d(0,0,0);will-change:transform;backface-visibility:hidden;contain:paint;
+ transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;}
 #sidebar .in{width:264px;min-width:264px;height:100%;display:flex;flex-direction:column;padding:10px 10px 8px;overflow:hidden}
 #sidebar .brand{display:flex;align-items:center;justify-content:space-between;padding:0 4px 10px;border-bottom:0}
 #sidebar .brand a{display:flex;align-items:center;gap:9px;color:var(--tx);transform:translateY(-2px)}
@@ -259,23 +261,22 @@ body.madar-sidebar-open #madarSidebarScrim{opacity:1;visibility:visible}
 #sidebar .account-info{flex:1;min-width:0}
 #sidebar .account-info b{display:block;overflow:hidden;color:var(--tx);font-size:12.5px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
 #sidebar .account-info small{display:block;color:var(--mu);font-size:11px}
-#scrim{display:none}
-#openSidebarBtn{display:none;flex:none}
-body{padding-right:264px;transition:padding-right .3s cubic-bezier(.4,0,.2,1)}
-body.closed{padding-right:0}
-body.closed #sidebar{width:0;border-left-color:transparent;box-shadow:none}
-body.closed #openSidebarBtn{display:flex}
-#openSidebarBtn{width:36px;height:36px;align-items:center;justify-content:center;border:0;border-radius:10px;background:transparent;color:var(--muted)}
+#scrim{position:fixed;inset:0;z-index:80;background:rgba(10,16,32,.45);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s ease}
+#openSidebarBtn{display:none;flex:none;width:36px;height:36px;align-items:center;justify-content:center;border:0;border-radius:10px;background:transparent;color:var(--muted)}
 #openSidebarBtn:hover{background:var(--chip);color:var(--text)}
+body{padding-right:264px}
+body.closed{padding-right:0}
+body.closed #sidebar{transform:translate3d(105%,0,0);pointer-events:none;box-shadow:none}
+body.closed #openSidebarBtn{display:flex}
 @media(max-width:899px){
  body{padding-right:0}
- #sidebar{width:264px!important;transform:translateX(100%);border-left:1px solid var(--ln)}
- body.m-open #sidebar{transform:translateX(0);box-shadow:-23px 0 56px -14px rgba(0,0,0,.56)}
- body.m-open #scrim{display:block;position:fixed;inset:0;background:rgba(10,16,32,.45);z-index:80}
+ #sidebar{width:264px!important;transform:translate3d(105%,0,0);border-left:1px solid var(--ln)}
+ body.m-open #sidebar{transform:translate3d(0,0,0);box-shadow:-23px 0 56px -14px rgba(0,0,0,.56);pointer-events:auto}
+ body.m-open #scrim{opacity:1;visibility:visible;pointer-events:auto}
  #openSidebarBtn{display:flex}
  body.closed #sidebar{width:264px;border-left-color:var(--ln)}
 }
-@media(prefers-reduced-motion:reduce){#sidebar,#openSidebarBtn,body{transition:none!important}}
+@media(prefers-reduced-motion:reduce){#sidebar,#scrim,#openSidebarBtn{transition:none!important}}
 
 </style>
 </head>
