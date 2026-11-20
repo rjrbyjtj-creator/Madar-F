@@ -299,6 +299,45 @@ body.closed #openBtn .i{width:19px;height:19px}
 .support-native{text-align:center;padding:46px 20px;border:1px dashed var(--line,rgba(130,145,170,.2));border-radius:14px}.support-native h2{font-size:17px;margin:12px 0 7px}.support-native p{font-size:12px;color:var(--muted,#8490a4);margin:0}.support-mark{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(190,155,83,.12);color:var(--gold,#c6a15a);font-size:20px}
 @media(max-width:700px){.tab-panel{padding:20px 15px 35px}.tab-panel-head{margin-bottom:18px}.native-row{gap:8px;padding:11px}.native-tag{white-space:normal;text-align:left}.announcement-item{display:block}.announcement-date{display:block;margin-bottom:6px}.file-tools{flex-wrap:wrap}.file-tools select{width:100%}}
 
+
+/* Refined minimal home layout */
+.home-view{max-width:1180px;padding:15px 3px 26px;gap:13px}
+.home-topline{min-height:42px;padding:0 2px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ln)}
+.home-date-line{display:flex;align-items:center;gap:9px;color:var(--mu);font-size:11px}
+.home-live-dot{width:6px;height:6px;border-radius:50%;background:#35a477;box-shadow:0 0 0 3px rgba(53,164,119,.11)}
+.home-date-divider{height:13px;width:1px;background:var(--ln)}
+.home-clock{min-width:0;display:block;text-align:left}
+.home-clock strong{font-size:20px;font-weight:650;letter-spacing:.5px;color:var(--tx);line-height:1;font-variant-numeric:tabular-nums}
+.home-metrics{border:0;border-radius:0;background:transparent;gap:9px;overflow:visible}
+.home-metric{position:relative;padding:12px 14px;border:1px solid var(--ln)!important;border-radius:10px;background:var(--sf);min-height:87px}
+.home-metric span{font-size:10px}
+.home-metric strong{font-size:22px;margin:5px 0 0;line-height:1.25}
+.home-metric small{font-size:9px;margin-top:3px}
+.home-main-grid{grid-template-columns:minmax(0,1.35fr) minmax(270px,.8fr);gap:10px;min-height:180px}
+.home-panel{padding:13px 14px;border-radius:10px;background:var(--sf)}
+.home-panel-head{padding-bottom:9px}
+.home-panel-head h2{font-size:12px}
+.home-panel-head p{font-size:9px}
+.home-today-row,.home-notice-row{padding:7px 1px;gap:9px}
+.home-time{min-width:57px;font-size:9px}
+.home-row-copy b{font-size:10.5px}
+.home-row-copy small{font-size:9px}
+.home-muted{font-size:10px;padding:16px 4px}
+.quick-section{padding-top:1px}
+.quick-heading{margin-bottom:8px}
+.quick-heading h2{font-size:12px}
+.quick-heading span{font-size:9px}
+.quick-links{grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+.quick-link,.quick-link:first-child{gap:9px;padding:10px 12px;min-height:58px;border-left:1px solid var(--ln);border-radius:0}
+.quick-link:last-child{border-left:0}
+.quick-link:hover{background:var(--hv);border-radius:7px}
+.quick-icon{width:29px;height:29px;flex-basis:29px;border-radius:8px}
+.quick-icon svg{width:16px;height:16px}
+.quick-copy b{font-size:10px;font-weight:650}
+.quick-copy small{font-size:8.5px;margin-top:2px}
+@media(max-width:900px){.home-main-grid{grid-template-columns:1fr}.home-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.home-metric:nth-child(2){border-left:1px solid var(--ln)}.home-metric:nth-child(-n+2){border-bottom:1px solid var(--ln)}.quick-links{grid-template-columns:1fr}.quick-link,.quick-link:first-child{padding:10px 12px;border-left:0;border-bottom:1px solid var(--ln)}.quick-link:last-child{border-bottom:0}}
+@media(max-width:520px){.home-date-line{font-size:10px;gap:7px}.home-clock strong{font-size:18px}.home-view{padding-top:12px}.home-metric{padding:10px 11px;min-height:78px}}
+
 </style>
 </head>
 <body>
@@ -385,17 +424,9 @@ body.closed #openBtn .i{width:19px;height:19px}
   </section>
 </section>
   <section class="home-view" aria-label="خانه">
-    <div class="home-topline">
-      <div class="welcome">
-        <div class="welcome-kicker">فضای دانش‌آموزی مدار</div>
-        <h1>خوش اومدی<span id="welcomeName"></span></h1>
-        <p>نمای کلی برنامه و پیشرفت تحصیلی تو</p>
-      </div>
-      <div class="home-clock" aria-label="ساعت و تاریخ">
-        <strong id="homeClock">--:--:--</strong>
-        <b id="homeWeekday">—</b>
-        <span id="homeDate">در حال دریافت تاریخ…</span>
-      </div>
+    <div class="home-topline" aria-label="زمان و تاریخ امروز">
+      <div class="home-date-line"><span class="home-live-dot"></span><span id="homeWeekday">—</span><span class="home-date-divider"></span><span id="homeDate">—</span></div>
+      <div class="home-clock" aria-label="ساعت زنده"><strong id="homeClock">--:--</strong></div>
     </div>
     <section class="home-metrics" aria-label="آمار تحصیلی">
       <article class="home-metric"><span>میانگین نمرات</span><strong id="homeAverage">—</strong><small>از سوابق تحصیلی</small></article>
@@ -458,7 +489,7 @@ function toggleSidebar(){
  $('tabHomeBtn').addEventListener('click',()=>showTab('home'));
  $('themeBtn').addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else document.documentElement.dataset.theme=next});
  $('profileBtn').addEventListener('click',()=>toast('اطلاعات حساب کاربری در دسترس است.'));
- (async()=>{try{if(!window.Auth||typeof Auth.requireAuth!=='function')return;const user=await Auth.requireAuth();if(user&&user.name)$('welcomeName').textContent='، '+user.name;loadHomeAcademic()}catch(e){console.warn('Dashboard auth:',e)}})();
+ (async()=>{try{if(!window.Auth||typeof Auth.requireAuth!=='function')return;const user=await Auth.requireAuth();loadHomeAcademic()}catch(e){console.warn('Dashboard auth:',e)}})();
  function updateHomeClock(){const now=new Date();$('homeClock').textContent=new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('homeWeekday').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long'}).format(now);$('homeDate').textContent=new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(now);$('homeTodayLabel').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',month:'long',day:'numeric'}).format(now)}
  updateHomeClock();setInterval(updateHomeClock,1000);
  async function loadHomeAcademic(){try{const res=await fetch(API.academicHistory,{headers:Auth.headers(),cache:'no-store'});if(!res.ok)throw new Error('history unavailable');const data=await res.json();const h=data.history||{},grades=Array.isArray(h.grades)?h.grades:[],tests=Array.isArray(h.tests)?h.tests:[];const avg=grades.length?(grades.reduce((sum,g)=>sum+(Number(g.score)/Math.max(Number(g.outOf)||100,.0001))*20,0)/grades.length):null;$('homeAverage').textContent=avg===null?'—':fa(avg.toFixed(1));const sorted=tests.filter(t=>t.date).sort((a,b)=>a.date.localeCompare(b.date));const last=sorted[sorted.length-1];$('homeLastScore').textContent=last&&last.totalScore!=null?fa(last.totalScore):'—';$('homeLastTest').textContent=last?(last.title||'آخرین آزمون')+' · '+fmtDate(last.date):'نتیجه‌ای ثبت نشده';$('homeTestCount').textContent=fa(tests.length);const study=$('homeStudyHours');study.textContent='—';$('homeStudyHint').textContent='هنوز داده‌ای ثبت نشده';}catch(e){$('homeAverage').textContent='—';$('homeLastScore').textContent='—';$('homeTestCount').textContent='—';$('homeStudyHint').textContent='اطلاعات در دسترس نیست'}}
