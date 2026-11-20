@@ -537,6 +537,22 @@ body.closed #openBtn .i{width:19px;height:19px}
 #native-music .music-inline-search span{color:var(--mu);font-size:17px}
 #native-music .music-inline-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--tx);font:inherit;font-size:10px}
 @media(max-width:620px){#native-music .music-inline-search{width:100%}}
+
+/* Full-width native sections: tighter page gutters and fluid sidebar resizing */
+main{padding:18px 20px 24px}
+.tab-panel{width:100%;max-width:none;margin:0;padding:18px 0 38px}
+.native-section{width:100%;max-width:none}
+#native-files,#native-music{width:100%;max-width:none}
+#native-plans{width:100%;max-width:none}
+@media(max-width:899px){
+  main{padding:16px}
+  .tab-panel{padding:16px 0 30px}
+}
+@media(max-width:520px){
+  main{padding:12px}
+  .tab-panel{padding:14px 0 26px}
+}
+
 </style>
 </head>
 <body>
