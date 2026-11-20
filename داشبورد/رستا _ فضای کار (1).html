@@ -178,6 +178,54 @@ body.closed #openBtn .i{width:19px;height:19px}
 .time{border-color:var(--ln,var(--dash-line));background:var(--hv,var(--dash-act));color:var(--mu,var(--dash-mut))}
 .exam{border-radius:12px;box-shadow:var(--sh,none)}
 
+
+/* Compact student home dashboard */
+.home-view{max-width:1160px;padding:18px 2px 30px;display:flex;flex-direction:column;gap:16px}
+.home-topline{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-bottom:13px;border-bottom:1px solid var(--ln)}
+.home-topline .welcome{padding:0;border:0}
+.home-topline .welcome h1{margin:5px 0 2px;font-size:clamp(20px,2vw,27px)}
+.home-topline .welcome p{font-size:11.5px}
+.home-clock{min-width:190px;text-align:left;display:grid;gap:1px}
+.home-clock strong{font-size:25px;line-height:1.35;font-weight:750;letter-spacing:.4px;font-variant-numeric:tabular-nums;color:var(--tx)}
+.home-clock b{font-size:11.5px;color:var(--tx);font-weight:650}
+.home-clock span{font-size:10px;color:var(--mu)}
+.home-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--ln);border-radius:12px;background:var(--sf);overflow:hidden}
+.home-metric{min-width:0;padding:12px 15px;border-left:1px solid var(--ln)}
+.home-metric:last-child{border-left:0}
+.home-metric span,.home-metric small{display:block;color:var(--mu);font-size:10px}
+.home-metric strong{display:block;margin:3px 0 1px;color:var(--tx);font-size:21px;line-height:1.45;font-weight:750;font-variant-numeric:tabular-nums}
+.home-main-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.85fr);gap:13px;min-height:190px}
+.home-panel{min-width:0;padding:14px 15px;border:1px solid var(--ln);border-radius:12px;background:var(--sf)}
+.home-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--ln)}
+.home-panel-head h2{margin:0;font-size:13px;font-weight:700;color:var(--tx)}
+.home-panel-head p{margin:2px 0 0;color:var(--mu);font-size:10px}
+.home-text-btn{border:0;background:none;color:var(--ac);font:inherit;font-size:10px;white-space:nowrap;cursor:pointer}
+.home-text-btn:hover{color:var(--tx)}
+.home-today-list,.home-notice-list{display:flex;flex-direction:column;gap:0;padding-top:5px}
+.home-today-row,.home-notice-row{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--ln)}
+.home-today-row:last-child,.home-notice-row:last-child{border-bottom:0}
+.home-time{min-width:62px;padding:4px 6px;border-radius:7px;background:var(--hv);color:var(--ac);font-size:10px;text-align:center;direction:ltr;font-variant-numeric:tabular-nums}
+.home-row-copy{flex:1;min-width:0}
+.home-row-copy b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tx);font-size:11px;font-weight:650}
+.home-row-copy small{display:block;color:var(--mu);font-size:9.5px}
+.home-muted{margin:0;padding:18px 5px;color:var(--mu);font-size:10.5px;text-align:center}
+.home-notice-count{min-width:23px;height:23px;display:grid;place-items:center;padding:0 6px;border:1px solid var(--ln);border-radius:7px;color:var(--mu);font-size:10px}
+.home-notice-mark{width:7px;height:7px;border-radius:50%;background:var(--ac);flex:none}
+.home-notice-row b{font-size:10.5px;color:var(--tx)}
+.quick-section{padding-top:0}
+.quick-heading{margin-bottom:7px}
+.quick-heading h2{font-size:13px}
+.quick-heading span{font-size:10px}
+.quick-links{grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--ln);border-radius:11px;background:var(--sf);overflow:hidden}
+.quick-link,.quick-link:first-child{align-items:center;padding:10px 11px;border-left:1px solid var(--ln)}
+.quick-link:last-child{border-left:0}
+.quick-icon{width:31px;height:31px;flex-basis:31px;border-radius:8px}
+.quick-icon svg{width:17px;height:17px}
+.quick-copy b{font-size:10.5px}
+.quick-copy small{font-size:9px;line-height:1.5}
+@media(max-width:900px){.home-view{padding-top:14px}.home-main-grid{grid-template-columns:1fr}.home-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.home-metric:nth-child(2){border-left:0}.home-metric:nth-child(-n+2){border-bottom:1px solid var(--ln)}.quick-links{grid-template-columns:1fr}.quick-link,.quick-link:first-child{padding:10px 12px;border-left:0;border-bottom:1px solid var(--ln)}.quick-link:last-child{border-bottom:0}.home-clock{min-width:140px}.home-clock strong{font-size:21px}}
+@media(max-width:520px){.home-topline{align-items:flex-start}.home-clock{min-width:120px}.home-clock strong{font-size:19px}.home-topline .welcome h1{font-size:19px}.home-panel{padding:12px}}
+
 /* Home tab — spacious, quiet and card-light */
 .home-view{width:100%;max-width:1120px;margin:0 auto;padding:30px 2px 48px}
 .welcome{padding:10px 0 34px;border-bottom:1px solid var(--ln)}
@@ -337,37 +385,42 @@ body.closed #openBtn .i{width:19px;height:19px}
   </section>
 </section>
   <section class="home-view" aria-label="خانه">
-    <div class="welcome">
-      <div class="welcome-kicker">فضای دانش‌آموزی مدار</div>
-      <h1>خوش اومدی<span id="welcomeName"></span></h1>
-      <p>اینجا می‌تونی مسیر یادگیریت رو دنبال کنی و به ابزارهای آموزشی مدار دسترسی داشته باشی.</p>
+    <div class="home-topline">
+      <div class="welcome">
+        <div class="welcome-kicker">فضای دانش‌آموزی مدار</div>
+        <h1>خوش اومدی<span id="welcomeName"></span></h1>
+        <p>نمای کلی برنامه و پیشرفت تحصیلی تو</p>
+      </div>
+      <div class="home-clock" aria-label="ساعت و تاریخ">
+        <strong id="homeClock">--:--:--</strong>
+        <b id="homeWeekday">—</b>
+        <span id="homeDate">در حال دریافت تاریخ…</span>
+      </div>
+    </div>
+    <section class="home-metrics" aria-label="آمار تحصیلی">
+      <article class="home-metric"><span>میانگین نمرات</span><strong id="homeAverage">—</strong><small>از سوابق تحصیلی</small></article>
+      <article class="home-metric"><span>ساعت مطالعه</span><strong id="homeStudyHours">—</strong><small id="homeStudyHint">اطلاعات ثبت‌شده</small></article>
+      <article class="home-metric"><span>آخرین تراز</span><strong id="homeLastScore">—</strong><small id="homeLastTest">نتیجهٔ آخرین آزمون</small></article>
+      <article class="home-metric"><span>آزمون‌های ثبت‌شده</span><strong id="homeTestCount">—</strong><small>در سابقهٔ تحصیلی</small></article>
+    </section>
+    <div class="home-main-grid">
+      <section class="home-panel home-today">
+        <div class="home-panel-head"><div><h2>برنامهٔ امروز</h2><p id="homeTodayLabel">فعالیت‌های برنامه‌ریزی‌شده</p></div><button type="button" class="home-text-btn" data-tab="plans">همهٔ برنامه‌ها ←</button></div>
+        <div id="homeTodayList" class="home-today-list"><p class="home-muted">در حال دریافت برنامهٔ امروز…</p></div>
+      </section>
+      <section class="home-panel home-notices">
+        <div class="home-panel-head"><div><h2>اعلان‌ها</h2><p>پیام‌ها و اطلاعیه‌های حساب تو</p></div><span class="home-notice-count" id="homeNoticeCount">۰</span></div>
+        <div id="homeNoticeList" class="home-notice-list"><p class="home-muted">در حال بررسی اعلان‌ها…</p></div>
+      </section>
     </div>
     <section class="quick-section" aria-labelledby="quickTitle">
-      <div class="quick-heading">
-        <h2 id="quickTitle">دسترسی سریع</h2>
-        <span>برای شروع، یکی از بخش‌ها رو انتخاب کن</span>
-      </div>
+      <div class="quick-heading"><h2 id="quickTitle">دسترسی سریع</h2><span>بخش‌های پرکاربرد مدار</span></div>
       <div class="quick-links">
-        <a class="quick-link" href="./چت بات.html">
-          <span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8 8 0 0 1-3.5-.8L4 20l1.5-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span>
-          <span class="quick-copy"><b>ایجنت روبو</b><small>برای پرسیدن سؤال و کمک گرفتن در یادگیری</small></span>
-        </a>
-        <a class="quick-link" href="#" data-tab="plans">
-          <span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h3M8 17h7"/></svg></span>
-          <span class="quick-copy"><b>برنامه‌ها</b><small>برای دیدن و مدیریت برنامه‌ریزی درسی</small></span>
-        </a>
-        <a class="quick-link" href="#" data-tab="exams">
-          <span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M22 10H18C15 10 14 9 14 6V2L22 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M7 13H13M7 17H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
-          <span class="quick-copy"><b>آزمون‌ها</b><small>برای تمرین و بررسی آموخته‌ها</small></span>
-        </a>
-        <a class="quick-link" href="#" data-tab="advisor">
-          <span class="quick-icon"><svg  viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.62 11.6Q1.22 10 4.68 8.55L12.87 5.1Q13.85 4.69 14.83 5.09L23.26 8.57Q26.72 10 23.32 11.57L14.81 15.49Q13.85 15.94 12.89 15.49Z"/><path d="M6.35 12.88V19.56Q6.35 23 10.29 23H17.47Q21.6 23 21.6 19.56V12.88"/><path d="M2.91 11.31V17.88"/></svg></span>
-          <span class="quick-copy"><b>مشاور</b><small>راهنمایی برای مسیر و برنامه‌ریزی تحصیلی</small></span>
-        </a>
-        <a class="quick-link" href="#" data-tab="studyhall">
-          <span class="quick-icon"><svg  viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11.06" cy="7.88" r="4.94"/><ellipse cx="11.19" cy="20.19" rx="7.75" ry="4.75"/><path d="M18.88 5.19C22.75 5.69,23.88 11,18.88 13.12"/><path d="M21.12 16.25C25 17.06,25.88 22.25,21.12 23.12"/></svg></span>
-          <span class="quick-copy"><b>سالن مطالعه</b><small>فضایی برای تمرکز و مطالعهٔ منظم</small></span>
-        </a>
+        <a class="quick-link" href="./چت بات.html"><span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8 8 0 0 1-3.5-.8L4 20l1.5-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span><span class="quick-copy"><b>ایجنت روبو</b><small>پرسش و پاسخ آموزشی</small></span></a>
+        <a class="quick-link" href="#" data-tab="plans"><span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h3M8 17h7"/></svg></span><span class="quick-copy"><b>برنامه‌ها</b><small>برنامه‌ریزی درسی</small></span></a>
+        <a class="quick-link" href="#" data-tab="exams"><span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14"/><path d="M22 10H18C15 10 14 9 14 6V2L22 10Z"/><path d="M7 13H13M7 17H11"/></svg></span><span class="quick-copy"><b>آزمون‌ها</b><small>تمرین و ارزیابی</small></span></a>
+        <a class="quick-link" href="#" data-tab="advisor"><span class="quick-icon"><svg viewBox="0 0 28 28"><path d="M4.62 11.6Q1.22 10 4.68 8.55L12.87 5.1Q13.85 4.69 14.83 5.09L23.26 8.57Q26.72 10 23.32 11.57L14.81 15.49Q13.85 15.94 12.89 15.49Z"/><path d="M6.35 12.88V19.56Q6.35 23 10.29 23H17.47Q21.6 23 21.6 19.56V12.88"/></svg></span><span class="quick-copy"><b>مشاور</b><small>راهنمایی تحصیلی</small></span></a>
+        <a class="quick-link" href="#" data-tab="studyhall"><span class="quick-icon"><svg viewBox="0 0 28 28"><circle cx="11.06" cy="7.88" r="4.94"/><ellipse cx="11.19" cy="20.19" rx="7.75" ry="4.75"/></svg></span><span class="quick-copy"><b>سالن مطالعه</b><small>فضای تمرکز</small></span></a>
       </div>
     </section>
   </section>
@@ -405,7 +458,12 @@ function toggleSidebar(){
  $('tabHomeBtn').addEventListener('click',()=>showTab('home'));
  $('themeBtn').addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';if(window.MadarTheme)window.MadarTheme.setMode(next);else document.documentElement.dataset.theme=next});
  $('profileBtn').addEventListener('click',()=>toast('اطلاعات حساب کاربری در دسترس است.'));
- (async()=>{try{if(!window.Auth||typeof Auth.requireAuth!=='function')return;const user=await Auth.requireAuth();if(user&&user.name)$('welcomeName').textContent='، '+user.name}catch(e){console.warn('Dashboard auth:',e)}})();
+ (async()=>{try{if(!window.Auth||typeof Auth.requireAuth!=='function')return;const user=await Auth.requireAuth();if(user&&user.name)$('welcomeName').textContent='، '+user.name;loadHomeAcademic()}catch(e){console.warn('Dashboard auth:',e)}})();
+ function updateHomeClock(){const now=new Date();$('homeClock').textContent=new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('homeWeekday').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long'}).format(now);$('homeDate').textContent=new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'long',day:'numeric'}).format(now);$('homeTodayLabel').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',month:'long',day:'numeric'}).format(now)}
+ updateHomeClock();setInterval(updateHomeClock,1000);
+ async function loadHomeAcademic(){try{const res=await fetch(API.academicHistory,{headers:Auth.headers(),cache:'no-store'});if(!res.ok)throw new Error('history unavailable');const data=await res.json();const h=data.history||{},grades=Array.isArray(h.grades)?h.grades:[],tests=Array.isArray(h.tests)?h.tests:[];const avg=grades.length?(grades.reduce((sum,g)=>sum+(Number(g.score)/Math.max(Number(g.outOf)||100,.0001))*20,0)/grades.length):null;$('homeAverage').textContent=avg===null?'—':fa(avg.toFixed(1));const sorted=tests.filter(t=>t.date).sort((a,b)=>a.date.localeCompare(b.date));const last=sorted[sorted.length-1];$('homeLastScore').textContent=last&&last.totalScore!=null?fa(last.totalScore):'—';$('homeLastTest').textContent=last?(last.title||'آخرین آزمون')+' · '+fmtDate(last.date):'نتیجه‌ای ثبت نشده';$('homeTestCount').textContent=fa(tests.length);const study=$('homeStudyHours');study.textContent='—';$('homeStudyHint').textContent='هنوز داده‌ای ثبت نشده';}catch(e){$('homeAverage').textContent='—';$('homeLastScore').textContent='—';$('homeTestCount').textContent='—';$('homeStudyHint').textContent='اطلاعات در دسترس نیست'}}
+ $('homeNoticeList').innerHTML='<p class="home-muted">فعلاً اعلان جدیدی برای نمایش ثبت نشده است.</p>';
+ $('homeNoticeCount').textContent='۰';
  const fmtDate=v=>{if(!v)return'—';try{return new Intl.DateTimeFormat('fa-IR',{month:'long',day:'numeric'}).format(new Date(v))}catch(e){return'—'}};
  const escape=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
  const startWeek=offset=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7)+offset*7);return d};
@@ -419,6 +477,7 @@ function toggleSidebar(){
    const data=await res.json().catch(()=>({}));if(res.status===401){Auth.logout();return}if(!res.ok||!data.ok)throw new Error(data.message||'دریافت برنامه‌ها ناموفق بود.');
    $('planRange').textContent=new Intl.DateTimeFormat('fa-IR',{day:'numeric',month:'long'}).format(from)+' تا '+new Intl.DateTimeFormat('fa-IR',{day:'numeric',month:'long'}).format(to);
    const tasks=(data.plans||[]).flatMap(p=>(p.tasks||[]).map(t=>({...t,date:p.date,note:p.note}))).sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start));
+   const todayKey=iso(new Date()),todayTasks=tasks.filter(t=>String(t.date).slice(0,10)===todayKey);const todayBox=$('homeTodayList');if(todayBox)todayBox.innerHTML=todayTasks.length?todayTasks.map(t=>'<div class="home-today-row"><span class="home-time">'+escape(t.start||'—')+'</span><div class="home-row-copy"><b>'+escape(t.title||'فعالیت درسی')+'</b><small>'+escape(({study:'مطالعه',test:'آزمون',video:'آموزش',note:'یادداشت'}[t.type]||'برنامه'))+(t.end?' · تا '+escape(t.end):'')+'</small></div></div>').join(''):'<p class="home-muted">برای امروز برنامه‌ای ثبت نشده است.</p>';
    list.innerHTML=tasks.length?tasks.map(t=>'<article class="native-row"><div class="native-row-main"><b>'+escape(t.title||'فعالیت درسی')+'</b><small>'+fmtDate(t.date)+' · '+escape(t.start||'')+(t.end?' تا '+escape(t.end):'')+(t.note?' · '+escape(t.note):'')+'</small></div><span class="native-tag">'+({study:'مطالعه',test:'آزمون',video:'آموزش',note:'یادداشت'}[t.type]||'برنامه')+'</span></article>').join(''):'<p class="native-empty">برای این هفته برنامه‌ای ثبت نشده است.</p>';
    status.textContent='';plansLoaded=true;
   }catch(e){status.textContent=e.message||'دریافت برنامه‌ها ممکن نشد.';list.innerHTML='<p class="native-empty">اتصال به برنامه‌ها برقرار نشد. دوباره تلاش کن.</p>'}
