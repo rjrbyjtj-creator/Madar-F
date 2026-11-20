@@ -16,7 +16,7 @@
 .theme-pack-options{display:flex;gap:10px;flex-wrap:wrap}.theme-pack-option{display:flex;align-items:center;gap:10px;min-width:160px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);text-align:right;transition:border-color .18s,background .18s}
 .theme-pack-option:hover{border-color:var(--gold)}.theme-pack-option.active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,var(--surface))}
 .theme-pack-option:disabled{opacity:.6;cursor:wait}.theme-pack-option b,.theme-pack-option small{display:block}.theme-pack-option b{font-size:12px}.theme-pack-option small{font-size:10px;color:var(--muted);margin-top:2px}.theme-pack-option i{display:grid;place-items:center;width:18px;height:18px;border:1px solid var(--line);border-radius:50%;font-style:normal;color:transparent;font-size:11px}.theme-pack-option.active i{background:var(--gold);border-color:var(--gold);color:#fff}
-.theme-swatch{width:36px;height:36px;border-radius:9px;flex:none;border:1px solid var(--line)}.madar-swatch{background:linear-gradient(135deg,#14264F 0 48%,#B8892D 48% 62%,#F6F7F9 62%)}.gray-swatch{background:linear-gradient(135deg,#202423 0 35%,#E9EAEB 35% 70%,#91B5AA 70%)}
+.theme-swatch{width:36px;height:36px;border-radius:9px;flex:none;border:1px solid var(--line)}.madar-swatch{background:linear-gradient(135deg,#14264F 0 48%,#B8892D 48% 62%,#F6F7F9 62%)}.gray-swatch{background:linear-gradient(135deg,#202423 0 35%,#E9EAEB 35% 70%,#91B5AA 70%)}.claude-swatch{background:linear-gradient(135deg,#191919 0 34%,#F7F6F2 34% 68%,#D97757 68%)}
 .theme-pack-status{font-size:10px;color:var(--muted);white-space:nowrap}
 @media(max-width:850px){.theme-pack-card{margin:0 1.2rem 1.4rem;align-items:flex-start;flex-direction:column}.theme-pack-options{width:100%}.theme-pack-option{flex:1}}
 </style>
@@ -95,6 +95,7 @@
     <div class="theme-pack-options">
       <button type="button" class="theme-pack-option" data-theme-pack="madar"><span class="theme-swatch madar-swatch"></span><span><b>مدار</b><small>سرمه‌ای و طلایی</small></span><i aria-hidden="true">✓</i></button>
       <button type="button" class="theme-pack-option" data-theme-pack="gray"><span class="theme-swatch gray-swatch"></span><span><b>خاکستری</b><small>خاکستری و سبز ملایم</small></span><i aria-hidden="true">✓</i></button>
+      <button type="button" class="theme-pack-option" data-theme-pack="claude"><span class="theme-swatch claude-swatch"></span><span><b>کلود</b><small>ذغالی و مرجانی</small></span><i aria-hidden="true">✓</i></button>
     </div>
     <div class="theme-pack-status" id="themePackStatus" role="status" aria-live="polite">در حال دریافت پوستهٔ فعال…</div>
   </section>
@@ -137,7 +138,7 @@
 
 <script src="./js/madar-connect.js?v=connect-20261114"></script>
 <script src="./js/admin-guard.js"></script>
-<script src="../js/theme.js?v=global-theme-packs-20261119"></script>
-<script src="./js/admin-theme.js?v=admin-theme-packs-20261119"></script>
+<script src="../js/theme.js?v=claude-theme-pack-20261120"></script>
+<script src="./js/admin-theme.js?v=claude-theme-pack-20261120"></script>
 </body>
 </html>
