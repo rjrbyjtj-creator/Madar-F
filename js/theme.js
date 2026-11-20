@@ -24,9 +24,9 @@
     gold: "#91B5AA", green: "#91B5AA"
   };
   var CLAUDE_DARK = {
-    bg: "#191919", surface: "#242424", line: "#3A3A3A",
-    text: "#F1F0EE", muted: "#A6A29D", navy: "#E07A5F",
-    gold: "#D97757", green: "#D97757"
+    bg: "#0B1220", surface: "#151F32", line: "#2B3A52",
+    text: "#EAF0F8", muted: "#A5B2C5", navy: "#5279B8",
+    gold: "#C5A66A", green: "#43A982"
   };
 
   function readMode() {
@@ -66,15 +66,15 @@
       var value = palette[key];
       MAP[key].forEach(function (name) { setVar(name, value); });
     });
-    setVar("--bg2", isClaude ? (dark ? "#202020" : "#F0EEE9") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : (dark ? "#172238" : "#FBFBFC")));
+    setVar("--bg2", isClaude ? (dark ? "#101A2B" : "#EDF1F7") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : (dark ? "#172238" : "#FBFBFC")));
     setVar("--bg-top", palette.bg);
-    setVar("--bg-mid", isClaude ? (dark ? "#202020" : "#F0EEE9") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
-    setVar("--bg-deep", isClaude ? (dark ? "#191919" : "#EAE7E0") : (isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg));
-    setVar("--sb", isClaude ? (dark ? "#202020" : "#F0EEE9") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
-    setVar("--hv", isClaude ? (dark ? "#303030" : "#E9E5DE") : (isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface));
-    setVar("--okbg", isClaude ? (dark ? "rgba(217,119,87,.16)" : "rgba(217,119,87,.12)") : (isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)"));
-    setVar("--idbg", isClaude ? (dark ? "linear-gradient(145deg,#242424,#303030)" : "linear-gradient(145deg,#FFFFFF,#EEEAE2)") : (isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)"));
-    setVar("--sh", isClaude ? (dark ? "rgba(0,0,0,.34)" : "rgba(75,59,47,.10)") : (isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)"));
+    setVar("--bg-mid", isClaude ? (dark ? "#111B2C" : "#EDF1F7") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
+    setVar("--bg-deep", isClaude ? (dark ? "#0B1220" : "#E7ECF4") : (isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg));
+    setVar("--sb", isClaude ? (dark ? "#111B2C" : "#EDF1F7") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
+    setVar("--hv", isClaude ? (dark ? "#22314A" : "#E2E9F3") : (isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface));
+    setVar("--okbg", isClaude ? (dark ? "rgba(82,121,184,.18)" : "rgba(49,91,154,.10)") : (isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)"));
+    setVar("--idbg", isClaude ? (dark ? "linear-gradient(145deg,#17243A,#1D2D46)" : "linear-gradient(145deg,#FFFFFF,#E8EDF5)") : (isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)"));
+    setVar("--sh", isClaude ? (dark ? "rgba(0,0,0,.32)" : "rgba(28,43,75,.10)") : (isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)"));
     setVar("--on-primary", "#ffffff");
     setVar("--on", "#ffffff");
     setVar("--navy-hover", palette.navy);
