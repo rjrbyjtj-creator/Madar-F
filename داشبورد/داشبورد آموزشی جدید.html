@@ -37,6 +37,16 @@ a{color:inherit;text-decoration:none}
 .search:focus-within{border-color:var(--blue)}
 .search input{flex:1;min-width:0;height:25px;background:none;border:0;outline:0;color:var(--text);font:400 11px Vazirmatn;direction:rtl;text-align:right}
 .search input::placeholder{color:#77777f}
+/* fixed recessed brand mark — stays visible on every tab */
+.logo-well{
+ position:fixed;left:50%;top:50%;width:clamp(132px,18vw,228px);
+ aspect-ratio:667/578;transform:translate(-50%,-50%);
+ z-index:0;pointer-events:none;opacity:.34;
+ background:var(--bg);
+ -webkit-mask:url('../assets/madar-mark.svg') center/contain no-repeat;
+ mask:url('../assets/madar-mark.svg') center/contain no-repeat;
+ filter:drop-shadow(2px 2px 2px rgba(255,255,255,.13)) drop-shadow(-3px -3px 4px rgba(0,0,0,.82));
+}
 /* sidebar */
 .side{position:absolute;right:16px;top:96px;width:179px;height:552px;padding:10px 8px;display:flex;flex-direction:column;gap:4px;background:var(--panel);border-left:1px solid var(--line);border-radius:8px;z-index:1}
 .item{position:relative;display:flex;align-items:center;gap:7px;height:31px;padding:0 2px 0 6px;border-radius:6px;flex:none}
@@ -165,7 +175,7 @@ function shell(route){
     const on=(r===route)&&r!=='#';
     const icon=`<svg class="cs"><use href="#${ic}"/></svg>`;
     return `<a class="item${on?' on':''}" data-route="${r}" href="#/${r}"><span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
-  return `<nav class="side"><span class="nav-indicator" aria-hidden="true"></span>${nav}</nav><main id="page"></main>`;
+  return `<div class="logo-well" aria-hidden="true"></div><nav class="side"><span class="nav-indicator" aria-hidden="true"></span>${nav}</nav><main id="page"></main>`;
 }
 
 /* ---------- pages ---------- */
