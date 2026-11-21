@@ -37,15 +37,15 @@ a{color:inherit;text-decoration:none}
 .search:focus-within{border-color:var(--blue)}
 .search input{flex:1;min-width:0;height:25px;background:none;border:0;outline:0;color:var(--text);font:400 11px Vazirmatn;direction:rtl;text-align:right}
 .search input::placeholder{color:#77777f}
-/* fixed recessed brand mark — stays visible on every tab */
+/* Recessed Madar mark: persistent, centered in the content area */
 .logo-well{
- position:fixed;left:50%;top:50%;width:clamp(132px,18vw,228px);
- aspect-ratio:667/578;transform:translate(-50%,-50%);
- z-index:0;pointer-events:none;opacity:.34;
+ position:fixed;left:calc((100vw - 195px)/2);top:50%;
+ width:clamp(150px,19vw,220px);aspect-ratio:667/578;
+ transform:translate(-50%,-50%);z-index:0;pointer-events:none;
  background:var(--bg);
- -webkit-mask:url('../assets/madar-mark.svg') center/contain no-repeat;
- mask:url('../assets/madar-mark.svg') center/contain no-repeat;
- filter:drop-shadow(2px 2px 2px rgba(255,255,255,.13)) drop-shadow(-3px -3px 4px rgba(0,0,0,.82));
+ -webkit-mask:url("/Madar-F/assets/madar-mark.svg") center/contain no-repeat;
+ mask:url("/Madar-F/assets/madar-mark.svg") center/contain no-repeat;
+ filter:drop-shadow(-2px -2px 3px rgba(255,255,255,.20)) drop-shadow(3px 3px 4px rgba(0,0,0,.95));
 }
 /* sidebar */
 .side{position:absolute;right:16px;top:96px;width:179px;height:552px;padding:10px 8px;display:flex;flex-direction:column;gap:4px;background:var(--panel);border-left:1px solid var(--line);border-radius:8px;z-index:1}
@@ -101,11 +101,8 @@ html,body{width:100%;height:100%;min-height:100vh;overflow:hidden}body{margin:0}
 .cs{width:17px;height:17px;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .item.on:after{display:none}
 main{max-width:none;margin:0;padding:10px 204px 20px 16px;gap:10px;min-height:0}
-/* centered recessed Madar mark */
+/* Keep the empty content canvas full-height; the logo is rendered by .logo-well */
 #page:empty{display:block;min-height:calc(100vh - 32px);position:relative}
-#page:empty::before,#page:empty::after{content:"";position:fixed;left:calc((100vw - 195px)/2);top:50%;width:min(190px,28vw);aspect-ratio:667/578;transform:translate(-50%,-50%);pointer-events:none;background-color:var(--bg);-webkit-mask:url("/Madar-F/assets/madar-mark.svg") center/contain no-repeat;mask:url("/Madar-F/assets/madar-mark.svg") center/contain no-repeat}
-#page:empty::before{filter:drop-shadow(-2px -2px 3px rgba(255,255,255,.13))}
-#page:empty::after{filter:drop-shadow(3px 3px 4px rgba(0,0,0,.78))}
 @media(max-height:560px){.side{padding:8px 10px;gap:2px}.side .item{height:27px;min-height:27px;max-height:27px;flex:none}.item .chip{width:23px;height:23px}.cs{width:15px;height:15px}}
 @media(prefers-reduced-motion:reduce){.nav-indicator,.item,.item .chip,.item .body{transition:none!important}}
 </style>
