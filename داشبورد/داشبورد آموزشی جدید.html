@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>داشبورد آموزشی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#171818;--panel:#1e2020;--chip:#292b2b;--text:#e3e5e4;--accent:#aab8b0;--sel:#2b302e;--ink:#171a18;--badge:#606e65;--blue:#4b91ff;--blueS:#1d2639;--purple:#bf5cff;--purpleS:#2b2033;--orange:#ff5a24;--orangeS:#302018;--unread:#ff554e;--muted:#8d8f94;--line:#343636;--dim:rgba(227,229,228,.58)}
+*{box-sizing:border-box}
+html{direction:ltr}
+body{margin:0;min-height:648px;position:relative;background:var(--bg);color:var(--text);font-family:Vazirmatn,Inter,sans-serif}
+button,input,select{font-family:inherit}
+a{color:inherit;text-decoration:none}
+.body,.small,.head,.ct,.cap,.act{direction:rtl;text-align:right;margin:0}
+.body{font:500 12px/1.8 Vazirmatn;letter-spacing:-.02em;color:var(--text)}
+.small{font:400 10px/1.8 Vazirmatn;letter-spacing:-.02em}
+.head{font:700 15px/1.8 Vazirmatn;letter-spacing:-.02em}
+.ct{font:700 13px/1.45 Vazirmatn}
+.cap{font:400 10px/1.5 Vazirmatn;color:var(--muted)}
+.act{font:600 11px/1.4 Vazirmatn;color:var(--blue)}
+.c{text-align:center}.l{text-align:left}.fx{flex:1;min-width:0}
+.lu{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.cs{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:15px;height:15px}
+.row{display:flex;align-items:center}
+.col{display:flex;flex-direction:column;align-items:center}
+.tile{display:flex;align-items:center;justify-content:center;flex:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.inner{background:var(--bg);border:1px solid var(--line)}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:3px 5px;border-radius:5px;background:none;border:1px solid;cursor:pointer}
+/* header */
+.hdr{position:relative;z-index:2;height:57px;padding:10px 19px;display:flex;align-items:center;gap:12px;background:var(--panel);border-bottom:1px solid var(--line);border-radius:0 0 14px 14px;box-shadow:0 12px 30px rgba(0,0,0,.22),0 2px 8px rgba(0,0,0,.12)}
+.account{display:flex;align-items:center;gap:6px;height:34px;padding:4px 8px;background:var(--sel);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.divider{width:1px;height:20px;background:var(--line)}
+.search{flex:1;max-width:420px;height:34px;padding:2px 10px;display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.search:focus-within{border-color:var(--blue)}
+.search input{flex:1;min-width:0;height:25px;background:none;border:0;outline:0;color:var(--text);font:400 11px Vazirmatn;direction:rtl;text-align:right}
+.search input::placeholder{color:#77777f}
+/* sidebar */
+.side{position:absolute;right:16px;top:96px;width:179px;height:552px;padding:10px 8px;display:flex;flex-direction:column;gap:4px;background:var(--panel);border-left:1px solid var(--line);border-radius:8px;z-index:1}
+.item{position:relative;display:flex;align-items:center;gap:7px;height:31px;padding:0 2px 0 6px;border-radius:6px;flex:none}
+.item .chip{width:25px;height:25px;border-radius:6px;background:var(--chip);display:flex;align-items:center;justify-content:center;color:#d4d4d8}
+.item.on{background:var(--sel)}
+.item.on .body{color:var(--accent);font-weight:700}
+.item.on .chip{background:var(--accent);color:var(--ink)}
+.item.on:after{content:"";position:absolute;right:-8px;top:8px;width:3px;height:20px;border-radius:2px;background:var(--accent)}
+.badge{width:13px;height:13px;border-radius:69px;background:var(--badge);color:#fff;font:700 10px Vazirmatn;display:flex;align-items:center;justify-content:center;flex:none}
+/* content */
+main{width:100%;max-width:1200px;min-height:432px;margin:16px auto 0;padding:14px 172px 24px 19px;display:flex;flex-direction:column;gap:12px}
+.bar{height:42px;padding:6px 10px;gap:7px}
+.cols{display:flex;align-items:flex-start;gap:12px}
+.offer{gap:6px;padding:6px;min-height:67px;border-radius:7px}
+.code{height:20px;border:1px dashed #435575}
+.go{height:21px;background:var(--blueS);border:0}
+.sc{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px;border-radius:6px}
+.sess{gap:6px;padding:5px 6px;min-height:35px;background:var(--chip);border:1px solid var(--line);border-radius:7px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chp{height:25px;padding:0 8px;border-radius:13px;background:var(--chip);border:1px solid var(--line);color:var(--text);font:500 13px Vazirmatn;cursor:pointer}
+.chp.on{background:var(--blueS);border-color:#34507a;color:var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.cc{gap:7px;padding:8px;min-height:92px}
+.sel2{width:100%;height:28px;padding:7px;background:var(--chip) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat 10px center/16px;border:1px solid var(--line);border-radius:6px;color:var(--text);font:400 13px Inter,Vazirmatn;appearance:none;direction:rtl;text-align:right;outline:0}
+.sel2:focus,.in:focus{border-color:var(--blue)}
+.in{width:100%;height:25px;padding:0 7px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:#999;font:400 13px Inter,Vazirmatn;outline:0}
+.in::placeholder{color:var(--dim)}
+.in::-webkit-inner-spin-button{display:none}
+.g7{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;width:100%}
+.day{height:21px;border:0;border-radius:6px;background:none;color:var(--text);font:400 10px Vazirmatn;cursor:pointer;padding:0}
+.day.on{background:var(--blue);color:#fff}
+.srow{gap:5px;padding:5px 6px;background:var(--chip);border-radius:6px;width:100%}
+.srow label{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+/* compact overrides */
+body{min-height:100vh}
+.hdr{height:42px;padding:5px 14px;gap:12px;border-radius:0 0 12px 12px}
+.hdr .tile{width:30px!important;height:30px!important;border-radius:8px!important}
+.hdr .account .tile{width:22px!important;height:22px!important;padding:2px!important}
+.hdr .lu{width:14px!important;height:14px!important}
+.account{height:30px;padding:3px 10px;gap:8px}
+.search{height:30px;padding:2px 10px;gap:8px}.search input{height:24px}
+.side{top:42px;right:0;bottom:0;width:176px;height:auto;padding:8px;gap:3px;border-radius:0;overflow:auto}
+.item{height:30px;gap:8px;padding:0 3px 0 6px}.item .chip{width:24px;height:24px}
+.cs{width:15px;height:15px}
+.item.on:after{right:-5px;top:5px;height:20px}
+main{max-width:none;margin:0;padding:10px 186px 20px 10px;gap:10px;min-height:0}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="chevd" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="chevl" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></symbol>
+<symbol id="bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+<symbol id="search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
+<symbol id="dash" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+<symbol id="headset" viewBox="0 0 24 24"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></symbol>
+<symbol id="file" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+<symbol id="hist" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+<symbol id="chartcol" viewBox="0 0 24 24"><path d="M13 17V9"/><path d="M18 17V5"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 17v-3"/></symbol>
+<symbol id="chartcomb" viewBox="0 0 24 24"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></symbol>
+<symbol id="house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
+<symbol id="arrl" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+<symbol id="copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+<symbol id="grid" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M3 12h18"/><rect x="3" y="3" width="18" height="18" rx="2"/></symbol>
+<symbol id="clip" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+<symbol id="book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></symbol>
+<symbol id="msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+<symbol id="wallet" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2"/><path d="M3 11h3c.8 0 1.6.3 2.1.9l1.1.9c1.6 1.6 4.1 1.6 5.7 0l1.1-.9c.5-.5 1.3-.9 2.1-.9H21"/></symbol>
+<symbol id="cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
+<symbol id="pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="s-home" viewBox="0 0 28 28"><path d="M10.87 4.09Q14 1.81 17.13 4.09L23.59 8.78Q26.72 11.05 25.52 14.74L23.06 22.32Q21.86 26.01 17.99 26.01L10.01 26.01Q6.14 26.01 4.94 22.32L2.48 14.74Q1.28 11.05 4.41 8.78Z"/><path d="M9.5 26.19V21.66A4.47 4.47 0 0 1 18.44 21.66V26.19"/></symbol>
+<symbol id="s-msg" viewBox="0 0 28 28"><path d="M9 4.5h10c3.3 0 5.5 2.2 5.5 5.5v4.2c0 3.3-2.2 5.5-5.5 5.5h-2.6l-4.4 3.5c-.6.5-1.4 0-1.4-.7v-2.8H9c-3.3 0-5.5-2.2-5.5-5.5V10c0-3.3 2.2-5.5 5.5-5.5Z"/><path d="M9.5 10.5h9M9.5 14.2h5.5"/></symbol>
+<symbol id="s-cls" viewBox="0 0 28 28"><rect x="3.5" y="5.5" width="21" height="17" rx="5"/><path d="M12 10.5v7l5.8-3.5L12 10.5Z"/></symbol>
+<symbol id="s-exam" viewBox="0 0 28 28"><path d="M9.5 5.5H8c-3 0-4.5 1.6-4.5 4.8v9c0 3.4 1.6 5 4.8 5h11.4c3.2 0 4.8-1.6 4.8-5v-9c0-3.2-1.5-4.8-4.5-4.8h-1.5"/><rect x="9.5" y="2.8" width="9" height="5.4" rx="2.2"/><path d="M9 14.5h10M9 19h6"/></symbol>
+<symbol id="s-pin" viewBox="0 0 28 28"><path d="M14 25c-4.4-4-8-8-8-12.2C6 8.1 9.4 4 14 4s8 4.1 8 8.8c0 4.2-3.6 8.2-8 12.2Z"/><circle cx="14" cy="12.5" r="3.2"/></symbol>
+<symbol id="s-calp" viewBox="0 0 28 28"><rect x="4.38" y="5.25" width="19.25" height="19.81" rx="3.25" fill="currentColor" stroke="none"/><rect x="9.06" y="1.88" width="3" height="6.31" rx="1.5" fill="#242427" stroke="none"/><rect x="15.75" y="1.88" width="3.12" height="6.31" rx="1.56" fill="#242427" stroke="none"/><rect x="9.56" y="2.38" width="2" height="5.31" rx="1" fill="currentColor" stroke="none"/><rect x="16.25" y="2.38" width="2.12" height="5.31" rx="1.06" fill="currentColor" stroke="none"/><path d="M3.88 11.56H24.12M10.62 16.44H17.12" stroke="#242427" stroke-width="1.1"/><circle cx="21.62" cy="22.75" r="4.25" stroke="#242427" stroke-width="1.15"/></symbol>
+<symbol id="s-wal" viewBox="0 0 28 28"><rect x="3.5" y="7.5" width="21" height="16" rx="5"/><path d="M7.5 7.5 16.5 4c1.2-.5 2.4.2 2.7 1.4l.4 2.1"/><path d="M24.5 13.5h-4.2c-1.5 0-2.7 1.1-2.7 2.5s1.2 2.5 2.7 2.5h4.2"/><path d="M20.6 16h.01"/></symbol>
+<symbol id="s-star" viewBox="0 0 28 28"><path d="M14 3.6c.4 0 .8.2 1 .7L17.1 8.5L21.7 9.2c1.7.3 2.3 2.2 1.1 3.4L19.5 15.8L20.3 20.3c.3 1.7-1.5 3-3 2.2L14 20.4L10.7 22.5c-1.5.8-3.3-.5-3-2.2L8.5 15.8L5.2 12.6c-1.2-1.2-.6-3.1 1.1-3.4L10.9 8.5L13 4.3c.2-.5.6-.7 1-.7Z"/></symbol>
+<symbol id="s-coin" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10.5"/><path d="M10.2 18v-7.6l3.8 4.4 3.8-4.4V18"/></symbol>
+<symbol id="s-sup" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10.5"/><path d="M11 11.3c.3-1.9 1.6-3 3.2-3 1.9 0 3.2 1.2 3.2 2.9 0 1.2-.7 1.9-1.6 2.5-.9.6-1.3 1.1-1.3 2.1"/><path d="M14.2 19.9h.01"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+</defs></svg>
+<div id="app"></div>
+<script>
+const $=s=>document.querySelector(s);
+const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const I=(n,s,c,w)=>`<svg class="lu" style="width:${s}px;height:${s}px;color:${c};stroke-width:${w}"><use href="#${n}"/></svg>`;
+const T=(w,h,bg,r,inner,x='')=>`<div class="tile" style="width:${w}px;height:${h}px;background:var(--${bg});border-radius:${r}px;${x}">${inner}</div>`;
+const bar=(title,ico,sub)=>`<div class="card row bar"><div class="${sub?'col fx':'fx'}" style="${sub?'align-items:flex-end;gap:2px;width:100%':''}"><p class="head" style="width:100%">${title}</p>${sub?`<p class="cap" style="width:100%;color:var(--dim)">${sub}</p>`:''}</div>${T(27,27,'blueS',7,ico)}</div>`;
+
+/* ---------- layout ---------- */
+const NAV=[['صفحه شخصی','','s-home'],['پیام‌ها','messages','s-msg','۵'],['مشاوره','advice','headset'],['کلاس‌ها','classes','s-cls'],['آزمون‌ها','tests','s-exam'],['آزمون حضوری','onsite','s-pin'],['گزارش روزانه','report','file'],['سابقه','history','hist'],['نمرات امتحانی','exams','chartcol'],['ترازهای ماز','ranks','chartcomb'],['تقویم برنامه‌ها','calendar','s-calp'],['کیف پول','wallet','s-wal'],['ستاره‌ها','stars','s-star'],['سکه','coins','s-coin'],['ارتباط با پشتیبانی','support','s-sup']];
+const TITLES={'':'داشبورد آموزشی',classes:'کلاس‌ها',exams:'نمرات امتحانی',calendar:'تقویم برنامه',ranks:'ترازهای ماز'};
+function shell(route){
+  const nav=NAV.map(([name,r,ic,b])=>{
+    const on=(r===route)&&r!=='#';
+    const icon=ic.startsWith('s-')?`<svg class="cs"><use href="#${ic}"/></svg>`:I(ic,14,'currentColor',1.6);
+    return `<a class="item${on?' on':''}" href="#/${r}">${b?`<span class="badge">${b}</span>`:''}<span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
+  return `<header class="hdr"><div class="row" style="gap:6px"><div class="account">${I('chevd',12,'var(--accent)',1.6)}<span class="body">حساب من</span>${T(22,22,'sel',6,I('user',16,'var(--accent)',1.6),'padding:2px')}</div>${T(34,34,'blueS',8,I('bell',16,'var(--blue)',1.6),'border:1px solid var(--line)')}</div><div class="divider"></div><div class="search"><input name="search" placeholder="جستجو..." aria-label="جستجو">${I('search',14,'var(--accent)',1.6)}</div><div class="row fx" style="justify-content:flex-end;gap:7px"><span class="head">داشبورد</span>${T(34,34,'blueS',10,I('dash',18,'var(--blue)',1.6))}</div></header><nav class="side">${nav}</nav><main id="main"></main>`;
+}
+
+/* ---------- pages ---------- */
+function home(){
+  const offers=[['کتاب حسابان جامع QB','کد تخفیف ویژهٔ تهیهٔ کتاب حسابان',''],['مازاین','لوازم‌التحریر از دبستان تا دانشگاه','eki1hFtVpg'],['اشتراک دیجی‌جام','همهٔ کتاب‌های کنکور و منابع درسی','AFRUW7DCFEWW']].map(([t,d,c])=>`<div class="row offer inner"><div class="col fx" style="gap:3px"><p class="ct" style="width:100%">${t}</p><p class="cap" style="width:100%">${d}</p>${c?`<button class="pill code" data-copy="${c}"><span class="act">${c}</span>${I('copy',11,'var(--blue)',1.7)}</button>`:`<button class="pill go"><span class="act">دریافت کد</span>${I('arrl',11,'var(--blue)',1.7)}</button>`}</div>${T(34,48,'blueS',6,I('gift',17,'var(--blue)',1.7))}</div>`).join('');
+  const sc=[['آزمون‌ها','clip','blueS','var(--orange)','#/tests'],['کلاس‌ها','book','sel','var(--accent)','#/classes'],['پیام‌ها','msg','blueS','var(--blue)','#/messages'],['کیف پول','wallet','sel','var(--accent)','#/wallet'],['تقویم برنامه‌ها','cal','sel','var(--accent)','#/calendar'],['آزمون حضوری','pin','purpleS','var(--purple)','#/onsite',1]].map(([l,i,bg,c,h,hi])=>`<a class="sc" href="${h||'#/'}" style="${hi?'background:var(--sel)':''}">${T(27,27,bg,7,I(i,14,c,2))}<span class="body c" style="width:100%">${l}</span></a>`).join('');
+  const msgs=[['۲۸ آبان','آزمون سالانهٔ زبان انگلیسی پایهٔ دوازدهم استاد قیومی','دانش‌آموز عزیز، آزمون سالانهٔ زبان انگلیسی از روز جمعه ساعت ۱۵:۰۰ برگزار می‌شود.'],['۲۴ آبان','تکلیف سالانهٔ ریاضی پایهٔ دوازدهم استاد دارابی','تکلیف ریاضیات گسسته در پنل کاربری شما، در قسمت تکالیف قرار گرفته است.'],['۲۴ آبان','تکلیف سالانهٔ هندسه استاد دارابی','برای مشاهدهٔ توضیحات و زمان تحویل، به بخش تکالیف مراجعه کنید.']].map(([d,t,s],i)=>(i?'<div style="width:100%;height:1px;background:var(--line)"></div>':'')+`<div class="row" style="gap:5px;padding:4px 0;width:100%"><p class="cap l" style="width:43px;flex:none">${d}</p><div class="col fx" style="gap:3px;align-items:stretch"><p class="ct">${t}</p><p class="cap">${s}</p></div><span style="width:6px;height:6px;border-radius:69px;background:var(--unread);flex:none"></span>${T(24,24,'purpleS',6,I('msg',14,'var(--purple)',1.7))}</div>`).join('');
+  const ses=[['۱۷','کلاس جامع سالانه هندسه','شنبه ۳۰ آبان · ۱۵:۱۵ تا ۱۸:۳۰'],['۸','کلاس جامع سالانه زبان انگلیسی','شنبه ۳۰ آبان · ۲۲:۰۰ تا ۲۳:۱۵']].map(([n,t,d])=>`<div class="row sess">${T(27,27,'blueS',6,`<span class="act c">${n}</span>`)}<div class="col fx" style="align-items:stretch;gap:2px"><p class="ct">${t}</p><p class="cap" style="color:var(--text)">${d}</p></div></div>`).join('');
+  return `${bar('خانه',I('house',17,'var(--blue)',1.7))}
+<div class="cols">
+ <div class="card col fx" style="gap:7px;padding:8px">
+  <div class="row" style="gap:5px;width:100%;height:27px"><p class="head fx">کدهای تخفیف</p>${T(24,24,'orangeS',6,I('gift',15,'var(--orange)',1.7))}</div>${offers}
+  <div class="card col" style="gap:6px;padding:8px;width:100%"><div class="row" style="gap:5px;width:100%"><p class="ct fx">دسترسی سریع</p>${T(24,24,'blueS',6,I('grid',14,'var(--blue)',2))}</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:100%">${sc}</div></div>
+ </div>
+ <div class="col" style="flex:2;min-width:0;gap:10px">
+  <div class="card col" style="gap:6px;padding:10px;width:100%">
+   <div class="row" style="justify-content:space-between;width:100%;height:34px"><button class="pill" style="height:22px;border-color:#303a4d"><span class="act">مشاهده همه</span>${I('chevl',11,'var(--blue)',1.7)}</button><div class="row" style="gap:6px"><div class="col" style="align-items:flex-end;gap:1px"><p class="head">پیام‌های جدید</p><p class="cap">۳ پیام خوانده‌نشده</p></div>${T(27,27,'purpleS',7,I('msg',16,'var(--purple)',1.7))}</div></div>${msgs}
+  </div>
+  <div class="card col" style="gap:7px;padding:10px;width:100%">
+   <div class="row" style="justify-content:space-between;width:100%;height:34px"><a class="pill" href="#/calendar" style="height:24px;border-color:var(--blue)"><span class="act">مشاهده تقویم</span>${I('cal',11,'var(--blue)',1.7)}</a><div class="row" style="gap:6px"><div class="col" style="align-items:flex-end;gap:1px"><p class="head">برنامهٔ من</p><p class="cap">امروز، شنبه ۳۰ آبان</p></div>${T(27,27,'blueS',7,I('cal',16,'var(--blue)',1.7))}</div></div>
+   <div class="row inner" style="gap:2px;padding:2px;height:27px;width:100%;border:0"><div class="col fx" style="height:21px;justify-content:center"><span class="cap c">فردا</span></div><div class="col fx" style="height:21px;justify-content:center;background:#252629;border-radius:4px"><span class="act c">امروز</span></div></div>
+   <div class="row inner" style="gap:6px;padding:6px;height:41px;width:100%;border-radius:6px"><p class="cap l" style="width:38px;flex:none">۱۰:۳۰</p><div class="col fx" style="align-items:stretch;gap:2px"><p class="ct">آزمون کلاس جامع سالانهٔ زبان انگلیسی</p><p class="cap">کلاس آنلاین · زبان انگلیسی</p></div><span class="cap c" style="padding:2px 5px;background:#292b2e;border-radius:4px">مرحله ۱</span></div>
+   <div class="col" style="gap:5px;width:100%;align-items:stretch">${ses}</div>
+  </div>
+ </div>
+</div>`;
+}
+
+const CLASSES=[['کلاس سالانه جامع حسابان','حسابان','ریاضی کنکور','استاد معین کرمی','یکشنبه ۱ آذر · ۲۰:۱۵ تا ۲۳:۱۵','۳ روز تا شروع کلاس'],['کلاس سالانه جامع ریاضیات گسسته','گسسته','ریاضی کنکور','استاد کیوان دارابی','سه‌شنبه ۳ آذر · ۱۶:۰۰ تا ۲۰:۰۰','۳ روز تا شروع کلاس'],['کلاس سالانه جامع دین و زندگی','دین و زندگی','عمومی کنکور','استاد فرزاد صانعی','سه‌شنبه ۳ آذر · ۱۵:۱۵ تا ۱۶:۳۰','۳ روز تا شروع کلاس'],['کلاس سالانه زبان انگلیسی','زبان انگلیسی','عمومی کنکور','استاد علی قیومی','سه‌شنبه ۳ آذر · ۲۲:۰۰ تا ۲۳:۱۵','۶ ساعت تا شروع کلاس'],['کلاس جامع سالانه شیمی','شیمی','شیمی کنکور','استاد شیمی','سه‌شنبه ۳ آذر','۶ ساعت تا شروع کلاس'],['کلاس سالانه عربی','عربی','عمومی کنکور','استاد عربی','سه‌شنبه ۳ آذر','به‌زودی آغاز می‌شود']];
+const CATS=['کلاس سالانه','کلاس شروع از مهر','ماز یار','زبان تخصصی'];
+function classes(){
+  return `${bar('کلاس‌ها',I('book',16,'#000',2))}
+<div class="col" style="align-items:stretch;gap:2px;padding:0 2px"><p class="head">کلاس‌های مناسب مسیر یادگیری تو</p><p class="body">برنامهٔ کلاس‌ها و درس‌هایت را یک‌جا دنبال کن.</p></div>
+<div class="chips" id="chips">${CATS.map((c,i)=>`<button class="chp${i?'':' on'}" data-c="${i}">${c}</button>`).join('')}</div>
+<div class="grid2" id="cards"></div>`;
+}
+function classCards(cat){
+  $('#cards').innerHTML=cat!==0?'':CLASSES.map(([t,l,s,te,sc,cd])=>`<div class="card row cc">${T(59,59,'blueS',7,`<span class="act c" style="width:100%">${l}</span>`,'padding:5px')}<div class="col fx" style="align-items:stretch;gap:2px"><p class="ct">${t}</p><p class="cap" style="color:var(--accent)">${s}</p><p class="small">${te}</p><p class="small" style="color:var(--text)">${sc}</p><p class="cap" style="color:var(--blue)">${cd}</p></div></div>`).join('');
+}
+
+const SUBJ=['ریاضی','فیزیک','شیمی','زیست‌شناسی','ادبیات فارسی','زبان انگلیسی'],MON=['مهر','آبان','آذر'];
+function exams(){
+  const rows=SUBJ.map(s=>`<div class="row srow">${MON.map(m=>`<label><span class="cap c" style="color:var(--dim)">${m}</span><input class="in" type="number" min="0" max="20" step="0.25" placeholder="۰ تا ۲۰" name="${s} ${m} ۱۴۰۴" aria-label="${s} ${m}"></label>`).join('')}<div class="row" style="width:84px;flex:none"><p class="body fx">${s}</p></div></div>`).join('');
+  const wd=['ش','ی','د','س','چ','پ','ج'].map(d=>`<div class="col" style="height:17px;justify-content:center"><span class="cap c" style="color:var(--dim);width:100%">${d}</span></div>`).join('');
+  return `${bar('نمرات امتحانی',I('chartcomb',14,'var(--blue)',2),'ثبت ماهانه و پیگیری نمرات هر درس')}
+<div class="card row" style="gap:10px;padding:4px 8px"><div class="col fx" style="align-items:stretch;gap:3px"><p class="ct">ثبت نمرات ماهانه</p><p class="cap" style="color:var(--dim)">برای هر درس، نمرهٔ ماه‌های پیاپی را وارد کن.</p></div><div class="col" style="width:133px;align-items:stretch;gap:4px;flex:none"><span class="cap" style="direction:rtl;color:var(--dim)">ماه انتخابی</span><select class="sel2" id="month" name="ماه نمره"><option>مهر ۱۴۰۴</option><option>آبان ۱۴۰۴</option><option>آذر ۱۴۰۴</option><option>دی ۱۴۰۴</option></select></div></div>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:5px;align-items:start">
+ <div class="card col" style="align-items:stretch;gap:8px;padding:8px;overflow:hidden">
+  <div class="row" style="gap:6px">${T(22,22,'blueS',6,I('cal',14,'var(--blue)',2))}<div class="col fx" style="align-items:stretch;gap:2px"><p class="ct">تقویم ماهانه</p><p class="cap" id="cm" style="color:var(--dim)">مهر ۱۴۰۴</p></div></div>
+  <div class="g7">${wd}</div><div class="g7" id="days"></div>
+  <div class="row" style="padding:6px;background:var(--chip);border-radius:6px"><p class="cap fx" id="note" style="color:var(--dim)"></p></div>
+ </div>
+ <div class="card col" style="align-items:stretch;gap:7px;padding:8px">
+  <div class="row" style="gap:6px">${T(22,22,'blueS',6,I('clip',14,'var(--blue)',2))}<div class="col fx" style="align-items:stretch;gap:2px"><p class="ct">نمرات هر درس</p><p class="cap" style="color:var(--dim)">برای سه ماه متوالی، از ۲۰ وارد کن</p></div></div>
+  <div class="row" style="gap:5px;padding:0 6px;height:25px">${MON.map(m=>`<span class="cap c fx" style="color:var(--dim)">${m}</span>`).join('')}<span class="cap" style="width:84px;flex:none;direction:rtl;color:var(--dim)">درس</span></div>
+  ${rows}
+ </div>
+</div>
+<div class="row" style="gap:5px;padding:6px 8px;background:var(--blueS);border-radius:6px"><p class="cap fx" style="color:var(--text)">این نسخه پیش‌نمایش است؛ نمره‌های واردشده ذخیره نمی‌شوند.</p></div>`;
+}
+function days(sel){
+  $('#days').innerHTML='<div></div>'.repeat(4)+Array.from({length:30},(_,i)=>`<button class="day${i+1===sel?' on':''}" data-d="${i+1}">${fa(i+1)}</button>`).join('');
+  $('#note').textContent=`روز ${fa(sel)} برای ثبت آزمون انتخاب شده`;
+}
+
+/* ---------- more tabs ---------- */
+const tone={b:['blueS','var(--blue)'],p:['purpleS','var(--purple)'],o:['orangeS','var(--orange)'],g:['sel','var(--accent)']};
+const stats=a=>`<div class="row" style="gap:8px;width:100%">${a.map(([l,v,i,k='b'])=>`<div class="card row" style="gap:8px;padding:8px 10px;flex:1;min-width:0">${T(26,26,tone[k][0],7,I(i,14,tone[k][1],2))}<div class="col fx" style="align-items:stretch"><p class="cap">${l}</p><p class="ct">${v}</p></div></div>`).join('')}</div>`;
+const rows2=a=>a.map(([t,s,m,k='b'])=>`<div class="row" style="gap:8px;padding:6px 8px;background:var(--chip);border-radius:7px">${m?`<span class="act l" style="min-width:56px;flex:none;color:${tone[k][1]}">${m}</span>`:''}<div class="col fx" style="align-items:stretch;gap:1px"><p class="ct">${t}</p>${s?`<p class="cap">${s}</p>`:''}</div></div>`).join('');
+const bars=a=>a.map(([l,v,t,k='b'])=>`<div class="row" style="gap:8px"><span class="cap l" style="width:40px;flex:none">${t}</span><div style="flex:1;height:6px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="width:${v}%;height:100%;background:${tone[k][1]}"></div></div><span class="body" style="width:76px;flex:none">${l}</span></div>`).join('');
+const sec=(t,i,body,k='b')=>`<div class="card col" style="align-items:stretch;gap:7px;padding:10px;flex:1;min-width:0"><div class="row" style="gap:8px">${T(24,24,tone[k][0],7,I(i,13,tone[k][1],2))}<p class="ct fx">${t}</p></div>${body}</div>`;
+const two=(...c)=>`<div class="row" style="gap:8px;align-items:flex-start;width:100%">${c.join('')}</div>`;
+const pg=(t,i,sub,...b)=>bar(t,I(i,13,'var(--blue)',2),sub)+b.join('');
+const MORE={
+messages:()=>pg('پیام‌ها','msg','پیام‌های مدرسه، کلاس و پشتیبانی',stats([['خوانده‌نشده','۳','msg','p'],['کل پیام‌ها','۱۲','file'],['اعلان‌ها','۵','bell','o']]),sec('همهٔ پیام‌ها','msg',rows2([['آزمون سالانهٔ زبان انگلیسی پایهٔ دوازدهم','آزمون از روز جمعه ساعت ۱۵:۰۰ برگزار می‌شود.','۲۸ آبان','p'],['تکلیف سالانهٔ ریاضی پایهٔ دوازدهم','تکلیف ریاضیات گسسته در بخش تکالیف قرار گرفت.','۲۴ آبان','p'],['تکلیف سالانهٔ هندسه استاد دارابی','برای مشاهدهٔ توضیحات به بخش تکالیف مراجعه کنید.','۲۴ آبان','p'],['تغییر ساعت کلاس شیمی','کلاس سه‌شنبه نیم ساعت زودتر شروع می‌شود.','۲۱ آبان','g'],['کارنامهٔ آزمون آبان آماده است','برای دیدن تراز و رتبه وارد بخش ترازها شو.','۱۹ آبان'],['خوش آمدی به ماز','راهنمای استفاده از داشبورد را ببین.','۱۰ مهر','g']]),'p')),
+advice:()=>pg('مشاوره','headset','برنامه‌ریزی و راهنمایی تحصیلی',stats([['جلسهٔ بعدی','سه‌شنبه ۳ آذر','cal'],['جلسات انجام‌شده','۴','check','g'],['پیام‌های مشاور','۲','msg','p']]),two(sec('مشاوران','headset',rows2([['خانم رضایی','برنامه‌ریزی و مدیریت زمان','رزرو'],['آقای کریمی','مشاورهٔ تحصیلی ریاضی و تجربی','رزرو'],['خانم صادقی','انگیزه و مدیریت استرس','رزرو','o']])),sec('برنامهٔ پیشنهادی هفته','clock',bars([['ریاضی',80,'۱۲ ساعت'],['فیزیک',60,'۹ ساعت'],['شیمی',50,'۷ ساعت','p'],['زیست‌شناسی',55,'۸ ساعت','p'],['ادبیات',35,'۵ ساعت','o'],['زبان',30,'۴ ساعت','o']]),'p'))),
+tests:()=>pg('آزمون‌ها','clip','آزمون‌های پیش‌رو و نتایج',stats([['آزمون‌های پیش‌رو','۳','clip'],['شرکت‌کرده','۸','check','g'],['میانگین تراز','۷۲۴۰','chartcomb','p']]),two(sec('آزمون‌های پیش‌رو','cal',rows2([['آزمون جامع زبان انگلیسی','کلاس آنلاین · مرحلهٔ ۱','۳۰ آبان'],['آزمون ریاضی (حسابان)','۶۰ دقیقه · ۳۰ سؤال','۴ آذر'],['آزمون شیمی','۴۵ دقیقه · ۲۵ سؤال','۷ آذر','p']])),sec('نتایج اخیر','chartcomb',rows2([['آزمون فیزیک','تراز ۷۳۰۰','۱۸٫۵','g'],['آزمون ریاضی','تراز ۷۱۰۰','۱۷','g'],['آزمون زیست‌شناسی','تراز ۷۸۰۰','۱۹٫۲','g']]),'g'))),
+onsite:()=>pg('آزمون حضوری','pin','آزمون‌های برگزارشده در حوزه‌ها',stats([['آزمون‌های حضوری','۲','pin','p'],['نزدیک‌ترین','۱۰ آذر','cal'],['ثبت‌نام‌شده','۱','check','g']]),two(sec('آزمون‌های حضوری','pin',rows2([['آزمون جامع دوازدهم — تهران','سالن همایش‌ها · ساعت ۸:۰۰','۱۰ آذر','p'],['آزمون جامع دوازدهم — کرج','دبیرستان نمونه · ساعت ۸:۳۰','۱۷ آذر','p']]),'p'),sec('قبل از آزمون','check',rows2([['کارت ورود به جلسه را چاپ کن','','۱','g'],['مداد، پاک‌کن و ماشین‌حساب','','۲','g'],['۳۰ دقیقه زودتر حاضر باش','','۳','g']]),'g'))),
+report:()=>pg('گزارش روزانه','file','خلاصهٔ مطالعه و تمرین امروز',stats([['مطالعهٔ امروز','۵:۳۰','clock'],['تست‌های زده‌شده','۱۲۰','clip','p'],['پیشرفت هدف','۷۵٪','chartcomb','g']]),two(sec('ساعت مطالعه به تفکیک درس','chartcol',bars([['ریاضی',90,'۱:۴۰'],['فیزیک',60,'۱:۰۰'],['شیمی',45,'۰:۴۵','p'],['زیست‌شناسی',70,'۱:۱۵','p'],['زبان',30,'۰:۳۰','o']])),sec('کارهای امروز','check',rows2([['حل ۴۰ تست حسابان','انجام شد','✓','g'],['مرور شیمی فصل ۲','انجام شد','✓','g'],['تکلیف هندسه','در انتظار','…','o']]),'g'))),
+history:()=>pg('سابقه','hist','فعالیت‌های اخیر تو',sec('فعالیت‌ها','hist',rows2([['شرکت در آزمون فیزیک','تراز ۷۳۰۰','۱۸ آبان','p'],['ثبت‌نام کلاس سالانهٔ زبان انگلیسی','','۱۵ آبان'],['ثبت نمرات مهر','۶ درس','۱۰ آبان','g'],['دریافت کد تخفیف مازاین','','۸ آبان','o'],['رزرو جلسهٔ مشاوره','سه‌شنبه ۳ آذر','۵ آبان'],['ورود به داشبورد','','۱ مهر','g']]))),
+ranks:()=>pg('ترازهای ماز','chartcomb','تراز هر درس در آزمون‌های اخیر',stats([['میانگین تراز','۷۴۲۰','chartcomb'],['رتبهٔ کل','۲۴۱۰','chartcol','p'],['بهترین درس','زیست‌شناسی','check','g']]),two(sec('تراز هر درس','chartcol',bars([['ریاضی',72,'۷۲۰۰'],['فیزیک',73,'۷۳۰۰'],['شیمی',69,'۶۹۰۰','p'],['زیست‌شناسی',78,'۷۸۰۰','p'],['ادبیات',70,'۷۰۰۰','o'],['زبان',81,'۸۱۰۰','o']])),sec('روند آزمون‌ها','hist',rows2([['آزمون آبان','تراز کل ۷۴۲۰','رتبه ۲۴۱۰','g'],['آزمون مهر','تراز کل ۷۱۸۰','رتبه ۲۹۰۰','g'],['آزمون شهریور','تراز کل ۶۹۵۰','رتبه ۳۴۰۰','g']]),'g'))),
+calendar:()=>pg('تقویم برنامه','cal','برنامهٔ هفتهٔ پیش‌رو',two(sec('شنبه تا سه‌شنبه','cal',rows2([['شنبه ۳۰ آبان','هندسه ۱۵:۱۵ · زبان انگلیسی ۲۲:۰۰','۲ کلاس'],['یکشنبه ۱ آذر','حسابان ۲۰:۱۵ تا ۲۳:۱۵','۱ کلاس'],['دوشنبه ۲ آذر','مرور و حل تمرین','آزاد','g'],['سه‌شنبه ۳ آذر','گسسته، دین و زندگی، زبان، شیمی','۴ کلاس','p']])),sec('چهارشنبه تا جمعه','cal',rows2([['چهارشنبه ۴ آذر','آزمون ریاضی (حسابان)','آزمون','o'],['پنجشنبه ۵ آذر','مشاوره ۱۸:۰۰','مشاوره','p'],['جمعه ۶ آذر','آزمون سالانهٔ زبان انگلیسی ۱۵:۰۰','آزمون','o']]),'o'))),
+wallet:()=>pg('کیف پول','wallet','موجودی و تراکنش‌ها',stats([['موجودی','۲۵۰٬۰۰۰ تومان','wallet'],['شارژ این ماه','۵۰۰٬۰۰۰','arrl','g'],['کدهای تخفیف','۳','gift','o']]),sec('تراکنش‌ها','wallet',rows2([['شارژ کیف پول','','۵۰۰٬۰۰۰+','g'],['ثبت‌نام کلاس زبان انگلیسی','','۲۵۰٬۰۰۰−','o'],['خرید کتاب حسابان جامع QB','','۱۸۰٬۰۰۰−','o'],['بازگشت وجه آزمون','','۴۰٬۰۰۰+','g']]))),
+stars:()=>pg('ستاره‌ها','s-star','با فعالیت در داشبورد ستاره بگیر',stats([['ستاره‌ها','۴۸','s-star','o'],['رتبه در کلاس','۱۲','chartcol','p'],['هدف بعدی','۵۰ ستاره','gift']]),sec('چطور ستاره بگیرم؟','s-star',rows2([['حل تکلیف به‌موقع','هر تکلیف','۲+','o'],['شرکت در آزمون','هر آزمون','۳+','o'],['ثبت نمرات ماهانه','هر ماه','۱+','o'],['حضور در کلاس','هر جلسه','۱+','o']]),'o')),
+coins:()=>pg('سکه','s-coin','سکه جمع کن و خرج کن',stats([['سکه‌ها','۱۲۰','s-coin','o'],['خرج‌شده','۴۰','arrl'],['سکهٔ این هفته','۱۵','check','g']]),two(sec('کسب سکه','s-coin',rows2([['حل ۱۰ تست در روز','روزانه','۵+','o'],['شرکت در آزمون حضوری','هر آزمون','۲۰+','o'],['دعوت از دوستان','هر دعوت','۱۰+','o']]),'o'),sec('خرج سکه','gift',rows2([['تخفیف ۱۰٪ کتاب','۵۰ سکه','دریافت'],['جلسهٔ مشاورهٔ رایگان','۱۰۰ سکه','دریافت','p'],['آزمون ویژه','۳۰ سکه','دریافت','g']])))),
+support:()=>pg('ارتباط با پشتیبانی','s-sup','هر سؤالی داشتی بپرس',stats([['زمان پاسخ','۱۰ دقیقه','clock'],['تیکت‌های باز','۰','check','g'],['ساعت کاری','۸ تا ۲۲','cal','p']]),two(sec('راه‌های ارتباطی','headset',rows2([['گفتگوی آنلاین','پاسخ در چند دقیقه','شروع'],['ثبت تیکت','پیگیری از همین بخش','ثبت','p'],['تماس تلفنی','۰۲۱-۱۲۳۴۵۶۷۸','تماس','g']])),sec('سؤالات پرتکرار','file',rows2([['چطور کد تخفیف را فعال کنم؟','از بخش کدهای تخفیف صفحهٔ اصلی'],['نمرات من چرا ذخیره نمی‌شود؟','این نسخه پیش‌نمایشی است'],['چطور کلاسم را عوض کنم؟','از بخش کلاس‌ها با پشتیبانی تماس بگیر']]),'g')))
+};
+/* ---------- router ---------- */
+const PAGES={'':home,classes,exams,...MORE};
+function render(){
+  const r=location.hash.replace(/^#\/?/,'');
+  const route=r in PAGES?r:'';
+  $('#app').innerHTML=shell(route);
+  $('#main').innerHTML=PAGES[route]();
+  document.title=(NAV.find(n=>n[1]===route)||NAV[0])[0];
+  if(route==='classes'){classCards(0);$('#chips').onclick=e=>{const b=e.target.closest('.chp');if(!b)return;document.querySelectorAll('.chp').forEach(x=>x.classList.toggle('on',x===b));classCards(+b.dataset.c)}}
+  if(route==='exams'){days(20);$('#days').onclick=e=>{const b=e.target.closest('.day');if(b)days(+b.dataset.d)};$('#month').onchange=e=>{$('#cm').textContent=e.target.value}}
+  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy));
+  scrollTo(0,0);
+}
+addEventListener('hashchange',render);render();
+</script>
+</body>
+</html>
