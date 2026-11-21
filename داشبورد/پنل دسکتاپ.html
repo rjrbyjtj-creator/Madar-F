@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مدار | پنل دسکتاپ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #171818; --panel: #1e2020; --border: #2b2d2d; --text: #e3e5e4; --muted: #8d8f94;
+  --blue: #4b91ff; --chip: #252727; --selected: #272a29; --accent: #aab8b0;
+  --badge: #606e65; --unread: #ff554e; --blue-surface: #1d2639;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--text); direction: rtl;
+  font-family: "Vazirmatn", "Inter", system-ui, sans-serif;
+  font-feature-settings: "blwf" on, "cv03" on, "cv04" on, "cv09" on, "cv11" on;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+p { margin: 0; }
+
+/* Text styles */
+.t-heading { font-size: 14px; font-weight: 700; line-height: 1.6em; letter-spacing: -0.02em; }
+.t-card    { font-size: 12px; font-weight: 700; line-height: 1.45em; }
+.t-caption { font-size: 10px; font-weight: 400; line-height: 1.5em; color: var(--muted); }
+.t-action  { font-size: 10.5px; font-weight: 600; line-height: 1.4em; color: var(--blue); white-space: nowrap; }
+.t-body    { font-size: 11.5px; font-weight: 500; line-height: 1.7em; letter-spacing: -0.02em; }
+
+/* Icons */
+.ic { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; display: block; }
+.ic.raw { stroke: none; }
+
+/* Header (full width bar, compact inner container) */
+.header { height: 50px; background: var(--panel); border-bottom: 1px solid var(--border); }
+.header-in { max-width: 840px; height: 100%; margin: 0 auto; padding: 0 12px; display: flex; align-items: center; gap: 12px; }
+.header-title { flex: 1; display: flex; align-items: center; gap: 8px; }
+.header-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--chip); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+.search { flex: 1; max-width: 260px; height: 32px; padding: 0 10px; display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--accent); }
+.search input { flex: 1; min-width: 0; height: 100%; background: transparent; border: 0; outline: 0; font: 400 11px/1.2em "Vazirmatn", sans-serif; color: var(--text); text-align: right; direction: rtl; }
+.search input::placeholder { color: #77777f; }
+.search:focus-within { border-color: var(--blue); }
+.divider-v { width: 1px; height: 20px; background: var(--border); flex: none; }
+.account-group { display: flex; align-items: center; gap: 4px; }
+.account, .bell { height: 32px; border-radius: 8px; color: var(--accent); transition: background-color .3s; }
+.account:hover, .bell:hover { background: var(--chip); }
+.account { padding: 0 8px; display: flex; align-items: center; gap: 7px; }
+.account .profile { display: flex; }
+.bell { width: 32px; display: flex; align-items: center; justify-content: center; }
+
+/* Layout */
+.page { max-width: 840px; margin: 0 auto; }
+.body { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 12px; padding: 12px 12px 24px; align-items: start; }
+.main { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+/* Sidebar */
+.sidebar { position: sticky; top: 12px; padding: 10px 8px; display: flex; flex-direction: column; gap: 2px; background: var(--panel); border: 1px solid var(--border); border-radius: 9px; }
+.nav-item { height: 32px; padding: 0 6px 0 8px; display: flex; align-items: center; gap: 8px; border-radius: 7px; transition: background-color .3s; }
+.nav-item:hover { background: var(--selected); }
+.nav-item .label { flex: 1; text-align: right; }
+.nav-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: var(--accent); flex: none; }
+.nav-item.active { background: var(--selected); }
+.nav-item.active .nav-icon { color: var(--text); }
+.nav-item.active .label { font-weight: 700; }
+.unread-badge { min-width: 16px; height: 16px; padding: 0 3px; border-radius: 99px; background: var(--badge); display: flex; align-items: center; justify-content: center; font: 700 9.5px/1 "Inter", sans-serif; color: #fff; }
+
+/* Panels + Home-style title bar */
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 9px; }
+.tab-bar { height: 42px; padding: 6px 11px; display: flex; align-items: center; gap: 8px; }
+.icon-box { display: flex; align-items: center; justify-content: center; flex: none; background: var(--chip); color: var(--blue); }
+.icon-box.lg { width: 27px; height: 27px; border-radius: 7px; }
+.icon-box.md { width: 24px; height: 24px; border-radius: 6px; }
+
+.columns { display: flex; align-items: stretch; gap: 12px; }
+.col-messages { flex: 2; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.col-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+
+/* Discounts + quick access */
+.discounts, .quick { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.quick { flex: 1; }
+.panel-title { height: 28px; display: flex; align-items: center; gap: 8px; }
+.panel-title .t-heading { flex: 1; text-align: right; }
+.offer { padding: 9px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; }
+.offer .t-card, .offer .t-caption { width: 100%; text-align: right; }
+.offer .btn { margin-top: 5px; }
+.btn { height: 22px; padding: 0 8px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; color: var(--blue); direction: ltr; }
+.btn-fill { background: var(--blue-surface); }
+.btn-dashed { border: 1px dashed #435575; }
+.btn-outline { border: 1px solid #303a4d; }
+.btn-outline.blue { border-color: var(--blue); }
+.quick-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 6px; }
+.tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; color: var(--accent); transition: border-color .3s, background-color .3s; }
+.tile:hover { border-color: #3f4343; background: var(--selected); }
+.tile .t-body { font-size: 10.5px; text-align: center; line-height: 1.5em; }
+
+/* Messages + schedule */
+.messages, .schedule { padding: 10px 11px; display: flex; flex-direction: column; }
+.schedule { gap: 8px; flex: 1; }
+.panel-heading { height: 32px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.heading-title { display: flex; align-items: center; gap: 8px; }
+.heading-text { display: flex; flex-direction: column; align-items: flex-start; }
+.msg { padding: 7px 0; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border); }
+.msg-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.msg-text p { text-align: right; }
+.msg-date { width: 44px; text-align: left; flex: none; }
+.dot { width: 5px; height: 5px; border-radius: 99px; background: var(--unread); flex: none; }
+.day-selector { height: 28px; padding: 3px; display: flex; gap: 3px; background: var(--bg); border-radius: 6px; }
+.day-selector button { flex: 1; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+.day-selector .today { background: var(--chip); }
+.sched-item { padding: 8px 0; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border); }
+.sched-item:first-child { border-top: 0; }
+.agenda { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.agenda p { text-align: right; }
+.time { width: 38px; text-align: left; flex: none; }
+
+/* Classes page */
+.classes-panel { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.tabs { display: flex; gap: 8px; }
+.tab { flex: 1; max-width: 112px; height: 28px; border: 1px solid var(--border); border-radius: 7px; font-size: 11px; font-weight: 600; transition: border-color .3s, color .3s; }
+.tab:hover { border-color: #3f4343; }
+.tab[aria-selected="true"] { border-color: var(--blue); color: var(--blue); }
+.class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.class-card { background: var(--bg); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; display: flex; flex-direction: column; }
+.class-top { padding: 10px; display: flex; gap: 9px; flex: 1; }
+.course-box { width: 42px; height: 42px; padding: 3px; border-radius: 7px; flex: none; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--blue-surface); color: var(--blue); font-size: 9.5px; font-weight: 700; line-height: 1.4em; }
+.class-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.class-info .t-card { text-align: right; }
+.meta { display: flex; align-items: center; gap: 4px 10px; flex-wrap: wrap; }
+.meta-item { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 10px; line-height: 1.5em; }
+.class-foot { padding: 7px 10px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: 10px; }
+
+@media (max-width: 720px) {
+  .body { grid-template-columns: 1fr; }
+  .sidebar { position: static; flex-direction: row; overflow-x: auto; }
+  .nav-item { flex: none; }
+  .columns { flex-direction: column; }
+  .class-grid { grid-template-columns: 1fr; }
+  .search { display: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+    <symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
+    <symbol id="i-user-round" viewBox="0 0 24 24"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-layout-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><path d="M10 2h4"/><path d="m12 14 3-3"/><circle cx="12" cy="14" r="8"/></symbol>
+    <symbol id="i-layout-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+    <symbol id="i-headset" viewBox="0 0 24 24"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></symbol>
+    <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+    <symbol id="i-chart-increasing" viewBox="0 0 24 24"><path d="M13 17V9"/><path d="M18 17V5"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-chart-combined" viewBox="0 0 24 24"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></symbol>
+
+    <symbol id="i-profile" viewBox="0 0 28 28"><path d="M10.87 4.09Q14 1.81 17.13 4.09L23.59 8.78Q26.72 11.05 25.52 14.74L23.06 22.32Q21.86 26.01 17.99 26.01L10.01 26.01Q6.14 26.01 4.94 22.32L2.48 14.74Q1.28 11.05 4.41 8.78Z"/><path d="M9.5 26.19V21.66A4.47 4.47 0 0 1 18.44 21.66V26.19"/></symbol>
+    <symbol id="i-messages" viewBox="0 0 28 28"><path d="M9 4.5h10c3.3 0 5.5 2.2 5.5 5.5v4.2c0 3.3-2.2 5.5-5.5 5.5h-2.6l-4.4 3.5c-.6.5-1.4 0-1.4-.7v-2.8H9c-3.3 0-5.5-2.2-5.5-5.5V10c0-3.3 2.2-5.5 5.5-5.5Z"/><path d="M9.5 10.5h9M9.5 14.2h5.5"/></symbol>
+    <symbol id="i-classes" viewBox="0 0 28 28"><rect x="3.5" y="5.5" width="21" height="17" rx="5"/><path d="M12 10.5v7l5.8-3.5L12 10.5Z"/></symbol>
+    <symbol id="i-exams" viewBox="0 0 28 28"><path d="M9.5 5.5H8c-3 0-4.5 1.6-4.5 4.8v9c0 3.4 1.6 5 4.8 5h11.4c3.2 0 4.8-1.6 4.8-5v-9c0-3.2-1.5-4.8-4.5-4.8h-1.5"/><rect x="9.5" y="2.8" width="9" height="5.4" rx="2.2"/><path d="M9 14.5h10M9 19h6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 28 28"><path d="M14 25c-4.4-4-8-8-8-12.2C6 8.1 9.4 4 14 4s8 4.1 8 8.8c0 4.2-3.6 8.2-8 12.2Z"/><circle cx="14" cy="12.5" r="3.2"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 28 28"><rect x="3.5" y="7.5" width="21" height="16" rx="5"/><path d="M7.5 7.5 16.5 4c1.2-.5 2.4.2 2.7 1.4l.4 2.1"/><path d="M24.5 13.5h-4.2c-1.5 0-2.7 1.1-2.7 2.5s1.2 2.5 2.7 2.5h4.2"/><path d="M20.6 16h.01"/></symbol>
+    <symbol id="i-star" viewBox="0 0 28 28"><path d="M14 3.6c.4 0 .8.2 1 .7L17.1 8.5L21.7 9.2c1.7.3 2.3 2.2 1.1 3.4L19.5 15.8L20.3 20.3c.3 1.7-1.5 3-3 2.2L14 20.4L10.7 22.5c-1.5.8-3.3-.5-3-2.2L8.5 15.8L5.2 12.6c-1.2-1.2-.6-3.1 1.1-3.4L10.9 8.5L13 4.3c.2-.5.6-.7 1-.7Z"/></symbol>
+    <symbol id="i-coin" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10.5"/><path d="M10.2 18v-7.6l3.8 4.4 3.8-4.4V18"/></symbol>
+    <symbol id="i-help" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10.5"/><path d="M11 11.3c.3-1.9 1.6-3 3.2-3 1.9 0 3.2 1.2 3.2 2.9 0 1.2-.7 1.9-1.6 2.5-.9.6-1.3 1.1-1.3 2.1"/><path d="M14.2 19.9h.01"/></symbol>
+    <symbol id="i-calendar-plan" viewBox="0 0 28 28">
+      <defs><clipPath id="cal-body"><rect x="4.38" y="5.25" width="19.25" height="19.81" rx="3.25"/></clipPath></defs>
+      <rect x="4.38" y="5.25" width="19.25" height="19.81" rx="3.25" fill="#d4d4d8"/>
+      <rect x="9.06" y="1.88" width="3" height="6.31" rx="1.5" fill="#242427" stroke="none"/>
+      <rect x="15.75" y="1.88" width="3.12" height="6.31" rx="1.56" fill="#242427" stroke="none"/>
+      <rect x="9.56" y="2.38" width="2" height="5.31" rx="1" fill="#d4d4d8" stroke="none"/>
+      <rect x="16.25" y="2.38" width="2.12" height="5.31" rx="1.06" fill="#d4d4d8" stroke="none"/>
+      <g clip-path="url(#cal-body)" stroke="#242427">
+        <path d="M3.88 11.56H24.12" stroke-width="1"/>
+        <path d="M10.62 16.44H17.12" stroke-width="1.25"/>
+        <circle cx="21.62" cy="22.75" r="4.25" stroke-width="1.15"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="header">
+  <div class="header-in">
+    <div class="header-title">
+      <div class="header-mark"><svg class="ic" width="15" height="15"><use href="#i-layout-dashboard"/></svg></div>
+      <p class="t-heading">داشبورد</p>
+    </div>
+    <label class="search"><svg class="ic" width="12" height="12"><use href="#i-search"/></svg><input type="search" name="search" placeholder="جستجو..."></label>
+    <div class="divider-v"></div>
+    <div class="account-group">
+      <button class="bell" aria-label="اعلان‌ها"><svg class="ic" width="15" height="15"><use href="#i-bell"/></svg></button>
+      <button class="account">
+        <span class="profile"><svg class="ic" width="16" height="16"><use href="#i-user-round"/></svg></span>
+        <span class="t-body">حساب من</span>
+        <svg class="ic" width="11" height="11"><use href="#i-chevron-down"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+  <div class="body">
+  <nav class="sidebar panel-nav" aria-label="منوی اصلی">
+    <a class="nav-item" href="#home"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-profile"/></svg></span><span class="label t-body">صفحه شخصی</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-messages"/></svg></span><span class="label t-body">پیام‌ها</span><span class="unread-badge">۵</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="15" height="15"><use href="#i-headset"/></svg></span><span class="label t-body">مشاوره</span></a>
+    <a class="nav-item" href="#classes"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-classes"/></svg></span><span class="label t-body">کلاس‌ها</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-exams"/></svg></span><span class="label t-body">آزمون‌ها</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-pin"/></svg></span><span class="label t-body">آزمون حضوری</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="15" height="15"><use href="#i-file-text"/></svg></span><span class="label t-body">گزارش روزانه</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="15" height="15"><use href="#i-history"/></svg></span><span class="label t-body">سابقه</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="15" height="15"><use href="#i-chart-increasing"/></svg></span><span class="label t-body">نمرات امتحانی</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="15" height="15"><use href="#i-chart-combined"/></svg></span><span class="label t-body">ترازهای ماز</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic raw" width="16" height="16"><use href="#i-calendar-plan"/></svg></span><span class="label t-body">تقویم برنامه‌ها</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-wallet"/></svg></span><span class="label t-body">کیف پول</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-star"/></svg></span><span class="label t-body">ستاره‌ها</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-coin"/></svg></span><span class="label t-body">سکه</span></a>
+    <a class="nav-item" href="#"><span class="nav-icon"><svg class="ic" width="16" height="16"><use href="#i-help"/></svg></span><span class="label t-body">ارتباط با پشتیبانی</span></a>
+  </nav>
+
+    <main class="main" data-view="home">
+      <div class="panel tab-bar"><div class="icon-box lg"><svg class="ic" width="15" height="15"><use href="#i-house"/></svg></div><p class="t-heading">خانه</p></div>
+      <div class="columns">
+        <div class="col-messages">
+          <section class="panel messages">
+            <div class="panel-heading">
+              <div class="heading-title"><div class="icon-box lg"><svg class="ic" width="15" height="15"><use href="#i-message-circle"/></svg></div>
+                <div class="heading-text"><p class="t-heading">پیام‌های جدید</p><p class="t-caption">۳ پیام خوانده‌نشده</p></div></div>
+              <a class="btn btn-outline" href="#"><svg class="ic" width="11" height="11"><use href="#i-chevron-left"/></svg><span class="t-action">مشاهده همه</span></a>
+            </div>
+          <div class="msg"><span class="dot"></span>
+            <div class="msg-text"><p class="t-card">آزمون سالانهٔ زبان انگلیسی پایهٔ دوازدهم استاد قیومی</p><p class="t-caption">دانش‌آموز عزیز، آزمون سالانهٔ زبان انگلیسی از روز جمعه ساعت ۱۵:۰۰ برگزار می‌شود.</p></div>
+            <span class="msg-date t-caption">۲۸ آبان</span></div>
+          <div class="msg"><span class="dot"></span>
+            <div class="msg-text"><p class="t-card">تکلیف سالانهٔ ریاضی پایهٔ دوازدهم استاد دارابی</p><p class="t-caption">تکلیف ریاضیات گسسته در پنل کاربری شما، در قسمت تکالیف قرار گرفته است.</p></div>
+            <span class="msg-date t-caption">۲۴ آبان</span></div>
+          <div class="msg"><span class="dot"></span>
+            <div class="msg-text"><p class="t-card">تکلیف سالانهٔ هندسه استاد دارابی</p><p class="t-caption">برای مشاهدهٔ توضیحات و زمان تحویل، به بخش تکالیف مراجعه کنید.</p></div>
+            <span class="msg-date t-caption">۲۴ آبان</span></div>
+          </section>
+          <section class="panel schedule">
+            <div class="panel-heading">
+              <div class="heading-title"><div class="icon-box lg"><svg class="ic" width="15" height="15"><use href="#i-calendar-days"/></svg></div>
+                <div class="heading-text"><p class="t-heading">برنامهٔ من</p><p class="t-caption">امروز، شنبه ۳۰ آبان</p></div></div>
+              <a class="btn btn-outline blue" href="#"><svg class="ic" width="11" height="11"><use href="#i-calendar-days"/></svg><span class="t-action">مشاهده تقویم</span></a>
+            </div>
+            <div class="day-selector" role="tablist">
+              <button class="today" role="tab" aria-selected="true"><span class="t-action">امروز</span></button>
+              <button role="tab" aria-selected="false"><span class="t-caption">فردا</span></button>
+            </div>
+            <div class="sched-list">
+            <div class="sched-item"><div class="agenda"><p class="t-card">آزمون کلاس جامع سالانهٔ زبان انگلیسی</p><p class="t-caption">کلاس آنلاین · زبان انگلیسی · مرحله ۱</p></div><span class="time t-caption">۱۰:۳۰</span></div>
+            <div class="sched-item"><div class="agenda"><p class="t-card">رفع اشکال ریاضیات گسسته</p><p class="t-caption">کلاس آنلاین · ریاضی</p></div><span class="time t-caption">۱۲:۰۰</span></div>
+            <div class="sched-item"><div class="agenda"><p class="t-card">کلاس جامع سالانهٔ دین و زندگی</p><p class="t-caption">کلاس آنلاین · دین و زندگی</p></div><span class="time t-caption">۱۴:۳۰</span></div>
+            <div class="sched-item"><div class="agenda"><p class="t-card">جلسهٔ مشاورهٔ هفتگی</p><p class="t-caption">مشاوره · مشاور تحصیلی</p></div><span class="time t-caption">۱۷:۰۰</span></div>
+            <div class="sched-item"><div class="agenda"><p class="t-card">کلاس جامع سالانهٔ زبان انگلیسی</p><p class="t-caption">کلاس آنلاین · زبان انگلیسی</p></div><span class="time t-caption">۲۲:۰۰</span></div>
+            </div>
+          </section>
+        </div>
+        <div class="col-side">
+          <aside class="panel discounts">
+            <div class="panel-title"><div class="icon-box md"><svg class="ic" width="14" height="14"><use href="#i-gift"/></svg></div><p class="t-heading">کدهای تخفیف</p></div>
+        <div class="offer"><p class="t-card">کتاب حسابان جامع QB</p><p class="t-caption">کد تخفیف ویژهٔ تهیهٔ کتاب حسابان</p><a class="btn btn-fill" href="#"><span class="t-action">دریافت کد</span><svg class="ic" width="11" height="11"><use href="#i-arrow-left"/></svg></a></div>
+        <div class="offer"><p class="t-card">مازاین</p><p class="t-caption">لوازم‌التحریر از دبستان تا دانشگاه</p><button class="btn btn-dashed" title="کپی کد"><span class="t-action">eki1hFtVpg</span><svg class="ic" width="11" height="11"><use href="#i-copy"/></svg></button></div>
+        <div class="offer"><p class="t-card">اشتراک دیجی‌جام</p><p class="t-caption">همهٔ کتاب‌های کنکور و منابع درسی</p><button class="btn btn-dashed" title="کپی کد"><span class="t-action">AFRUW7DCFEWW</span><svg class="ic" width="11" height="11"><use href="#i-copy"/></svg></button></div>
+          </aside>
+          <aside class="panel quick">
+            <div class="panel-title"><div class="icon-box md"><svg class="ic" width="14" height="14"><use href="#i-layout-grid"/></svg></div><p class="t-heading">دسترسی سریع</p></div>
+            <div class="quick-grid">
+          <a class="tile" href="#"><svg class="ic" width="16" height="16"><use href="#i-exams"/></svg><span class="t-body">آزمون‌ها</span></a>
+          <a class="tile" href="#"><svg class="ic" width="15" height="15"><use href="#i-file-text"/></svg><span class="t-body">گزارش روزانه</span></a>
+          <a class="tile" href="#"><svg class="ic" width="15" height="15"><use href="#i-chart-increasing"/></svg><span class="t-body">نمرات امتحانی</span></a>
+          <a class="tile" href="#"><svg class="ic" width="15" height="15"><use href="#i-chart-combined"/></svg><span class="t-body">ترازهای ماز</span></a>
+          <a class="tile" href="#"><svg class="ic raw" width="16" height="16"><use href="#i-calendar-plan"/></svg><span class="t-body">تقویم برنامه‌ها</span></a>
+          <a class="tile" href="#"><svg class="ic" width="16" height="16"><use href="#i-wallet"/></svg><span class="t-body">کیف پول</span></a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <main class="main" data-view="classes">
+      <div class="panel tab-bar"><div class="icon-box lg"><svg class="ic" width="16" height="16"><use href="#i-classes"/></svg></div><p class="t-heading">کلاس‌ها</p></div>
+      <section class="panel classes-panel">
+        <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="0">کلاس سالیانه</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="1">کلاس شروع از مهر</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="2">ماز یار</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="3">زبان تخصصی</button>
+        </div>
+          <div class="class-grid" data-panel="0">
+            <article class="class-card"><div class="class-top"><div class="course-box">حسابان</div>
+              <div class="class-info"><p class="t-card">کلاس جامع سالیانه حسابان</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ریاضی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد معین کرمی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>یکشنبه ۱ آذر ۲۰:۱۵ تا ۲۳:۱۵</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۱ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">دین و زندگی</div>
+              <div class="class-info"><p class="t-card">کلاس جامع سالیانه دین و زندگی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>عمومی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد فرزاد صائلی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>سه‌شنبه ۳ آذر ۱۵:۱۵ تا ۱۶:۳۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۳ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">ریاضیات گسسته</div>
+              <div class="class-info"><p class="t-card">کلاس جامع سالیانه ریاضیات گسسته</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ریاضی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد کیوان دارابی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>سه‌شنبه ۳ آذر ۱۶:۴۵ تا ۲۰:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۳ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">زبان انگلیسی</div>
+              <div class="class-info"><p class="t-card">کلاس جامع سالیانه زبان انگلیسی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>عمومی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد علی قیومی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>امروز ۲۲:۰۰ تا ۲۳:۱۵</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۶ ساعت تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">شیمی</div>
+              <div class="class-info"><p class="t-card">کلاس جامع سالیانه شیمی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ریاضی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد فرشاد هادیان‌فرد</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>چهارشنبه ۴ آذر ۱۷:۰۰ تا ۲۰:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۴ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">عربی</div>
+              <div class="class-info"><p class="t-card">کلاس جامع سالیانه عربی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>تجربی و ریاضی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد محمدمهدی شاهرودی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>پنجشنبه ۵ آذر ۱۸:۰۰ تا ۲۰:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۵ روز تا شروع کلاس</span></div></article>
+          </div>
+          <div class="class-grid" data-panel="1" hidden>
+            <article class="class-card"><div class="class-top"><div class="course-box">حسابان</div>
+              <div class="class-info"><p class="t-card">کلاس مهر حسابان دوازدهم</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ریاضی | پایه دوازدهم</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد معین کرمی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>شنبه و دوشنبه ۱۸:۰۰ تا ۲۰:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>در حال برگزاری · جلسهٔ ۱۴ از ۴۰</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">هندسه</div>
+              <div class="class-info"><p class="t-card">کلاس مهر هندسه دوازدهم</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ریاضی | پایه دوازدهم</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد کیوان دارابی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>یکشنبه ۱۶:۰۰ تا ۱۸:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>در حال برگزاری · جلسهٔ ۱۱ از ۳۰</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">زبان انگلیسی</div>
+              <div class="class-info"><p class="t-card">کلاس مهر زبان انگلیسی دوازدهم</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>عمومی | پایه دوازدهم</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد علی قیومی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>سه‌شنبه ۲۰:۰۰ تا ۲۱:۳۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>در حال برگزاری · جلسهٔ ۱۲ از ۳۰</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">دین و زندگی</div>
+              <div class="class-info"><p class="t-card">کلاس مهر دین و زندگی دوازدهم</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>عمومی | پایه دوازدهم</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد فرزاد صائلی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>چهارشنبه ۱۷:۰۰ تا ۱۸:۳۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>در حال برگزاری · جلسهٔ ۹ از ۲۴</span></div></article>
+          </div>
+          <div class="class-grid" data-panel="2" hidden>
+            <article class="class-card"><div class="class-top"><div class="course-box">ریاضی</div>
+              <div class="class-info"><p class="t-card">جلسهٔ رفع اشکال ریاضی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ماز یار | ریاضی</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>پشتیبان ماز یار</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>هر روز ۱۹:۰۰ تا ۲۱:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>جلسهٔ بعدی: امروز ۱۹:۰۰</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">زبان</div>
+              <div class="class-info"><p class="t-card">جلسهٔ رفع اشکال زبان انگلیسی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ماز یار | عمومی</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>پشتیبان ماز یار</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>شنبه، دوشنبه و چهارشنبه ۲۱:۰۰ تا ۲۲:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>جلسهٔ بعدی: امروز ۲۱:۰۰</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">مشاوره</div>
+              <div class="class-info"><p class="t-card">برنامه‌ریزی هفتگی با مشاور</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ماز یار | مشاوره</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>مشاور تحصیلی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>پنجشنبه ۱۰:۰۰ تا ۱۲:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>جلسهٔ بعدی: ۵ آذر</span></div></article>
+          </div>
+          <div class="class-grid" data-panel="3" hidden>
+            <article class="class-card"><div class="class-top"><div class="course-box">ریاضی</div>
+              <div class="class-info"><p class="t-card">زبان تخصصی رشتهٔ ریاضی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>ریاضی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد علی قیومی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>جمعه ۹:۰۰ تا ۱۰:۳۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۷ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">تجربی</div>
+              <div class="class-info"><p class="t-card">زبان تخصصی رشتهٔ تجربی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>تجربی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد علی قیومی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>جمعه ۱۱:۰۰ تا ۱۲:۳۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۷ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">لغات</div>
+              <div class="class-info"><p class="t-card">کارگاه لغات تخصصی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>عمومی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد علی قیومی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>شنبه ۲۱:۰۰ تا ۲۲:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۱۰ روز تا شروع کلاس</span></div></article>
+            <article class="class-card"><div class="class-top"><div class="course-box">درک مطلب</div>
+              <div class="class-info"><p class="t-card">کارگاه درک مطلب تخصصی</p>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-layout-grid"/></svg>عمومی | کنکور</span><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-user"/></svg>استاد علی قیومی</span></div>
+                <div class="meta"><span class="meta-item"><svg class="ic" width="11" height="11"><use href="#i-clock"/></svg>دوشنبه ۲۱:۰۰ تا ۲۲:۰۰</span></div></div></div>
+              <div class="class-foot"><svg class="ic" width="11" height="11"><use href="#i-timer"/></svg><span>۱۲ روز تا شروع کلاس</span></div></article>
+          </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+  // ---- Page switching (#home / #classes) ----
+  const views = document.querySelectorAll('[data-view]');
+  const navItems = document.querySelectorAll('.nav-item');
+  const titles = { home: 'داشبورد آموزشی', classes: 'کلاس‌ها | داشبورد آموزشی' };
+  function route() {
+    const name = (location.hash || '#home').slice(1);
+    const view = titles[name] ? name : 'home';
+    views.forEach(v => { v.hidden = v.dataset.view !== view; });
+    navItems.forEach(a => {
+      const on = a.getAttribute('href') === '#' + view;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    document.title = titles[view];
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  // ---- Class tabs ----
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('[data-panel]');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+    panels.forEach(p => { p.hidden = p.dataset.panel !== tab.dataset.tab; });
+  }));
+</script>
+</body>
+</html>
