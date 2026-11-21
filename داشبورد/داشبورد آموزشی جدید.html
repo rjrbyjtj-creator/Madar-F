@@ -169,7 +169,27 @@ function home(){
   const sc=[['آزمون‌ها','clip','blueS','var(--orange)','#/tests'],['کلاس‌ها','book','sel','var(--accent)','#/classes'],['پیام‌ها','msg','blueS','var(--blue)','#/messages'],['کیف پول','wallet','sel','var(--accent)','#/wallet'],['تقویم برنامه‌ها','cal','sel','var(--accent)','#/calendar'],['آزمون حضوری','pin','purpleS','var(--purple)','#/onsite',1]].map(([l,i,bg,c,h,hi])=>`<a class="sc" href="${h||'#/'}" style="${hi?'background:var(--sel)':''}">${T(27,27,bg,7,I(i,14,c,2))}<span class="body c" style="width:100%">${l}</span></a>`).join('');
   const msgs=[['۲۸ آبان','آزمون سالانهٔ زبان انگلیسی پایهٔ دوازدهم استاد قیومی','دانش‌آموز عزیز، آزمون سالانهٔ زبان انگلیسی از روز جمعه ساعت ۱۵:۰۰ برگزار می‌شود.'],['۲۴ آبان','تکلیف سالانهٔ ریاضی پایهٔ دوازدهم استاد دارابی','تکلیف ریاضیات گسسته در پنل کاربری شما، در قسمت تکالیف قرار گرفته است.'],['۲۴ آبان','تکلیف سالانهٔ هندسه استاد دارابی','برای مشاهدهٔ توضیحات و زمان تحویل، به بخش تکالیف مراجعه کنید.']].map(([d,t,s],i)=>(i?'<div style="width:100%;height:1px;background:var(--line)"></div>':'')+`<div class="row" style="gap:5px;padding:4px 0;width:100%"><p class="cap l" style="width:43px;flex:none">${d}</p><div class="col fx" style="gap:3px;align-items:stretch"><p class="ct">${t}</p><p class="cap">${s}</p></div><span style="width:6px;height:6px;border-radius:69px;background:var(--unread);flex:none"></span>${T(24,24,'purpleS',6,I('msg',14,'var(--purple)',1.7))}</div>`).join('');
   const ses=[['۱۷','کلاس جامع سالانه هندسه','شنبه ۳۰ آبان · ۱۵:۱۵ تا ۱۸:۳۰'],['۸','کلاس جامع سالانه زبان انگلیسی','شنبه ۳۰ آبان · ۲۲:۰۰ تا ۲۳:۱۵']].map(([n,t,d])=>`<div class="row sess">${T(27,27,'blueS',6,`<span class="act c">${n}</span>`)}<div class="col fx" style="align-items:stretch;gap:2px"><p class="ct">${t}</p><p class="cap" style="color:var(--text)">${d}</p></div></div>`).join('');
-  return `${bar('خانه',I('house',17,'var(--blue)',1.7))}
+  const overview=`
+<div class="card row" style="width:100%;gap:10px;padding:10px 12px;justify-content:space-between">
+ <div class="row fx" style="gap:9px;min-width:0">
+  ${T(38,38,'blueS',10,I('user',21,'var(--blue)',1.7))}
+  <div class="col fx" style="align-items:stretch;gap:2px;min-width:0">
+   <p class="head">خوش اومدی، دانش‌آموز عزیز</p>
+   <p class="cap">اینجا می‌تونی وضعیت درس‌ها، برنامه‌ها و فعالیت‌های تحصیلی‌ات رو یک‌جا ببینی.</p>
+  </div>
+ </div>
+ <div class="row" style="gap:6px;flex:none">
+  <span class="pill" style="border-color:var(--line);cursor:default"><span class="cap">پایه دوازدهم</span></span>
+  <a class="pill" href="#/history" style="height:25px;border-color:var(--line)"><span class="act">فعالیت‌ها</span>${I('chevl',11,'var(--blue)',1.7)}</a>
+ </div>
+</div>
+<div class="grid2" style="grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;width:100%">
+ <a class="card row" href="#/report" style="padding:8px;gap:8px;min-width:0">${T(29,29,'blueS',7,I('clock',15,'var(--blue)',1.8))}<div class="col fx" style="align-items:stretch;gap:1px"><p class="cap">مطالعه امروز</p><p class="ct">۵ ساعت و ۳۰ دقیقه</p></div></a>
+ <a class="card row" href="#/tests" style="padding:8px;gap:8px;min-width:0">${T(29,29,'orangeS',7,I('clip',15,'var(--orange)',1.8))}<div class="col fx" style="align-items:stretch;gap:1px"><p class="cap">آزمون‌های پیش‌رو</p><p class="ct">۳ آزمون</p></div></a>
+ <a class="card row" href="#/ranks" style="padding:8px;gap:8px;min-width:0">${T(29,29,'purpleS',7,I('chartcomb',15,'var(--purple)',1.8))}<div class="col fx" style="align-items:stretch;gap:1px"><p class="cap">میانگین تراز</p><p class="ct">۷۴۲۰</p></div></a>
+ <a class="card row" href="#/stars" style="padding:8px;gap:8px;min-width:0">${T(29,29,'orangeS',7,I('s-star',15,'var(--orange)',1.8))}<div class="col fx" style="align-items:stretch;gap:1px"><p class="cap">ستاره‌های کسب‌شده</p><p class="ct">۴۸ ستاره</p></div></a>
+</div>`;
+  return `${bar('خانه',I('house',17,'var(--blue)',1.7))}${overview}
 <div class="cols">
  <div class="card col fx" style="gap:7px;padding:8px">
   <div class="row" style="gap:5px;width:100%;height:27px"><p class="head fx">کدهای تخفیف</p>${T(24,24,'orangeS',6,I('gift',15,'var(--orange)',1.7))}</div>${offers}
