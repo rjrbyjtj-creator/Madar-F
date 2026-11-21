@@ -71,16 +71,16 @@ main{width:100%;max-width:1200px;min-height:432px;margin:16px auto 0;padding:14p
 .srow{gap:5px;padding:5px 6px;background:var(--chip);border-radius:6px;width:100%}
 .srow label{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 /* spacious floating layout + 10% scale */
-body{min-height:100vh;zoom:1.1}
+html,body{width:100%;height:100%;min-height:100vh;overflow:hidden}body{margin:0}
 .hdr{height:42px;padding:5px 14px;gap:12px;border-radius:0 0 12px 12px}
 .hdr .tile{width:30px!important;height:30px!important;border-radius:8px!important}
 .hdr .account .tile{width:22px!important;height:22px!important;padding:2px!important}
 .hdr .lu{width:14px!important;height:14px!important}
 .account{height:30px;padding:3px 10px;gap:8px}
 .search{height:30px;padding:2px 10px;gap:8px}.search input{height:24px}
-.side{position:fixed;top:0;right:0;bottom:0;width:220px;height:auto;padding:14px 12px;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:0;box-shadow:-8px 0 28px rgba(0,0,0,.18);overflow:auto;z-index:10}
-.item{height:30px;gap:8px;padding:0 3px 0 6px}.item .chip{width:24px;height:24px}
-.cs{width:15px;height:15px}
+.side{position:fixed;top:14px;right:16px;bottom:14px;width:220px;height:auto;min-height:0;padding:14px 12px;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.18);overflow-y:auto;overflow-x:hidden;z-index:10}
+.item{height:33px;gap:9px;padding:0 3px 0 6px}.item .chip{width:26px;height:26px}
+.cs{width:17px;height:17px}
 .item.on:after{right:-7px;top:5px;height:20px}
 main{max-width:none;margin:0;padding:10px 204px 20px 16px;gap:10px;min-height:0}
 </style>
