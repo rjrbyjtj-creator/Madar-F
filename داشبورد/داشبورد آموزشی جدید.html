@@ -78,11 +78,12 @@ html,body{width:100%;height:100%;min-height:100vh;overflow:hidden}body{margin:0}
 .hdr .lu{width:14px!important;height:14px!important}
 .account{height:30px;padding:3px 10px;gap:8px}
 .search{height:30px;padding:2px 10px;gap:8px}.search input{height:24px}
-.side{position:fixed;top:14px;right:16px;bottom:14px;width:220px;height:auto;min-height:0;padding:14px 12px;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.18);overflow-y:auto;overflow-x:hidden;z-index:10}
-.item{height:33px;gap:9px;padding:0 3px 0 6px}.item .chip{width:26px;height:26px}
-.cs{width:17px;height:17px}
+.side{position:fixed;top:14px;right:16px;bottom:14px;width:220px;height:auto;min-height:0;padding:12px 10px;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.18);overflow:hidden;z-index:10}
+.item{height:30px;gap:8px;padding:0 3px 0 6px}.item .chip{width:25px;height:25px}
+.cs{width:17px;height:17px;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .item.on:after{right:-7px;top:5px;height:20px}
 main{max-width:none;margin:0;padding:10px 204px 20px 16px;gap:10px;min-height:0}
+@media(max-height:560px){.side{padding:8px 10px;gap:2px}.item{height:27px}.item .chip{width:23px;height:23px}.cs{width:15px;height:15px}}
 </style>
 </head>
 <body>
@@ -121,7 +122,19 @@ main{max-width:none;margin:0;padding:10px 204px 20px 16px;gap:10px;min-height:0}
 <symbol id="s-sup" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10.5"/><path d="M11 11.3c.3-1.9 1.6-3 3.2-3 1.9 0 3.2 1.2 3.2 2.9 0 1.2-.7 1.9-1.6 2.5-.9.6-1.3 1.1-1.3 2.1"/><path d="M14.2 19.9h.01"/></symbol>
 <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
 <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
-</defs></svg>
+<symbol id="nav-home" viewBox="0 0 28 28"><path d="M10.87 4.09Q14 1.81 17.13 4.09L23.59 8.78Q26.72 11.05 25.52 14.74L23.06 22.32Q21.86 26.01 17.99 26.01L10.01 26.01Q6.14 26.01 4.94 22.32L2.48 14.74Q1.28 11.05 4.41 8.78Z"/><path d="M9.5 26.19V21.66A4.47 4.47 0 0 1 18.44 21.66V26.19"/></symbol>
+<symbol id="nav-chat" viewBox="0 0 28 28"><path d="M9 4.5h10c3.3 0 5.5 2.2 5.5 5.5v4.2c0 3.3-2.2 5.5-5.5 5.5h-2.6l-4.4 3.5c-.6.5-1.4 0-1.4-.7v-2.8H9c-3.3 0-5.5-2.2-5.5-5.5V10c0-3.3 2.2-5.5 5.5-5.5Z"/><path d="M9.5 10.5h9M9.5 14.2h5.5"/></symbol>
+<symbol id="nav-advice" viewBox="0 0 28 28"><path d="M4.62 11.6Q1.22 10 4.68 8.55L12.87 5.1Q13.85 4.69 14.83 5.09L23.26 8.57Q26.72 10 23.32 11.57L14.81 15.49Q13.85 15.94 12.89 15.49Z"/><path d="M6.35 12.88V19.56Q6.35 23 10.29 23H17.47Q21.6 23 21.6 19.56V12.88M2.91 11.31V17.88"/></symbol>
+<symbol id="nav-video" viewBox="0 0 28 28"><rect x="3.5" y="5.5" width="21" height="17" rx="5"/><path d="M12 10.5v7l5.8-3.5L12 10.5Z"/></symbol>
+<symbol id="nav-quiz" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10.5"/><path d="M11 11.3c.3-1.9 1.6-3 3.2-3 1.9 0 3.2 1.2 3.2 2.9 0 1.2-.7 1.9-1.6 2.5-.9.6-1.3 1.1-1.3 2.1M14.2 19.9h.01"/></symbol>
+<symbol id="nav-pin" viewBox="0 0 28 28"><path d="M14 25c-4.4-4-8-8-8-12.2C6 8.1 9.4 4 14 4s8 4.1 8 8.8c0 4.2-3.6 8.2-8 12.2Z"/><circle cx="14" cy="12.5" r="3.2"/></symbol>
+<symbol id="nav-chart" viewBox="0 0 28 28"><rect x="3.8" y="14" width="5.2" height="10" rx="2"/><rect x="11.4" y="4" width="5.2" height="20" rx="2"/><rect x="19" y="9.5" width="5.2" height="14.5" rx="2"/><path d="M14 9v3.5"/></symbol>
+<symbol id="nav-timer" viewBox="0 0 28 28"><circle cx="14" cy="15.2" r="9.5"/><path d="M14 10.2v5.3l3.2 2M11 2.8h6M14 2.8v3"/></symbol>
+<symbol id="nav-book" viewBox="0 0 28 28"><path d="M14 6.5c-1.8-1.6-4.6-2.4-8.7-2.2-.8 0-1.3.6-1.3 1.4v13.7c0 .9.7 1.5 1.5 1.5 3.8-.1 6.4.6 8.5 2.3M14 6.5c1.8-1.6 4.6-2.4 8.7-2.2.8 0 1.3.6 1.3 1.4v13.7c0 .9-.7 1.5-1.5 1.5-3.8-.1-6.4.6-8.5 2.3M14 6.5v16.7M7.5 9.5H11M7.5 13H11"/></symbol>
+<symbol id="nav-target" viewBox="0 0 28 28"><circle cx="13" cy="15" r="10"/><circle cx="13" cy="15" r="5.6"/><circle cx="13" cy="15" r="1.2" fill="currentColor"/><path d="M13 15l9.5-9.5M22.5 5.5l.3-2.7M22.5 5.5l2.7-.3"/></symbol>
+<symbol id="nav-star" viewBox="0 0 28 28"><path d="M14 3.6c.4 0 .8.2 1 .7L17.1 8.5L21.7 9.2c1.7.3 2.3 2.2 1.1 3.4L19.5 15.8L20.3 20.3c.3 1.7-1.5 3-3 2.2L14 20.4L10.7 22.5c-1.5.8-3.3-.5-3-2.2L8.5 15.8L5.2 12.6c-1.2-1.2-.6-3.1 1.1-3.4L10.9 8.5L13 4.3c.2-.5.6-.7 1-.7Z"/></symbol>
+<symbol id="nav-task" viewBox="0 0 28 28"><path d="M9.5 5.5H8c-3 0-4.5 1.6-4.5 4.8v9c0 3.4 1.6 5 4.8 5h11.4c3.2 0 4.8-1.6 4.8-5v-9c0-3.2-1.5-4.8-4.5-4.8h-1.5"/><rect x="9.5" y="2.8" width="9" height="5.4" rx="2.2"/><path d="M9 14.5h10M9 19h6"/></symbol>
+<symbol id="nav-mail" viewBox="0 0 28 28"><rect x="3.5" y="5.5" width="21" height="17" rx="5"/><path d="M6.5 10l5.6 4.2c1.1.8 2.7.8 3.8 0L21.5 10"/></symbol></defs></svg>
 <div id="app"></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -131,12 +144,12 @@ const T=(w,h,bg,r,inner,x='')=>`<div class="tile" style="width:${w}px;height:${h
 const bar=(title,ico,sub)=>`<div class="card row bar"><div class="${sub?'col fx':'fx'}" style="${sub?'align-items:flex-end;gap:2px;width:100%':''}"><p class="head" style="width:100%">${title}</p>${sub?`<p class="cap" style="width:100%;color:var(--dim)">${sub}</p>`:''}</div>${T(27,27,'blueS',7,ico)}</div>`;
 
 /* ---------- layout ---------- */
-const NAV=[['صفحه شخصی','','s-home'],['پیام‌ها','messages','s-msg','۵'],['مشاوره','advice','headset'],['کلاس‌ها','classes','s-cls'],['آزمون‌ها','tests','s-exam'],['آزمون حضوری','onsite','s-pin'],['گزارش روزانه','report','file'],['سابقه','history','hist'],['نمرات امتحانی','exams','chartcol'],['ترازهای ماز','ranks','chartcomb'] ,['تقویم برنامه‌ها','calendar','s-calp'],['ستاره‌ها','stars','s-star'],['ارتباط با پشتیبانی','support','s-sup']];
+const NAV=[['صفحه شخصی','','nav-home'],['پیام‌ها','messages','nav-chat','۵'],['مشاوره','advice','nav-advice'],['کلاس‌ها','classes','nav-video'],['آزمون‌ها','tests','nav-quiz'],['آزمون حضوری','onsite','nav-pin'],['گزارش روزانه','report','nav-chart'],['سابقه','history','nav-timer'],['نمرات امتحانی','exams','nav-book'],['ترازهای ماز','ranks','nav-target'],['تقویم برنامه‌ها','calendar','s-calp'],['ستاره‌ها','stars','nav-star'],['تکلیف','task','nav-task'],['ارتباط با پشتیبانی','support','nav-mail']];
 const TITLES={'':'داشبورد آموزشی',classes:'کلاس‌ها',exams:'نمرات امتحانی',calendar:'تقویم برنامه',ranks:'ترازهای ماز'};
 function shell(route){
   const nav=NAV.map(([name,r,ic,b])=>{
     const on=(r===route)&&r!=='#';
-    const icon=ic.startsWith('s-')?`<svg class="cs"><use href="#${ic}"/></svg>`:I(ic,14,'currentColor',1.6);
+    const icon=`<svg class="cs"><use href="#${ic}"/></svg>`;
     return `<a class="item${on?' on':''}" href="#/${r}">${b?`<span class="badge">${b}</span>`:''}<span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
   return `<nav class="side">${nav}</nav>`;
 }
@@ -227,7 +240,7 @@ coins:()=>pg('سکه','s-coin','سکه جمع کن و خرج کن',stats([['سک
 support:()=>pg('ارتباط با پشتیبانی','s-sup','هر سؤالی داشتی بپرس',stats([['زمان پاسخ','۱۰ دقیقه','clock'],['تیکت‌های باز','۰','check','g'],['ساعت کاری','۸ تا ۲۲','cal','p']]),two(sec('راه‌های ارتباطی','headset',rows2([['گفتگوی آنلاین','پاسخ در چند دقیقه','شروع'],['ثبت تیکت','پیگیری از همین بخش','ثبت','p'],['تماس تلفنی','۰۲۱-۱۲۳۴۵۶۷۸','تماس','g']])),sec('سؤالات پرتکرار','file',rows2([['چطور کد تخفیف را فعال کنم؟','از بخش کدهای تخفیف صفحهٔ اصلی'],['نمرات من چرا ذخیره نمی‌شود؟','این نسخه پیش‌نمایشی است'],['چطور کلاسم را عوض کنم؟','از بخش کلاس‌ها با پشتیبانی تماس بگیر']]),'g')))
 };
 /* ---------- router ---------- */
-const PAGES={'':home,classes,exams,...MORE};
+const PAGES={'':home,classes,exams,task:()=>'',...MORE};
 function render(){
   const r=location.hash.replace(/^#\/?/,'');
   const route=r in PAGES?r:'';
