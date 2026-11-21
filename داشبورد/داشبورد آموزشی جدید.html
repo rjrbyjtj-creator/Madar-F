@@ -131,7 +131,7 @@ const T=(w,h,bg,r,inner,x='')=>`<div class="tile" style="width:${w}px;height:${h
 const bar=(title,ico,sub)=>`<div class="card row bar"><div class="${sub?'col fx':'fx'}" style="${sub?'align-items:flex-end;gap:2px;width:100%':''}"><p class="head" style="width:100%">${title}</p>${sub?`<p class="cap" style="width:100%;color:var(--dim)">${sub}</p>`:''}</div>${T(27,27,'blueS',7,ico)}</div>`;
 
 /* ---------- layout ---------- */
-const NAV=[['صفحه شخصی','','s-home'],['پیام‌ها','messages','s-msg','۵'],['مشاوره','advice','headset'],['کلاس‌ها','classes','s-cls'],['آزمون‌ها','tests','s-exam'],['آزمون حضوری','onsite','s-pin'],['گزارش روزانه','report','file'],['سابقه','history','hist'],['نمرات امتحانی','exams','chartcol'],['ترازهای ماز','ranks','chartcomb'],['تقویم برنامه‌ها','calendar','s-calp'],['کیف پول','wallet','s-wal'],['ستاره‌ها','stars','s-star'],['سکه','coins','s-coin'],['ارتباط با پشتیبانی','support','s-sup']];
+const NAV=[['صفحه شخصی','','s-home'],['پیام‌ها','messages','s-msg','۵'],['مشاوره','advice','headset'],['کلاس‌ها','classes','s-cls'],['آزمون‌ها','tests','s-exam'],['آزمون حضوری','onsite','s-pin'],['گزارش روزانه','report','file'],['سابقه','history','hist'],['نمرات امتحانی','exams','chartcol'],['ترازهای ماز','ranks','chartcomb'] ,['تقویم برنامه‌ها','calendar','s-calp'],['ستاره‌ها','stars','s-star'],['ارتباط با پشتیبانی','support','s-sup']];
 const TITLES={'':'داشبورد آموزشی',classes:'کلاس‌ها',exams:'نمرات امتحانی',calendar:'تقویم برنامه',ranks:'ترازهای ماز'};
 function shell(route){
   const nav=NAV.map(([name,r,ic,b])=>{
