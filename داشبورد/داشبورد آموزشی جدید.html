@@ -160,7 +160,7 @@ function shell(route){
     const on=(r===route)&&r!=='#';
     const icon=`<svg class="cs"><use href="#${ic}"/></svg>`;
     return `<a class="item${on?' on':''}" data-route="${r}" href="#/${r}"><span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
-  return `<nav class="side"><span class="nav-indicator" aria-hidden="true"></span>${nav}</nav>`;
+  return `<nav class="side"><span class="nav-indicator" aria-hidden="true"></span>${nav}</nav><main id="page"></main>`;
 }
 
 /* ---------- pages ---------- */
@@ -275,6 +275,8 @@ function render(){
   const raw=hash.startsWith('#/')?hash.substring(2):'';
   const route=raw in PAGES?raw:'';
   if(!$('.side')) $('#app').innerHTML=shell(route);
+  const page=$('#page');
+  if(page) page.innerHTML=(PAGES[route]||home)();
   const side=$('.side'),indicator=$('.nav-indicator');
   side.querySelectorAll('.item').forEach(item=>{
     const active=item.dataset.route===route;
