@@ -79,11 +79,11 @@ html,body{width:100%;height:100%;min-height:100vh;overflow:hidden}body{margin:0}
 .account{height:30px;padding:3px 10px;gap:8px}
 .search{height:30px;padding:2px 10px;gap:8px}.search input{height:24px}
 .side{position:fixed;top:14px;right:16px;bottom:14px;width:220px;height:auto;min-height:0;padding:12px 10px;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.18);overflow:hidden;z-index:10}
-.item{height:30px;gap:8px;padding:0 3px 0 6px}.item .chip{width:25px;height:25px}
+.item{height:auto;flex:1 1 0;min-height:30px;max-height:40px;gap:9px;padding:0 3px 0 6px}.item .chip{width:28px;height:28px;flex:none}.side .body{font-size:13px;line-height:1.6}
 .cs{width:17px;height:17px;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .item.on:after{right:-7px;top:5px;height:20px}
 main{max-width:none;margin:0;padding:10px 204px 20px 16px;gap:10px;min-height:0}
-@media(max-height:560px){.side{padding:8px 10px;gap:2px}.item{height:27px}.item .chip{width:23px;height:23px}.cs{width:15px;height:15px}}
+@media(max-height:560px){.side{padding:8px 10px;gap:2px}.side .item{height:27px;min-height:27px;max-height:27px;flex:none}.item .chip{width:23px;height:23px}.cs{width:15px;height:15px}}
 </style>
 </head>
 <body>
@@ -144,13 +144,13 @@ const T=(w,h,bg,r,inner,x='')=>`<div class="tile" style="width:${w}px;height:${h
 const bar=(title,ico,sub)=>`<div class="card row bar"><div class="${sub?'col fx':'fx'}" style="${sub?'align-items:flex-end;gap:2px;width:100%':''}"><p class="head" style="width:100%">${title}</p>${sub?`<p class="cap" style="width:100%;color:var(--dim)">${sub}</p>`:''}</div>${T(27,27,'blueS',7,ico)}</div>`;
 
 /* ---------- layout ---------- */
-const NAV=[['صفحه شخصی','','nav-home'],['پیام‌ها','messages','nav-chat','۵'],['مشاوره','advice','nav-advice'],['کلاس‌ها','classes','nav-video'],['آزمون‌ها','tests','nav-quiz'],['آزمون حضوری','onsite','nav-pin'],['گزارش روزانه','report','nav-chart'],['سابقه','history','nav-timer'],['نمرات امتحانی','exams','nav-book'],['ترازهای ماز','ranks','nav-target'],['تقویم برنامه‌ها','calendar','s-calp'],['ستاره‌ها','stars','nav-star'],['تکلیف','task','nav-task'],['ارتباط با پشتیبانی','support','nav-mail']];
+const NAV=[['صفحه شخصی','','nav-home'],['پیام‌ها','messages','nav-chat'],['مشاوره','advice','nav-advice'],['کلاس‌ها','classes','nav-video'],['آزمون‌ها','tests','nav-quiz'],['آزمون حضوری','onsite','nav-pin'],['گزارش روزانه','report','nav-chart'],['سابقه','history','nav-timer'],['نمرات امتحانی','exams','nav-book'],['ترازهای ماز','ranks','nav-target'],['تقویم برنامه‌ها','calendar','s-calp'],['ستاره‌ها','stars','nav-star'],['تکلیف','task','nav-task'],['ارتباط با پشتیبانی','support','nav-mail']];
 const TITLES={'':'داشبورد آموزشی',classes:'کلاس‌ها',exams:'نمرات امتحانی',calendar:'تقویم برنامه',ranks:'ترازهای ماز'};
 function shell(route){
   const nav=NAV.map(([name,r,ic,b])=>{
     const on=(r===route)&&r!=='#';
     const icon=`<svg class="cs"><use href="#${ic}"/></svg>`;
-    return `<a class="item${on?' on':''}" href="#/${r}">${b?`<span class="badge">${b}</span>`:''}<span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
+    return `<a class="item${on?' on':''}" href="#/${r}"><span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
   return `<nav class="side">${nav}</nav>`;
 }
 
