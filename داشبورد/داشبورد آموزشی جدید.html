@@ -78,7 +78,7 @@ body{min-height:100vh;zoom:1.1}
 .hdr .lu{width:14px!important;height:14px!important}
 .account{height:30px;padding:3px 10px;gap:8px}
 .search{height:30px;padding:2px 10px;gap:8px}.search input{height:24px}
-.side{top:58px;right:16px;bottom:16px;width:176px;height:auto;padding:10px;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.2);overflow:auto}
+.side{position:fixed;top:0;right:0;bottom:0;width:220px;height:auto;padding:14px 12px;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:0;box-shadow:-8px 0 28px rgba(0,0,0,.18);overflow:auto;z-index:10}
 .item{height:30px;gap:8px;padding:0 3px 0 6px}.item .chip{width:24px;height:24px}
 .cs{width:15px;height:15px}
 .item.on:after{right:-7px;top:5px;height:20px}
@@ -138,7 +138,7 @@ function shell(route){
     const on=(r===route)&&r!=='#';
     const icon=ic.startsWith('s-')?`<svg class="cs"><use href="#${ic}"/></svg>`:I(ic,14,'currentColor',1.6);
     return `<a class="item${on?' on':''}" href="#/${r}">${b?`<span class="badge">${b}</span>`:''}<span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
-  return `<nav class="side">${nav}</nav><main id="main"></main>`;
+  return `<nav class="side">${nav}</nav>`;
 }
 
 /* ---------- pages ---------- */
@@ -232,12 +232,7 @@ function render(){
   const r=location.hash.replace(/^#\/?/,'');
   const route=r in PAGES?r:'';
   $('#app').innerHTML=shell(route);
-  $('#main').innerHTML=PAGES[route]();
-  document.title=(NAV.find(n=>n[1]===route)||NAV[0])[0];
-  if(route==='classes'){classCards(0);$('#chips').onclick=e=>{const b=e.target.closest('.chp');if(!b)return;document.querySelectorAll('.chp').forEach(x=>x.classList.toggle('on',x===b));classCards(+b.dataset.c)}}
-  if(route==='exams'){days(20);$('#days').onclick=e=>{const b=e.target.closest('.day');if(b)days(+b.dataset.d)};$('#month').onchange=e=>{$('#cm').textContent=e.target.value}}
-  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy));
-  scrollTo(0,0);
+  document.title='ناوبری داشبورد';
 }
 addEventListener('hashchange',render);render();
 </script>
