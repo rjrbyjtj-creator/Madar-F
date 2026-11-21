@@ -79,11 +79,20 @@ html,body{width:100%;height:100%;min-height:100vh;overflow:hidden}body{margin:0}
 .account{height:30px;padding:3px 10px;gap:8px}
 .search{height:30px;padding:2px 10px;gap:8px}.search input{height:24px}
 .side{position:fixed;top:14px;right:16px;bottom:14px;width:220px;height:auto;min-height:0;padding:12px 10px;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.18);overflow:hidden;z-index:10}
-.item{height:auto;flex:1 1 0;min-height:30px;max-height:40px;gap:9px;padding:0 3px 0 6px}.item .chip{width:28px;height:28px;flex:none}.side .body{font-size:13px;line-height:1.6}
+.side{isolation:isolate}
+.nav-indicator{position:absolute;z-index:0;top:0;right:10px;left:10px;height:30px;border-radius:7px;background:var(--sel);pointer-events:none;opacity:0;transform:translateY(12px);transition:transform .62s cubic-bezier(.22,.85,.25,1),height .42s cubic-bezier(.22,.85,.25,1),opacity .2s ease;will-change:transform}
+.nav-indicator:after{content:"";position:absolute;right:-6px;top:50%;width:3px;height:68%;border-radius:3px;background:var(--accent);transform:translateY(-50%)}
+.item{position:relative;z-index:1;height:auto;flex:1 1 0;min-height:30px;max-height:40px;gap:9px;padding:0 3px 0 6px;background:transparent!important;transition:color .28s ease}
+.item .chip{width:28px;height:28px;flex:none;transition:background .35s ease,color .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.item .body{transition:color .3s ease,transform .4s cubic-bezier(.2,.8,.2,1)}
+.item.on .chip{transform:scale(1.04)}
+.item.on .body{transform:translateX(-2px)}
+.side .body{font-size:13px;line-height:1.6}
 .cs{width:17px;height:17px;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;fill:none}
-.item.on:after{right:-7px;top:5px;height:20px}
+.item.on:after{display:none}
 main{max-width:none;margin:0;padding:10px 204px 20px 16px;gap:10px;min-height:0}
 @media(max-height:560px){.side{padding:8px 10px;gap:2px}.side .item{height:27px;min-height:27px;max-height:27px;flex:none}.item .chip{width:23px;height:23px}.cs{width:15px;height:15px}}
+@media(prefers-reduced-motion:reduce){.nav-indicator,.item,.item .chip,.item .body{transition:none!important}}
 </style>
 </head>
 <body>
@@ -150,8 +159,8 @@ function shell(route){
   const nav=NAV.map(([name,r,ic,b])=>{
     const on=(r===route)&&r!=='#';
     const icon=`<svg class="cs"><use href="#${ic}"/></svg>`;
-    return `<a class="item${on?' on':''}" href="#/${r}"><span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
-  return `<nav class="side">${nav}</nav>`;
+    return `<a class="item${on?' on':''}" data-route="${r}" href="#/${r}"><span class="body fx">${name}</span><span class="chip" style="${!ic.startsWith('s-')&&!on?'color:var(--text)':''}">${icon}</span></a>`}).join('');
+  return `<nav class="side"><span class="nav-indicator" aria-hidden="true"></span>${nav}</nav>`;
 }
 
 /* ---------- pages ---------- */
@@ -242,9 +251,23 @@ support:()=>pg('ارتباط با پشتیبانی','s-sup','هر سؤالی د�
 /* ---------- router ---------- */
 const PAGES={'':home,classes,exams,task:()=>'',...MORE};
 function render(){
-  const r=location.hash.replace(/^#\/?/,'');
-  const route=r in PAGES?r:'';
-  $('#app').innerHTML=shell(route);
+  const hash=location.hash;
+  const raw=hash.startsWith('#/')?hash.substring(2):'';
+  const route=raw in PAGES?raw:'';
+  if(!$('.side')) $('#app').innerHTML=shell(route);
+  const side=$('.side'),indicator=$('.nav-indicator');
+  side.querySelectorAll('.item').forEach(item=>{
+    const active=item.dataset.route===route;
+    item.classList.toggle('on',active);
+    const chip=item.querySelector('.chip');
+    if(chip) chip.style.color=active?'var(--ink)':'var(--text)';
+  });
+  const active=side.querySelector('.item.on');
+  if(active&&indicator){
+    indicator.style.height=active.offsetHeight+'px';
+    indicator.style.transform='translateY('+(active.offsetTop-side.offsetTop)+'px)';
+    indicator.style.opacity='1';
+  }
   document.title='ناوبری داشبورد';
 }
 addEventListener('hashchange',render);render();
