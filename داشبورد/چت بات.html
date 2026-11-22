@@ -1178,6 +1178,7 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
 let examPreviewPdfUrl=null;
 let examPreviewToken=0;
 function closeExamPreview(){
+ examPreviewToken++;
  document.body.classList.remove('exam-preview-open');
  const frame=$('examPdfFrame');frame.onload=null;frame.src='about:blank';
  $('examPdfDownload').hidden=true;$('examPreviewPrint').disabled=true;
