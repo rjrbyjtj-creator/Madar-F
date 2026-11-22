@@ -1101,7 +1101,7 @@ function typeInto(el,html,done){
 
 function addUser(t,attachment){
  const d=document.createElement('div');d.className='u';
- if(attachment&&attachment.mime&&attachment.mime.startsWith('image/')&&attachment.previewUrl){
+ if(attachment&&(attachment.mime||attachment.mimeType)&&(attachment.mime||attachment.mimeType).startsWith('image/')&&attachment.previewUrl){
   const img=document.createElement('img');img.className='u-attachment-image';img.src=attachment.previewUrl;img.alt=attachment.name||'تصویر پیوست‌شده';d.appendChild(img);
  }
  if(attachment&&!(attachment.mime&&attachment.mime.startsWith('image/'))){
