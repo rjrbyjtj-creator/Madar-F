@@ -541,7 +541,7 @@ body.shared-view #dock{display:none!important}
 
 <div id="tpl" style="display:none"><div class="box" id="box">
   <div id="attachmentPreview" hidden aria-live="polite"></div>
-  <textarea id="inp" rows="2" placeholder="سؤال خود را اینجا بنویسید…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
+  <textarea id="inp" rows="2" placeholder="سؤال خود را اینجا بنویسید… (برای چسباندن عکس Ctrl+V)" onpaste="handleComposerPaste(event)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
   <div class="bar">
     <span class="l">
       <button class="ib sm composer-plus" id="toolsToggle" type="button" onclick="toggleComposerTools()" aria-expanded="false" aria-controls="composerTools" title="ابزارهای بیشتر" aria-label="باز کردن ابزارهای بیشتر"><svg class="i"><use href="#pl"/></svg></button>
@@ -1602,8 +1602,21 @@ function renderAttachmentPreview(){
 function setAttachmentProgress(percent,processing=false){
  if(!att)return;att.progress=Math.max(0,Math.min(100,Math.round(percent)));att.processing=processing;renderAttachmentPreview();
 }
-async function attach(el){
- const f=el.files&&el.files[0];if(!f)return;
+function handleComposerPaste(event){
+ const items=Array.from(event.clipboardData?.items||[]);
+ const imageItem=items.find(item=>item.kind==='file'&&item.type.startsWith('image/'));
+ if(!imageItem)return;
+ const file=imageItem.getAsFile();
+ if(!file)return;
+ event.preventDefault();
+ const extension=(file.type.split('/')[1]||'png').replace('jpeg','jpg');
+ const pastedFile=new File([file],'pasted-image-'+Date.now()+'.'+extension,{type:file.type||'image/png',lastModified:Date.now()});
+ attach(pastedFile);
+}
+async function attach(source){
+ const isInput=source&&typeof source==='object'&&'files' in source;
+ const f=isInput?(source.files&&source.files[0]):source;
+ if(!f)return;
  const isPdf=f.type==='application/pdf'||/\.pdf$/i.test(f.name);
  const mime=isPdf?'application/pdf':f.type;
  if(!isPdf&&!['image/jpeg','image/png','image/webp'].includes(mime)){toast('فقط PDF یا تصویر JPG، PNG و WEBP قابل ارسال است.');el.value='';return}
@@ -1646,7 +1659,7 @@ async function attach(el){
   attachmentRequest=null;
   if(att&&att.previewUrl)URL.revokeObjectURL(att.previewUrl);
   att=null;renderAttachmentPreview();toast(error.message||'بارگذاری فایل انجام نشد.');
- }finally{el.value='';sync()}
+ }finally{if(isInput)source.value='';sync()}
 }
 function clearAtt(){
  if(attachmentRequest){const request=attachmentRequest;attachmentRequest=null;request.abort()}
