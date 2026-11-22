@@ -1654,7 +1654,7 @@ function clearAtt(){
 let screenShareStream=null;
 function captureScreenFrame(){
  const video=$('screenShareVideo');
- if(!screenShareStream||!video||video.readyState<2||!video.videoWidth||!video.videoHeight)return null;
+ if(!screenShareStream||!video||video.readyState<2||!video.videoWidth||!video.videoHeight)return undefined;
  const scale=Math.min(1,1280/video.videoWidth);
  const canvas=document.createElement('canvas');
  canvas.width=Math.max(1,Math.round(video.videoWidth*scale));
