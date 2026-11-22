@@ -448,6 +448,28 @@ body.shared-view #dock{display:none!important}
 .hist-share-close svg{width:12px;height:12px}
 /* Inline voice-call glow is rendered beneath the composer; no modal panel. */
 
+
+/* Exam PDF side preview */
+#examPreview{width:0;min-width:0;flex:0 0 auto;display:flex;flex-direction:column;overflow:hidden;background:var(--sb);border-right:0 solid var(--ln);transition:width .32s cubic-bezier(.4,0,.2,1),border-width .32s;z-index:2}
+body.exam-preview-open #examPreview{width:clamp(360px,44vw,720px);border-right-width:1px}
+body.left.exam-preview-open #examPreview{border-right-width:0;border-left:1px solid var(--ln)}
+#examPreview .preview-head{height:58px;flex:0 0 58px;display:flex;align-items:center;gap:9px;padding:0 13px;border-bottom:1px solid var(--ln);background:var(--sf)}
+#examPreview .preview-title{flex:1;min-width:0}
+#examPreview .preview-title b{display:block;font-size:13px}
+#examPreview .preview-title small{display:block;margin-top:2px;color:var(--mu);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#examPreviewStatus{font-size:10px;color:var(--mu);white-space:nowrap}
+#examPreview .preview-action{height:32px;padding:0 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);font-size:11px;white-space:nowrap}
+#examPreview .preview-action.primary{background:var(--pr);border-color:var(--pr);color:#fff}
+#examPreview .preview-action:disabled{opacity:.45;cursor:wait}
+#examPdfFrame{display:block;flex:1;width:100%;min-height:0;border:0;background:#e9edf3}
+@media(max-width:899px){
+ #examPreview{display:none}
+ body.exam-preview-open #examPreview{display:flex;position:fixed;inset:0;width:100%;height:100%;border:0;z-index:65}
+ body.left.exam-preview-open #examPreview{border:0}
+ #examPreview .preview-head{padding:0 9px;gap:6px}
+ #examPreview .preview-action{padding:0 8px}
+}
+
 </style>
 </head>
 <body>
@@ -538,6 +560,16 @@ body.shared-view #dock{display:none!important}
   </div>
   <div id="dock"><div class="col"><div id="slotD"></div><div id="voiceStatusBar" aria-live="polite"></div><small>روبو ممکن است اشتباه کند؛ نکات کلیدی را با دبیر خود نیز بررسی کنید.</small></div></div>
 </main>
+
+<aside id="examPreview" aria-label="پیش‌نمایش PDF آزمون">
+  <div class="preview-head">
+    <div class="preview-title"><b>پیش‌نمایش آزمون</b><small id="examPreviewStatus">در انتظار ساخت آزمون</small></div>
+    <button type="button" class="preview-action" id="examPreviewPrint" onclick="printExamPreview()" disabled>چاپ</button>
+    <a class="preview-action primary" id="examPdfDownload" href="#" download="madar-exam.pdf" hidden>دانلود PDF</a>
+    <button type="button" class="ib" onclick="closeExamPreview()" title="بستن پیش‌نمایش" aria-label="بستن پیش‌نمایش"><svg class="i"><use href="#x"/></svg></button>
+  </div>
+  <iframe id="examPdfFrame" title="پیش‌نمایش فایل PDF آزمون"></iframe>
+</aside>
 
 <div id="tpl" style="display:none"><div class="box" id="box">
   <div id="attachmentPreview" hidden aria-live="polite"></div>
@@ -799,6 +831,7 @@ body.shared-view #dock{display:none!important}
 <div id="toast"></div>
 
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="../js/config.js"></script>
 <script src="../js/auth.js"></script>
 <script>
@@ -1059,20 +1092,19 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
  });
   if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise([el]).catch(()=>{});
   if(examPaper&&examPaper.html&&examPaper.filename){
-   const fileCard=document.createElement('div');
-   fileCard.style.cssText='display:flex;align-items:center;gap:12px;margin:14px 0;padding:13px 15px;border:1px solid var(--ln);border-radius:13px;background:var(--card,rgba(120,120,120,.06))';
+   const fileCard=document.createElement('div');fileCard.style.cssText='display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0;padding:13px 15px;border:1px solid var(--ln);border-radius:13px;background:var(--card,rgba(120,120,120,.06))';
    const fileIcon=document.createElement('span');fileIcon.textContent='▤';fileIcon.style.cssText='font-size:25px;color:var(--accent,#b68a3a)';
    const fileInfo=document.createElement('div');fileInfo.style.cssText='display:flex;flex-direction:column;gap:3px;min-width:0;flex:1';
    const fileName=document.createElement('strong');fileName.textContent='آزمون تشریحی مدار';fileName.style.fontSize='.86rem';
-   const fileType=document.createElement('small');fileType.textContent='فایل HTML · آماده چاپ روی کاغذ A4';fileType.style.color='var(--muted,#888)';
+   const fileType=document.createElement('small');fileType.textContent='پیش‌نمایش PDF در همین صفحه · قابل چاپ و دریافت';fileType.style.color='var(--muted,#888)';
    fileInfo.append(fileName,fileType);
-   const download=document.createElement('a');download.textContent='دریافت فایل';download.download=examPaper.filename;
+   const preview=document.createElement('button');preview.type='button';preview.textContent='نمایش PDF';preview.style.cssText='white-space:nowrap;padding:8px 12px;border-radius:9px;background:#142859;color:#fff;font-size:.78rem;font-weight:700';preview.onclick=()=>openExamPreview(examPaper);
+   const download=document.createElement('a');download.textContent='نسخه HTML';download.download=examPaper.filename;
    download.href=URL.createObjectURL(new Blob([examPaper.html],{type:'text/html;charset=utf-8'}));
-   download.style.cssText='white-space:nowrap;text-decoration:none;padding:8px 12px;border-radius:9px;background:#142859;color:#fff;font-size:.78rem;font-weight:700';
-   download.addEventListener('click',()=>setTimeout(()=>URL.revokeObjectURL(download.href),60000),{once:true});
-   fileCard.append(fileIcon,fileInfo,download);el.appendChild(fileCard);
-  }
-  const a=document.createElement('div');a.className='acts';
+   download.style.cssText='white-space:nowrap;text-decoration:none;padding:8px 12px;border-radius:9px;border:1px solid var(--ln);color:var(--tx);font-size:.78rem';
+   fileCard.append(fileIcon,fileInfo,preview,download);el.appendChild(fileCard);
+   openExamPreview(examPaper);
+  }  const a=document.createElement('div');a.className='acts';
   const makeAction=(name,label,path,handler)=>{
    const button=document.createElement('button');button.type='button';button.title=label;button.setAttribute('aria-label',label);
    button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+path+'</svg>';
@@ -1142,6 +1174,59 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
  if(animate&&live)typeInto(el,html,acts);else{el.innerHTML=html;acts()}
  scrollDown();
 }
+let examPreviewPdfUrl=null;
+let examPreviewToken=0;
+function closeExamPreview(){
+ document.body.classList.remove('exam-preview-open');
+ const frame=$('examPdfFrame');frame.onload=null;frame.src='about:blank';
+ $('examPdfDownload').hidden=true;$('examPreviewPrint').disabled=true;
+ if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
+}
+function printExamPreview(){
+ const frame=$('examPdfFrame');
+ try{frame.contentWindow.focus();frame.contentWindow.print()}catch(error){toast('برای چاپ، ابتدا PDF را دانلود و باز کن.')}
+}
+function openExamPreview(examPaper){
+ if(!examPaper||!examPaper.html)return;
+ const token=++examPreviewToken,frame=$('examPdfFrame'),status=$('examPreviewStatus'),download=$('examPdfDownload'),print=$('examPreviewPrint');
+ document.body.classList.add('exam-preview-open');
+ if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
+ download.hidden=true;download.removeAttribute('href');print.disabled=true;
+ status.textContent='در حال آماده‌سازی PDF…';
+ let converted=false;
+ frame.onload=async()=>{
+  if(converted||token!==examPreviewToken)return;
+  converted=true;
+  try{
+   const doc=frame.contentDocument;
+   if(!doc)throw new Error('preview document unavailable');
+   if(doc.fonts?.ready)await doc.fonts.ready;
+   if(doc.defaultView?.MathJax?.typesetPromise)await doc.defaultView.MathJax.typesetPromise();
+   if(typeof window.html2pdf!=='function')throw new Error('PDF engine unavailable');
+   const paper=doc.querySelector('.paper')||doc.body;
+   const blob=await window.html2pdf().set({
+    margin:[9,9,9,9],
+    filename:examPaper.filename.replace(/\.html$/i,'.pdf'),
+    image:{type:'jpeg',quality:.98},
+    html2canvas:{scale:1.8,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',windowWidth:794,scrollY:0},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['css','legacy'],avoid:'.question,.exam-header,.exam-footer'}
+   }).from(paper).outputPdf('blob');
+   if(token!==examPreviewToken)return;
+   examPreviewPdfUrl=URL.createObjectURL(blob);
+   frame.onload=null;frame.src=examPreviewPdfUrl;
+   download.href=examPreviewPdfUrl;download.download=examPaper.filename.replace(/\.html$/i,'.pdf');download.hidden=false;
+   print.disabled=false;status.textContent='PDF آماده است · '+Math.max(1,Math.ceil(blob.size/1024))+' KB';
+  }catch(error){
+   if(token!==examPreviewToken)return;
+   status.textContent='پیش‌نمایش PDF آماده نشد؛ نسخه چاپی را باز کن.';
+   print.disabled=false;
+   console.warn('[EXAM PDF] conversion failed',error);
+  }
+ };
+ frame.srcdoc=examPaper.html;
+}
+
 async function playSpeech(text,button){
  if(!Auth.get()){toast('برای پخش صوتی ابتدا وارد حساب شو.');return}
  const old=button.textContent;button.disabled=true;button.textContent='در حال ساخت صدا…';
@@ -2142,7 +2227,11 @@ window.addEventListener('madar:theme-applied',()=>{
 (function init(){
  let s=null;try{s=localStorage.getItem('madar-theme')}catch(e){}
  setTheme((s==='dark'||s==='light')?s:(window.MadarTheme&&window.MadarTheme.getMode?window.MadarTheme.getMode():'light'),false);
- let chatFont='vazirmatn';try{chatFont=localStorage.getItem('madar-chat-font')||'vazirmatn'}catch(e){}
+ let chatFont='iransans';try{
+  const fontVersion=localStorage.getItem('madar-chat-font-version');
+  if(fontVersion==='2')chatFont=localStorage.getItem('madar-chat-font')||'iransans';
+  else{localStorage.setItem('madar-chat-font','iransans');localStorage.setItem('madar-chat-font-version','2')}
+ }catch(e){}
  setChatFont(chatFont,false);
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
  setSide(sd,false);$('live-voice-select').value=selectedLiveVoice;$('inp').addEventListener('input',sync);
