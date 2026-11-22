@@ -238,7 +238,7 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .nav{gap:1px;padding:2px 0 8px}
 .nav button{padding:6px 8px;font-size:12.5px;border-radius:8px;gap:9px}
 .nav .primary{font-weight:600}
-.pi{width:22px;height:22px;border-radius:7px;background:var(--pr);display:flex;align-items:center;justify-content:center}
+.pi{width:22px;height:22px;border-radius:0;background:transparent;display:flex;align-items:center;justify-content:center}
 .nav .pi svg{width:14px;height:14px;color:#fff}
 .search{margin:2px 0}.search input{padding:7px 32px 7px 10px;border-radius:8px;font-size:12px;background:transparent}.search svg{top:9px}
 .lbl{font-size:11px;padding:10px 8px 4px}
@@ -695,41 +695,9 @@ body.shared-view #dock{display:none!important}
           <button type="button" class="persona-option" data-persona="witty" onclick="setPersona('witty')"><span class="persona-icon">😄</span><span><b>شوخ‌طبع و بانمک</b><small>گاهی شوخی ملایم و به‌جا؛ بدون حواس‌پرتی از درس</small></span><span class="persona-check">✓</span></button>
         </div>
         <div class="persona-note" id="persona-note">حالت رفیق و همراه فعاله؛ راحت و خودمونی گپ می‌زنیم. 😄</div>
-        <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>از بین صداهای زنانه و مردانه انتخاب کن؛ تغییر از تماس بعدی اعمال می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
-          <optgroup label="صداهای زنانه">
-            <option value="Achernar">آرْچرْنار · زنانه، نرم و آرام</option>
-            <option value="Aoede">آئودی · زنانه، لطیف و روان</option>
-            <option value="Autonoe">آتونُئه · زنانه، روشن و شفاف</option>
-            <option value="Callirrhoe">کالیرهو · زنانه، گرم و صمیمی</option>
-            <option value="Despina">دسپینا · زنانه، صاف و دلنشین</option>
-            <option value="Erinome">ارینوم · زنانه، واضح و متعادل</option>
-            <option value="Gacrux">گاکروکس · زنانه، پخته و عمیق</option>
-            <option value="Kore">کوره · زنانه، محکم و مطمئن</option>
-            <option value="Laomedeia">لائومدیا · زنانه، شاد و پرانرژی</option>
-            <option value="Leda">لدا · زنانه، جوان و سرزنده</option>
-            <option value="Pulcherrima">پولچریما · زنانه، قاطع و پرقدرت</option>
-            <option value="Sulafat">سولافات · زنانه، گرم و آرام</option>
-            <option value="Vindemiatrix">ویندیمیاتریکس · زنانه، ملایم و لطیف</option>
-            <option value="Zephyr">زفیر · زنانه، روشن و پرنشاط</option>
-          </optgroup>
-          <optgroup label="صداهای مردانه">
-            <option value="Achird">آخیرْد · مردانه، دوستانه</option>
-            <option value="Algenib">الجنیب · مردانه، بم و خش‌دار</option>
-            <option value="Algieba">الجیبا · مردانه، نرم و روان</option>
-            <option value="Alnilam">النيلم · مردانه، محکم و قاطع</option>
-            <option value="Charon">کارون · مردانه، عمیق و رسمی</option>
-            <option value="Enceladus">انسلادوس · مردانه، نرم و نفس‌دار</option>
-            <option value="Fenrir">فنریر · مردانه، پرانرژی و قدرتمند</option>
-            <option value="Iapetus">یاپتوس · مردانه، واضح و دقیق</option>
-            <option value="Orus">اوروس · مردانه، مطمئن و استوار</option>
-            <option value="Puck">پاک · مردانه، شاد و خودمانی</option>
-            <option value="Rasalgethi">راس‌الغتی · مردانه، رسا و آموزشی</option>
-            <option value="Sadachbia">ساداخبیا · مردانه، زنده و پرتحرک</option>
-            <option value="Sadaltager">سادلتاگر · مردانه، دانا و شمرده</option>
-            <option value="Schedar">شدار · مردانه، متعادل و آرام</option>
-            <option value="Umbriel">امبریل · مردانه، راحت و صمیمی</option>
-            <option value="Zubenelgenubi">زوبن‌الجَنوبی · مردانه، خودمانی</option>
-          </optgroup>
+        <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>یکی از دو صدای مردانه یا زنانه را انتخاب کن؛ تغییر از تماس بعدی اعمال می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
+          <option value="Algenib">صدای مردانه</option>
+          <option value="Kore">صدای زنانه</option>
         </select></div>
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
         <div class="srow"><div><b>سرعت تایپ</b><small>فقط وقتی تایپ زنده روشن است</small></div><select class="fld" onchange="spd=+this.value"><option value="2">آرام</option><option value="5" selected>معمولی</option><option value="12">سریع</option></select></div>
@@ -1745,29 +1713,12 @@ window.addEventListener('beforeunload',()=>{if(screenShareStream)stopScreenShare
 let liveSocket=null;
 let liveVideoFrameTimer=null;
 let liveMicStream=null;
-const LIVE_VOICES=[
- {id:'Zephyr',label:'Zephyr · روشن و پرانرژی'},{id:'Puck',label:'Puck · سرزنده و دوستانه'},
- {id:'Kore',label:'Kore · متعادل و گرم'},{id:'Aoede',label:'Aoede · نرم و روان'},
- {id:'Leda',label:'Leda · آرام و لطیف'},{id:'Callirrhoe',label:'Callirrhoe · دلنشین'},
- {id:'Autonoe',label:'Autonoe · شفاف'},{id:'Despina',label:'Despina · ملایم'},
- {id:'Erinome',label:'Erinome · صمیمی'},{id:'Laomedeia',label:'Laomedeia · پرنشاط'},
- {id:'Achernar',label:'Achernar · ملایم و آرام'},{id:'Vindemiatrix',label:'Vindemiatrix · واضح'},
- {id:'Sulafat',label:'Sulafat · گرم'},{id:'Schedar',label:'Schedar · عمیق'},
- {id:'Achird',label:'Achird · دوستانه'},{id:'Algenib',label:'Algenib · بم و جدی'},
- {id:'Algieba',label:'Algieba · متین'},{id:'Alnilam',label:'Alnilam · پرقدرت'},
- {id:'Charon',label:'Charon · عمیق و رسمی'},{id:'Fenrir',label:'Fenrir · پرانرژی و قاطع'},
- {id:'Orus',label:'Orus · مطمئن و محکم'},{id:'Iapetus',label:'Iapetus · واضح و دقیق'},
- {id:'Enceladus',label:'Enceladus · نرم'},{id:'Umbriel',label:'Umbriel · آرام و عمیق'},
- {id:'Gacrux',label:'Gacrux · سنگین'},{id:'Pulcherrima',label:'Pulcherrima · روشن'},
- {id:'Rasalgethi',label:'Rasalgethi · پرطنین'},{id:'Zubenelgenubi',label:'Zubenelgenubi · متعادل'},
- {id:'Sadachbia',label:'Sadachbia · نرم'},{id:'Sadaltager',label:'Sadaltager · واضح'}
-];
-const MALE_LIVE_VOICES=new Set(['Achird','Algenib','Algieba','Alnilam','Charon','Enceladus','Fenrir','Iapetus','Orus','Puck','Rasalgethi','Sadachbia','Sadaltager','Schedar','Umbriel','Zubenelgenubi']);
-let selectedLiveVoice='Charon';
+const LIVE_VOICES=[{id:'Algenib',label:'صدای مردانه'},{id:'Kore',label:'صدای زنانه'}];
+let selectedLiveVoice='Algenib';
 try{
  const savedVoice=localStorage.getItem('madar-live-voice');
- if(MALE_LIVE_VOICES.has(savedVoice))selectedLiveVoice=savedVoice;
- else if(savedVoice){localStorage.setItem('madar-live-voice','Charon')}
+ if(savedVoice==='Kore')selectedLiveVoice='Kore';
+ else if(savedVoice!=='Algenib')localStorage.setItem('madar-live-voice','Algenib');
 }catch(e){}
 function setLiveVoice(value){
  if(!LIVE_VOICES.some(v=>v.id===value))return;
