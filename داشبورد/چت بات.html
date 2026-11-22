@@ -1237,6 +1237,8 @@ function openExamPreview(examPaper){
     }).from(paper).toPdf();
     const pdf=await worker.get('pdf');
     const blob=pdf.output('blob');
+    const signature=await blob.slice(0,5).text();
+    if(blob.type!=='application/pdf'||signature!=='%PDF-'||blob.size<500)throw new Error('invalid PDF output');
     if(token!==examPreviewToken)throw new Error('PDF request superseded');
     examPreviewPdfUrl=URL.createObjectURL(blob);
     frame.onload=null;frame.src=examPreviewPdfUrl;
