@@ -1510,8 +1510,8 @@ function setPersona(value){
 function initPersona(){
  document.querySelectorAll('.persona-option').forEach(button=>button.classList.toggle('selected',button.dataset.persona===assistantPersona));
  $('persona-note').textContent=PERSONAS[assistantPersona].note;
-}
  const voiceSelect=$('live-voice-select');if(voiceSelect)voiceSelect.value=selectedLiveVoice;
+}
 let live=true,spd=5;
 function setLive(el){live=!live;el.classList.toggle('on',live)}
 function setChatFont(font,note=true){
@@ -1683,6 +1683,7 @@ async function toggleScreenShare(){
   const [track]=stream.getVideoTracks();
   if(track)track.addEventListener('ended',stopScreenShare,{once:true});
   video.play().catch(()=>{});
+  if(liveCallActive&&liveSetupReady)startLiveScreenFrames();
   toast('اشتراک‌گذاری صفحه شروع شد.');
  }catch(error){
   if(error&&error.name==='NotAllowedError')toast('اشتراک‌گذاری صفحه لغو شد.');
