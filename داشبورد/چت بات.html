@@ -1762,8 +1762,13 @@ const LIVE_VOICES=[
  {id:'Rasalgethi',label:'Rasalgethi · پرطنین'},{id:'Zubenelgenubi',label:'Zubenelgenubi · متعادل'},
  {id:'Sadachbia',label:'Sadachbia · نرم'},{id:'Sadaltager',label:'Sadaltager · واضح'}
 ];
-let selectedLiveVoice='Kore';
-try{const savedVoice=localStorage.getItem('madar-live-voice');if(LIVE_VOICES.some(v=>v.id===savedVoice))selectedLiveVoice=savedVoice}catch(e){}
+const MALE_LIVE_VOICES=new Set(['Achird','Algenib','Algieba','Alnilam','Charon','Enceladus','Fenrir','Iapetus','Orus','Puck','Rasalgethi','Sadachbia','Sadaltager','Schedar','Umbriel','Zubenelgenubi']);
+let selectedLiveVoice='Charon';
+try{
+ const savedVoice=localStorage.getItem('madar-live-voice');
+ if(MALE_LIVE_VOICES.has(savedVoice))selectedLiveVoice=savedVoice;
+ else if(savedVoice){localStorage.setItem('madar-live-voice','Charon')}
+}catch(e){}
 function setLiveVoice(value){
  if(!LIVE_VOICES.some(v=>v.id===value))return;
  selectedLiveVoice=value;
