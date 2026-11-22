@@ -134,15 +134,12 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .box:focus-within{border-color:var(--ac)}
 .box textarea{width:100%;border:0;outline:0;resize:none;background:none;color:var(--tx);font-size:15px;line-height:1.8;max-height:160px}
 .box textarea::placeholder{color:var(--mu)}
-#screenSharePreview{position:fixed;z-index:40;top:68px;left:20px;width:min(360px,calc(100vw - 40px));display:flex;align-items:center;gap:12px;padding:12px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:var(--sh);direction:rtl;opacity:0;visibility:hidden;transform:translateY(-14px) scale(.98);transform-origin:top left;max-height:0;overflow:hidden;pointer-events:none;transition:opacity .24s ease,transform .3s cubic-bezier(.2,.8,.2,1),max-height .3s ease,visibility .3s}
-#screenSharePreview.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);max-height:130px;pointer-events:auto}
+#screenSharePreview{position:fixed;z-index:100;top:14px;left:14px;right:auto;width:min(340px,calc(100vw - 28px));display:flex;align-items:center;gap:12px;padding:12px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:var(--sh);direction:rtl;opacity:0;visibility:hidden;transform:translate3d(0,calc(-100% - 24px),0);transform-origin:top left;max-height:0;overflow:hidden;pointer-events:none;transition:opacity .38s ease,transform .58s cubic-bezier(.16,1,.3,1),max-height .48s ease,visibility .48s}
+#screenSharePreview.show{opacity:1;visibility:visible;transform:translate3d(0,0,0);max-height:110px;pointer-events:auto}
 #screenSharePreview video{width:112px;height:70px;flex:0 0 112px;object-fit:cover;background:#101827;border:1px solid var(--ln);border-radius:9px}
 #screenSharePreview .screen-share-info{flex:1;min-width:0}
 #screenSharePreview b{display:block;font-size:11px;font-weight:600}
 #screenSharePreview small{display:block;margin-top:4px;font-size:10px;color:var(--mu);line-height:1.7}
-#screenSharePreview .screen-share-stop{display:flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto;padding:7px 10px;border:1px solid var(--ln);border-radius:8px;color:var(--tx);font-size:11px;white-space:nowrap;transition:background .15s,border-color .15s}
-#screenSharePreview .screen-share-stop:hover{background:var(--hv);border-color:var(--ac)}
-#screenSharePreview .screen-share-stop svg{width:14px;height:14px}
 #screenShareBtn.active{color:#fff;background:var(--ac)}
 #screenShareBtn.active svg{stroke:currentColor}
 #attachmentPreview{display:flex;align-items:flex-start;gap:12px;padding:2px 2px 12px;direction:rtl}
@@ -521,7 +518,6 @@ body.shared-view #dock{display:none!important}
   <div id="screenSharePreview" aria-live="polite" role="region" aria-label="پیش‌نمایش اشتراک‌گذاری صفحه">
     <video id="screenShareVideo" autoplay muted playsinline></video>
     <div class="screen-share-info"><b>اشتراک‌گذاری صفحه فعاله</b><small>تصویر صفحه همراه پیام‌ها برای روبو ارسال می‌شود.</small></div>
-    <button class="screen-share-stop" type="button" onclick="stopScreenShare()" title="لغو اشتراک‌گذاری" aria-label="لغو اشتراک‌گذاری صفحه">لغو</button>
   </div>
   <div id="scroll">
     <div id="welcome" class="col"><div class="wrap">
