@@ -1811,37 +1811,51 @@ function clearLivePlayback(){
  liveAudioSources.forEach(source=>{try{source.stop()}catch(e){}});
  liveAudioSources=[];
  liveNextAudioTime=liveOutputContext?liveOutputContext.currentTime:0;
+ livePlaybackChain=Promise.resolve();
 }
+let livePlaybackChain=Promise.resolve();
 function playLiveAudio(encoded,mimeType){
- if(!liveOutputContext){
-  liveOutputContext=new (window.AudioContext||window.webkitAudioContext)({sampleRate:24000});
- }
- const pcm=base64ToPcm16(encoded);
- if(!pcm.length)return;
- const rateMatch=String(mimeType||'').match(/rate=(\d+)/i);
- const sampleRate=rateMatch?Number(rateMatch[1]):24000;
- const buffer=liveOutputContext.createBuffer(1,pcm.length,sampleRate);
- const channel=buffer.getChannelData(0);
- for(let i=0;i<pcm.length;i++)channel[i]=pcm[i]/32768;
- const source=liveOutputContext.createBufferSource();
- source.buffer=buffer;source.connect(liveOutputContext.destination);
- const now=liveOutputContext.currentTime;
- if(liveNextAudioTime<now)liveNextAudioTime=now;
- source.start(liveNextAudioTime);
- liveNextAudioTime+=buffer.duration;
- liveAudioSources.push(source);
- source.onended=()=>{liveAudioSources=liveAudioSources.filter(item=>item!==source)};
- if(liveOutputContext.state==='suspended')liveOutputContext.resume().catch(()=>{});
+ livePlaybackChain=livePlaybackChain.then(async()=>{
+  if(!liveCallActive)return;
+  if(!liveOutputContext){
+   liveOutputContext=new (window.AudioContext||window.webkitAudioContext)();
+  }
+  if(liveOutputContext.state!=='running')await liveOutputContext.resume();
+  if(!liveCallActive)return;
+  const pcm=base64ToPcm16(encoded);
+  if(!pcm.length)return;
+  const rateMatch=String(mimeType||'').match(/rate=(\\d+)/i);
+  const sampleRate=rateMatch?Number(rateMatch[1]):24000;
+  const buffer=liveOutputContext.createBuffer(1,pcm.length,sampleRate);
+  const channel=buffer.getChannelData(0);
+  for(let i=0;i<pcm.length;i++)channel[i]=pcm[i]/32768;
+  const source=liveOutputContext.createBufferSource();
+  source.buffer=buffer;source.connect(liveOutputContext.destination);
+  const now=liveOutputContext.currentTime;
+  if(liveNextAudioTime<now-.08)liveNextAudioTime=now+.03;
+  source.start(liveNextAudioTime);
+  liveNextAudioTime+=buffer.duration;
+  liveAudioSources.push(source);
+  source.onended=()=>{liveAudioSources=liveAudioSources.filter(item=>item!==source)};
+ }).catch(error=>{
+  console.error('Live audio playback error:',error);
+  if(liveCallActive)setLiveCallStatus('پخش صدا متوقف شد؛ در حال بازیابی خروجی صوتی…');
+ });
 }
 function sendLiveAudio(pcm){
  if(!liveSocket||liveSocket.readyState!==WebSocket.OPEN||!liveSetupReady)return;
- liveSocket.send(JSON.stringify({realtimeInput:{audio:{data:bytesToBase64(pcm.buffer),mimeType:'audio/pcm;rate=16000'}}}));
+ // Avoid building an ever-growing network queue on slow connections.
+ if(liveSocket.bufferedAmount>512000)return;
+ try{
+  liveSocket.send(JSON.stringify({realtimeInput:{audio:{data:bytesToBase64(pcm.buffer),mimeType:'audio/pcm;rate=16000'}}}));
+ }catch(error){console.warn('Live microphone send failed:',error)}
 }
 async function startLiveMicrophone(){
  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('مرورگر یا اتصال فعلی اجازه دسترسی به میکروفون را نمی‌دهد. از HTTPS استفاده کن.');
- liveMicStream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+ liveMicStream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true,autoGainControl:true,latency:0.02}});
  liveInputContext=new (window.AudioContext||window.webkitAudioContext)();
  await liveInputContext.resume();
+ if(liveInputContext.state!=='running')throw new Error('میکروفون آماده نشد؛ مجوز و خروجی صوتی مرورگر را بررسی کن.');
  liveMicSource=liveInputContext.createMediaStreamSource(liveMicStream);
  liveAnalyser=liveInputContext.createAnalyser();liveAnalyser.fftSize=256;
  liveMicSource.connect(liveAnalyser);
@@ -1886,8 +1900,9 @@ function startLiveScreenFrames(){
   canvas.height=Math.max(1,Math.round(video.videoHeight*scale));
   const context=canvas.getContext('2d',{alpha:false});if(!context)return;
   context.drawImage(video,0,0,canvas.width,canvas.height);
-  const data=canvas.toDataURL('image/jpeg',0.55).split(',')[1];
-  if(data)liveSocket.send(JSON.stringify({realtimeInput:{video:{mimeType:'image/jpeg',data}}}));
+  if(liveSocket.bufferedAmount>350000)return;
+  const data=canvas.toDataURL('image/jpeg',0.42).split(',')[1];
+  if(data){try{liveSocket.send(JSON.stringify({realtimeInput:{video:{mimeType:'image/jpeg',data}}}))}catch(error){console.warn('Live screen frame send failed:',error)}}
  };
  sendFrame();liveVideoFrameTimer=setInterval(sendFrame,1000);
 }
@@ -1950,7 +1965,8 @@ async function openLiveCall(){
  if(att){toast('برای شروع تماس صوتی، ابتدا پیوست انتخاب‌شده را حذف کن.');return}
  if(dictationActive)stopDictation();
  liveCallActive=true;liveUserStopped=false;liveSetupReady=false;
- liveUserTranscript='';liveModelTranscript='';
+ liveUserTranscript='';liveModelTranscript='';livePlaybackChain=Promise.resolve();liveNextAudioTime=0;
+ try{liveOutputContext=new (window.AudioContext||window.webkitAudioContext)();await liveOutputContext.resume()}catch(error){liveCallActive=false;throw error}
  $('liveBtn').classList.add('recording');$('liveBtn').title='پایان گفتگوی صوتی';
  setLiveCallStatus('در حال اتصال گفتگوی صوتی…');
  updateLiveOrb('connecting');
@@ -2036,7 +2052,7 @@ async function openLiveCall(){
    stopLiveMicrophone();liveSetupReady=false;
    if(!liveUserStopped&&liveCallActive){
     liveCallActive=false;clearLivePlayback();
-    setLiveCallStatus('تماس صوتی قطع شد. برای شروع دوباره، دکمه موج صدا را بزن.');
+    setLiveCallStatus('ارتباط صوتی قطع شد. اتصال اینترنت را بررسی کن و برای شروع دوباره دکمه موج صدا را بزن.');
     updateLiveOrb('idle');$('liveBtn').classList.remove('recording');$('liveBtn').title='گفتگوی صوتی با روبو';
    }
   };
