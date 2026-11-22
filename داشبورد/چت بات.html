@@ -2115,7 +2115,7 @@ window.addEventListener('madar:theme-applied',()=>{
  let chatFont='vazirmatn';try{chatFont=localStorage.getItem('madar-chat-font')||'vazirmatn'}catch(e){}
  setChatFont(chatFont,false);
  let sd='right';try{sd=localStorage.getItem('madar-side')||'right'}catch(e){}
- setSide(sd,false);$('inp').addEventListener('input',sync);
+ setSide(sd,false);$('live-voice-select').value=selectedLiveVoice;$('inp').addEventListener('input',sync);
  $('slotW').appendChild($('box'));renderHist();
  const sharedToken=new URLSearchParams(location.search).get('share');
  if(sharedToken){loadSharedChat(sharedToken);return}
