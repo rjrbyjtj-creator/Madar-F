@@ -1233,6 +1233,7 @@ let examPreviewPdfUrl=null;
 let examPreviewHtml=null;
 let examPreviewPromise=null;
 let examPreviewToken=0;
+let examPreviewLoaderAnimation=null;
 function toggleExamPreviewFullscreen(){
  document.body.classList.toggle('exam-preview-fullscreen');
  const button=$('examPreviewFullscreen');if(button)button.textContent=document.body.classList.contains('exam-preview-fullscreen')?'بازگشت به اندازه قبلی':'تمام‌صفحه';
@@ -1267,6 +1268,7 @@ function closeExamPreview(){
  $('examPdfDownload').hidden=true;$('examPreviewPrint').disabled=true;
  if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
  examPreviewHtml=null;examPreviewPromise=null;
+ if(examPreviewLoaderAnimation){examPreviewLoaderAnimation.destroy();examPreviewLoaderAnimation=null}
 }
 function printExamPreview(){
  const frame=$('examPdfFrame');
@@ -1280,6 +1282,8 @@ function openExamPreview(examPaper){
  examPreviewHtml=examPaper.html;
  download.hidden=true;download.removeAttribute('href');print.disabled=true;
  frame.hidden=true;loader.hidden=false;loader.querySelector('p').textContent='در حال آماده‌سازی برگه آزمون…';
+ if(examPreviewLoaderAnimation)examPreviewLoaderAnimation.destroy();
+ examPreviewLoaderAnimation=createGridLoader(loader.querySelector('.flat-grid-loader'),matchMedia('(prefers-reduced-motion: reduce)').matches?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});
  status.textContent='در حال آماده‌سازی پیش‌نمایش…';
  examPreviewPromise=new Promise((resolve,reject)=>{
   let converted=false;
@@ -1314,6 +1318,7 @@ function openExamPreview(examPaper){
     download.href=examPreviewPdfUrl;download.download=examPaper.filename.replace(/\.html$/i,'.pdf');download.hidden=false;
     print.disabled=false;status.textContent='PDF آماده است · '+Math.max(1,Math.ceil(blob.size/1024))+' KB';
     loader.hidden=true;frame.hidden=false;
+    if(examPreviewLoaderAnimation){examPreviewLoaderAnimation.destroy();examPreviewLoaderAnimation=null}
     resolve(blob);
    }catch(error){
     if(token===examPreviewToken){
