@@ -87,7 +87,7 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .u-attachment-pdf svg{width:28px;height:28px}
 .u-attachment-name{display:block;max-width:220px;margin-top:5px;font-size:11px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .u-message-text{white-space:pre-line;overflow-wrap:anywhere}
-.exam-file-card{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:14px 0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.exam-file-card{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:14px 0;padding:13px 15px;border:1px solid var(--ln);border-radius:13px;background:var(--sf);box-shadow:0 5px 18px -15px rgba(0,0,0,.45)}
 .exam-file-icon,.exam-download-icon{display:block;width:28px;height:28px;flex:0 0 28px;color:var(--mu)}
 .exam-file-info{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
 .exam-file-info strong{font-size:.86rem;font-weight:600;color:var(--tx)}
@@ -464,9 +464,11 @@ body.shared-view #dock{display:none!important}
 
 /* Exam PDF side preview */
 #examPreview{width:0;min-width:0;flex:0 0 auto;display:flex;flex-direction:column;overflow:hidden;background:var(--sb);border-right:0 solid var(--ln);transition:width .32s cubic-bezier(.4,0,.2,1),border-width .32s;z-index:2}
-body.exam-preview-open #examPreview{width:clamp(360px,44vw,720px);border-right-width:1px}
+body.exam-preview-open #examPreview{width:var(--exam-preview-width,clamp(360px,44vw,720px));border-right-width:1px;position:relative}
 body.left.exam-preview-open #examPreview{border-right-width:0;border-left:1px solid var(--ln)}
-#examPreview .preview-head{height:58px;flex:0 0 58px;display:flex;align-items:center;gap:9px;padding:0 13px;border-bottom:1px solid var(--ln);background:var(--sf)}
+ body.left #examPreviewResize{right:auto;left:0;cursor:col-resize}
+#examPreviewResize{position:absolute;z-index:5;top:0;bottom:0;right:0;width:7px;cursor:col-resize;touch-action:none;background:transparent}#examPreviewResize:hover,#examPreviewResize.dragging{background:var(--ac)}
+ #examPreview .preview-head{height:58px;flex:0 0 58px;display:flex;align-items:center;gap:9px;padding:0 13px;border-bottom:1px solid var(--ln);background:var(--sf)}
 #examPreview .preview-title{flex:1;min-width:0}
 #examPreview .preview-title b{display:block;font-size:13px}
 #examPreview .preview-title small{display:block;margin-top:2px;color:var(--mu);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1423,7 +1425,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(screenShareStream?{screenFrame:captureScreenFrame()}:{}),...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),...(sentAttachment?.id?{attachmentId:sentAttachment.id}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(screenShareStream?{screenFrame:captureScreenFrame()}:{}),...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
    signal:controller.signal,
   });
   const data=await response.json().catch(()=>({}));
@@ -1863,7 +1865,7 @@ async function attach(source){
   });
   attachmentRequest=null;
   conversationId=data.conversationId;active=conversationId;
-  att={id:data.documentId,name:data.fileName||f.name,mime,uploading:false,done:true,progress:100,previewUrl:att.previewUrl};
+  att={id:data.attachmentId||data.documentId,name:data.fileName||f.name,mime,uploading:false,done:true,progress:100,previewUrl:att.previewUrl};
   renderAttachmentPreview();
   if(!$('welcome').style.display||$('welcome').style.display!=='none')$('ttl').textContent='گفتگو درباره '+att.name;
   await loadConversations();
