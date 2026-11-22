@@ -134,6 +134,17 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .box:focus-within{border-color:var(--ac)}
 .box textarea{width:100%;border:0;outline:0;resize:none;background:none;color:var(--tx);font-size:15px;line-height:1.8;max-height:160px}
 .box textarea::placeholder{color:var(--mu)}
+#screenSharePreview{display:none;align-items:center;gap:10px;padding:8px 10px 12px;direction:rtl}
+#screenSharePreview.show{display:flex}
+#screenSharePreview video{width:116px;height:72px;object-fit:cover;background:#101827;border:1px solid var(--ln);border-radius:9px}
+#screenSharePreview .screen-share-info{flex:1;min-width:0}
+#screenSharePreview b{display:block;font-size:11px;font-weight:600}
+#screenSharePreview small{display:block;margin-top:3px;font-size:10px;color:var(--mu)}
+#screenSharePreview .screen-share-stop{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--mu)}
+#screenSharePreview .screen-share-stop:hover{background:var(--hv);color:var(--tx)}
+#screenSharePreview .screen-share-stop svg{width:16px;height:16px}
+#screenShareBtn.active{color:var(--pr2);background:var(--hv)}
+#screenShareBtn.active svg{stroke:var(--ac)}
 #attachmentPreview{display:flex;align-items:flex-start;gap:12px;padding:2px 2px 12px;direction:rtl}
 #attachmentPreview[hidden]{display:none}
 .attachment-card{position:relative;width:104px;flex:0 0 104px;text-align:center;animation:up .18s ease}
@@ -529,6 +540,11 @@ body.shared-view #dock{display:none!important}
 
 <div id="tpl" style="display:none"><div class="box" id="box">
   <div id="attachmentPreview" hidden aria-live="polite"></div>
+  <div id="screenSharePreview" aria-live="polite">
+    <video id="screenShareVideo" autoplay muted playsinline></video>
+    <div class="screen-share-info"><b>اشتراک‌گذاری صفحه فعال است</b><small>برای توقف، روی دکمهٔ کنار پیش‌نمایش بزن.</small></div>
+    <button class="screen-share-stop" type="button" onclick="stopScreenShare()" title="توقف اشتراک‌گذاری" aria-label="توقف اشتراک‌گذاری صفحه"><svg class="i" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button>
+  </div>
   <textarea id="inp" rows="2" placeholder="سؤال خود را اینجا بنویسید…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
   <div class="bar">
     <span class="l">
@@ -536,6 +552,12 @@ body.shared-view #dock{display:none!important}
       <input type="file" id="file" accept="application/pdf,.pdf,image/jpeg,.jpg,.jpeg,image/png,.png,image/webp,.webp" hidden onchange="attach(this)">
       <span id="fn" class="chip" hidden title="PDF پیوست‌شده به گفتگو"></span>
       <button class="ib sm" id="sttBtn" onclick="toggleDictation()" title="تبدیل گفتار به متن" aria-label="شروع تایپ صوتی"><svg class="i"><use href="#mc"/></svg></button>
+      <button class="ib sm" id="screenShareBtn" type="button" onclick="toggleScreenShare()" title="اشتراک‌گذاری صفحه" aria-label="اشتراک‌گذاری صفحه">
+        <svg class="i" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M14 21H16M14 21C13.1716 21 12.5 20.3284 12.5 19.5V17L12 17M14 21H10M10 21H8M10 21C10.8284 21 11.5 20.3284 11.5 19.5V17L12 17M12 17V21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path d="M16 3H8C5.17157 3 3.75736 3 2.87868 3.87868C2 4.75736 2 6.17157 2 9V11C2 13.8284 2 15.2426 2.87868 16.1213C3.75736 17 5.17157 17 8 17H16C18.8284 17 20.2426 17 21.1213 16.1213C22 15.2426 22 13.8284 22 11V9C22 6.17157 22 4.75736 21.1213 3.87868C20.2426 3 18.8284 3 16 3Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </svg>
+      </button>
       <button class="ib sm" id="liveBtn" onclick="openLiveCall()" title="گفتگوی صوتی با روبو" aria-label="شروع گفتگوی صوتی"><svg class="i"><use href="#wv"/></svg></button>
     </span>
     <span class="r">
@@ -1629,6 +1651,45 @@ function clearAtt(){
  if(att&&att.previewUrl)URL.revokeObjectURL(att.previewUrl);
  att=null;renderAttachmentPreview();$('file').value='';$('fn').hidden=true;sync();
 }
+let screenShareStream=null;
+async function toggleScreenShare(){
+ if(screenShareStream){stopScreenShare();return}
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
+  toast('اشتراک‌گذاری صفحه در این مرورگر پشتیبانی نمی‌شود.');return;
+ }
+ if(liveCallActive){toast('برای اشتراک‌گذاری صفحه، ابتدا گفتگوی صوتی را پایان بده.');return}
+ if(att){toast('برای شروع اشتراک‌گذاری صفحه، ابتدا پیوست فعلی را حذف کن.');return}
+ try{
+  const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:{ideal:10,max:15}},audio:false});
+  const video=$('screenShareVideo');
+  screenShareStream=stream;
+  video.srcObject=stream;
+  $('screenSharePreview').classList.add('show');
+  $('screenShareBtn').classList.add('active');
+  $('screenShareBtn').title='توقف اشتراک‌گذاری صفحه';
+  $('screenShareBtn').setAttribute('aria-label','توقف اشتراک‌گذاری صفحه');
+  const [track]=stream.getVideoTracks();
+  if(track)track.addEventListener('ended',stopScreenShare,{once:true});
+  video.play().catch(()=>{});
+  toast('اشتراک‌گذاری صفحه شروع شد.');
+ }catch(error){
+  if(error&&error.name==='NotAllowedError')toast('اشتراک‌گذاری صفحه لغو شد.');
+  else toast('شروع اشتراک‌گذاری صفحه ناموفق بود.');
+ }
+}
+function stopScreenShare(){
+ const stream=screenShareStream;
+ screenShareStream=null;
+ if(stream)stream.getTracks().forEach(track=>{try{track.stop()}catch(error){}});
+ const video=$('screenShareVideo');
+ if(video)video.srcObject=null;
+ const preview=$('screenSharePreview');
+ if(preview)preview.classList.remove('show');
+ const button=$('screenShareBtn');
+ if(button){button.classList.remove('active');button.title='اشتراک‌گذاری صفحه';button.setAttribute('aria-label','اشتراک‌گذاری صفحه')}
+}
+window.addEventListener('beforeunload',()=>{if(screenShareStream)stopScreenShare()});
+
 let liveSocket=null;
 let liveMicStream=null;
 let liveInputContext=null;
