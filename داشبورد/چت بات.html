@@ -465,12 +465,12 @@ body.shared-view #dock{display:none!important}
 /* Exam PDF side preview */
 #examPreview{box-sizing:border-box;width:0;min-width:0;flex:0 0 auto;display:flex;position:relative;flex-direction:column;overflow:visible;padding:0;background:transparent;border:0;z-index:4;transition:width .46s cubic-bezier(.22,.75,.25,1),padding .46s cubic-bezier(.22,.75,.25,1)}
 body.exam-preview-open #examPreview{width:var(--exam-preview-width,clamp(360px,44vw,720px));padding:10px 10px 10px 14px}
-#examPreview .preview-shell{position:relative;display:flex;flex-direction:column;flex:1;min-width:0;min-height:0;width:100%;overflow:hidden;border:1px solid var(--ln);border-radius:18px;background:var(--sb);box-shadow:0 10px 32px -22px rgba(0,0,0,.55);opacity:0;transform:translateX(12px);transition:opacity .32s ease,transform .46s cubic-bezier(.22,.75,.25,1)}
+#examPreview .preview-shell{position:relative;display:flex;flex-direction:column;flex:1;min-width:0;min-height:0;width:100%;overflow:hidden;border:1px solid var(--ln);border-radius:11px;background:var(--sb);box-shadow:0 10px 32px -22px rgba(0,0,0,.55);opacity:0;transform:translateX(12px);transition:opacity .32s ease,transform .46s cubic-bezier(.22,.75,.25,1)}
 body.exam-preview-open #examPreview .preview-shell{opacity:1;transform:translateX(0);transition-delay:.12s}
 #examPreviewResize{position:absolute;z-index:8;top:10px;bottom:10px;left:0;width:14px;display:flex;align-items:center;justify-content:center;cursor:col-resize;touch-action:none;user-select:none}
 #examPreviewResize:after{content:"";width:4px;height:54px;border-radius:9px;background:var(--mu);opacity:.35;transition:height .2s,opacity .2s,background .2s}
 #examPreviewResize:hover:after,#examPreviewResize.dragging:after{height:82px;opacity:1;background:var(--ac)}
-#examPreview .preview-head{height:58px;flex:0 0 58px;display:flex;align-items:center;gap:9px;padding:0 13px;border-bottom:1px solid var(--ln);background:var(--sf)}
+#examPreview .preview-head{height:58px;flex:0 0 58px;display:flex;align-items:center;gap:9px;margin:9px 9px 0;padding:0 12px;border:1px solid var(--ln);border-radius:9px;background:var(--sf)}
 #examPreview .preview-title{flex:1;min-width:0}
 #examPreview .preview-title b{display:block;font-size:13px}
 #examPreview .preview-title small{display:block;margin-top:2px;color:var(--mu);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -479,19 +479,21 @@ body.exam-preview-open #examPreview .preview-shell{opacity:1;transform:translate
 #examPreview .preview-action:hover{border-color:var(--ac);background:var(--hv)}
 #examPreview .preview-action.primary{background:var(--pr);border-color:var(--pr);color:#fff}
 #examPreview .preview-action:disabled{opacity:.45;cursor:wait}
-#examPreviewBody{position:relative;display:flex;flex:1;min-height:0;overflow:hidden;background:var(--bg)}
+#examPreviewBody{position:relative;display:flex;flex:1;min-height:0;overflow:hidden;margin:8px 9px 9px;border:1px solid var(--ln);border-radius:9px;background:var(--bg)}
 #examPdfFrame{display:block;flex:1;width:100%;min-height:0;border:0;background:#e9edf3}
 #examPdfFrame[hidden]{display:none}
 #examPreviewLoader{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;background:var(--bg);color:var(--mu);font-size:12px}
 #examPreviewLoader[hidden]{display:none}
-#examPreviewLoader .flat-grid-loader{position:relative;direction:ltr;width:54px;height:54px}
-#examPreviewLoader .flat-grid-loader span{position:absolute;top:0;left:0;width:24px;height:24px;border:3px solid var(--loader-color);border-radius:7px;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--loader-color) 35%,transparent))}
-#examPreviewLoader .flat-grid-loader span:nth-child(1){transform:translate3d(29px,29px,0)}
-#examPreviewLoader .flat-grid-loader span:nth-child(2){transform:translate3d(29px,0,0)}
-#examPreviewLoader .flat-grid-loader span:nth-child(4){transform:translate3d(0,29px,0)}
+#examPreviewLoader .mpl-stage{width:78px;max-width:32vw;opacity:1;transform:scale(1);filter:none}
+#examPreviewLoader svg{display:block;width:100%;height:auto;overflow:visible}
+#examPreviewLoader .ghost{fill:var(--loader-color);opacity:.07}
+#examPreviewLoader .draw{fill:none;stroke:var(--loader-color);stroke-width:110;stroke-linejoin:round;stroke-linecap:butt;stroke-dasharray:1 1;stroke-dashoffset:1;animation:2.8s infinite}
+#examPreviewLoader .draw.outer{animation-name:madar-draw-outer}
+#examPreviewLoader .draw.inner{animation-name:madar-draw-inner}
+@media(prefers-reduced-motion:reduce){#examPreviewLoader .draw{animation:none;stroke-dashoffset:0}}
 #examPreviewLoader p{margin:0}
 body.exam-preview-fullscreen #examPreview{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;padding:12px!important;z-index:90!important;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(8px)}
-body.exam-preview-fullscreen #examPreview .preview-shell{border-radius:20px}
+body.exam-preview-fullscreen #examPreview .preview-shell{border-radius:13px}
 body.exam-preview-fullscreen #examPreviewResize{display:none}
 @media(max-width:899px){
  #examPreview{display:none}
@@ -618,7 +620,7 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
       <button type="button" class="ib" onclick="closeExamPreview()" title="بستن پیش‌نمایش" aria-label="بستن پیش‌نمایش"><svg class="i"><use href="#x"/></svg></button>
     </div>
     <div id="examPreviewBody">
-      <div id="examPreviewLoader" role="status"><div class="flat-grid-loader"><span></span><span></span><span></span><span></span></div><p>در حال آماده‌سازی برگه آزمون…</p></div>
+      <div id="examPreviewLoader" role="status"><div class="mpl-stage"><svg viewBox="0 0 675 603" xmlns="http://www.w3.org/2000/svg" aria-label="در حال بارگذاری"><defs><clipPath id="exam-madar-clip-outer"><path d="M653 126L543 27 530 21 522 21 521 20 520 21 512 21 506 23 496 29 342 167 333 167 176 27 163 21 145 21 135 25 128 30 24 123 20 129 20 494 21 496 28 503 122 576 136 582 154 583 162 581 175 574 262 498 270 489 270 484 268 480 232 439 228 436 222 436 216 440 151 498 141 498 124 484 101 467 94 460 93 457 93 163 94 160 107 147 150 109 158 109 318 252 329 258 334 259 346 258 354 254 517 109 525 109 571 150 580 159 582 163 582 457 580 461 575 466 534 498 524 498 455 437 447 436 440 442 406 481 405 490 408 494 504 577 510 580 521 583 534 583 545 580 551 577 649 501 655 493 655 130Z"/></clipPath><clipPath id="exam-madar-clip-inner"><path d="M166 220L166 314 168 318 328 465 333 467 342 467 348 464 507 318 509 313 509 220 506 220 342 370 333 370 169 220Z"/></clipPath></defs><path class="ghost" d="M653 126L543 27 530 21 522 21 521 20 520 21 512 21 506 23 496 29 342 167 333 167 176 27 163 21 145 21 135 25 128 30 24 123 20 129 20 494 21 496 28 503 122 576 136 582 154 583 162 581 175 574 262 498 270 489 270 484 268 480 232 439 228 436 222 436 216 440 151 498 141 498 124 484 101 467 94 460 93 457 93 163 94 160 107 147 150 109 158 109 318 252 329 258 334 259 346 258 354 254 517 109 525 109 571 150 580 159 582 163 582 457 580 461 575 466 534 498 524 498 455 437 447 436 440 442 406 481 405 490 408 494 504 577 510 580 521 583 534 583 545 580 551 577 649 501 655 493 655 130Z"/><path class="ghost" d="M166 220L166 314 168 318 328 465 333 467 342 467 348 464 507 318 509 313 509 220 506 220 342 370 333 370 169 220Z"/><g clip-path="url(#exam-madar-clip-outer)"><path class="draw outer" pathLength="1" d="M277 439L154 547L56 459L56 144L154 56L337 220L520 56L618 144L618 459L520 547L397 439"/></g><g clip-path="url(#exam-madar-clip-inner)"><path class="draw inner" pathLength="1" d="M117 221L337 424L557 221"/></g></svg></div><p>در حال آماده‌سازی برگه آزمون…</p></div>
       <iframe id="examPdfFrame" title="پیش‌نمایش فایل PDF آزمون" hidden></iframe>
     </div>
   </div>
@@ -1269,7 +1271,6 @@ function closeExamPreview(){
  $('examPdfDownload').hidden=true;$('examPreviewPrint').disabled=true;
  if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
  examPreviewHtml=null;examPreviewPromise=null;
- if(examPreviewLoaderAnimation){examPreviewLoaderAnimation.destroy();examPreviewLoaderAnimation=null}
 }
 function printExamPreview(){
  const frame=$('examPdfFrame');
@@ -1283,8 +1284,6 @@ function openExamPreview(examPaper){
  examPreviewHtml=examPaper.html;
  download.hidden=true;download.removeAttribute('href');print.disabled=true;
  frame.hidden=true;loader.hidden=false;loader.querySelector('p').textContent='در حال آماده‌سازی برگه آزمون…';
- if(examPreviewLoaderAnimation)examPreviewLoaderAnimation.destroy();
- examPreviewLoaderAnimation=createGridLoader(loader.querySelector('.flat-grid-loader'),matchMedia('(prefers-reduced-motion: reduce)').matches?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});
  status.textContent='در حال آماده‌سازی پیش‌نمایش…';
  examPreviewPromise=new Promise((resolve,reject)=>{
   let converted=false;
