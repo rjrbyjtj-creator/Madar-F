@@ -1307,14 +1307,34 @@ function openExamPreview(examPaper){
     await Promise.all(Array.from(doc.images||[]).map(img=>img.complete?Promise.resolve():new Promise(resolveImage=>{img.onload=img.onerror=resolveImage})));
     if(typeof window.html2pdf!=='function')throw new Error('PDF engine unavailable');
     const paper=doc.querySelector('.sheet')||doc.querySelector('.paper')||doc.body;
-    paper.style.width='210mm';paper.style.minHeight='297mm';paper.style.margin='0';paper.style.borderRadius='0';paper.style.boxShadow='none';
+    // Export from the fully styled document, not from a stripped HTML fragment.
+    // Keep the template's typography, grid, SVG figures and watermark while
+    // preparing a predictable A4 print canvas.
+    const exportStyle=doc.createElement('style');
+    exportStyle.id='madar-pdf-export-style';
+    exportStyle.textContent=[
+     '@page{size:A4;margin:8mm}',
+     'html,body{width:210mm!important;min-width:210mm!important;margin:0!important;padding:0!important;background:#fff!important}',
+     'body{color:#111!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}',
+     '.bar,body::before,.del{display:none!important}',
+     '.sheet,.paper{display:grid!important;box-sizing:border-box!important;width:194mm!important;max-width:194mm!important;min-height:0!important;height:auto!important;margin:0 auto!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;align-content:start!important}',
+     '#L{overflow:visible!important}',
+     '.q,.sec,.top,.foot,.question-figure{break-inside:avoid!important;page-break-inside:avoid!important}',
+     '.question-figure svg{max-width:100%!important;height:auto!important}',
+     'img,svg{max-width:100%}',
+     '*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}'
+    ].join('\n');
+    doc.head.appendChild(exportStyle);
+    paper.style.width='194mm';paper.style.maxWidth='194mm';paper.style.minHeight='0';paper.style.height='auto';paper.style.margin='0 auto';paper.style.padding='0';paper.style.border='0';paper.style.borderRadius='0';paper.style.boxShadow='none';paper.style.overflow='visible';
+    const questionList=doc.querySelector('#L');if(questionList)questionList.style.overflow='visible';
+    await new Promise(resolveLayout=>requestAnimationFrame(()=>requestAnimationFrame(resolveLayout)));
     const worker=window.html2pdf().set({
-     margin:0,
+     margin:[8,8,8,8],
      filename:examPaper.filename.replace(/\.html$/i,'.pdf'),
-     image:{type:'jpeg',quality:.98},
-     html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',windowWidth:794,scrollX:0,scrollY:0},
+     image:{type:'png'},
+     html2canvas:{scale:3,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',windowWidth:794,scrollX:0,scrollY:0,logging:false,removeContainer:true},
      jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},
-     pagebreak:{mode:['css','legacy'],avoid:'.q,.sec,.top,.foot,.question-figure,.question,.exam-header,.exam-footer'}
+     pagebreak:{mode:['css','legacy'],avoid:'.q,.sec,.top,.foot,.question-figure'}
     }).from(paper).toPdf();
     const pdf=await worker.get('pdf');
     const blob=pdf.output('blob');
