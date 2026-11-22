@@ -1756,6 +1756,9 @@ let liveNextAudioTime=0;
 let liveAudioSources=[];
 let liveCallActive=false;
 let liveSetupReady=false;
+let liveReconnectAttempts=0;
+let liveReconnectTimer=null;
+let liveReconnecting=false;
 let liveUserStopped=false;
 let liveUserTranscript='';
 let liveModelTranscript='';
@@ -1955,6 +1958,7 @@ function scheduleLiveTurnSave(){
  liveFinalizeTimer=setTimeout(()=>{liveFinalizeTimer=null;saveLiveTurn()},450);
 }
 async function openLiveCall(){
+ if(liveReconnectTimer&&!liveReconnecting){clearTimeout(liveReconnectTimer);liveReconnectTimer=null;liveReconnectAttempts=0}
  if(liveCallActive){stopLiveCall();return}
  if(selectedAIModel!=='gemini'){
   toast('این مدل قابلیت گفتگوی صوتی ندارد. برای استفاده از گفتگوی صوتی، Gemini را انتخاب کن.');
@@ -1999,7 +2003,7 @@ async function openLiveCall(){
     const message=JSON.parse(raw);
     if(message.error)throw new Error(message.error.message||'Gemini Live خطا برگرداند.');
     if(message.setupComplete){
-     liveSetupReady=true;
+     liveSetupReady=true;liveReconnectAttempts=0;
      const prior=(conversation||[]).slice(-20).filter(item=>item.content&&['user','model'].includes(item.role));
      liveSocket.send(JSON.stringify({clientContent:{turns:prior.map(item=>({role:item.role,parts:[{text:item.content}]})),turnComplete:true}}));
      await startLiveMicrophone();
@@ -2052,8 +2056,27 @@ async function openLiveCall(){
    stopLiveMicrophone();liveSetupReady=false;
    if(!liveUserStopped&&liveCallActive){
     liveCallActive=false;clearLivePlayback();
-    setLiveCallStatus('ارتباط صوتی قطع شد. اتصال اینترنت را بررسی کن و برای شروع دوباره دکمه موج صدا را بزن.');
-    updateLiveOrb('idle');$('liveBtn').classList.remove('recording');$('liveBtn').title='گفتگوی صوتی با روبو';
+    if(liveOutputContext){liveOutputContext.close().catch(()=>{});liveOutputContext=null}
+    $('liveBtn').classList.remove('recording');$('liveBtn').title='گفتگوی صوتی با روبو';
+    if(liveReconnectAttempts<2&&Auth.get()&&selectedAIModel==='gemini'&&!att){
+     liveReconnectAttempts++;
+     const wait=1200*Math.pow(2,liveReconnectAttempts-1);
+     setLiveCallStatus('ارتباط ناپایدار شد؛ روبو تا چند لحظه دیگر دوباره وصل می‌شود…');
+     updateLiveOrb('connecting');
+     (async()=>{
+      if(liveUserTranscript.trim()&&liveModelTranscript.trim())await saveLiveTurn();
+      if(liveUserStopped)return;
+      liveReconnectTimer=setTimeout(async()=>{
+       liveReconnectTimer=null;
+       if(liveUserStopped||liveCallActive)return;
+       liveReconnecting=true;
+       try{await openLiveCall()}finally{liveReconnecting=false}
+      },wait);
+     })();
+    }else{
+     setLiveCallStatus('ارتباط صوتی قطع شد. اتصال اینترنت را بررسی کن و برای شروع دوباره دکمه موج صدا را بزن.');
+     updateLiveOrb('idle');
+    }
    }
   };
  }catch(error){
@@ -2063,6 +2086,8 @@ async function openLiveCall(){
  }
 }
 function stopLiveCall(){
+ if(liveReconnectTimer){clearTimeout(liveReconnectTimer);liveReconnectTimer=null}
+ liveReconnectAttempts=0;liveReconnecting=false;
  if(liveUserTranscript.trim()&&liveModelTranscript.trim())saveLiveTurn();
  liveUserStopped=true;liveCallActive=false;liveSetupReady=false;stopLiveScreenFrames();
  if(liveFinalizeTimer){clearTimeout(liveFinalizeTimer);liveFinalizeTimer=null}
