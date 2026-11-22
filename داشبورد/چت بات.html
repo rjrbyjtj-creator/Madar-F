@@ -1938,7 +1938,7 @@ async function openLiveCall(){
  try{
   liveOutputContext=new (window.AudioContext||window.webkitAudioContext)({sampleRate:24000});
   await liveOutputContext.resume();
-  const tokenResponse=await fetch(API_BASE_URL+'/ai/voice/token',{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({persona:assistantPersona})});
+  const tokenResponse=await fetch(API_BASE_URL+'/ai/voice/token',{method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},body:JSON.stringify({persona:assistantPersona,voiceName:selectedLiveVoice})});
   const tokenData=await tokenResponse.json().catch(()=>({}));
   if(!tokenResponse.ok||!tokenData.success||!tokenData.token)throw new Error(tokenData.message||'گرفتن مجوز تماس صوتی از سرور ناموفق بود.');
   if(!liveCallActive)return;
