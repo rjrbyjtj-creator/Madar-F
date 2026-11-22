@@ -1214,6 +1214,21 @@ let examPreviewPdfUrl=null;
 let examPreviewHtml=null;
 let examPreviewPromise=null;
 let examPreviewToken=0;
+function toggleExamPreviewFullscreen(){
+ document.body.classList.toggle('exam-preview-fullscreen');
+ const button=$('examPreviewFullscreen');if(button)button.textContent=document.body.classList.contains('exam-preview-fullscreen')?'بازگشت به اندازه قبلی':'تمام‌صفحه';
+}
+(function initExamPreviewResize(){
+ const handle=$('examPreviewResize');if(!handle)return;
+ handle.addEventListener('pointerdown',event=>{
+  if(innerWidth<900)return;
+  event.preventDefault();const panel=$('examPreview'),startX=event.clientX,startWidth=panel.getBoundingClientRect().width;handle.classList.add('dragging');handle.setPointerCapture(event.pointerId);
+  const move=e=>{const delta=document.body.classList.contains('left')?e.clientX-startX:startX-e.clientX;const width=Math.max(320,Math.min(innerWidth-360,startWidth+delta));document.documentElement.style.setProperty('--exam-preview-width',width+'px')};
+  const stop=()=>{handle.classList.remove('dragging');handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);try{localStorage.setItem('madar-exam-preview-width',getComputedStyle(panel).width)}catch(error){}};
+  handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);
+ });
+ try{const saved=localStorage.getItem('madar-exam-preview-width');if(saved&&/^\\d+(?:\\.\\d+)?px$/.test(saved))document.documentElement.style.setProperty('--exam-preview-width',saved)}catch(error){}
+})();
 function closeExamPreview(){
  examPreviewToken++;
  document.body.classList.remove('exam-preview-open');
