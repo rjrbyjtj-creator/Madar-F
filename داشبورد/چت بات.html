@@ -83,10 +83,23 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .u{align-self:flex-start;max-width:82%;background:var(--hv);padding:10px 16px;border-radius:18px 18px 4px 18px;font-size:14.5px;line-height:1.9;white-space:pre-line}
 .u-attachment{display:block;width:fit-content;max-width:min(420px,82%);overflow:hidden;margin:0 0 8px auto}
 .u-attachment-image{display:block;width:auto;height:auto;max-width:100%;max-height:420px;object-fit:contain;border:0;border-radius:8px;box-shadow:none}
-.u-attachment-pdf{width:88px;height:88px;border:1px solid var(--ln);border-radius:13px;background:var(--sf);display:grid;place-items:center;color:var(--pr2)}
-.u-attachment-pdf svg{width:39px;height:46px}
+.u-attachment-pdf{width:36px;height:36px;border:0;border-radius:0;background:transparent;display:grid;place-items:center;color:var(--pr2)}
+.u-attachment-pdf svg{width:28px;height:28px}
 .u-attachment-name{display:block;max-width:220px;margin-top:5px;font-size:11px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .u-message-text{white-space:pre-line;overflow-wrap:anywhere}
+.exam-file-card{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:14px 0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.exam-file-icon,.exam-download-icon{display:block;width:28px;height:28px;flex:0 0 28px;color:var(--mu)}
+.exam-file-info{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.exam-file-info strong{font-size:.86rem;font-weight:600;color:var(--tx)}
+.exam-file-info small{font-size:.72rem;color:var(--mu)}
+.exam-file-preview{padding:0;border:0;background:transparent;color:var(--pr2);font-size:.76rem;font-weight:600;text-decoration:none;white-space:nowrap}
+.exam-file-preview:hover{text-decoration:underline}
+.exam-file-download{width:34px;height:34px;display:grid;place-items:center;border:0;background:transparent;color:var(--ac);text-decoration:none;border-radius:7px}
+.exam-file-download:hover{background:var(--hv)}
+.question-figure{margin:9px auto 11px;max-width:100%;text-align:center;break-inside:avoid}
+.question-figure svg{display:block;width:auto;max-width:100%;max-height:250px;height:auto;margin:0 auto}
+.question-figure figcaption{margin-top:3px;color:#666;font-size:10px;text-align:center}
+@media print{.question-figure{break-inside:avoid}}
 .a{display:flex;gap:14px;align-items:flex-start}
 .a .mark{width:28px;height:28px;border-radius:8px;margin-top:6px}.a .mark svg{width:16px;height:16px}
 .t2{flex:1;min-width:0;font-size:15.5px;line-height:2.05}
@@ -1093,18 +1106,17 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
  });
   if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise([el]).catch(()=>{});
   if(examPaper&&examPaper.html&&examPaper.filename){
-   const fileCard=document.createElement('div');fileCard.style.cssText='display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0;padding:13px 15px;border:1px solid var(--ln);border-radius:13px;background:var(--card,rgba(120,120,120,.06))';
-   const fileIcon=document.createElement('span');fileIcon.textContent='▤';fileIcon.style.cssText='font-size:25px;color:var(--accent,#b68a3a)';
-   const fileInfo=document.createElement('div');fileInfo.style.cssText='display:flex;flex-direction:column;gap:3px;min-width:0;flex:1';
-   const fileName=document.createElement('strong');fileName.textContent='آزمون تشریحی مدار';fileName.style.fontSize='.86rem';
-   const fileType=document.createElement('small');fileType.textContent='پیش‌نمایش PDF در همین صفحه · قابل چاپ و دریافت';fileType.style.color='var(--muted,#888)';
+   const fileCard=document.createElement('div');fileCard.className='exam-file-card';
+   const fileIcon=document.createElement('span');fileIcon.className='exam-file-icon';fileIcon.innerHTML="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 28\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9.5 5.5H8c-3 0-4.5 1.6-4.5 4.8v9c0 3.4 1.6 5 4.8 5h11.4c3.2 0 4.8-1.6 4.8-5v-9c0-3.2-1.5-4.8-4.5-4.8h-1.5\"/><rect x=\"9.5\" y=\"2.8\" width=\"9\" height=\"5.4\" rx=\"2.2\"/><path d=\"M9 14.5h10M9 19h6\"/></svg>";
+   const fileInfo=document.createElement('div');fileInfo.className='exam-file-info';
+   const fileName=document.createElement('strong');fileName.textContent='آزمون تشریحی مدار';
+   const fileType=document.createElement('small');fileType.textContent='فایل PDF · پیش‌نمایش و دانلود';
    fileInfo.append(fileName,fileType);
-   const preview=document.createElement('button');preview.type='button';preview.textContent='نمایش PDF';preview.style.cssText='white-space:nowrap;padding:8px 12px;border-radius:9px;background:#142859;color:#fff;font-size:.78rem;font-weight:700';preview.onclick=()=>openExamPreview(examPaper);
-   const download=document.createElement('a');download.textContent='نسخه HTML';download.download=examPaper.filename;
-   download.href=URL.createObjectURL(new Blob([examPaper.html],{type:'text/html;charset=utf-8'}));
-   download.style.cssText='white-space:nowrap;text-decoration:none;padding:8px 12px;border-radius:9px;border:1px solid var(--ln);color:var(--tx);font-size:.78rem';
+   const preview=document.createElement('button');preview.type='button';preview.className='exam-file-preview';preview.textContent='نمایش';preview.onclick=()=>openExamPreview(examPaper).catch(()=>{});
+   const download=document.createElement('a');download.className='exam-file-download';download.href='#';download.setAttribute('role','button');download.title='دانلود PDF';download.setAttribute('aria-label','دانلود PDF');download.innerHTML="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 28\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 4v14\"/><path d=\"M8.8 13l5.2 5.2 5.2-5.2\"/><path d=\"M4.5 17.5v1.2c0 3.5 1.8 5.3 5.3 5.3h8.4c3.5 0 5.3-1.8 5.3-5.3v-1.2\"/></svg>";
+   download.onclick=async(event)=>{event.preventDefault();await downloadExamPdf(examPaper)};
    fileCard.append(fileIcon,fileInfo,preview,download);el.appendChild(fileCard);
-   openExamPreview(examPaper);
+   openExamPreview(examPaper).catch(()=>{});
   }  const a=document.createElement('div');a.className='acts';
   const makeAction=(name,label,path,handler)=>{
    const button=document.createElement('button');button.type='button';button.title=label;button.setAttribute('aria-label',label);
@@ -1176,6 +1188,7 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
  scrollDown();
 }
 let examPreviewPdfUrl=null;
+let examPreviewHtml=null;
 let examPreviewToken=0;
 function closeExamPreview(){
  examPreviewToken++;
@@ -1183,50 +1196,79 @@ function closeExamPreview(){
  const frame=$('examPdfFrame');frame.onload=null;frame.src='about:blank';
  $('examPdfDownload').hidden=true;$('examPreviewPrint').disabled=true;
  if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
+ examPreviewHtml=null;
 }
 function printExamPreview(){
  const frame=$('examPdfFrame');
  try{frame.contentWindow.focus();frame.contentWindow.print()}catch(error){toast('برای چاپ، ابتدا PDF را دانلود و باز کن.')}
 }
 function openExamPreview(examPaper){
- if(!examPaper||!examPaper.html)return;
+ if(!examPaper||!examPaper.html)return Promise.reject(new Error('exam HTML is missing'));
  const token=++examPreviewToken,frame=$('examPdfFrame'),status=$('examPreviewStatus'),download=$('examPdfDownload'),print=$('examPreviewPrint');
  document.body.classList.add('exam-preview-open');
  if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
+ examPreviewHtml=examPaper.html;
  download.hidden=true;download.removeAttribute('href');print.disabled=true;
  status.textContent='در حال آماده‌سازی PDF…';
- let converted=false;
- frame.onload=async()=>{
-  if(converted||token!==examPreviewToken)return;
-  converted=true;
-  try{
-   const doc=frame.contentDocument;
-   if(!doc)throw new Error('preview document unavailable');
-   if(doc.fonts?.ready)await doc.fonts.ready;
-   if(doc.defaultView?.MathJax?.typesetPromise)await doc.defaultView.MathJax.typesetPromise();
-   if(typeof window.html2pdf!=='function')throw new Error('PDF engine unavailable');
-   const paper=doc.querySelector('.sheet')||doc.querySelector('.paper')||doc.body;
-   const blob=await window.html2pdf().set({
-    margin:[9,9,9,9],
-    filename:examPaper.filename.replace(/\.html$/i,'.pdf'),
-    image:{type:'jpeg',quality:.98},
-    html2canvas:{scale:1.8,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',windowWidth:794,scrollY:0},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-    pagebreak:{mode:['css','legacy'],avoid:'.q,.sec,.top,.foot,.question,.exam-header,.exam-footer'}
-   }).from(paper).outputPdf('blob');
-   if(token!==examPreviewToken)return;
-   examPreviewPdfUrl=URL.createObjectURL(blob);
-   frame.onload=null;frame.src=examPreviewPdfUrl;
-   download.href=examPreviewPdfUrl;download.download=examPaper.filename.replace(/\.html$/i,'.pdf');download.hidden=false;
-   print.disabled=false;status.textContent='PDF آماده است · '+Math.max(1,Math.ceil(blob.size/1024))+' KB';
-  }catch(error){
-   if(token!==examPreviewToken)return;
-   status.textContent='پیش‌نمایش PDF آماده نشد؛ نسخه چاپی را باز کن.';
-   print.disabled=false;
-   console.warn('[EXAM PDF] conversion failed',error);
+ return new Promise((resolve,reject)=>{
+  let converted=false;
+  frame.onload=async()=>{
+   if(converted||token!==examPreviewToken)return;
+   converted=true;
+   try{
+    const doc=frame.contentDocument;
+    if(!doc)throw new Error('preview document unavailable');
+    if(doc.fonts?.ready)await doc.fonts.ready;
+    if(doc.defaultView?.MathJax?.startup?.promise)await doc.defaultView.MathJax.startup.promise;
+    if(doc.defaultView?.MathJax?.typesetPromise)await doc.defaultView.MathJax.typesetPromise();
+    await Promise.all(Array.from(doc.images||[]).map(img=>img.complete?Promise.resolve():new Promise(resolveImage=>{img.onload=img.onerror=resolveImage})));
+    if(typeof window.html2pdf!=='function')throw new Error('PDF engine unavailable');
+    const paper=doc.querySelector('.sheet')||doc.querySelector('.paper')||doc.body;
+    paper.style.width='210mm';paper.style.minHeight='297mm';paper.style.margin='0';paper.style.borderRadius='0';paper.style.boxShadow='none';
+    const worker=window.html2pdf().set({
+     margin:0,
+     filename:examPaper.filename.replace(/\.html$/i,'.pdf'),
+     image:{type:'jpeg',quality:.98},
+     html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',windowWidth:794,scrollX:0,scrollY:0},
+     jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},
+     pagebreak:{mode:['css','legacy'],avoid:'.q,.sec,.top,.foot,.question-figure,.question,.exam-header,.exam-footer'}
+    }).from(paper).toPdf();
+    const pdf=await worker.get('pdf');
+    const blob=pdf.output('blob');
+    if(token!==examPreviewToken)throw new Error('PDF request superseded');
+    examPreviewPdfUrl=URL.createObjectURL(blob);
+    frame.onload=null;frame.src=examPreviewPdfUrl;
+    download.href=examPreviewPdfUrl;download.download=examPaper.filename.replace(/\.html$/i,'.pdf');download.hidden=false;
+    print.disabled=false;status.textContent='PDF آماده است · '+Math.max(1,Math.ceil(blob.size/1024))+' KB';
+    resolve(blob);
+   }catch(error){
+    if(token===examPreviewToken){
+     status.textContent='ساخت PDF ناموفق بود؛ دوباره تلاش کن.';
+     print.disabled=false;
+     console.warn('[EXAM PDF] conversion failed',error);
+    }
+    reject(error);
+   }
+  };
+  frame.srcdoc=examPaper.html;
+ });
+}
+async function downloadExamPdf(examPaper){
+ try{
+  let blob;
+  if(examPreviewHtml===examPaper.html&&examPreviewPdfUrl){
+   blob=await (await fetch(examPreviewPdfUrl)).blob();
+  }else{
+   blob=await openExamPreview(examPaper);
   }
- };
- frame.srcdoc=examPaper.html;
+  const url=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=url;link.download=examPaper.filename.replace(/\.html$/i,'.pdf');
+  document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+ }catch(error){
+  console.warn('[EXAM PDF] download failed',error);
+  toast('ساخت فایل PDF کامل نشد؛ دوباره روی دانلود بزن.');
+ }
 }
 
 async function playSpeech(text,button){
