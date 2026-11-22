@@ -696,7 +696,7 @@ body.shared-view #dock{display:none!important}
         </div>
         <div class="persona-note" id="persona-note">حالت رفیق و همراه فعاله؛ راحت و خودمونی گپ می‌زنیم. 😄</div>
         <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>یکی از دو صدای مردانه یا زنانه را انتخاب کن؛ تغییر از تماس بعدی اعمال می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
-          <option value="Algenib">صدای مردانه</option>
+          <option value="Puck">صدای مردانه</option>
           <option value="Kore">صدای زنانه</option>
         </select></div>
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
@@ -1713,12 +1713,12 @@ window.addEventListener('beforeunload',()=>{if(screenShareStream)stopScreenShare
 let liveSocket=null;
 let liveVideoFrameTimer=null;
 let liveMicStream=null;
-const LIVE_VOICES=[{id:'Algenib',label:'صدای مردانه'},{id:'Kore',label:'صدای زنانه'}];
-let selectedLiveVoice='Algenib';
+const LIVE_VOICES=[{id:'Puck',label:'صدای مردانه'},{id:'Kore',label:'صدای زنانه'}];
+let selectedLiveVoice='Puck';
 try{
  const savedVoice=localStorage.getItem('madar-live-voice');
  if(savedVoice==='Kore')selectedLiveVoice='Kore';
- else if(savedVoice!=='Algenib')localStorage.setItem('madar-live-voice','Algenib');
+ else if(savedVoice!=='Puck')localStorage.setItem('madar-live-voice','Puck');
 }catch(e){}
 function setLiveVoice(value){
  if(!LIVE_VOICES.some(v=>v.id===value))return;
