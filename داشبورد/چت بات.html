@@ -484,6 +484,23 @@ body.left.exam-preview-open #examPreview{border-right-width:0;border-left:1px so
  #examPreview .preview-action{padding:0 8px}
 }
 
+
+/* Live AI provider health */
+.ai-live-panel{margin:16px 0 18px;padding:14px;border:1px solid var(--ln);border-radius:13px;background:var(--bg)}
+.ai-live-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px}
+.ai-live-top b{font-size:13px}.ai-live-top button{border:1px solid var(--ln);border-radius:8px;padding:7px 10px;font:inherit;font-size:11px;color:var(--tx);background:var(--sf)}
+.ai-live-meta{font-size:10.5px;color:var(--mu);margin-bottom:12px}
+.ai-live-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.ai-live-card{border:1px solid var(--ln);border-radius:10px;padding:11px;min-width:0;background:var(--sf)}
+.ai-live-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.ai-live-card-head b{font-size:12px}
+.ai-live-state{font-size:10px;padding:4px 7px;border-radius:7px;background:var(--hv);color:var(--mu);white-space:nowrap}
+.ai-live-state.online{color:#16845a;background:rgba(22,132,90,.1)}.ai-live-state.offline{color:#bd5555;background:rgba(189,85,85,.1)}
+.ai-live-message{font-size:10.5px;line-height:1.8;color:var(--mu);margin-top:6px}
+.ai-live-quota{font-size:10.5px;line-height:1.9;margin-top:7px;padding-top:6px;border-top:1px solid var(--ln)}
+.ai-live-models{font-size:9.5px;direction:ltr;text-align:left;color:var(--mu);line-height:1.8;margin-top:6px;overflow-wrap:anywhere}
+.ai-live-note{font-size:10.5px;line-height:1.9;color:var(--mu);margin-top:10px}
+@media(max-width:700px){.ai-live-grid{grid-template-columns:1fr}.ai-live-top{align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -754,6 +771,12 @@ body.left.exam-preview-open #examPreview{border-right-width:0;border-left:1px so
       <div class="pane" id="p-models">
         <h3>مدل‌های هوش مصنوعی</h3>
         <div class="ai-catalog-intro">در مدار می‌توانی از پنج سرویس هوش مصنوعی استفاده کنی. این راهنما تفاوت مدل‌های قابل انتخاب و کاربرد پیشنهادی هرکدام را به‌صورت خلاصه نشان می‌دهد.</div>
+        <section class="ai-live-panel" aria-live="polite">
+          <div class="ai-live-top"><b>وضعیت زنده سرویس‌ها و سهمیه</b><button type="button" id="ai-status-refresh" onclick="loadAIModelStatus(true)">بررسی دوباره</button></div>
+          <p class="ai-live-meta" id="ai-status-checked">برای مشاهده وضعیت واقعی، بررسی را اجرا کن.</p>
+          <div class="ai-live-grid" id="ai-live-grid"><div class="ai-live-message">در انتظار بررسی وضعیت سرویس‌ها…</div></div>
+          <p class="ai-live-note" id="ai-status-note">سهمیه فقط در صورتی نمایش داده می‌شود که ارائه‌دهنده آن را از API اعلام کند. اتصال موفق به معنی تضمین باقی‌ماندن سهمیه یا ظرفیت هر مدل نیست.</p>
+        </section>
         <div class="ai-provider-list">
           <section class="ai-provider-card">
             <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">G</span><span><b>Google Gemini</b><small>مدل‌های عمومی و سریع برای گفتگو و یادگیری</small></span></div><span class="ai-provider-tag">۳ مدل</span></div>
@@ -1606,6 +1629,48 @@ function tab(t){
  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));
  document.querySelectorAll('.snav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
  if(t==='updates')loadAppVersion();
+ if(t==='models')loadAIModelStatus();
+}
+async function loadAIModelStatus(force=false){
+ const grid=$('ai-live-grid'),meta=$('ai-status-checked'),button=$('ai-status-refresh');
+ if(!grid||(!force&&grid.dataset.loaded==='true'))return;
+ if(button)button.disabled=true;
+ grid.innerHTML='<div class="ai-live-message">در حال بررسی اتصال ارائه‌دهندگان…</div>';
+ try{
+  const response=await fetch(API_BASE_URL+'/ai/model-status',{headers:Auth.headers(),cache:'no-store'});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||!data.success)throw new Error(data.message||'دریافت وضعیت مدل‌ها ناموفق بود.');
+  const labels={online:'متصل',offline:'دارای خطا',unconfigured:'تنظیم‌نشده',unknown:'نامشخص'};
+  const quotaText=q=>{
+   const parts=[];
+   if(q.limit!==null&&q.limit!==undefined)parts.push('سقف: '+q.limit);
+   if(q.remaining!==null&&q.remaining!==undefined)parts.push('باقی‌مانده: '+q.remaining);
+   if(q.used!==null&&q.used!==undefined)parts.push('مصرف: '+q.used);
+   if(q.reset)parts.push('بازنشانی/نوع: '+q.reset);
+   return parts.length?parts.join(' · '):'سهمیه دقیق از API اعلام نشده است.';
+  };
+  grid.replaceChildren();
+  (data.providers||[]).forEach(provider=>{
+   const card=document.createElement('article');card.className='ai-live-card';
+   const head=document.createElement('div');head.className='ai-live-card-head';
+   const name=document.createElement('b');name.textContent=provider.name;
+   const state=document.createElement('span');state.className='ai-live-state '+provider.status;state.textContent=labels[provider.status]||'نامشخص';
+   head.append(name,state);
+   const message=document.createElement('p');message.className='ai-live-message';message.textContent=provider.message||'—';
+   const quota=document.createElement('div');quota.className='ai-live-quota';
+   quota.textContent=(provider.quota&&provider.quota.length?provider.quota.map(quotaText).join(' | '):'سهمیه: اطلاعات قابل دریافت نیست');
+   const models=document.createElement('div');models.className='ai-live-models';
+   models.textContent=(provider.models||[]).map(model=>model.id+' · '+(labels[model.status]||model.status)).join('\n');
+   card.append(head,message,quota,models);grid.appendChild(card);
+  });
+  meta.textContent='آخرین بررسی: '+new Date(data.checkedAt||Date.now()).toLocaleString('fa-IR');
+  $('ai-status-note').textContent=data.note||'اطلاعات سهمیه ممکن است از سمت ارائه‌دهنده محدود باشد.';
+  grid.dataset.loaded='true';
+ }catch(error){
+  grid.innerHTML='';
+  const message=document.createElement('p');message.className='ai-live-message';message.textContent=error.message||'خطا در بررسی وضعیت.';
+  grid.appendChild(message);meta.textContent='بررسی وضعیت انجام نشد.';
+ }finally{if(button)button.disabled=false}
 }
 function navFilter(v){document.querySelectorAll('.snav button').forEach(b=>b.style.display=b.textContent.includes(v.trim())?'':'none')}
 let appVersionLoaded=false;
