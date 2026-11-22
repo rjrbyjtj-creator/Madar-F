@@ -695,10 +695,11 @@ body.shared-view #dock{display:none!important}
           <button type="button" class="persona-option" data-persona="witty" onclick="setPersona('witty')"><span class="persona-icon">😄</span><span><b>شوخ‌طبع و بانمک</b><small>گاهی شوخی ملایم و به‌جا؛ بدون حواس‌پرتی از درس</small></span><span class="persona-check">✓</span></button>
         </div>
         <div class="persona-note" id="persona-note">حالت رفیق و همراه فعاله؛ راحت و خودمونی گپ می‌زنیم. 😄</div>
-        <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>یکی از دو صدای مردانه یا زنانه را انتخاب کن؛ تغییر از تماس بعدی اعمال می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
-          <option value="Puck">صدای مردانه</option>
-          <option value="Kore">صدای زنانه</option>
+        <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>دو صدای جوان برای مقایسه؛ انتخابت در تماس بعدی استفاده می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
+          <option value="Algieba">پسر جوان · نرم و طبیعی</option>
+          <option value="Kore">دختر جوان · روشن و صمیمی</option>
         </select></div>
+        <div class="srow voice-test-row"><div><b>تست صدای انتخاب‌شده</b><small>با شروع تماس صوتی، صدای انتخابی را در گفتگوی واقعی بشنو.</small></div><button type="button" class="btn" onclick="testLiveVoice()">تست صدا</button></div>
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
         <div class="srow"><div><b>سرعت تایپ</b><small>فقط وقتی تایپ زنده روشن است</small></div><select class="fld" onchange="spd=+this.value"><option value="2">آرام</option><option value="5" selected>معمولی</option><option value="12">سریع</option></select></div>
         <div class="srow"><div><b>اندازهٔ متن پاسخ‌ها</b></div><select class="fld" onchange="document.documentElement.style.setProperty('--fs',this.value+'px')"><option value="13.5">کوچک</option><option value="14.5" selected>متوسط</option><option value="16">بزرگ</option></select></div>
@@ -1713,18 +1714,23 @@ window.addEventListener('beforeunload',()=>{if(screenShareStream)stopScreenShare
 let liveSocket=null;
 let liveVideoFrameTimer=null;
 let liveMicStream=null;
-const LIVE_VOICES=[{id:'Puck',label:'صدای مردانه'},{id:'Kore',label:'صدای زنانه'}];
-let selectedLiveVoice='Puck';
+const LIVE_VOICES=[{id:'Algieba',label:'پسر جوان · نرم و طبیعی'},{id:'Kore',label:'دختر جوان · روشن و صمیمی'}];
+let selectedLiveVoice='Algieba';
 try{
  const savedVoice=localStorage.getItem('madar-live-voice');
- if(savedVoice==='Kore')selectedLiveVoice='Kore';
- else if(savedVoice!=='Puck')localStorage.setItem('madar-live-voice','Puck');
+ if(LIVE_VOICES.some(v=>v.id===savedVoice))selectedLiveVoice=savedVoice;
+ else localStorage.setItem('madar-live-voice','Algieba');
 }catch(e){}
 function setLiveVoice(value){
  if(!LIVE_VOICES.some(v=>v.id===value))return;
  selectedLiveVoice=value;
  try{localStorage.setItem('madar-live-voice',value)}catch(e){}
  toast(liveCallActive?'صدا برای تماس بعدی ذخیره شد.':'صدای روبو تغییر کرد.');
+}
+function testLiveVoice(){
+ if(liveCallActive){toast('تماس فعلی را تمام کن و دوباره تست صدا را بزن.');return}
+ closeModal();
+ openLiveCall();
 }
 let liveInputContext=null;
 let liveMicSource=null;
