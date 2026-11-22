@@ -1325,7 +1325,7 @@ function openExamPreview(examPaper){
      '*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}'
     ].join('\n');
     doc.head.appendChild(exportStyle);
-    paper.style.width='194mm';paper.style.maxWidth='194mm';paper.style.minHeight='0';paper.style.height='auto';paper.style.margin='0 auto';paper.style.padding='0';paper.style.border='0';paper.style.borderRadius='0';paper.style.boxShadow='none';paper.style.overflow='visible';
+    paper.style.width='194mm';paper.style.maxWidth='194mm';paper.style.minHeight='0';paper.style.height='auto';paper.style.margin='0 auto';paper.style.padding='8px';paper.style.border='0';paper.style.borderRadius='0';paper.style.boxShadow='none';paper.style.overflow='visible';
     const questionList=doc.querySelector('#L');if(questionList)questionList.style.overflow='visible';
     await new Promise(resolveLayout=>requestAnimationFrame(()=>requestAnimationFrame(resolveLayout)));
     const worker=window.html2pdf().set({
