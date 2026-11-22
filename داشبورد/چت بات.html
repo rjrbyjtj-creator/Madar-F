@@ -1205,14 +1205,14 @@ function openExamPreview(examPaper){
    if(doc.fonts?.ready)await doc.fonts.ready;
    if(doc.defaultView?.MathJax?.typesetPromise)await doc.defaultView.MathJax.typesetPromise();
    if(typeof window.html2pdf!=='function')throw new Error('PDF engine unavailable');
-   const paper=doc.querySelector('.paper')||doc.body;
+   const paper=doc.querySelector('.sheet')||doc.querySelector('.paper')||doc.body;
    const blob=await window.html2pdf().set({
     margin:[9,9,9,9],
     filename:examPaper.filename.replace(/\.html$/i,'.pdf'),
     image:{type:'jpeg',quality:.98},
     html2canvas:{scale:1.8,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',windowWidth:794,scrollY:0},
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-    pagebreak:{mode:['css','legacy'],avoid:'.question,.exam-header,.exam-footer'}
+    pagebreak:{mode:['css','legacy'],avoid:'.q,.sec,.top,.foot,.question,.exam-header,.exam-footer'}
    }).from(paper).outputPdf('blob');
    if(token!==examPreviewToken)return;
    examPreviewPdfUrl=URL.createObjectURL(blob);
