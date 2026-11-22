@@ -1100,23 +1100,21 @@ function typeInto(el,html,done){
 }
 
 function addUser(t,attachment){
- if(attachment&&attachment.mime&&attachment.mime.startsWith('image/')&&attachment.previewUrl){
-  const media=document.createElement('div');media.className='u-attachment';
-  const img=document.createElement('img');img.className='u-attachment-image';img.src=attachment.previewUrl;img.alt=attachment.name||'تصویر پیوست‌شده';
-  img.onload=()=>{try{URL.revokeObjectURL(attachment.previewUrl)}catch(error){}};
-  media.appendChild(img);$('chat').appendChild(media);
- }
  const d=document.createElement('div');d.className='u';
+ if(attachment&&attachment.mime&&attachment.mime.startsWith('image/')&&attachment.previewUrl){
+  const img=document.createElement('img');img.className='u-attachment-image';img.src=attachment.previewUrl;img.alt=attachment.name||'تصویر پیوست‌شده';d.appendChild(img);
+ }
  if(attachment&&!(attachment.mime&&attachment.mime.startsWith('image/'))){
   const media=document.createElement('div');media.className='u-attachment';
   const tile=document.createElement('div');tile.className='u-attachment-pdf';
   tile.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5H8c-3 0-4.5 1.6-4.5 4.8v9c0 3.4 1.6 5 4.8 5h11.4c3.2 0 4.8-1.6 4.8-5v-9c0-3.2-1.5-4.8-4.5-4.8h-1.5"/><rect x="9.5" y="2.8" width="9" height="5.4" rx="2.2"/><path d="M9 14.5h10M9 19h6"/></svg>';
-  media.appendChild(tile);
-  const name=document.createElement('small');name.className='u-attachment-name';name.textContent=attachment.name||'فایل PDF';media.appendChild(name);
-  d.appendChild(media);
+  media.appendChild(tile);const name=document.createElement('small');name.className='u-attachment-name';name.textContent=attachment.name||attachment.fileName||'فایل پیوست';media.appendChild(name);d.appendChild(media);
  }
- if(t){d.textContent=t}
+ if(t){const text=document.createElement('div');text.className='u-message-text';text.textContent=t;d.appendChild(text)}
  if(d.childNodes.length)$('chat').appendChild(d);
+ if(attachment&&attachment.url){
+  (async()=>{try{const response=await fetch(API_BASE_URL+attachment.url,{headers:Auth.headers()});if(!response.ok)throw new Error('file unavailable');const blob=await response.blob();const url=URL.createObjectURL(blob);if(attachment.mimeType&&attachment.mimeType.startsWith('image/')){const img=document.createElement('img');img.className='u-attachment-image';img.src=url;img.alt=attachment.fileName||'تصویر پیوست‌شده';d.prepend(img);img.onload=()=>URL.revokeObjectURL(url)}else{const link=document.createElement('a');link.className='u-attachment-name';link.href=url;link.target='_blank';link.rel='noopener';link.textContent=attachment.fileName||'فایل پیوست';d.prepend(link)}}catch(error){const small=document.createElement('small');small.className='u-attachment-name';small.textContent='پیوست: '+(attachment.fileName||'فایل')+' (در دسترس نیست)';d.prepend(small)}})();
+ }
  scrollDown();
 }
 function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
@@ -1476,7 +1474,7 @@ async function loadChat(id){
   if(!response.ok)throw new Error(data.message||'بارگذاری گفتگو انجام نشد.');
   const c=data.conversation;active=id;conversationId=id;conversation=(c.messages||[]).map(m=>({role:m.role,content:m.content}));
   renderHist($('q').value);layoutChat();$('chat').innerHTML='';$('ttl').textContent=c.title||'گفتگو';
-  conversation.forEach(m=>{if(m.role==='user')addUser(m.content);else addAI(m.content,false)});
+  (c.messages||[]).forEach(m=>{if(m.role==='user')addUser(m.content,m.attachment);else addAI(m.content,false,null,null,m.examPaper)});
   if(innerWidth<900)document.body.classList.remove('m-open');
  }catch(error){toast(error.message||'بارگذاری گفتگو ناموفق بود.')}
 }
