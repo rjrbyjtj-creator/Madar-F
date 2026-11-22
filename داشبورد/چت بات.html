@@ -612,6 +612,7 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
   <div class="preview-shell">
     <div class="preview-head">
       <div class="preview-title"><b>پیش‌نمایش آزمون</b><small id="examPreviewStatus">در انتظار ساخت آزمون</small></div>
+      <button type="button" class="preview-action" id="examPreviewFullscreen" onclick="toggleExamPreviewFullscreen()">تمام‌صفحه</button>
       <button type="button" class="preview-action" id="examPreviewPrint" onclick="printExamPreview()" disabled>چاپ</button>
       <a class="preview-action primary" id="examPdfDownload" href="#" download="madar-exam.pdf" hidden>دانلود PDF</a>
       <button type="button" class="ib" onclick="closeExamPreview()" title="بستن پیش‌نمایش" aria-label="بستن پیش‌نمایش"><svg class="i"><use href="#x"/></svg></button>
