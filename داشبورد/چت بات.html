@@ -1251,7 +1251,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(screenShareStream?{screenFrame:captureScreenFrame()}:{}),...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
    signal:controller.signal,
   });
   const data=await response.json().catch(()=>({}));
@@ -1652,6 +1652,17 @@ function clearAtt(){
  att=null;renderAttachmentPreview();$('file').value='';$('fn').hidden=true;sync();
 }
 let screenShareStream=null;
+function captureScreenFrame(){
+ const video=$('screenShareVideo');
+ if(!screenShareStream||!video||video.readyState<2||!video.videoWidth||!video.videoHeight)return null;
+ const scale=Math.min(1,1280/video.videoWidth);
+ const canvas=document.createElement('canvas');
+ canvas.width=Math.max(1,Math.round(video.videoWidth*scale));
+ canvas.height=Math.max(1,Math.round(video.videoHeight*scale));
+ const ctx=canvas.getContext('2d',{alpha:false});
+ ctx.drawImage(video,0,0,canvas.width,canvas.height);
+ return canvas.toDataURL('image/jpeg',0.72);
+}
 async function toggleScreenShare(){
  if(screenShareStream){stopScreenShare();return}
  if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
