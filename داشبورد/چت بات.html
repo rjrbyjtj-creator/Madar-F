@@ -695,8 +695,41 @@ body.shared-view #dock{display:none!important}
           <button type="button" class="persona-option" data-persona="witty" onclick="setPersona('witty')"><span class="persona-icon">😄</span><span><b>شوخ‌طبع و بانمک</b><small>گاهی شوخی ملایم و به‌جا؛ بدون حواس‌پرتی از درس</small></span><span class="persona-check">✓</span></button>
         </div>
         <div class="persona-note" id="persona-note">حالت رفیق و همراه فعاله؛ راحت و خودمونی گپ می‌زنیم. 😄</div>
-        <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>یکی از صداهای آمادهٔ Gemini را انتخاب کن؛ روی تماس بعدی اعمال می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
-          <option value="Zephyr">Zephyr · روشن و پرانرژی</option><option value="Puck">Puck · سرزنده و دوستانه</option><option value="Kore">Kore · متعادل و گرم</option><option value="Aoede">Aoede · نرم و روان</option><option value="Leda">Leda · آرام و لطیف</option><option value="Callirrhoe">Callirrhoe · دلنشین</option><option value="Autonoe">Autonoe · شفاف</option><option value="Despina">Despina · ملایم</option><option value="Erinome">Erinome · صمیمی</option><option value="Laomedeia">Laomedeia · پرنشاط</option><option value="Achernar">Achernar · ملایم و آرام</option><option value="Vindemiatrix">Vindemiatrix · واضح</option><option value="Sulafat">Sulafat · گرم</option><option value="Schedar">Schedar · عمیق</option><option value="Achird">Achird · دوستانه</option><option value="Algenib">Algenib · بم و جدی</option><option value="Algieba">Algieba · متین</option><option value="Alnilam">Alnilam · پرقدرت</option><option value="Charon">Charon · عمیق و رسمی</option><option value="Fenrir">Fenrir · پرانرژی و قاطع</option><option value="Orus">Orus · مطمئن و محکم</option><option value="Iapetus">Iapetus · واضح و دقیق</option><option value="Enceladus">Enceladus · نرم</option><option value="Umbriel">Umbriel · آرام و عمیق</option><option value="Gacrux">Gacrux · سنگین</option><option value="Pulcherrima">Pulcherrima · روشن</option><option value="Rasalgethi">Rasalgethi · پرطنین</option><option value="Zubenelgenubi">Zubenelgenubi · متعادل</option><option value="Sadachbia">Sadachbia · نرم</option><option value="Sadaltager">Sadaltager · واضح</option>
+        <div class="srow top2"><div><b>صدای گفتگوی صوتی روبو</b><small>از بین صداهای زنانه و مردانه انتخاب کن؛ تغییر از تماس بعدی اعمال می‌شود.</small></div><select class="fld" id="live-voice-select" aria-label="انتخاب صدای روبو" onchange="setLiveVoice(this.value)">
+          <optgroup label="صداهای زنانه">
+            <option value="Achernar">آرْچرْنار · زنانه، نرم و آرام</option>
+            <option value="Aoede">آئودی · زنانه، لطیف و روان</option>
+            <option value="Autonoe">آتونُئه · زنانه، روشن و شفاف</option>
+            <option value="Callirrhoe">کالیرهو · زنانه، گرم و صمیمی</option>
+            <option value="Despina">دسپینا · زنانه، صاف و دلنشین</option>
+            <option value="Erinome">ارینوم · زنانه، واضح و متعادل</option>
+            <option value="Gacrux">گاکروکس · زنانه، پخته و عمیق</option>
+            <option value="Kore">کوره · زنانه، محکم و مطمئن</option>
+            <option value="Laomedeia">لائومدیا · زنانه، شاد و پرانرژی</option>
+            <option value="Leda">لدا · زنانه، جوان و سرزنده</option>
+            <option value="Pulcherrima">پولچریما · زنانه، قاطع و پرقدرت</option>
+            <option value="Sulafat">سولافات · زنانه، گرم و آرام</option>
+            <option value="Vindemiatrix">ویندیمیاتریکس · زنانه، ملایم و لطیف</option>
+            <option value="Zephyr">زفیر · زنانه، روشن و پرنشاط</option>
+          </optgroup>
+          <optgroup label="صداهای مردانه">
+            <option value="Achird">آخیرْد · مردانه، دوستانه</option>
+            <option value="Algenib">الجنیب · مردانه، بم و خش‌دار</option>
+            <option value="Algieba">الجیبا · مردانه، نرم و روان</option>
+            <option value="Alnilam">النيلم · مردانه، محکم و قاطع</option>
+            <option value="Charon">کارون · مردانه، عمیق و رسمی</option>
+            <option value="Enceladus">انسلادوس · مردانه، نرم و نفس‌دار</option>
+            <option value="Fenrir">فنریر · مردانه، پرانرژی و قدرتمند</option>
+            <option value="Iapetus">یاپتوس · مردانه، واضح و دقیق</option>
+            <option value="Orus">اوروس · مردانه، مطمئن و استوار</option>
+            <option value="Puck">پاک · مردانه، شاد و خودمانی</option>
+            <option value="Rasalgethi">راس‌الغتی · مردانه، رسا و آموزشی</option>
+            <option value="Sadachbia">ساداخبیا · مردانه، زنده و پرتحرک</option>
+            <option value="Sadaltager">سادلتاگر · مردانه، دانا و شمرده</option>
+            <option value="Schedar">شدار · مردانه، متعادل و آرام</option>
+            <option value="Umbriel">امبریل · مردانه، راحت و صمیمی</option>
+            <option value="Zubenelgenubi">زوبن‌الجَنوبی · مردانه، خودمانی</option>
+          </optgroup>
         </select></div>
         <div class="srow"><div><b>تایپ زنده پاسخ‌ها</b><small>پاسخ به‌صورت تدریجی روی صفحه نوشته شود</small></div><button class="sw on" onclick="setLive(this)" aria-label="تایپ زنده"></button></div>
         <div class="srow"><div><b>سرعت تایپ</b><small>فقط وقتی تایپ زنده روشن است</small></div><select class="fld" onchange="spd=+this.value"><option value="2">آرام</option><option value="5" selected>معمولی</option><option value="12">سریع</option></select></div>
