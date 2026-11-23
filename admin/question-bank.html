@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بانک سؤالات | مدیریت مدار</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/admin-panel.css">
+<style>
+body{font-family:Vazirmatn,sans-serif}.qb-wrap{max-width:1180px;margin:3rem auto;padding:0 2rem;flex:1;width:100%}
+.qb-top{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;margin-bottom:2rem}.qb-title h1{font-size:2.2rem;color:var(--navy);margin-bottom:.5rem}.qb-title p{font-size:1.15rem;color:var(--muted);line-height:1.9}
+.qb-back{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:1rem;padding:.9rem 1.4rem;font-size:1.1rem}
+.qb-stats{display:flex;gap:1rem;margin-bottom:1.8rem}.qb-stat{background:var(--surface);border:1px solid var(--line);border-radius:1.2rem;padding:1.2rem 1.6rem;min-width:14rem}.qb-stat b{display:block;color:var(--navy);font-size:2rem}.qb-stat span{color:var(--muted);font-size:1rem}
+.qb-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:1.5rem;align-items:start}.qb-card{background:var(--surface);border:1px solid var(--line);border-radius:1.4rem;padding:1.8rem;min-width:0}.qb-card h2{font-size:1.45rem;color:var(--navy);margin-bottom:.5rem}.qb-desc{color:var(--muted);font-size:1rem;line-height:1.9;margin-bottom:1.5rem}
+.qb-field{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem}.qb-field label{font-size:1rem;color:var(--text);font-weight:700}.qb-field input,.qb-field select,.qb-field textarea,.qb-search input{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:.9rem;padding:.9rem 1rem;font:inherit;font-size:1.05rem;outline:none}.qb-field textarea{min-height:13rem;resize:vertical;line-height:2}.qb-field input:focus,.qb-field select:focus,.qb-field textarea:focus,.qb-search input:focus{border-color:var(--gold)}
+.qb-two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.qb-btn{border:0;background:var(--navy);color:#fff;border-radius:.9rem;padding:1rem 1.5rem;font:inherit;font-size:1.05rem;font-weight:700}.qb-btn:disabled{opacity:.55;cursor:wait}.qb-btn.subtle{background:var(--bg);border:1px solid var(--line);color:var(--text)}
+.qb-upload{border:1px dashed var(--gold);background:color-mix(in srgb,var(--gold) 6%,var(--surface));border-radius:1rem;padding:1.2rem;margin-top:1.4rem}.qb-upload p{color:var(--muted);font-size:.95rem;line-height:1.9;margin:.5rem 0 1rem}.qb-upload input{width:100%;font:inherit;color:var(--text);font-size:1rem}
+.qb-toolbar{display:flex;gap:.8rem;align-items:center;margin:1rem 0 1.2rem}.qb-search{flex:1}.qb-count{white-space:nowrap;color:var(--muted);font-size:1rem}.qb-list{display:flex;flex-direction:column;gap:.9rem}.qb-item{border:1px solid var(--line);border-radius:1rem;padding:1.2rem;background:var(--bg)}.qb-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}.qb-tag{background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:.3rem .7rem;color:var(--muted);font-size:.9rem}.qb-question{font-size:1.05rem;line-height:2;color:var(--text);white-space:pre-wrap}.qb-item-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.9rem;color:var(--muted);font-size:.9rem}.qb-delete{border:1px solid #e5a4a4;background:transparent;color:#c44;border-radius:.7rem;padding:.5rem .8rem;font:inherit}.qb-empty{text-align:center;color:var(--muted);padding:3rem 1rem;border:1px dashed var(--line);border-radius:1rem}.qb-status{font-size:1rem;color:var(--muted);min-height:2rem;margin-top:.8rem}.qb-status.error{color:#d34b4b}.qb-note{font-size:.9rem;color:var(--muted);line-height:1.8;margin-top:.8rem}
+@media(max-width:850px){.qb-grid{grid-template-columns:1fr}.qb-top{align-items:flex-start;flex-direction:column}.qb-stats{flex-wrap:wrap}.qb-two{grid-template-columns:1fr}.qb-wrap{margin:2rem auto}}
+</style>
+<script src="./js/admin-guard.js"></script>
+</head>
+<body>
+<header class="top-header">
+ <div class="header-row"><a href="./index.html" class="brand"><img class="brand-logo" src="../عکس ها/لوگو سایت جدید.png" alt="مدار"></a><div class="search"><input placeholder="بانک سؤالات مدار"></div><div class="actions"><a class="qb-back" href="./index.html">بازگشت به داشبورد ←</a></div></div>
+ <nav class="nav"><a href="./index.html">داشبورد</a><a class="active" href="./question-bank.html">بانک سؤالات</a><a href="./articles.html">مدیریت مقالات</a></nav>
+</header>
+<main class="qb-wrap">
+ <div class="qb-top"><div class="qb-title"><h1>بانک سؤالات مدار</h1><p>نمونه سؤال‌های استاندارد را ثبت کن تا ربات از تیپ، ساختار و سطح دشواری آن‌ها برای طراحی آزمون‌های جدید الهام بگیرد.</p></div><button class="qb-back" id="refreshBtn">↻ به‌روزرسانی</button></div>
+ <div class="qb-stats"><div class="qb-stat"><b id="totalCount">—</b><span>نمونه سؤال فعال</span></div><div class="qb-stat"><b id="subjectCount">—</b><span>درس متفاوت</span></div></div>
+ <div class="qb-grid">
+  <section class="qb-card">
+   <h2>افزودن نمونه سؤال</h2><p class="qb-desc">هر نمونه را همراه با مشخصاتش ثبت کن. سؤال‌های ثبت‌شده در زمان ساخت آزمون به‌صورت مرتبط بازیابی می‌شوند.</p>
+   <form id="questionForm">
+    <div class="qb-field"><label for="subject">درس *</label><input id="subject" required maxlength="80" placeholder="مثلاً فیزیک"></div>
+    <div class="qb-two">
+     <div class="qb-field"><label for="grade">پایه</label><input id="grade" maxlength="40" placeholder="مثلاً دوازدهم"></div>
+     <div class="qb-field"><label for="chapter">فصل / مبحث</label><input id="chapter" maxlength="120" placeholder="مثلاً دینامیک"></div>
+    </div>
+    <div class="qb-two">
+     <div class="qb-field"><label for="type">تیپ سؤال</label><select id="type"><option>ترکیبی</option><option>مفهومی</option><option>محاسباتی</option><option>استدلالی</option><option>تحلیلی</option><option>مسئله چندمرحله‌ای</option><option>تستی</option><option>تشریحی</option></select></div>
+     <div class="qb-field"><label for="difficulty">سطح دشواری</label><select id="difficulty"><option>متوسط</option><option>آسان</option><option>سخت</option><option>ترکیبی</option></select></div>
+    </div>
+    <div class="qb-field"><label for="source">منبع / آزمون (اختیاری)</label><input id="source" maxlength="180" placeholder="مثلاً آزمون قلم‌چی، خرداد ۱۴۰۵"></div>
+    <div class="qb-field"><label for="question">متن نمونه سؤال *</label><textarea id="question" required minlength="10" maxlength="5000" placeholder="صورت سؤال را همراه گزینه‌ها، داده‌ها یا شکل موردنیاز وارد کن..."></textarea></div>
+    <button class="qb-btn" id="saveBtn" type="submit">ثبت در بانک سؤالات</button><div class="qb-status" id="formStatus" role="status"></div>
+   </form>
+   <div class="qb-upload"><strong>ورود گروهی از فایل متنی</strong><p>فایل TXT یا CSV انتخاب کن. در فایل TXT هر سؤال را با یک خط خالی از سؤال بعدی جدا کن. مشخصات درس و مبحث از فرم بالا استفاده می‌شوند.</p><input id="bulkFile" type="file" accept=".txt,.csv,text/plain,text/csv"><button class="qb-btn subtle" id="bulkBtn" type="button" style="margin-top:1rem">وارد کردن سؤال‌های فایل</button><p class="qb-note">در این نسخه ورود PDF و Word هنوز فعال نیست؛ فعلاً متن سؤال‌ها را مستقیم وارد کن یا فایل TXT/CSV بده.</p></div>
+  </section>
+  <section class="qb-card">
+   <h2>نمونه‌های ثبت‌شده</h2><div class="qb-toolbar"><div class="qb-search"><input id="searchInput" placeholder="جستجو در متن، مبحث یا منبع..."></div><span class="qb-count" id="listCount">۰ مورد</span></div>
+   <div class="qb-list" id="questionList"><div class="qb-empty">در حال دریافت بانک سؤال…</div></div>
+  </section>
+ </div>
+</main>
+<script src="./js/question-bank.js"></script>
+<script src="../js/theme.js"></script>
+</body></html>
