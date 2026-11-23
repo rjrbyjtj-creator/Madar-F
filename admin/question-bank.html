@@ -34,7 +34,7 @@ body{font-family:Vazirmatn,sans-serif}.qb-wrap{max-width:1180px;margin:3rem auto
    <form id="questionForm">
     <div class="qb-field"><label for="subject">درس *</label><input id="subject" required maxlength="80" placeholder="مثلاً فیزیک"></div>
     <div class="qb-two">
-     <div class="qb-field"><label for="grade">پایه</label><input id="grade" maxlength="40" placeholder="مثلاً دوازدهم"></div>
+     <div class="qb-field"><label for="grade">پایه *</label><select id="grade" required><option value="12">دوازدهم</option><option value="11">یازدهم</option><option value="10">دهم</option></select></div>
      <div class="qb-field"><label for="chapter">فصل / مبحث</label><input id="chapter" maxlength="120" placeholder="مثلاً دینامیک"></div>
     </div>
     <div class="qb-two">
@@ -45,11 +45,11 @@ body{font-family:Vazirmatn,sans-serif}.qb-wrap{max-width:1180px;margin:3rem auto
     <div class="qb-field"><label for="question">متن نمونه سؤال *</label><textarea id="question" required minlength="10" maxlength="5000" placeholder="صورت سؤال را همراه گزینه‌ها، داده‌ها یا شکل موردنیاز وارد کن..."></textarea></div>
     <button class="qb-btn" id="saveBtn" type="submit">ثبت در بانک سؤالات</button><div class="qb-status" id="formStatus" role="status"></div>
    </form>
-   <div class="qb-upload"><strong>ورود گروهی از فایل متنی</strong><p>فایل TXT انتخاب کن. در فایل TXT هر سؤال را با یک خط خالی از سؤال بعدی جدا کن. مشخصات درس و مبحث از فرم بالا استفاده می‌شوند.</p><input id="bulkFile" type="file" accept=".txt,text/plain"><button class="qb-btn subtle" id="bulkBtn" type="button" style="margin-top:1rem">وارد کردن سؤال‌های فایل</button><p class="qb-note">در این نسخه ورود PDF و Word هنوز فعال نیست؛ فعلاً متن سؤال‌ها را مستقیم وارد کن یا فایل TXT بده.</p></div>
+   <div class="qb-upload"><strong>بارگذاری دفترچه یا فایل بانک سؤال</strong><p>فایل PDF یا TXT را انتخاب کن. فایل اصلی در پایگاه داده مشترک Turso ذخیره می‌شود؛ سؤال‌های فایل TXT نیز استخراج و به‌صورت قابل جست‌وجو ثبت می‌شوند.</p><input id="bulkFile" type="file" accept=".pdf,.txt,application/pdf,text/plain"><button class="qb-btn subtle" id="bulkBtn" type="button" style="margin-top:1rem">بارگذاری و ذخیره در بانک</button><p class="qb-note">PDF فعلاً به‌صورت امن ذخیره می‌شود؛ استخراج متن و تبدیل خودکار صفحات اسکن‌شده به سؤال، مرحلهٔ پردازش بعدی است.</p></div>
   </section>
   <section class="qb-card">
-   <h2>نمونه‌های ثبت‌شده</h2><div class="qb-toolbar"><div class="qb-search"><input id="searchInput" placeholder="جستجو در متن، مبحث یا منبع..."></div><span class="qb-count" id="listCount">۰ مورد</span></div>
-   <div class="qb-list" id="questionList"><div class="qb-empty">در حال دریافت بانک سؤال…</div></div>
+   <h2>نمونه‌های ثبت‌شده</h2><div class="qb-toolbar"><select id="gradeFilter" aria-label="فیلتر پایه"><option value="">همه پایه‌ها</option><option value="10">دهم</option><option value="11">یازدهم</option><option value="12">دوازدهم</option></select><input id="subjectFilter" placeholder="فیلتر درس..." style="max-width:150px"><div class="qb-search"><input id="searchInput" placeholder="جستجو در متن، مبحث یا منبع..."></div><span class="qb-count" id="listCount">۰ مورد</span></div>
+   <div class="qb-list" id="questionList"><div class="qb-empty">در حال دریافت بانک سؤال…</div></div><h2 style="margin-top:2rem">فایل‌های ذخیره‌شده</h2><div class="qb-list" id="filesList"><div class="qb-empty">در حال دریافت…</div></div>
   </section>
  </div>
 </main>
