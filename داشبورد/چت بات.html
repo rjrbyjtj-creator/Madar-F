@@ -1090,8 +1090,12 @@ async function loadCoarenaModels(){
   const response=await fetch(API_BASE_URL+'/ai/coarena/models',{headers:Auth.headers(),cache:'no-store'});
   const data=await response.json().catch(()=>({}));
   if(!response.ok||!Array.isArray(data.models)||!data.models.length)throw new Error(data.message||'فهرست مدل‌ها در دسترس نیست.');
-  COARENA_MODELS=data.models.map(id=>({id,name:id}));
-  if(!COARENA_MODELS.some(item=>item.id===selectedCoarenaModel))selectedCoarenaModel=COARENA_MODELS[0].id;
+  const coarenaNames={"gpt-6-luna":"GPT-6 Luna","gemini-3-8-flash":"Gemini 3.8 Flash","deepseek-v4-1-flash-1017":"DeepSeek V4.1 Flash"};
+  COARENA_MODELS=data.models.map(id=>({id,name:coarenaNames[id]||id}));
+  if(!COARENA_MODELS.some(item=>item.id===selectedCoarenaModel)){
+   selectedCoarenaModel=COARENA_MODELS[0].id;
+   try{localStorage.setItem('madar-coarena-model',selectedCoarenaModel)}catch(error){}
+  }
   const submenu=$('coarenaModels');
   submenu.querySelectorAll('button[data-coarena-model]').forEach(button=>button.remove());
   COARENA_MODELS.forEach(item=>{
