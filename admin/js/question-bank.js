@@ -71,8 +71,27 @@
     $("filesList").innerHTML = files.length ? files.map(function (file) {
       return '<article class="qb-item"><div class="qb-meta"><span class="qb-tag">پایه ' + gradeLabel(file.grade) + '</span><span class="qb-tag">' + escapeHtml(file.subject) + '</span><span class="qb-tag">' + escapeHtml(file.mimeType) + '</span></div>' +
         '<div class="qb-question">' + escapeHtml(file.fileName) + '</div><div class="qb-item-foot"><span>' + (Number(file.fileSize) / 1024 / 1024).toFixed(2) + ' MB · ' + Number(file.questionCount || 0).toLocaleString("fa-IR") + ' سؤال استخراج‌شده</span>' +
+        (file.mimeType === "application/pdf" ? '<button class="qb-btn subtle" type="button" data-file-process="' + escapeHtml(file.id) + '" style="padding:.45rem .7rem;margin-inline-start:.5rem">استخراج / پردازش مجدد</button>' : '') +
         '<button class="qb-delete" type="button" data-file-delete="' + escapeHtml(file.id) + '">حذف فایل</button></div></article>';
     }).join("") : '<div class="qb-empty">هنوز فایلی بارگذاری نشده است.</div>';
+    $("filesList").querySelectorAll("[data-file-process]").forEach(function (button) {
+      button.addEventListener("click", async function () {
+        button.disabled = true;
+        button.textContent = "در حال استخراج…";
+        status("در حال تحلیل صفحات PDF و استخراج نمونه سؤال‌ها با هوش مصنوعی؛ لطفاً صفحه را نبند.");
+        try {
+          var result = await request(API + "/files/" + encodeURIComponent(button.dataset.fileProcess) + "/process", {
+            method: "POST", headers: authHeaders(true), body: "{}"
+          });
+          status(result.message || "پردازش PDF کامل شد.");
+          await load();
+        } catch (error) {
+          status(error.message, true);
+          button.disabled = false;
+          button.textContent = "تلاش دوباره";
+        }
+      });
+    });
     $("filesList").querySelectorAll("[data-file-delete]").forEach(function (button) {
       button.addEventListener("click", async function () {
         if (!confirm("فایل از فهرست فعال بانک سؤال حذف شود؟")) return;
@@ -114,7 +133,7 @@
     if (!$("subject").value.trim() || !$("grade").value) { status("برای فایل، درس و پایه را مشخص کن.", true); return; }
     var mime = file.type || (file.name.toLowerCase().endsWith(".pdf") ? "application/pdf" : "text/plain");
     if (mime !== "application/pdf" && mime !== "text/plain") { status("فرمت فایل پشتیبانی نمی‌شود.", true); return; }
-    $("bulkBtn").disabled = true; status("در حال بارگذاری و ذخیره فایل در Turso…");
+    $("bulkBtn").disabled = true; status("در حال بارگذاری PDF و استخراج سؤال‌ها با هوش مصنوعی؛ لطفاً تا پایان پردازش صفحه را نبند.");
     try {
       var params = new URLSearchParams({ subject: $("subject").value.trim(), grade: $("grade").value, chapter: $("chapter").value.trim() });
       var result = await request(API + "/files?" + params.toString(), {
