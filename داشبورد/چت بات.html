@@ -692,7 +692,7 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
               <div class="model-submenu" id="cloudflareModels" role="radiogroup" aria-label="مدل‌های Cloudflare">
                 <div class="submenu-title">مدل‌های Cloudflare Workers AI</div>
                 <button type="button" role="radio" data-cloudflare-model="@cf/zai-org/glm-4.7-flash" aria-checked="false" onclick="selectCloudflareModel('@cf/zai-org/glm-4.7-flash')"><span><b>GLM 4.7 Flash</b><small>@cf/zai-org/glm-4.7-flash</small></span><span class="model-check"></span></button>
-                <button type="button" role="radio" data-cloudflare-model="@cf/ibm/granite-4.0-h-micro" aria-checked="false" onclick="selectCloudflareModel('@cf/ibm/granite-4.0-h-micro')"><span><b>Granite 4.0 H Micro</b><small>@cf/ibm/granite-4.0-h-micro</small></span><span class="model-check"></span></button>
+                <button type="button" role="radio" data-cloudflare-model="@cf/ibm-granite/granite-4.0-h-micro" aria-checked="false" onclick="selectCloudflareModel('@cf/ibm-granite/granite-4.0-h-micro')"><span><b>Granite 4.0 H Micro</b><small>@cf/ibm-granite/granite-4.0-h-micro</small></span><span class="model-check"></span></button>
                 <button type="button" role="radio" data-cloudflare-model="@cf/google/gemma-4-26b-a4b-it" aria-checked="false" onclick="selectCloudflareModel('@cf/google/gemma-4-26b-a4b-it')"><span><b>Gemma 4 26B IT</b><small>@cf/google/gemma-4-26b-a4b-it</small></span><span class="model-check"></span></button>
                 <button type="button" role="radio" data-cloudflare-model="@cf/meta/llama-3.3-70b-instruct-fp8-fast" aria-checked="false" onclick="selectCloudflareModel('@cf/meta/llama-3.3-70b-instruct-fp8-fast')"><span><b>Llama 3.3 70B Fast</b><small>@cf/meta/llama-3.3-70b-instruct-fp8-fast</small></span><span class="model-check"></span></button>
                 <button type="button" role="radio" data-cloudflare-model="@cf/mistralai/mistral-small-3.1-24b-instruct" aria-checked="false" onclick="selectCloudflareModel('@cf/mistralai/mistral-small-3.1-24b-instruct')"><span><b>Mistral Small 3.1 24B</b><small>@cf/mistralai/mistral-small-3.1-24b-instruct</small></span><span class="model-check"></span></button>
@@ -836,7 +836,7 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
             <div class="ai-provider-head"><div class="ai-provider-title"><span class="ai-provider-mark">C</span><span><b>Cloudflare Workers AI</b><small>مجموعه‌ای از مدل‌های سبک و عمومی</small></span></div><span class="ai-provider-tag">۵ مدل</span></div>
             <div class="ai-model-list">
               <article class="ai-model-item"><b>GLM 4.7 Flash</b><p>مدل سریع و عمومی برای گفتگو، استدلال و کمک در انجام کارهای متنی و برنامه‌نویسی.</p><code>@cf/zai-org/glm-4.7-flash</code></article>
-              <article class="ai-model-item"><b>Granite 4.0 H Micro</b><p>مدل کوچک و کم‌حجم برای وظایف سبک، استخراج اطلاعات و پردازش متن‌های ساختاریافته.</p><code>@cf/ibm/granite-4.0-h-micro</code></article>
+              <article class="ai-model-item"><b>Granite 4.0 H Micro</b><p>مدل کوچک و کم‌حجم برای وظایف سبک، استخراج اطلاعات و پردازش متن‌های ساختاریافته.</p><code>@cf/ibm-granite/granite-4.0-h-micro</code></article>
               <article class="ai-model-item"><b>Gemma 4 26B IT</b><p>مدل عمومی دستورپذیر برای گفتگو، تولید محتوا و پاسخ به درخواست‌های متنوع.</p><code>@cf/google/gemma-4-26b-a4b-it</code></article>
               <article class="ai-model-item"><b>Llama 3.3 70B Fast</b><p>مدل بزرگ چندمنظوره برای نوشتن، تحلیل، توضیح و دنبال‌کردن دستورهای پیچیده‌تر.</p><code>@cf/meta/llama-3.3-70b-instruct-fp8-fast</code></article>
               <article class="ai-model-item"><b>Mistral Small 3.1 24B</b><p>مدل متعادل برای گفتگو، خلاصه‌سازی، تولید متن و کارهای عمومی با پیچیدگی متوسط.</p><code>@cf/mistralai/mistral-small-3.1-24b-instruct</code></article>
@@ -938,7 +938,7 @@ const OPENROUTER_MODELS=[
 let selectedOpenRouterModel=OPENROUTER_MODELS[0].id;
 const CLOUDFLARE_MODELS=[
  {id:'@cf/zai-org/glm-4.7-flash',name:'GLM 4.7 Flash'},
- {id:'@cf/ibm/granite-4.0-h-micro',name:'Granite 4.0 H Micro'},
+ {id:'@cf/ibm-granite/granite-4.0-h-micro',name:'Granite 4.0 H Micro'},
  {id:'@cf/google/gemma-4-26b-a4b-it',name:'Gemma 4 26B IT'},
  {id:'@cf/meta/llama-3.3-70b-instruct-fp8-fast',name:'Llama 3.3 70B Fast'},
  {id:'@cf/mistralai/mistral-small-3.1-24b-instruct',name:'Mistral Small 3.1 24B'}
