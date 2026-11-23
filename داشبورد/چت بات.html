@@ -1041,8 +1041,7 @@ function showOpenRouterModels(open){
 function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
 function showGeminiModels(open){const submenu=$('geminiModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('geminiEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleGeminiModels(){showGeminiModels(!$('geminiModels').classList.contains('open'))}
-function selectGeminiModel(modelId){if(!GEMINI_MODELS.some(item=>item.id===modelId))return;selectedGeminiModel=modelId;selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini');localStorage.setItem('madar-gemini-model',modelId)}catch(error){}updateModelMenu();
-loadCoarenaModels();toggleModelMenu(false);toast((GEMINI_MODELS.find(item=>item.id===modelId)?.name||'Gemini')+' انتخاب شد.')}
+function selectGeminiModel(modelId){if(!GEMINI_MODELS.some(item=>item.id===modelId))return;selectedGeminiModel=modelId;selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini');localStorage.setItem('madar-gemini-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast((GEMINI_MODELS.find(item=>item.id===modelId)?.name||'Gemini')+' انتخاب شد.')}
 function showGroqModels(open){const submenu=$('groqModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('groqEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleGroqModels(){showGroqModels(!$('groqModels').classList.contains('open'))}
 function selectGroqModel(modelId){if(!GROQ_MODELS.some(item=>item.id===modelId))return;selectedGroqModel=modelId;selectedAIModel='groq';try{localStorage.setItem('madar-ai-model','groq');localStorage.setItem('madar-groq-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast('مدل '+(GROQ_MODELS.find(item=>item.id===modelId)?.name||'Groq')+' انتخاب شد.')}
@@ -2523,7 +2522,7 @@ window.addEventListener('madar:theme-applied',()=>{
  $('slotW').appendChild($('box'));renderHist();
  const sharedToken=new URLSearchParams(location.search).get('share');
  if(sharedToken){loadSharedChat(sharedToken);return}
- initPersona();loadAccount();
+ initPersona();loadAccount();loadCoarenaModels();
 })();
 </script>
 <script src="../js/madar-polish.js?v=20261116"></script>
