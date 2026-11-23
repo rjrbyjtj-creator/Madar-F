@@ -173,7 +173,7 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .attachment-card.error .attachment-progress-ring{background:conic-gradient(#d65a5a 100%,transparent 0)}
 .bar{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .bar span{font-size:11.5px;color:var(--mu)}
-.send{width:36px;height:36px;border-radius:50%;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;transition:.15s}.send:hover{background:var(--pr2)}
+.send{width:36px;height:36px;border-radius:50%;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;transition:width .18s,border-radius .18s,background .15s}.send:hover{background:var(--pr2)}.send.is-stop{border-radius:11px;background:#C0444D}.send.is-stop:hover{background:#A93440}.send.is-stop svg{width:15px;height:15px}.send:disabled{opacity:.55;cursor:not-allowed}
 
 /* Settings + profile */
 #modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,16,32,.5)}
@@ -715,7 +715,7 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
           </div>
         </div>
       </div>
-      <button class="send" id="sb" onclick="send()" aria-label="ارسال"><svg class="i"><use href="#rt"/></svg></button>
+      <button class="send" id="sb" onclick="handleSendButton()" aria-label="ارسال" title="ارسال"><svg class="i"><use href="#rt"/></svg></button>
     </span>
   </div>
   <div class="box-tools" id="composerTools" aria-hidden="true">
@@ -906,6 +906,8 @@ let active=null;
 let conversationId=null;
 let conversation=[];
 let chatBusy=false;
+let activeChatController=null;
+let userRequestedStop=false;
 let pendingPlanProposal=null;
 let pendingPlanDeletionProposal=null;
 const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
@@ -1510,8 +1512,8 @@ async function send(text){
  if(!active)$('ttl').textContent=t.length>40?t.slice(0,40)+'…':t;
  conversation.push({role:'user',content:t});
  const d=document.createElement('div');d.className='dots';d.innerHTML='<div class="loader-scale"><div class="flat-grid-loader" role="status" aria-label="روبو در حال پاسخ‌گویی"><span></span><span></span><span></span><span></span></div></div><div class="thinking-copy"><span class="thinking-stage">در حال تحلیل درخواست</span><span class="thinking-sep">·</span><span class="thinking-time">00:00</span></div>';createGridLoader(d.querySelector('.flat-grid-loader'),matchMedia('(prefers-reduced-motion: reduce)').matches?{jelly:.3,duration:3.2}:{jelly:1.6,duration:1.7});const stageEl=d.querySelector('.thinking-stage'),timeEl=d.querySelector('.thinking-time'),startedAt=Date.now(),stages=['در حال تحلیل درخواست','در حال بررسی اطلاعات','در حال پردازش پرسش','در حال آماده‌سازی پاسخ'];let stageIndex=0;const updateThinking=()=>{const elapsed=Math.floor((Date.now()-startedAt)/1000);timeEl.textContent=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');const next=Math.floor(elapsed/4)%stages.length;if(next!==stageIndex){stageIndex=next;stageEl.textContent=stages[stageIndex]}};updateThinking();const thinkingTimer=setInterval(updateThinking,1000);$('chat').appendChild(d);scrollDown();
- chatBusy=true;$('sb').disabled=true;
- const controller=new AbortController();
+ chatBusy=true;userRequestedStop=false;
+ const controller=new AbortController();activeChatController=controller;setSendButtonBusy(true);
  const isExamRequest=/(آزمون|امتحان|نمونه.?سؤال|نمونه.?سوال)/i.test(t);const timeoutId=setTimeout(()=>controller.abort(),isExamRequest?180000:75000);
  try{
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
@@ -1531,12 +1533,17 @@ async function send(text){
   chats.unshift(item);renderHist($('q').value);
   addAI(data.reply,true,data.planProposal,data.planDeletionProposal,data.examPaper);
  }catch(error){
-  if(conversation[conversation.length-1]?.role==='user')conversation.pop();
+  if(error.name!=='AbortError'&&conversation[conversation.length-1]?.role==='user')conversation.pop();
+  if(error.name==='AbortError'&&userRequestedStop){
+   const stopped=document.createElement('div');stopped.className='a';
+   const stoppedText=document.createElement('div');stoppedText.className='t2';stoppedText.style.color='var(--mu)';stoppedText.style.fontSize='12px';stoppedText.textContent='پاسخ متوقف شد.';
+   stopped.appendChild(stoppedText);$('chat').appendChild(stopped);scrollDown();
+  }else
   const row=document.createElement('div');row.className='a';
   const msg=document.createElement('div');msg.className='t2';
   msg.textContent=error.name==='AbortError'?'پاسخ‌گویی بیش از حد طول کشید. اتصال را بررسی کن و دوباره تلاش کن.':(error.message||'ارتباط با دستیار برقرار نشد.');
   row.appendChild(msg);$('chat').appendChild(row);scrollDown();
- }finally{clearTimeout(timeoutId);clearInterval(thinkingTimer);d.remove();chatBusy=false;$('sb').disabled=false;sync()}
+ }finally{clearTimeout(timeoutId);clearInterval(thinkingTimer);d.remove();chatBusy=false;activeChatController=null;userRequestedStop=false;setSendButtonBusy(false);sync()}
 }
 function quick(k){send(Q[k])}
 updateModelMenu();
@@ -1882,7 +1889,23 @@ function stopDictation(stopEngine=true){
  $('sttBtn').classList.remove('recording');$('sttBtn').title='تبدیل گفتار به متن';
  if(stopEngine&&current){try{current.stop()}catch(error){}}
 }
-function sync(){$('sb').classList.toggle('on',!!$('inp').value.trim()||!!att)}
+function sync(){ $('sb').classList.toggle('on',!!$('inp').value.trim()||!!att); }
+function setSendButtonBusy(busy){
+ const button=$('sb');if(!button)return;
+ button.classList.toggle('is-stop',busy);
+ button.setAttribute('aria-label',busy?'توقف پاسخ':'ارسال');
+ button.title=busy?'توقف پاسخ':'ارسال';
+ button.innerHTML=busy?'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/></svg>':'<svg class="i"><use href="#rt"/></svg>';
+ button.disabled=false;
+}
+function stopChatResponse(){
+ if(!chatBusy||!activeChatController)return;
+ userRequestedStop=true;
+ $('sb').disabled=true;
+ $('sb').title='در حال توقف…';
+ activeChatController.abort();
+}
+function handleSendButton(){if(chatBusy){stopChatResponse();return}send();}
 let attachmentRequest=null;
 function renderAttachmentPreview(){
  const host=$('attachmentPreview');host.innerHTML='';
