@@ -662,12 +662,10 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
           </div>
           <div class="model-provider-row" id="groqProvider" onmouseenter="showGroqModels(true)" onmouseleave="showGroqModels(false)">
             <button type="button" class="provider-entry" id="groqEntry" aria-expanded="false" aria-controls="groqModels" onclick="toggleGroqModels()">
-              <span><b>Groq</b><small>۴ مدل برای انتخاب</small></span><span class="provider-arrow">‹</span>
+              <span><b>Groq</b><small>۲ مدل برای انتخاب</small></span><span class="provider-arrow">‹</span>
             </button>
             <div class="model-submenu" id="groqModels" role="radiogroup" aria-label="مدل‌های Groq">
               <div class="submenu-title">مدل‌های Groq</div>
-              <button type="button" role="radio" data-groq-model="llama-3.3-70b-versatile" aria-checked="false" onclick="selectGroqModel('llama-3.3-70b-versatile')"><span><b>Llama 3.3 70B Versatile</b><small>llama-3.3-70b-versatile</small></span><span class="model-check"></span></button>
-              <button type="button" role="radio" data-groq-model="llama-3.1-8b-instant" aria-checked="false" onclick="selectGroqModel('llama-3.1-8b-instant')"><span><b>Llama 3.1 8B Instant</b><small>llama-3.1-8b-instant</small></span><span class="model-check"></span></button>
               <button type="button" role="radio" data-groq-model="openai/gpt-oss-120b" aria-checked="false" onclick="selectGroqModel('openai/gpt-oss-120b')"><span><b>OpenAI GPT-OSS 120B</b><small>openai/gpt-oss-120b</small></span><span class="model-check"></span></button>
               <button type="button" role="radio" data-groq-model="openai/gpt-oss-20b" aria-checked="false" onclick="selectGroqModel('openai/gpt-oss-20b')"><span><b>OpenAI GPT-OSS 20B</b><small>openai/gpt-oss-20b</small></span><span class="model-check"></span></button>
             </div>
