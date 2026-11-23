@@ -1033,23 +1033,25 @@ function toggleModelMenu(force){
  if(!open){showOpenRouterModels(false);showCloudflareModels(false);showGroqModels(false);showGeminiModels(false);showHuggingFaceModels(false);showCoarenaModels(false);}
  if(open)closeComposerTools();
 }
-function showOpenRouterModels(open){
- const submenu=$('openRouterModels');
- if(!submenu)return;
- submenu.classList.toggle('open',!!open);
- $('openRouterEntry').setAttribute('aria-expanded',String(!!open));
+function setProviderSubmenu(submenuId,entryId,open){
+ const submenu=$(submenuId),entry=$(entryId);if(!submenu||!entry)return;
+ if(open)document.querySelectorAll('#modelMenu .model-submenu').forEach(panel=>{
+  if(panel!==submenu){panel.classList.remove('open');panel.closest('.model-provider-row')?.querySelector('.provider-entry')?.setAttribute('aria-expanded','false')}
+ });
+ submenu.classList.toggle('open',!!open);entry.setAttribute('aria-expanded',String(!!open));
 }
-function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
-function showGeminiModels(open){const submenu=$('geminiModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('geminiEntry').setAttribute('aria-expanded',String(!!open))}
-function toggleGeminiModels(){showGeminiModels(!$('geminiModels').classList.contains('open'))}
+ function showOpenRouterModels(open){setProviderSubmenu('openRouterModels','openRouterEntry',open)}
+ function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
+function showGeminiModels(open){setProviderSubmenu('geminiModels','geminiEntry',open)}
+ function toggleGeminiModels(){showGeminiModels(!$('geminiModels').classList.contains('open'))}
 function selectGeminiModel(modelId){if(!GEMINI_MODELS.some(item=>item.id===modelId))return;selectedGeminiModel=modelId;selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini');localStorage.setItem('madar-gemini-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast((GEMINI_MODELS.find(item=>item.id===modelId)?.name||'Gemini')+' انتخاب شد.')}
-function showGroqModels(open){const submenu=$('groqModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('groqEntry').setAttribute('aria-expanded',String(!!open))}
-function toggleGroqModels(){showGroqModels(!$('groqModels').classList.contains('open'))}
+function showGroqModels(open){setProviderSubmenu('groqModels','groqEntry',open)}
+ function toggleGroqModels(){showGroqModels(!$('groqModels').classList.contains('open'))}
 function selectGroqModel(modelId){if(!GROQ_MODELS.some(item=>item.id===modelId))return;selectedGroqModel=modelId;selectedAIModel='groq';try{localStorage.setItem('madar-ai-model','groq');localStorage.setItem('madar-groq-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast('مدل '+(GROQ_MODELS.find(item=>item.id===modelId)?.name||'Groq')+' انتخاب شد.')}
-function showCloudflareModels(open){const submenu=$('cloudflareModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('cloudflareEntry').setAttribute('aria-expanded',String(!!open))}
-function toggleCloudflareModels(){showCloudflareModels(!$('cloudflareModels').classList.contains('open'))}
-function showHuggingFaceModels(open){const submenu=$('huggingFaceModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('huggingFaceEntry').setAttribute('aria-expanded',String(!!open))}
-function toggleHuggingFaceModels(){showHuggingFaceModels(!$('huggingFaceModels').classList.contains('open'))}
+function showCloudflareModels(open){setProviderSubmenu('cloudflareModels','cloudflareEntry',open)}
+ function toggleCloudflareModels(){showCloudflareModels(!$('cloudflareModels').classList.contains('open'))}
+function showHuggingFaceModels(open){setProviderSubmenu('huggingFaceModels','huggingFaceEntry',open)}
+ function toggleHuggingFaceModels(){showHuggingFaceModels(!$('huggingFaceModels').classList.contains('open'))}
 function selectAIModel(model){if(model!=='gemini')return;selectGeminiModel(selectedGeminiModel)}
 function selectCloudflareModel(modelId){
  if(!CLOUDFLARE_MODELS.some(item=>item.id===modelId))return;
@@ -1073,8 +1075,8 @@ function selectHuggingFaceModel(modelId){
  updateModelMenu();toggleModelMenu(false);
  toast('مدل '+(HUGGINGFACE_MODELS.find(item=>item.id===modelId)?.name||'Hugging Face')+' انتخاب شد.');
 }
-function showCoarenaModels(open){const submenu=$('coarenaModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('coarenaEntry').setAttribute('aria-expanded',String(!!open))}
-function toggleCoarenaModels(){showCoarenaModels(!$('coarenaModels').classList.contains('open'))}
+function showCoarenaModels(open){setProviderSubmenu('coarenaModels','coarenaEntry',open)}
+ function toggleCoarenaModels(){showCoarenaModels(!$('coarenaModels').classList.contains('open'))}
 function selectCoarenaModel(modelId){
  if(!COARENA_MODELS.some(item=>item.id===modelId))return;
  selectedCoarenaModel=modelId;selectedAIModel='coarena';
