@@ -698,6 +698,15 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
                 <button type="button" role="radio" data-cloudflare-model="@cf/mistralai/mistral-small-3.1-24b-instruct" aria-checked="false" onclick="selectCloudflareModel('@cf/mistralai/mistral-small-3.1-24b-instruct')"><span><b>Mistral Small 3.1 24B</b><small>@cf/mistralai/mistral-small-3.1-24b-instruct</small></span><span class="model-check"></span></button>
               </div>
             </div>
+            <div class="model-provider-row" id="coarenaProvider">
+              <button type="button" class="provider-entry" id="coarenaEntry" aria-expanded="false" aria-controls="coarenaModels" onclick="toggleCoarenaModels()">
+                <span><b>Coarena</b><small id="coarenaModelCount">در حال دریافت مدل‌ها…</small></span><span class="provider-arrow">‹</span>
+              </button>
+              <div class="model-submenu" id="coarenaModels" role="radiogroup" aria-label="مدل‌های Coarena">
+                <div class="submenu-title">مدل‌های حساب Coarena</div>
+                <div class="submenu-title" id="coarenaModelLoading">در حال دریافت فهرست مدل‌ها…</div>
+              </div>
+            </div>
             <div class="model-provider-row is-disabled" id="huggingFaceProvider">
               <button type="button" class="provider-entry" id="huggingFaceEntry" aria-expanded="false" aria-controls="huggingFaceModels" disabled aria-disabled="true" title="فعلاً غیرفعال است">
                 <span><b>Hugging Face</b><small>غیرفعال</small></span><span class="provider-lock" aria-label="قفل">🔒</span>
@@ -914,6 +923,8 @@ const AI_CHAT_URL=`${API_BASE_URL}/ai/chat`;
 const AI_DOCUMENT_URL=`${API_BASE_URL}/ai/documents`;
 const AI_SPEECH_URL=`${API_BASE_URL}/ai/speech`;
 let selectedAIModel='gemini';
+let COARENA_MODELS=[];
+let selectedCoarenaModel='gemini-3-8-flash';
 const GEMINI_MODELS=[
  {id:'gemini-3.8-flash',name:'Gemini 3.8 Flash'},
  {id:'gemini-3.6-flash',name:'Gemini 3.6 Flash'},
@@ -955,7 +966,7 @@ const HUGGINGFACE_MODELS=[
 let selectedHuggingFaceModel=HUGGINGFACE_MODELS[0].id;
 try{
  const savedProvider=localStorage.getItem('madar-ai-model');
- if(['groq','gemini','openrouter','cloudflare','huggingface'].includes(savedProvider))selectedAIModel=savedProvider==='huggingface'?'gemini':savedProvider;
+ if(['groq','gemini','openrouter','cloudflare','huggingface','coarena'].includes(savedProvider))selectedAIModel=savedProvider==='huggingface'?'gemini':savedProvider;
  if(savedProvider==='huggingface')localStorage.setItem('madar-ai-model','gemini');
  const savedGemini=localStorage.getItem('madar-gemini-model');
  if(GEMINI_MODELS.some(item=>item.id===savedGemini))selectedGeminiModel=savedGemini;
@@ -965,6 +976,8 @@ try{
  if(CLOUDFLARE_MODELS.some(item=>item.id===savedCloudflare))selectedCloudflareModel=savedCloudflare;
  const savedOpenRouter=localStorage.getItem('madar-openrouter-model');
  if(OPENROUTER_MODELS.some(item=>item.id===savedOpenRouter))selectedOpenRouterModel=savedOpenRouter;
+ const savedCoarena=localStorage.getItem('madar-coarena-model');
+ if(savedCoarena)selectedCoarenaModel=savedCoarena;
  const savedHuggingFace=localStorage.getItem('madar-huggingface-model');
  if(HUGGINGFACE_MODELS.some(item=>item.id===savedHuggingFace))selectedHuggingFaceModel=savedHuggingFace;
 }catch(error){}
@@ -974,7 +987,8 @@ function updateModelMenu(){
  const cfCurrent=CLOUDFLARE_MODELS.find(item=>item.id===selectedCloudflareModel);
  const groqCurrent=GROQ_MODELS.find(item=>item.id===selectedGroqModel);
  const hfCurrent=HUGGINGFACE_MODELS.find(item=>item.id===selectedHuggingFaceModel);
- const names={gemini:'Gemini · '+(geminiCurrent?.name||'مدل'),groq:'Groq · '+(groqCurrent?.name||'مدل'),openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI'),huggingface:'Hugging Face · '+(hfCurrent?.name||'مدل')};
+ const coarenaCurrent=COARENA_MODELS.find(item=>item.id===selectedCoarenaModel);
+ const names={gemini:'Gemini · '+(geminiCurrent?.name||'مدل'),groq:'Groq · '+(groqCurrent?.name||'مدل'),openrouter:'OpenRouter · '+(current?.name||'مدل رایگان'),cloudflare:'Cloudflare · '+(cfCurrent?.name||'Workers AI'),huggingface:'Hugging Face · '+(hfCurrent?.name||'مدل'),coarena:'Coarena · '+(coarenaCurrent?.name||selectedCoarenaModel)};
  $('modelTriggerLabel').textContent=names[selectedAIModel];
  document.querySelectorAll('#modelMenu [data-model]').forEach(button=>{
   const active=button.dataset.model===selectedAIModel;
@@ -996,6 +1010,11 @@ function updateModelMenu(){
   button.setAttribute('aria-checked',String(active));
   button.querySelector('.model-check').textContent=active?'✓':'';
  });
+ document.querySelectorAll('#coarenaModels [data-coarena-model]').forEach(button=>{
+  const active=button.dataset.coarenaModel===selectedCoarenaModel;
+  button.setAttribute('aria-checked',String(active));
+  button.querySelector('.model-check').textContent=active?'✓':'';
+ });
  document.querySelectorAll('#huggingFaceModels [data-huggingface-model]').forEach(button=>{
   const active=button.dataset.huggingfaceModel===selectedHuggingFaceModel;
   button.setAttribute('aria-checked',String(active));
@@ -1010,7 +1029,7 @@ function updateModelMenu(){
 function toggleModelMenu(force){
  const menu=$('modelMenu'),open=typeof force==='boolean'?force:!menu.classList.contains('open');
  menu.classList.toggle('open',open);$('modelTrigger').setAttribute('aria-expanded',String(open));
- if(!open){showOpenRouterModels(false);showCloudflareModels(false);showGroqModels(false);showGeminiModels(false);showHuggingFaceModels(false);}
+ if(!open){showOpenRouterModels(false);showCloudflareModels(false);showGroqModels(false);showGeminiModels(false);showHuggingFaceModels(false);showCoarenaModels(false);}
  if(open)closeComposerTools();
 }
 function showOpenRouterModels(open){
@@ -1022,7 +1041,8 @@ function showOpenRouterModels(open){
 function toggleOpenRouterModels(){showOpenRouterModels(!$('openRouterModels').classList.contains('open'))}
 function showGeminiModels(open){const submenu=$('geminiModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('geminiEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleGeminiModels(){showGeminiModels(!$('geminiModels').classList.contains('open'))}
-function selectGeminiModel(modelId){if(!GEMINI_MODELS.some(item=>item.id===modelId))return;selectedGeminiModel=modelId;selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini');localStorage.setItem('madar-gemini-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast((GEMINI_MODELS.find(item=>item.id===modelId)?.name||'Gemini')+' انتخاب شد.')}
+function selectGeminiModel(modelId){if(!GEMINI_MODELS.some(item=>item.id===modelId))return;selectedGeminiModel=modelId;selectedAIModel='gemini';try{localStorage.setItem('madar-ai-model','gemini');localStorage.setItem('madar-gemini-model',modelId)}catch(error){}updateModelMenu();
+loadCoarenaModels();toggleModelMenu(false);toast((GEMINI_MODELS.find(item=>item.id===modelId)?.name||'Gemini')+' انتخاب شد.')}
 function showGroqModels(open){const submenu=$('groqModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('groqEntry').setAttribute('aria-expanded',String(!!open))}
 function toggleGroqModels(){showGroqModels(!$('groqModels').classList.contains('open'))}
 function selectGroqModel(modelId){if(!GROQ_MODELS.some(item=>item.id===modelId))return;selectedGroqModel=modelId;selectedAIModel='groq';try{localStorage.setItem('madar-ai-model','groq');localStorage.setItem('madar-groq-model',modelId)}catch(error){}updateModelMenu();toggleModelMenu(false);toast('مدل '+(GROQ_MODELS.find(item=>item.id===modelId)?.name||'Groq')+' انتخاب شد.')}
@@ -1052,6 +1072,39 @@ function selectHuggingFaceModel(modelId){
  try{localStorage.setItem('madar-ai-model','huggingface');localStorage.setItem('madar-huggingface-model',modelId)}catch(error){}
  updateModelMenu();toggleModelMenu(false);
  toast('مدل '+(HUGGINGFACE_MODELS.find(item=>item.id===modelId)?.name||'Hugging Face')+' انتخاب شد.');
+}
+function showCoarenaModels(open){const submenu=$('coarenaModels');if(!submenu)return;submenu.classList.toggle('open',!!open);$('coarenaEntry').setAttribute('aria-expanded',String(!!open))}
+function toggleCoarenaModels(){showCoarenaModels(!$('coarenaModels').classList.contains('open'))}
+function selectCoarenaModel(modelId){
+ if(!COARENA_MODELS.some(item=>item.id===modelId))return;
+ selectedCoarenaModel=modelId;selectedAIModel='coarena';
+ try{localStorage.setItem('madar-ai-model','coarena');localStorage.setItem('madar-coarena-model',modelId)}catch(error){}
+ updateModelMenu();toggleModelMenu(false);
+ toast('مدل Coarena انتخاب شد.');
+}
+async function loadCoarenaModels(){
+ const loading=$('coarenaModelLoading');
+ try{
+  const response=await fetch(API_BASE_URL+'/ai/coarena/models',{headers:Auth.headers(),cache:'no-store'});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||!Array.isArray(data.models)||!data.models.length)throw new Error(data.message||'فهرست مدل‌ها در دسترس نیست.');
+  COARENA_MODELS=data.models.map(id=>({id,name:id}));
+  if(!COARENA_MODELS.some(item=>item.id===selectedCoarenaModel))selectedCoarenaModel=COARENA_MODELS[0].id;
+  const submenu=$('coarenaModels');
+  submenu.querySelectorAll('button[data-coarena-model]').forEach(button=>button.remove());
+  COARENA_MODELS.forEach(item=>{
+   const button=document.createElement('button');button.type='button';button.setAttribute('role','radio');button.dataset.coarenaModel=item.id;button.setAttribute('aria-checked','false');
+   const label=document.createElement('span');const name=document.createElement('b');name.textContent=item.name;const id=document.createElement('small');id.textContent=item.id;label.append(name,id);
+   const check=document.createElement('span');check.className='model-check';button.append(label,check);button.addEventListener('click',()=>selectCoarenaModel(item.id));submenu.appendChild(button);
+  });
+  loading.textContent='مدل‌های قابل دسترس برای کلید شما';
+  $('coarenaModelCount').textContent=COARENA_MODELS.length+' مدل در دسترس';
+  $('coarenaProvider').classList.remove('is-disabled');
+  updateModelMenu();
+ }catch(error){
+  loading.textContent='دریافت مدل‌ها ناموفق بود؛ وضعیت اتصال را بررسی کن.';
+  $('coarenaModelCount').textContent='اتصال نامشخص';
+ }
 }
 function toggleComposerTools(force){
  const panel=$('composerTools'),open=typeof force==='boolean'?force:!panel.classList.contains('open');
@@ -1519,7 +1572,7 @@ async function send(text){
   if(!Auth.get())throw new Error('برای استفاده از دستیار، ابتدا وارد حساب کاربری شو.');
   const response=await fetch(AI_CHAT_URL,{
    method:'POST',headers:{'Content-Type':'application/json',...Auth.headers()},
-   body:JSON.stringify({...(conversationId?{conversationId}:{}),...(sentAttachment?.id?{attachmentId:sentAttachment.id}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(screenShareStream?{screenFrame:captureScreenFrame()}:{}),...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
+   body:JSON.stringify({...(conversationId?{conversationId}:{}),...(sentAttachment?.id?{attachmentId:sentAttachment.id}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(screenShareStream?{screenFrame:captureScreenFrame()}:{}),...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:selectedAIModel==="coarena"?{modelId:selectedCoarenaModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
    signal:controller.signal,
   });
   const data=await response.json().catch(()=>({}));
