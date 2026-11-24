@@ -1580,6 +1580,7 @@ async function send(text){
   let data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.message||'دریافت پاسخ از هوش مصنوعی ناموفق بود.');
   if(response.status===202&&data.jobId){
+   if(data.conversationId){conversationId=data.conversationId;active=conversationId}
    clearInterval(thinkingTimer);
    let completed=false;const pollUntil=Date.now()+570000;
    stageEl.textContent=data.progress||'در حال آماده‌سازی آزمون';
