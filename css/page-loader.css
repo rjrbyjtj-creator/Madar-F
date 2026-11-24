@@ -2,7 +2,7 @@
 #madar-page-loader{--mpl-bg:#141416;--mpl-logo:#fff;position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;isolation:isolate;overflow:hidden;pointer-events:none;background:var(--mpl-bg);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
 #madar-page-loader.on{opacity:1;visibility:visible;pointer-events:auto}
 #madar-page-loader.leaving{opacity:0;visibility:visible;pointer-events:none}
-#madar-page-loader .mpl-stage{width:58px;max-width:18vw;opacity:0;transform:scale(.92);filter:blur(7px);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),filter .35s ease}
+#madar-page-loader .mpl-stage{width:120px;max-width:18vw;opacity:0;transform:scale(.92);filter:blur(7px);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),filter .35s ease}
 #madar-page-loader.on .mpl-stage{opacity:1;transform:scale(1);filter:blur(0)}
 #madar-page-loader.leaving .mpl-stage{opacity:0;transform:scale(1.04);filter:blur(5px)}
 #madar-page-loader svg{display:block;width:100%;height:auto;overflow:visible}
