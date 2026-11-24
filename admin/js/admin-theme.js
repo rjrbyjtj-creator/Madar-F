@@ -19,7 +19,7 @@
   }
   function applyMode(mode, persist) {
     var dark = mode === "dark";
-    if (window.MadarTheme && window.MadarTheme.setMode) window.MadarTheme.setMode(dark ? "dark" : "light");
+    if (window.MadarTheme && window.MadarTheme.setMode) window.MadarTheme.setMode(dark ? "dark" : "light", persist === true);
     else {
       document.body.classList.toggle("dark", dark);
       document.body.classList.toggle("dark-mode", dark);
