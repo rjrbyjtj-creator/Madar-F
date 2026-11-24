@@ -1439,8 +1439,8 @@ function downloadExamHtml(examPaper,button){
  if(button?.dataset.busy==='1')return;
  if(button){button.dataset.busy='1';button.disabled=true}
  try{
-  const safeName=String(examPaper.filename||'madar-exam.html').split(/[\\/]/).pop().replace(/[^\\p{L}\\p{N}._-]+/gu,'-').replace(/\\.html$/i,'')||'madar-exam';
-  const blob=new Blob(['\\uFEFF',examPaper.html],{type:'text/html;charset=utf-8'});
+  const safeName=String(examPaper.filename||'madar-exam.html').split(/[\\/]/).pop().replace(/[^\p{L}\p{N}._-]+/gu,'-').replace(/\.html$/i,'')||'madar-exam';
+  const blob=new Blob(['\uFEFF',examPaper.html],{type:'text/html;charset=utf-8'});
   const url=URL.createObjectURL(blob),link=document.createElement('a');
   link.href=url;link.download=safeName+'.html';link.hidden=true;
   document.body.appendChild(link);link.click();link.remove();
