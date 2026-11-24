@@ -522,6 +522,20 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
 .ai-live-note{font-size:10.5px;line-height:1.9;color:var(--mu);margin-top:10px}
 @media(max-width:700px){.ai-live-grid{grid-template-columns:1fr}.ai-live-top{align-items:flex-start}}
 
+
+/* Composer send/stop controls: icon-only, no colored button surface */
+#sb.send,
+#sb.send.is-stop,
+#sb.send.on{
+  width:36px;height:36px;min-width:36px;padding:0;margin:0;
+  border:0;border-radius:0;background:transparent!important;
+  color:var(--tx);box-shadow:none!important;
+}
+#sb.send:hover,
+#sb.send.is-stop:hover,
+#sb.send.on:hover{background:transparent!important;box-shadow:none!important;transform:none}
+#sb.send:active{transform:scale(.94)}
+#sb.send svg{width:20px;height:20px}
 </style>
 </head>
 <body>
