@@ -96,6 +96,8 @@ body.closed #openBtn,body.closed #newTop{display:flex}
 .exam-file-preview:hover{text-decoration:underline}
 .exam-file-download{width:34px;height:34px;display:grid;place-items:center;border:0;background:transparent;color:var(--ac);text-decoration:none;border-radius:7px}
 .exam-file-download:hover{background:var(--hv)}
+.exam-file-download-html{height:30px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ln);border-radius:8px;background:transparent;color:var(--pr2);font-size:.72rem;font-weight:600;white-space:nowrap}
+.exam-file-download-html:hover{background:var(--hv);border-color:var(--ac)}
 .question-figure{margin:9px auto 11px;max-width:100%;text-align:center;break-inside:avoid}
 .question-figure svg{display:block;width:auto;max-width:100%;max-height:250px;height:auto;margin:0 auto}
 .question-figure figcaption{margin-top:3px;color:#666;font-size:10px;text-align:center}
@@ -619,6 +621,7 @@ body.exam-preview-fullscreen #examPreviewResize{display:none}
       <button type="button" class="preview-action" id="examPreviewFullscreen" onclick="toggleExamPreviewFullscreen()">تمام‌صفحه</button>
       <button type="button" class="preview-action" id="examPreviewPrint" onclick="printExamPreview()" disabled>چاپ</button>
       <a class="preview-action primary" id="examPdfDownload" href="#" hidden>ذخیره PDF</a>
+      <button type="button" class="preview-action" id="examHtmlDownload" hidden>دانلود HTML</button>
       <button type="button" class="ib" onclick="closeExamPreview()" title="بستن پیش‌نمایش" aria-label="بستن پیش‌نمایش"><svg class="i"><use href="#x"/></svg></button>
     </div>
     <div id="examPreviewBody">
@@ -1219,7 +1222,8 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
    const preview=document.createElement('button');preview.type='button';preview.className='exam-file-preview';preview.textContent='نمایش';preview.onclick=()=>openExamPreview(examPaper).catch(()=>{});
    const download=document.createElement('a');download.className='exam-file-download';download.href='#';download.setAttribute('role','button');download.title='ذخیره PDF';download.setAttribute('aria-label','دانلود PDF');download.innerHTML="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 28\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 4v14\"/><path d=\"M8.8 13l5.2 5.2 5.2-5.2\"/><path d=\"M4.5 17.5v1.2c0 3.5 1.8 5.3 5.3 5.3h8.4c3.5 0 5.3-1.8 5.3-5.3v-1.2\"/></svg>";
    download.onclick=async(event)=>{event.preventDefault();await downloadExamPdf(examPaper)};
-   fileCard.append(fileIcon,fileInfo,preview,download);el.appendChild(fileCard);
+   const htmlDownload=document.createElement('button');htmlDownload.type='button';htmlDownload.className='exam-file-download-html';htmlDownload.textContent='دانلود HTML';htmlDownload.title='دانلود فایل آزمون به‌صورت HTML';htmlDownload.onclick=()=>downloadExamHtml(examPaper,htmlDownload);
+   fileCard.append(fileIcon,fileInfo,preview,download,htmlDownload);el.appendChild(fileCard);
    openExamPreview(examPaper).catch(()=>{});
   }  const a=document.createElement('div');a.className='acts';
   const makeAction=(name,label,path,handler)=>{
@@ -1333,7 +1337,7 @@ function closeExamPreview(){
  document.body.classList.remove('exam-preview-open','exam-preview-fullscreen','exam-preview-floating');
  const frame=$('examPdfFrame');frame.onload=null;frame.src='about:blank';frame.hidden=true;
  $('examPreviewLoader').hidden=false;$('examPreviewLoader').querySelector('p').textContent='در حال آماده‌سازی برگه آزمون…';
- $('examPdfDownload').hidden=true;$('examPreviewPrint').disabled=true;
+ $('examPdfDownload').hidden=true;$('examHtmlDownload').hidden=true;$('examPreviewPrint').disabled=true;
  if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
  examPreviewHtml=null;examPreviewPromise=null;
 }
@@ -1395,6 +1399,7 @@ function openExamPreview(examPaper){
  if(examPreviewPdfUrl){URL.revokeObjectURL(examPreviewPdfUrl);examPreviewPdfUrl=null}
  examPreviewHtml=examPaper.html;
  download.hidden=false;download.removeAttribute('href');download.textContent='ذخیره PDF';download.onclick=event=>{event.preventDefault();downloadExamPdf(examPaper)};
+ const htmlDownload=$('examHtmlDownload');htmlDownload.hidden=false;htmlDownload.onclick=()=>downloadExamHtml(examPaper,htmlDownload);
  print.disabled=false;
  frame.hidden=true;loader.hidden=false;loader.querySelector('p').textContent='در حال بارگذاری پیش‌نمایش…';
  status.textContent='در حال بارگذاری پیش‌نمایش HTML…';
@@ -1428,6 +1433,25 @@ function openExamPreview(examPaper){
   })().catch(reject);
  });
  return examPreviewPromise;
+}
+function downloadExamHtml(examPaper,button){
+ if(!examPaper||typeof examPaper.html!=='string'||!examPaper.html.trim()){toast('محتوای HTML آزمون پیدا نشد.');return}
+ if(button?.dataset.busy==='1')return;
+ if(button){button.dataset.busy='1';button.disabled=true}
+ try{
+  const safeName=String(examPaper.filename||'madar-exam.html').split(/[\\/]/).pop().replace(/[^\p{L}\p{N}._-]+/gu,'-').replace(/\.html$/i,'')||'madar-exam';
+  const blob=new Blob(['\uFEFF',examPaper.html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=url;link.download=safeName+'.html';link.hidden=true;
+  document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  if(button){button.textContent='دانلود شد ✓';setTimeout(()=>{button.textContent='دانلود HTML';button.disabled=false;button.dataset.busy='0'},1400)}
+  toast('فایل HTML آزمون آماده دانلود است.');
+ }catch(error){
+  console.warn('[EXAM HTML] download failed',error);
+  if(button){button.disabled=false;button.dataset.busy='0'}
+  toast('دانلود فایل HTML ناموفق بود؛ دوباره تلاش کن.');
+ }
 }
 async function downloadExamPdf(examPaper){
  const button=$('examPdfDownload'),status=$('examPreviewStatus');
