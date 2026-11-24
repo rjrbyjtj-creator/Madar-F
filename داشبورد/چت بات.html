@@ -1577,8 +1577,26 @@ async function send(text){
    body:JSON.stringify({...(conversationId?{conversationId}:{}),...(sentAttachment?.id?{attachmentId:sentAttachment.id}:{}),message:t,persona:assistantPersona,model:selectedAIModel,...(screenShareStream?{screenFrame:captureScreenFrame()}:{}),...(selectedAIModel==="gemini"?{modelId:selectedGeminiModel}:selectedAIModel==="openrouter"?{modelId:selectedOpenRouterModel}:selectedAIModel==="cloudflare"?{modelId:selectedCloudflareModel}:selectedAIModel==="groq"?{modelId:selectedGroqModel}:selectedAIModel==="huggingface"?{modelId:selectedHuggingFaceModel}:selectedAIModel==="coarena"?{modelId:selectedCoarenaModel}:{}),localDate:new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0')+'-'+String(new Date().getDate()).padStart(2,'0'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}),
    signal:controller.signal,
   });
-  const data=await response.json().catch(()=>({}));
+  let data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.message||'دریافت پاسخ از هوش مصنوعی ناموفق بود.');
+  if(response.status===202&&data.jobId){
+   clearInterval(thinkingTimer);
+   let completed=false;const pollUntil=Date.now()+570000;
+   stageEl.textContent=data.progress||'در حال آماده‌سازی آزمون';
+   while(Date.now()<pollUntil){
+    await new Promise(resolve=>setTimeout(resolve,3000));
+    if(controller.signal.aborted)throw new DOMException('Aborted','AbortError');
+    const jobResponse=await fetch(API_BASE_URL+'/ai/jobs/'+encodeURIComponent(data.jobId),{headers:Auth.headers(),cache:'no-store',signal:controller.signal});
+    const jobData=await jobResponse.json().catch(()=>({}));
+    if(!jobResponse.ok)throw new Error(jobData.message||'وضعیت ساخت آزمون دریافت نشد.');
+    if(jobData.status==='failed')throw new Error(jobData.error||'ساخت آزمون ناموفق بود.');
+    if(jobData.status==='completed'&&jobData.result){
+     data=jobData.result;completed=true;stageEl.textContent='آزمون آماده شد';break;
+    }
+    stageEl.textContent=jobData.progress||'در حال ساخت آزمون';
+   }
+   if(!completed)throw new Error('زمان ساخت آزمون از مهلت انتظار بیشتر شد. وضعیت فرایند در سرور حفظ شده است؛ گفتگو را دوباره باز کن و وضعیت را بررسی کن.');
+  }
   if(typeof data.reply!=='string'||!data.reply.trim())throw new Error('پاسخ معتبری از هوش مصنوعی دریافت نشد.');
   conversationId=data.conversationId||conversationId;active=conversationId;
   conversation.push({role:'model',content:data.reply});
