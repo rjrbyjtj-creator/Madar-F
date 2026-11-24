@@ -3,6 +3,7 @@
   "use strict";
   var API = "https://madar-jmy5.onrender.com/api/themes/active";
   var CACHE = "madar_active_theme";
+  var MODE_PREFERENCE = "madar-theme-mode-choice";
   var KEYS = ["madar-theme", "theme", "answer-sheet-theme"];
   var root = document.documentElement;
   var currentTheme = null;
@@ -28,6 +29,16 @@
     text: "#F2F2F2", muted: "#A1A1A1", navy: "#D0D0D0",
     gold: "#B8B8B8", green: "#A5A5A5"
   };
+  var CHATGPT_DARK = {
+    bg: "#000000", surface: "#1C1C1C", line: "#303030",
+    text: "#ECECEC", muted: "#A1A1A1", navy: "#ECECEC",
+    gold: "#10A37F", green: "#10A37F"
+  };
+  var CHATGPT_LIGHT = {
+    bg: "#FFFFFF", surface: "#F4F4F4", line: "#E5E5E5",
+    text: "#0D0D0D", muted: "#6B6B6B", navy: "#0D0D0D",
+    gold: "#10A37F", green: "#10A37F"
+  };
 
   function readMode() {
     try {
@@ -39,7 +50,22 @@
     return root.dataset.theme === "dark" ? "dark" : "light";
   }
   function saveMode(mode) {
-    try { KEYS.forEach(function (key) { localStorage.setItem(key, mode); }); } catch (e) {}
+    try {
+      KEYS.forEach(function (key) { localStorage.setItem(key, mode); });
+      localStorage.setItem(MODE_PREFERENCE, mode);
+    } catch (e) {}
+  }
+  function hasModePreference() {
+    try {
+      var explicit = localStorage.getItem(MODE_PREFERENCE);
+      if (explicit === "dark" || explicit === "light") return true;
+      // Preserve legacy dark-mode choices; legacy light values were also written automatically.
+      return KEYS.some(function (key) { return localStorage.getItem(key) === "dark"; });
+    } catch (e) { return false; }
+  }
+  function resolveMode(theme) {
+    if (hasModePreference()) return readMode();
+    return theme && theme.mode === "dark" ? "dark" : "light";
   }
   function setVar(name, value) { if (value) { root.style.setProperty(name, value); if (document.body) document.body.style.setProperty(name, value); } }
   function paintMode(mode) {
@@ -58,23 +84,25 @@
     var dark = mode === "dark";
     var isGray = theme.slug === "gray";
     var isClaude = theme.slug === "claude";
+    var isChatgpt = theme.slug === "chatgpt";
     var palette = Object.assign({}, colors);
-    if (dark && isGray) palette = Object.assign(palette, GRAY_DARK);
+    if (isChatgpt) palette = Object.assign(palette, dark ? CHATGPT_DARK : CHATGPT_LIGHT);
+    else if (dark && isGray) palette = Object.assign(palette, GRAY_DARK);
     else if (dark && isClaude) palette = Object.assign(palette, CLAUDE_DARK);
     else if (dark) palette = Object.assign(palette, DARK);
     Object.keys(MAP).forEach(function (key) {
       var value = palette[key];
       MAP[key].forEach(function (name) { setVar(name, value); });
     });
-    setVar("--bg2", isClaude ? (dark ? "#1F1F1F" : "#EEEEEC") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : (dark ? "#172238" : "#FBFBFC")));
+    setVar("--bg2", isChatgpt ? (dark ? "#101010" : "#F5F5F5") : (isClaude ? (dark ? "#1F1F1F" : "#EEEEEC") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : (dark ? "#172238" : "#FBFBFC"))));
     setVar("--bg-top", palette.bg);
-    setVar("--bg-mid", isClaude ? (dark ? "#202020" : "#EEEEEC") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
-    setVar("--bg-deep", isClaude ? (dark ? "#191919" : "#E7E7E5") : (isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg));
-    setVar("--sb", isClaude ? (dark ? "#1F1F1F" : "#EEEEEC") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface));
-    setVar("--hv", isClaude ? (dark ? "#3B3B3B" : "#E4E4E2") : (isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface));
-    setVar("--okbg", isClaude ? (dark ? "rgba(255,255,255,.08)" : "rgba(0,0,0,.05)") : (isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)"));
-    setVar("--idbg", isClaude ? (dark ? "linear-gradient(145deg,#303030,#363636)" : "linear-gradient(145deg,#FFFFFF,#EEEEEC)") : (isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)"));
-    setVar("--sh", isClaude ? (dark ? "rgba(0,0,0,.30)" : "rgba(0,0,0,.08)") : (isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)"));
+    setVar("--bg-mid", isChatgpt ? (dark ? "#0A0A0A" : "#F4F4F4") : (isClaude ? (dark ? "#202020" : "#EEEEEC") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface)));
+    setVar("--bg-deep", isChatgpt ? (dark ? "#000000" : "#FFFFFF") : (isClaude ? (dark ? "#191919" : "#E7E7E5") : (isGray ? (dark ? "#202423" : "#E1E5E3") : palette.bg)));
+    setVar("--sb", isChatgpt ? (dark ? "#101010" : "#F4F4F4") : (isClaude ? (dark ? "#1F1F1F" : "#EEEEEC") : (isGray ? (dark ? "#242A28" : "#F0F1F0") : palette.surface)));
+    setVar("--hv", isChatgpt ? (dark ? "#2A2A2A" : "#EAEAEA") : (isClaude ? (dark ? "#3B3B3B" : "#E4E4E2") : (isGray ? (dark ? "#343C38" : "#E1E5E3") : palette.surface)));
+    setVar("--okbg", isChatgpt ? (dark ? "rgba(16,163,127,.14)" : "rgba(16,163,127,.10)") : (isClaude ? (dark ? "rgba(255,255,255,.08)" : "rgba(0,0,0,.05)") : (isGray ? (dark ? "rgba(145,181,170,.14)" : "rgba(102,140,130,.12)") : "rgba(34,197,94,.10)")));
+    setVar("--idbg", isChatgpt ? (dark ? "linear-gradient(145deg,#1C1C1C,#242424)" : "linear-gradient(145deg,#FFFFFF,#F4F4F4)") : (isClaude ? (dark ? "linear-gradient(145deg,#303030,#363636)" : "linear-gradient(145deg,#FFFFFF,#EEEEEC)") : (isGray ? (dark ? "linear-gradient(145deg,#292F2D,#343C38)" : "linear-gradient(145deg,#F8F8F7,#D4D7D6)") : "linear-gradient(145deg,#ffffff,#e3e8f0)")));
+    setVar("--sh", isChatgpt ? (dark ? "rgba(0,0,0,.35)" : "rgba(0,0,0,.06)") : (isClaude ? (dark ? "rgba(0,0,0,.30)" : "rgba(0,0,0,.08)") : (isGray ? (dark ? "rgba(0,0,0,.38)" : "rgba(34,42,39,.12)") : "rgba(20,38,79,.14)")));
     setVar("--on-primary", "#ffffff");
     setVar("--on", "#ffffff");
     setVar("--navy-hover", palette.navy);
@@ -84,23 +112,25 @@
     if (document.body) document.body.style.fontFamily = font;
     root.classList.toggle("gray-theme", isGray);
     root.classList.toggle("claude-theme", isClaude);
+    root.classList.toggle("chatgpt-theme", isChatgpt);
     if (document.body) {
       document.body.classList.toggle("gray-theme", isGray);
       document.body.classList.toggle("claude-theme", isClaude);
+      document.body.classList.toggle("chatgpt-theme", isChatgpt);
     }
   }
   function apply(theme) {
     if (!theme || !theme.colors) return;
-    var mode = readMode();
+    var mode = resolveMode(theme);
     currentTheme = Object.assign({}, theme, { mode: mode });
     applyColors(currentTheme, mode);
     paintMode(mode);
     try { localStorage.setItem(CACHE, JSON.stringify(currentTheme)); } catch (e) {}
     window.dispatchEvent(new CustomEvent("madar:theme-applied", { detail: currentTheme }));
   }
-  function setMode(mode) {
+  function setMode(mode, persist) {
     if (mode !== "light" && mode !== "dark") return;
-    saveMode(mode);
+    if (persist !== false) saveMode(mode);
     paintMode(mode);
     if (currentTheme) {
       currentTheme = Object.assign({}, currentTheme, { mode: mode });
@@ -122,13 +152,12 @@
       });
     },
     refresh: function () { return this.getActive(); },
-    getMode: readMode,
+    getMode: function () { return currentTheme && currentTheme.mode || readMode(); },
     setMode: setMode,
     getPack: function () { return currentTheme && currentTheme.slug || "madar"; }
   };
 
   var initialMode = readMode();
-  saveMode(initialMode);
   paintMode(initialMode);
   try {
     var cached = localStorage.getItem(CACHE);
