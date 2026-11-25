@@ -1229,7 +1229,7 @@ function addUser(t,attachment){
  }
  scrollDown();
 }
-function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
+function addAI(reply,animate,planProposal,planDeletionProposal,examPaper,answerKeyPaper){
  const row=document.createElement('div');row.className='a';
  row.innerHTML='<span class="mark">'+LOGO_AI+'</span><div class="t2"></div>';
  $('chat').appendChild(row);
@@ -1240,20 +1240,26 @@ function addAI(reply,animate,planProposal,planDeletionProposal,examPaper){
   catch(e){toast('کپی کد در این مرورگر ممکن نیست')}
  });
   if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise([el]).catch(()=>{});
-  if(examPaper&&examPaper.html&&examPaper.filename){
+  const generatedFiles=[
+   {paper:examPaper,label:'برگه آزمون'},
+   {paper:answerKeyPaper,label:'پاسخ‌نامه تشریحی'}
+  ].filter(item=>item.paper&&item.paper.html&&item.paper.filename);
+  generatedFiles.forEach(({paper,label})=>{
    const fileCard=document.createElement('div');fileCard.className='exam-file-card';
+   if(label==='پاسخ‌نامه تشریحی')fileCard.classList.add('answer-key-file-card');
    const fileIcon=document.createElement('span');fileIcon.className='exam-file-icon';fileIcon.innerHTML="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 28\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9.5 5.5H8c-3 0-4.5 1.6-4.5 4.8v9c0 3.4 1.6 5 4.8 5h11.4c3.2 0 4.8-1.6 4.8-5v-9c0-3.2-1.5-4.8-4.5-4.8h-1.5\"/><rect x=\"9.5\" y=\"2.8\" width=\"9\" height=\"5.4\" rx=\"2.2\"/><path d=\"M9 14.5h10M9 19h6\"/></svg>";
    const fileInfo=document.createElement('div');fileInfo.className='exam-file-info';
-   const fileName=document.createElement('strong');fileName.textContent='آزمون تشریحی مدار';
-   const fileType=document.createElement('small');fileType.textContent='فایل PDF · پیش‌نمایش و دانلود';
+   const fileName=document.createElement('strong');fileName.textContent=label;
+   const fileType=document.createElement('small');fileType.textContent='فایل HTML · پیش‌نمایش و دریافت PDF';
    fileInfo.append(fileName,fileType);
-   const preview=document.createElement('button');preview.type='button';preview.className='exam-file-preview';preview.textContent='نمایش';preview.onclick=()=>openExamPreview(examPaper).catch(()=>{});
+   const preview=document.createElement('button');preview.type='button';preview.className='exam-file-preview';preview.textContent='نمایش';preview.onclick=()=>openExamPreview(paper).catch(()=>{});
    const download=document.createElement('a');download.className='exam-file-download';download.href='#';download.setAttribute('role','button');download.title='ذخیره PDF';download.setAttribute('aria-label','دانلود PDF');download.innerHTML="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 28\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 4v14\"/><path d=\"M8.8 13l5.2 5.2 5.2-5.2\"/><path d=\"M4.5 17.5v1.2c0 3.5 1.8 5.3 5.3 5.3h8.4c3.5 0 5.3-1.8 5.3-5.3v-1.2\"/></svg>";
-   download.onclick=async(event)=>{event.preventDefault();await downloadExamPdf(examPaper)};
-   const htmlDownload=document.createElement('button');htmlDownload.type='button';htmlDownload.className='exam-file-download-html';htmlDownload.textContent='دانلود HTML';htmlDownload.title='دانلود فایل آزمون به‌صورت HTML';htmlDownload.onclick=()=>downloadExamHtml(examPaper,htmlDownload);
+   download.onclick=async(event)=>{event.preventDefault();await downloadExamPdf(paper)};
+   const htmlDownload=document.createElement('button');htmlDownload.type='button';htmlDownload.className='exam-file-download-html';htmlDownload.textContent='دانلود HTML';htmlDownload.title='دانلود فایل به‌صورت HTML';htmlDownload.onclick=()=>downloadExamHtml(paper,htmlDownload);
    fileCard.append(fileIcon,fileInfo,preview,download,htmlDownload);el.appendChild(fileCard);
-   openExamPreview(examPaper).catch(()=>{});
-  }  const a=document.createElement('div');a.className='acts';
+  });
+  if(examPaper&&examPaper.html)openExamPreview(examPaper).catch(()=>{});
+  const a=document.createElement('div');a.className='acts';
   const makeAction=(name,label,path,handler)=>{
    const button=document.createElement('button');button.type='button';button.title=label;button.setAttribute('aria-label',label);
    button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+path+'</svg>';
@@ -1657,7 +1663,7 @@ async function send(text){
   const existing=chats.findIndex(c=>c._id===conversationId);
   if(existing>=0)chats.splice(existing,1);
   chats.unshift(item);renderHist($('q').value);
-  addAI(data.reply,true,data.planProposal,data.planDeletionProposal,data.examPaper);
+  addAI(data.reply,true,data.planProposal,data.planDeletionProposal,data.examPaper,data.answerKeyPaper);
  }catch(error){
   if(error.name!=='AbortError'&&conversation[conversation.length-1]?.role==='user')conversation.pop();
   if(error.name==='AbortError'&&userRequestedStop){
@@ -1702,7 +1708,7 @@ async function loadChat(id){
   if(!response.ok)throw new Error(data.message||'بارگذاری گفتگو انجام نشد.');
   const c=data.conversation;active=id;conversationId=id;conversation=(c.messages||[]).map(m=>({role:m.role,content:m.content}));
   renderHist($('q').value);layoutChat();$('chat').innerHTML='';$('ttl').textContent=c.title||'گفتگو';
-  (c.messages||[]).forEach(m=>{if(m.role==='user')addUser(m.content,m.attachment);else addAI(m.content,false,null,null,m.examPaper)});
+  (c.messages||[]).forEach(m=>{if(m.role==='user')addUser(m.content,m.attachment);else addAI(m.content,false,null,null,m.examPaper,m.answerKeyPaper)});
   if(innerWidth<900)document.body.classList.remove('m-open');
  }catch(error){toast(error.message||'بارگذاری گفتگو ناموفق بود.')}
 }
